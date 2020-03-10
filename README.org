@@ -1,0 +1,39 @@
+#+title: Phase-3-Lab-Template
+This repository contains the tools for generating lab pages.
+
+* Requirements
+  
+  1. *node 12.12.x*
+     - Download link: [[https://nodejs.org/en/download/][node]]
+     - recommended to install via [[https://github.com/nvm-sh/nvm][nvm]]
+  2. *npm 6.11.x*
+
+
+* Setup
+
+** Install Dependencies
+
+   #+BEGIN_SRC bash
+
+   npm install
+   
+   #+END_SRC
+
+  
+* To generate a lab
+  
+  1. *Prepare data*
+     
+     All the data resides in =data.json=.  Modify the data as per
+     requirements. (Do not change the structure).
+
+  2. *Run the script*
+     
+     #+BEGIN_SRC bash
+
+     npm run buildall
+     
+     #+END_SRC
+
+     This will generate all the required html pages.  Check the =lab=
+     directory for the generated pages.

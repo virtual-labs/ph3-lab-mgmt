@@ -1,0 +1,17 @@
+{
+  "name": "labgen",
+  "version": "1.0.0",
+  "dependencies": {
+    "glob": "7.1.6",
+    "jsdom": "16.2.1",
+    "handlebars": "4.7.3"
+  },
+  "description": "",
+  "main": "buildpage.js",
+  "scripts": {
+    "buildall": " mkdir -p lab; node generator.js; node buildpage.js -a"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

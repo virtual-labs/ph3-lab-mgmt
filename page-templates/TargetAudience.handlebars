@@ -1,0 +1,15 @@
+<h1 class="text-h2-lightblue">{{ lab }}</h1>
+<ul class="target-audience">
+	<li>
+		<span> UG </span>
+	</li>
+	{{#each targetAudience.UG }}
+		<li> {{ this }} </li>
+	{{/each}}	
+	<li>
+		<span> PG </span>
+	</li>
+	{{#each targetAudience.PG }}
+		<li> {{ this }} </li>
+	{{/each}}		
+</ul>

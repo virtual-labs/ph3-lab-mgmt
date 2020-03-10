@@ -1,0 +1,9 @@
+<h1 class="text-h2-lightblue">{{lab}}</h1>
+<div>
+<p>{{ courseAlignment.description }}</p>
+<ol>
+	{{#each courseAlignment.universities }}
+		<li>{{ this }}</li>
+	{{/each}}
+</ol>
+</div>
