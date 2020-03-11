@@ -5,6 +5,12 @@ const fs = require("fs");
 // The template for the final page.
 const template_file = "skeleton.html";
 
+/* Every page has two kinds of components.  First, static components that are 
+common to all pages in a lab, such as header and footer.  Second type is the 
+main content of a page, which is specific to that page.  This file needs to be 
+specified by the user while building the page.
+*/
+
 // All common components required for a page.
 const component_files = [ "page-components/head.html"
                         , "page-components/navbar.html"
@@ -15,8 +21,11 @@ const component_files = [ "page-components/head.html"
                         , "page-components/random-js-things.html"
                         ];
 
+const config = JSON.parse(fs.readFileSync('config.json'));
+const component_files = config.commonComponents;
 
-const mode = process.argv[2]; // mode:: -a: all pages, -p: single page
+
+const mode = process.argv[2]; // MODE:: -a: all pages, -p: single page
 
 if (mode === '-a'){
   // build all pages
@@ -34,11 +43,6 @@ if (mode === '-a'){
   });
 }
 else if (mode === '-p') {
-  /* Every page has two kinds of components.  First, static components that are 
-  common to all pages in a lab, such as header and footer.  Second type is the 
-  main content of a page, which is specific to that page.  This file needs to be 
-  specified by the user while building the page.
-  */
   const content_file = process.argv[3];
 
   // name of the file to be generated.

@@ -1,9 +1,39 @@
 {
-	"pages" : [ "Introduction.html",
-				"List Of Experiments.html",
-				"Objective.html",
-				"Target Audience.html",
-				"Course Alignment.html",
-				"Feedback.html"
-			  ]
+	"commonComponents" : [ 
+		"head.html",
+    	"navbar.html",
+    	"slider.html",
+    	"domain.html",
+    	"sidebar.html",
+    	"footer.html",
+    	"random-js-things.html"
+    ],
+    "srcDir": "page-components",
+    "targetDir": "lab",
+	"pages" : [
+		{
+			"src": "introduction-ctnt.html",
+			"target": "Introduction.html"
+		},
+		{
+			"src": "list-of-experiments-ctnt.html",
+			"target": "List Of Experiments.html"
+		},
+		{
+			"src": "objective-ctnt.html",
+			"target": "Objective.html"
+		},
+		{
+			"src": "target-audience-ctnt.html",
+			"target": "Target Audience.html"
+		},
+		{
+			"src": "course-alignment-ctnt.html",
+			"target": "Course Alignment.html"
+		},
+		{
+			"src": "feedback-ctnt.html",
+			"target": "Feedback.html"
+		}
+	]
 }
