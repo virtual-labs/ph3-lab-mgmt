@@ -8,8 +8,6 @@
     	"footer.html",
     	"random-js-things.html"
     ],
-    "srcDir": "page-components",
-    "targetDir": "lab",
 	"pages" : [
 		{
 			"src": "introduction-ctnt.html",
@@ -17,7 +15,7 @@
 		},
 		{
 			"src": "list-of-experiments-ctnt.html",
-			"target": "List Of Experiments.html"
+			"target": "List of experiments.html"
 		},
 		{
 			"src": "objective-ctnt.html",

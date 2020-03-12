@@ -1,0 +1,50 @@
+#+TITLE: Hosting
+#+AUTHOR: VLEAD
+#+DATE: [2020-03-02 Mon]
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  This document captures the repo structure and instructions to run a lab.
+
+* Repository Structure
+  #+BEGIN_EXAMPLE
+  |-- makefile
+  |-- README.org
+  |-- .gitignore
+  |-- src/
+        |-- lab/
+        |    |-- experiment-list.json
+        |    |-- Introduction.html
+        |    |-- Objective.html 
+        |    |-- List of experiments.html 
+        |    |-- Target-audience.html
+        |    |-- Feedback.html
+#+END_EXAMPLE
+
+* Steps to build and run a lab
+  *STEP 1 :* Clone the lab repository
+  #+BEGIN_EXAMPLE
+  https://github.com/virtual-labs/hosting.git
+  #+END_EXAMPLE
+
+  *STEP 2 :* Change directory to lab repo
+  #+BEGIN_EXAMPLE
+  cd hosting
+  #+END_EXAMPLE
+
+  *STEP 3 :* Removes the build directory and builds the sources
+  #+BEGIN_EXAMPLE
+  make -k all
+  #+END_EXAMPLE
+  
+  *STEP 4 :* Run the lab server
+  #+BEGIN_EXAMPLE
+  make -k run
+  #+END_EXAMPLE
+  
+  
+  
+

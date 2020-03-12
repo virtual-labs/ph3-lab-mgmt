@@ -1,5 +1,7 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs");
+const path = require('path');
+const child_process = require('child_process');
 
 
 // The template for the final page.
@@ -11,15 +13,6 @@ main content of a page, which is specific to that page.  This file needs to be
 specified by the user while building the page.
 */
 
-// All common components required for a page.
-const component_files = [ "page-components/head.html"
-                        , "page-components/navbar.html"
-                        , "page-components/slider.html"
-                        , "page-components/domain.html"
-                        , "page-components/sidebar.html"
-                        , "page-components/footer.html"
-                        , "page-components/random-js-things.html"
-                        ];
 
 const config = JSON.parse(fs.readFileSync('config.json'));
 const component_files = config.commonComponents;
@@ -29,17 +22,25 @@ const mode = process.argv[2]; // MODE:: -a: all pages, -p: single page
 
 if (mode === '-a'){
   // build all pages
-  const cfg = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
-  const page_names = cfg.pages;
-  const component_names = page_names.map(
-    (pn) => `page-components/${pn.replace(/\s/g,'')}`
-    );
-  component_names.forEach((cn, i) => {
-    const res_html = buildPage(template_file, component_files, cn);
-    fs.writeFile(`lab/${page_names[i]}`, res_html, 'utf-8', (err, data) => {
-      if (err) throw err;
-      console.log(`${page_names[i]} built successfuly`);
-    });
+
+  const lab_path = process.argv[3];
+
+  // if directory already exists
+  fs.stat(lab_path, function(err, stats) {
+    if (err) {
+      child_process.execSync(`mkdir -p ${lab_path}`);
+      child_process.execSync(`cp -rf lab-structure/* ${lab_path}/`);
+      config.pages.forEach( p => {
+        const res_html = buildPage(template_file, component_files, p.src);
+        fs.writeFile(`${lab_path}/src/lab/${p.target}`, res_html, 'utf-8', (err, data) => {
+          if (err) throw err;
+          console.log(`${p.target} built successfuly`);
+        });
+      });  
+    }
+    else {
+      console.log("Lab already exists.");
+    }
   });
 }
 else if (mode === '-p') {
@@ -59,13 +60,15 @@ else if (mode === '-p') {
 function buildPage(template_file, component_files, content_file) {
   const main_template = fs.readFileSync(template_file, 'utf-8');
   const components = loadComponents(component_files);
-  const content = fs.readFileSync(content_file, 'utf-8');
+  const content = fs.readFileSync(`page-components/${content_file}`, 'utf-8');
   const res_html = populateTemplate(main_template, components, content);
   return res_html;
 }
 
 function loadComponents(component_files) {
-  const components = component_files.map((fn) => fs.readFileSync(fn, 'utf-8'));
+  const components = component_files.map((fn) => 
+    fs.readFileSync(`page-components/${fn}`, 'utf-8')
+    );
   return components;
 }
 
