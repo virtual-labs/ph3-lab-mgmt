@@ -30,6 +30,7 @@ if (mode === '-a'){
     if (err) {
       child_process.execSync(`mkdir -p ${lab_path}`);
       child_process.execSync(`cp -rf lab-structure/* ${lab_path}/`);
+      child_process.execSync(`mkdir -p ${lab_path}/src/lab`);
       config.pages.forEach( p => {
         const res_html = buildPage(template_file, component_files, p.src);
         fs.writeFile(`${lab_path}/src/lab/${p.target}`, res_html, 'utf-8', (err, data) => {
