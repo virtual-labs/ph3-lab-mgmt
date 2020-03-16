@@ -37,3 +37,12 @@ This repository contains the tools for generating lab pages.
 
      This will generate all the required html pages.  Check the =lab=
      directory for the generated pages.
+
+* <2020-03-13 Fri>
+
+  - copy data.json to labname.json and fill the lab related
+    information
+  - run =npm run labgen labname.json labpath/=
+     the generated files will be copied to labpath/ if present
+  - run =npm run labgen labname.json=
+     labname/ directory will be generated in the current directory.

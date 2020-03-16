@@ -9,7 +9,7 @@
   "description": "",
   "main": "buildpage.js",
   "scripts": {
-    "labgen": "node generator.js; node buildpage.js -a"
+    "labgen": "node main.js"
   },
   "keywords": [],
   "author": "",

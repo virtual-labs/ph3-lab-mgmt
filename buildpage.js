@@ -8,10 +8,10 @@ const child_process = require('child_process');
 const template_file = "skeleton.html";
 
 /* Every page has two kinds of components.  First, static components that are 
-common to all pages in a lab, such as header and footer.  Second type is the 
-main content of a page, which is specific to that page.  This file needs to be 
-specified by the user while building the page.
-*/
+   common to all pages in a lab, such as header and footer.  Second type is the 
+   main content of a page, which is specific to that page.  This file needs to be 
+   specified by the user while building the page.
+ */
 
 
 const config = JSON.parse(fs.readFileSync('config.json'));

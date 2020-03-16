@@ -8,7 +8,7 @@ const fs = require("fs");
 const glob = require('glob');
 const path = require('path');
 
-
+console.log(process.argv[3]);
 const data = JSON.parse(fs.readFileSync("data.json"));
 
 function genComponentHtml(fn) {

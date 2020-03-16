@@ -1,26 +1,27 @@
 { "domain" : "Civil Engineering"
 , "lab" : "Fluid Materials"
+, "baseUrl": "http://exp-beta.vlabs.ac.in/"
 , "introduction" : "Welcome to the Fluid Mechanics Lab"
 , "experiments" : [ { "name" : "Performance Characteristics of Hydraulic Ram"
-		            , "link" : "http://exp-beta.vlabs.ac.in/performance-characteristics-hydraulic-ram-nitk/"
+		            , "link" : "performance-characteristics-hydraulic-ram-nitk/"
 		            }
 		          , { "name" : "Performance Characteristics of Kaplan Turbine"
-		            , "link" : "http://exp-beta.vlabs.ac.in/performance-characteristics-kaplan-turbine-nitk/"
+		            , "link" : "performance-characteristics-kaplan-turbine-nitk/"
 		            }
 		          , { "name" : "Performance Characteristics of Centrifugal Pump"
-		            , "link" : "http://exp-beta.vlabs.ac.in/performance-characteristics-centrifugal-pump-nitk/"
+		            , "link" : "performance-characteristics-centrifugal-pump-nitk/"
 		            }
 		          , { "name" : "Double Acting Reciprocating Pump"
-		            , "link" : "http://exp-beta.vlabs.ac.in/double-acting-reciprocating-pump-nitk/"
+		            , "link" : "double-acting-reciprocating-pump-nitk/"
 		            }
 		          , { "name" : "Performance Characteristics of Francis Turbine"
-		            , "link" : "http://exp-beta.vlabs.ac.in/performance-characteristics-francis-turbine-nitk/"
+		            , "link" : "performance-characteristics-francis-turbine-nitk/"
 		            }
 		          , { "name" : "Performance Characteristics of Pelton Turbine"
-		            , "link" : "http://exp-beta.vlabs.ac.in/performance-characteristics-pelton-turbine-nitk/"
+		            , "link" : "performance-characteristics-pelton-turbine-nitk/"
 		            }
 		          , { "name" : "Pipe Bursting"
-		            , "link" : "http://exp-beta.vlabs.ac.in/pipe-bursting-nitk/"
+		            , "link" : "pipe-bursting-nitk/"
 		            }
 		          ]
 , "targetAudience" : { "UG" : ["B. Tech./ B.E in Civil Engineering"]
