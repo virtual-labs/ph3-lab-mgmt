@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "dependencies": {
     "glob": "7.1.6",
+    "handlebars": "4.7.3",
     "jsdom": "16.2.1",
-    "handlebars": "4.7.3"
+    "minimist": "^1.2.5"
   },
   "description": "",
   "main": "buildpage.js",
