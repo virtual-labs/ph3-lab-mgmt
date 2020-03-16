@@ -164,6 +164,7 @@ function dataPreprocess(datafile){
 
 function run(){
   const datafile = process.argv[2];
+  const processed_datafile = `g-${datafile}`;
   const labpath = process.argv[3];
   const template_file = "skeleton.html";
   const config = JSON.parse(fs.readFileSync('config.json'));
@@ -172,7 +173,7 @@ function run(){
   dataPreprocess(datafile);
   
   glob('page-templates/*.handlebars', (err, fns) => {
-    fns.forEach((fn) => genComponentHtml(fn, `g-${datafile}`));
+    fns.forEach((fn) => genComponentHtml(fn, JSON.parse(fs.readFileSync(processed_datafile))));
   });
 
   if (labpath === undefined){
