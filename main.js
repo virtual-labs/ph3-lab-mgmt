@@ -175,7 +175,12 @@ function run(){
     fns.forEach((fn) => genComponentHtml(fn, `g-${datafile}`));
   });
 
-  generateLab(config.pages, labpath, template_file, component_files);
+  if (labpath === undefined){
+    const default_lp = path.parse(datafile).name;
+    generateLab(config.pages, default_lp, template_file, component_files);
+  } else {
+    generateLab(config.pages, labpath, template_file, component_files);
   }
+}
 
 run();
