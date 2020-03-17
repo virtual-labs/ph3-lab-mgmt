@@ -44,5 +44,5 @@ This repository contains the tools for generating lab pages.
     information
   - run =npm run labgen labname.json labpath/=
      the generated files will be copied to labpath/ if present
-  - run =npm run labgen labname.json=
-     labname/ directory will be generated in the current directory.
+  - run =npm run labgen labname.json= labname/ directory will be
+    generated in the current directory.

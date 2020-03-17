@@ -10,7 +10,9 @@
   "description": "",
   "main": "buildpage.js",
   "scripts": {
-    "labgen": "node main.js"
+      "labgen": "node main.js",
+      "test": "npm run labgen data.json ../tlg; cd ../tlg; make; cd build; python3 -m http.server",
+      "clean": "rm -rf ../tlg"
   },
   "keywords": [],
   "author": "",
