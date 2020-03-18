@@ -1,4 +1,6 @@
-{ "domain" : "Civil Engineering"
+{ "broadArea" : { "name": "Civil Engineering"
+		, "link": "http://vlab.co.in/broad-area-civil-engineering"
+		}
 , "lab" : "Fluid Materials"
 , "baseUrl": "http://exp-beta.vlabs.ac.in/"
 , "introduction" : "Welcome to the Fluid Mechanics Lab"

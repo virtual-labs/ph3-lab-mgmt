@@ -1,12 +1,12 @@
 {
 	"commonComponents" : [ 
-		"head.html",
-    	"navbar.html",
-    	"slider.html",
-    	"domain.html",
-    	"sidebar.html",
-    	"footer.html",
-    	"random-js-things.html"
+	    "head.html",
+    	    "navbar.html",
+    	    "slider.html",
+    	    "broad-area.html",
+    	    "sidebar.html",
+    	    "footer.html",
+    	    "random-js-things.html"
     ],
 	"pages" : [
 		{
