@@ -46,10 +46,7 @@ img {
 
 p {
   margin: 0 0 15px;
-  color: #444;
   font-size:17.5px;
-  line-height:1.6;
-  
 }
 li{
 	font-size:17.5px;
@@ -807,6 +804,7 @@ div#preloader {
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
+
 #footer {
   background: #000;
   padding: 0 0 30px 0;
@@ -820,10 +818,6 @@ div#preloader {
    padding: 15px 0 0px 0;
 }
 
-#footer .footer-top .footer-info {
-  margin-bottom: 30px;
-}
-
 #footer .footer-top .footer-info h3 {
   font-size: 34px;
   margin: 0 0 20px 0;
@@ -835,11 +829,9 @@ div#preloader {
   border-left: 4px solid #18d26e;
 }
 
-#footer .footer-top .footer-info p {
-  font-size: 14px;
-  line-height: 24px;
+#footer .footer-top p {
+  font-size: 1.4rem;
   margin-bottom: 0;
-  font-family: "Open Sans", sans-serif;
   color: #eee;
 }
 
@@ -865,10 +857,7 @@ div#preloader {
 
 #footer .footer-top h4 {
   font-size: 14px;
-  /*font-weight: bold;
-   text-transform: uppercase;*/
-  color: #fff;
- 
+  color: #fff; 
   position: relative;
   padding-bottom: 12px;
 }
@@ -890,84 +879,13 @@ div#preloader {
   background: #3EC1D5;
   width: 60px;
 }
-
-#footer .footer-top .footer-links {
-  margin-bottom: 30px;
-}
-
-#footer .footer-top .footer-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#footer .footer-top .footer-links ul i {
-  padding-right: 8px;
-  color: #ddd;
-}
-
-#footer .footer-top .footer-links ul li {
-  border-bottom: 1px solid #333;
-  padding: 10px 0;
-}
-
-#footer .footer-top .footer-links ul li:first-child {
-  padding-top: 0;
-}
-
-#footer .footer-top .footer-links ul a {
-  color: #eee;
-}
-
-#footer .footer-top .footer-links ul a:hover {
-  color: #18d26e;
-}
-
-#footer .footer-top .footer-contact {
-  margin-bottom: 30px;
-}
-
-#footer .footer-top .footer-contact p {
-  line-height: 26px;
+#footer .footer-top i {
   color:#fff;
 }
 
-#footer .footer-top .footer-newsletter {
-  margin-bottom: 30px;
+#footer .footer-top a {
+  color:#fff;
 }
-
-#footer .footer-top .footer-newsletter input[type="email"] {
-  border: 0;
-  padding: 6px 8px;
-  width: 65%;
-}
-
-#footer .footer-top .footer-newsletter input[type="submit"] {
-  background: #18d26e;
-  border: 0;
-  width: 35%;
-  padding: 6px 0;
-  text-align: center;
-  color: #fff;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-#footer .footer-top .footer-newsletter input[type="submit"]:hover {
-  background: #13a456;
-}
-
-#footer .copyright {
-  text-align: center;
-  padding-top: 30px;
-}
-
-#footer .credits {
-  text-align: center;
-  font-size: 13px;
-  color: #ddd;
-}
-
 
 /*--------------------------------------------------------------
 # Intro Section
