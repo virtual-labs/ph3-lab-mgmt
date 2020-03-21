@@ -3,7 +3,7 @@ const glob = require('glob');
 const path = require('path');
 const { JSDOM } = require("jsdom");
 
-const labpath = '../basic-engineering-mechanics-and-strength-of-materials-iiith/src/lab';
+const labpath = path.join(process.argv[2], 'src/lab');
 const pattern = path.join(labpath, '*.html');
 console.log(pattern);
 
