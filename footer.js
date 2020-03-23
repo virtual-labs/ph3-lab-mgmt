@@ -28,11 +28,21 @@ function replaceFooter(pageFn, footerFn) {
   const footer = dom.window.document.querySelector('footer');
   footer.id = 'footer';
   footer.innerHTML = footerContent;
+  return dom;
+}
+
+function modify(p, footerFn) {
+  const dom = replaceFooter(p, footerFn);
+  const all_labs_node = dom.window.document.querySelector(".menu-li-active");
+  if (all_labs_node){
+    all_labs_node.remove();
+  }
   return dom.serialize();
 }
 
+
 glob(pattern, (err, fns) => {
   const htmlPages = fns.filter(hasFooter);
-  const resPages = htmlPages.map((p) => [p, replaceFooter(p, newFooterFile)]);
+  const resPages = htmlPages.map((p) => [p, modify(p, newFooterFile)]);
   resPages.forEach((p) => fs.writeFileSync(p[0], p[1], 'utf-8'));
 });
