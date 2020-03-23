@@ -4,7 +4,7 @@ const path = require('path');
 const { JSDOM } = require("jsdom");
 
 const labpath = path.join(process.argv[2], 'src/lab');
-const pattern = path.join(labpath, '*.html');
+const pattern = path.join(labpath, '*/*.html');
 console.log(pattern);
 
 const newFooterFile = './page-components/footer.html';
