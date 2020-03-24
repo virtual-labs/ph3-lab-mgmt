@@ -4,8 +4,8 @@ const path = require('path');
 const { JSDOM } = require("jsdom");
 
 const labpath = path.join(process.argv[2], 'src/lab');
-const pattern = path.join(labpath, '*/*.html');
-console.log(pattern);
+const exp_pattern = path.join(labpath, '*/*.html');
+const lab_pattern = path.join(labpath, '*.html');
 
 const newFooterFile = './page-components/footer.html';
 
@@ -41,7 +41,13 @@ function modify(p, footerFn) {
 }
 
 
-glob(pattern, (err, fns) => {
+glob(lab_pattern, (err, fns) => {
+  const htmlPages = fns.filter(hasFooter);
+  const resPages = htmlPages.map((p) => [p, modify(p, newFooterFile)]);
+  resPages.forEach((p) => fs.writeFileSync(p[0], p[1], 'utf-8'));
+});
+
+glob(exp_pattern, (err, fns) => {
   const htmlPages = fns.filter(hasFooter);
   const resPages = htmlPages.map((p) => [p, modify(p, newFooterFile)]);
   resPages.forEach((p) => fs.writeFileSync(p[0], p[1], 'utf-8'));
