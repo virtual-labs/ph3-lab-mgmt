@@ -13,7 +13,8 @@
       "css": "sass lab-structure/src/themes/green-icon/css/style-main.scss lab-structure/src/themes/green-icon/css/style-main.css",
       "labgen": "node main.js",
       "test": "npm run labgen data.json ../tlg; cd ../tlg; make; cd build; python3 -m http.server",
-      "clean": "rm -rf ../tlg"
+      "clean": "rm -rf ../tlg",
+      "labops": "node managelabs.js"
   },
   "keywords": [],
   "author": "",

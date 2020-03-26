@@ -1,14 +1,11 @@
 [
     {
-	"exp_name": "poly_arithmetic",
 	"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019"
     },
     {
-	"exp_name": "quicksort",
 	"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019"
     },
     {
-	"exp_name": "hash-tables",
 	"repo": "https://gitlab.com/vlead-projects/experiments/ds/hash-tables"
     }
 ]
