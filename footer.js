@@ -11,6 +11,7 @@ const newFooterFile = './page-components/footer.html';
 
 function hasFooter(fn) {
   const htmlContent = fs.readFileSync(fn);
+  console.log(fn);
   let dom = new JSDOM(htmlContent);
   if (dom.window.document.querySelector('footer')){
     //console.log(fn);
