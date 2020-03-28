@@ -1,7 +1,6 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
-import url from 'url';
 
 function toDirName(n) {
   return n.toLowerCase().replace(' ', '-');
