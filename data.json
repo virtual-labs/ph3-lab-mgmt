@@ -1,43 +1,50 @@
-{ "broadArea" : { "name": "Civil Engineering"
-		, "link": "http://vlab.co.in/broad-area-civil-engineering"
-		}
-, "lab" : "Fluid Materials"
-, "baseUrl": "http://exp-beta.vlabs.ac.in/"
-, "introduction" : "Welcome to the Fluid Mechanics Lab"
-, "experiments" : [ { "name" : "Performance Characteristics of Hydraulic Ram"
-		            , "link" : "performance-characteristics-hydraulic-ram-nitk/"
-		            }
-		          , { "name" : "Performance Characteristics of Kaplan Turbine"
-		            , "link" : "performance-characteristics-kaplan-turbine-nitk/"
-		            }
-		          , { "name" : "Performance Characteristics of Centrifugal Pump"
-		            , "link" : "performance-characteristics-centrifugal-pump-nitk/"
-		            }
-		          , { "name" : "Double Acting Reciprocating Pump"
-		            , "link" : "double-acting-reciprocating-pump-nitk/"
-		            }
-		          , { "name" : "Performance Characteristics of Francis Turbine"
-		            , "link" : "performance-characteristics-francis-turbine-nitk/"
-		            }
-		          , { "name" : "Performance Characteristics of Pelton Turbine"
-		            , "link" : "performance-characteristics-pelton-turbine-nitk/"
-		            }
-		          , { "name" : "Pipe Bursting"
-		            , "link" : "pipe-bursting-nitk/"
-		            }
-		          ]
-, "targetAudience" : { "UG" : ["B. Tech./ B.E in Civil Engineering"]
-					 , "PG" : ["MS/Ph. D. Beginners in Civil Engineering and related topics"]
-					 }
-, "objective" : "Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system."
-, "courseAlignment" : { "description" : "The syllabi of this lab aligns to the following universities in India."
-					  , "universities" : [ "Visvesvaraya Technological University Karnataka"
-					  					 , "National Institute of Technology Karnataka Karnataka"
-					  					 , "Anna University Tamil Nadu"
-										 , "SRM University Delhi - NCR Sonepat Haryana"
-										 , "University of Kerala Kerala"
-										 , "APJ Abdul Kalam Technological University Kerala"
-										 , "CUSAT Kerala"
-										 ]
-					  }
+{
+    "broadArea": {
+	"name": "Civil Engineering",
+	"link": "http://vlab.co.in/broad-area-civil-engineering"
+    },
+    "lab": "Fluid Materials",
+    "baseUrl": "http://exp-beta.vlabs.ac.in/",
+    "introduction": "Welcome to the Fluid Mechanics Lab",
+    "experiments": [
+	{
+	    "name": "Poly Arithmetic",
+	    "link": "https://cs.vlabs.ac.in/poly",
+	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
+	    "branch": "master"
+	},
+	{
+	    "name": "Poly Arithmetic",
+	    "link": "https://cs.vlabs.ac.in/poly",
+	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
+	    "branch": "master"
+	},
+	{
+	    "name": "Poly Arithmetic",
+	    "link": "https://cs.vlabs.ac.in/poly",	    
+	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/hash-tables",
+	    "branch": "master"
+	}
+    ],
+    "targetAudience": {
+	"UG": [
+	    "B. Tech./ B.E in Civil Engineering"
+	],
+	"PG": [
+	    "MS/Ph. D. Beginners in Civil Engineering and related topics"
+	]
+    },
+    "objective": "Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.",
+    "courseAlignment": {
+	"description": "The syllabi of this lab aligns to the following universities in India.",
+	"universities": [
+	    "Visvesvaraya Technological University Karnataka",
+	    "National Institute of Technology Karnataka Karnataka",
+	    "Anna University Tamil Nadu",
+	    "SRM University Delhi - NCR Sonepat Haryana",
+	    "University of Kerala Kerala",
+	    "APJ Abdul Kalam Technological University Kerala",
+	    "CUSAT Kerala"
+	]
+    }
 }

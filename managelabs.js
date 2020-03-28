@@ -19,7 +19,8 @@ function clone(experiments, exp_dir, common_repo_name) {
       console.log('cloned');
     }
     else {
-      console.log(`${ename} cloned already`);
+      console.log(`${ename} cloned already, trying to pull`);
+      child_process.execSync(`cd ${exp_dir}/${ename}/${common_repo_name}; git pull origin ${e.branch}`);
     }
   });
 }
@@ -61,14 +62,18 @@ function run(){
   const elistfn = process.argv[3];
   const commands = options.slice(6).split('');
 
-  const experiments = JSON.parse(fs.readFileSync(elistfn, 'utf-8'));
-  const exp_dir = 'experiments';
-  const common_repo_name = 'content-html';
-  const deployment_dest = '/var/www/html';
+  const data = JSON.parse(fs.readFileSync(elistfn, 'utf-8'));
+  const experiments = data.experiments;
+  const config = require('./config.json');
+  const exp_dir = config['exp_dir'];
+  const common_repo_name = config['common_repo_name'];
+  const deployment_dest = config['deployment_dest'];
 
+  const lab_dir_name = data.lab.toLowerCase().replace(' ', '-');
+  const deployment_path = path.join(deployment_dest, lab_dir_name);
   child_process.execSync(`mkdir -p ${exp_dir}`);
   
-  commands.forEach((cmd) =>{
+  commands.forEach((cmd) => {
     switch(cmd) {
       case 'C':
 	clone(experiments, exp_dir, common_repo_name);	
@@ -77,7 +82,7 @@ function run(){
 	build(experiments, exp_dir, common_repo_name);
 	break;
       case 'D':
-	deploy(experiments, exp_dir, common_repo_name, deployment_dest);
+	deploy(experiments, exp_dir, common_repo_name, deployment_path);
 	break;
       default:
 	console.log('nothing to do!');
