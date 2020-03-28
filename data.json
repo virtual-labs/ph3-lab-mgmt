@@ -4,25 +4,17 @@
 	"link": "http://vlab.co.in/broad-area-civil-engineering"
     },
     "lab": "Fluid Materials",
-    "baseUrl": "http://exp-beta.vlabs.ac.in/",
+    "baseUrl": "http://lab1.vlabs.ac.in/",
     "introduction": "Welcome to the Fluid Mechanics Lab",
     "experiments": [
 	{
 	    "name": "Poly Arithmetic",
-	    "link": "https://cs.vlabs.ac.in/poly",
 	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
 	    "branch": "master"
 	},
 	{
-	    "name": "Poly Arithmetic",
-	    "link": "https://cs.vlabs.ac.in/poly",
+	    "name": "Quicksort",
 	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
-	    "branch": "master"
-	},
-	{
-	    "name": "Poly Arithmetic",
-	    "link": "https://cs.vlabs.ac.in/poly",	    
-	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/hash-tables",
 	    "branch": "master"
 	}
     ],

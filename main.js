@@ -152,12 +152,17 @@ function dataPreprocess(datafile){
 
   const data = JSON.parse(fs.readFileSync(datafile));
   data.experiments = data.experiments.map((e) => {
-    const exp_url = new URL(e.link, data.baseUrl);
+    //const exp_url = new URL(e.link, data.baseUrl);
+    const exp_url = generateLink(data.baseUrl, data.lab, e.name);
     return {"name": e.name, "link": exp_url.toString()}
   });
   return data;
 }
 
+function generateLink(baseUrl, labName, expName) {
+  const expUrl = new URL(path.join(labName, expName), baseUrl);
+  return expUrl;
+}
 
 function run(){
   const datafile = process.argv[2];
