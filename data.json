@@ -1,7 +1,6 @@
 {
     "broadArea": {
-	"name": "Civil Engineering",
-	"link": "http://vlab.co.in/broad-area-civil-engineering"
+	"name": "Civil Engineering"
     },
     "lab": "Fluid Materials",
     "baseUrl": "http://lab1.vlabs.ac.in/",
