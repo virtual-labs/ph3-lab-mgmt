@@ -31,7 +31,7 @@ This repository contains the tools for generating lab pages.
      
      #+BEGIN_SRC bash
 
-     npm run buildall
+     npm run labgen data.json <path/to/lab>
      
      #+END_SRC
 
@@ -39,3 +39,10 @@ This repository contains the tools for generating lab pages.
      directory for the generated pages.
 
 
+* To deploy experiments of a lab
+
+  #+BEGIN_SRC bash
+
+  npm run labops -- tasks:CBD data.json
+  
+  #+END_SRC
