@@ -159,8 +159,12 @@ function dataPreprocess(datafile){
   return data;
 }
 
+function toDirName(n) {
+  return n.toLowerCase().replace(' ', '-');
+}
+
 function generateLink(baseUrl, labName, expName) {
-  const expUrl = new URL(path.join(labName, expName), baseUrl);
+  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName)), baseUrl);
   return expUrl;
 }
 
