@@ -164,7 +164,7 @@ function toDirName(n) {
 }
 
 function generateLink(baseUrl, labName, expName) {
-  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName)), baseUrl);
+  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName), 'exp.html'), baseUrl);
   return expUrl;
 }
 
