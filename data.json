@@ -1,22 +1,42 @@
 {
     "broadArea": {
-	"name": "Civil Engineering"
+	"name": "Computer Science"
     },
-    "lab": "Fluid Materials",
+    "lab": "Data Structures 1",
     "baseUrl": "http://lab1.vlabs.ac.in/",
-    "introduction": "Welcome to the Fluid Mechanics Lab",
-    "experiments": [
-	{
-	    "name": "Poly Arithmetic",
-	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
-	    "branch": "master"
-	},
-	{
-	    "name": "Quicksort",
-	    "repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
-	    "branch": "master"
-	}
-    ],
+	"introduction": "Welcome to the Data Structures Lab",
+	"experiment-sections":[
+		{
+			"sect-name": "Linked Lists",
+			"experiments": [
+				{
+					"name": "Poly Arithmetic",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
+					"branch": "master"
+				},
+				{
+					"name": "Quicksort",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
+					"branch": "master"
+				}
+			]		
+		},
+		{
+			"sect-name": "Trees",
+			"experiments": [
+				{
+					"name": "BST",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
+					"branch": "master"
+				},
+				{
+					"name": "Red Black Tree",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
+					"branch": "master"
+				}
+			]		
+		}
+	],
     "targetAudience": {
 	"UG": [
 	    "B. Tech./ B.E in Civil Engineering"
