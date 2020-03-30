@@ -1,6 +1,11 @@
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
-import { execSync } from 'child_process';
+const Handlebars = require("handlebars");
+const fs = require("fs");
+const glob = require('glob');
+const path = require('path');
+const { JSDOM } = require("jsdom");
+const child_process = require('child_process');
+const readline = require('readline');
+const url = require('url');
 
 function toDirName(n) {
   return n.toLowerCase().replace(' ', '-');
@@ -10,9 +15,9 @@ function clone(experiments, exp_dir, common_repo_name) {
   console.log("\nClone\n");
   experiments.forEach((e) => {
     const ename = toDirName(e.name);
-    execSync(`mkdir -p ${exp_dir}/${ename}`);
-    if (!(existsSync(`${exp_dir}/${ename}/${common_repo_name}`))){
-      execSync(
+    child_process.execSync(`mkdir -p ${exp_dir}/${ename}`);
+    if (!(fs.existsSync(`${exp_dir}/${ename}/${common_repo_name}`))){
+      child_process.execSync(
         `cd ${exp_dir}/${ename}; 
          git clone ${e.repo}/${common_repo_name}`
       );
@@ -33,7 +38,7 @@ function build(experiments, exp_dir, common_repo_name) {
   experiments.forEach((e) => {
     const ename = toDirName(e.name);
     console.log(`building ${ename}`);
-    execSync(
+    child_process.execSync(
       `cd ${exp_dir}/${ename}/${common_repo_name}; 
        cp config.mk.sample config.mk; make -sk all`
     );
@@ -46,7 +51,7 @@ function deploy(experiments, exp_dir, common_repo_name, deployment_dest) {
   console.log("\nDeploy\n");
   experiments.forEach((e) => {
     const ename = toDirName(e.name);
-    execSync(
+    child_process.execSync(
       `mkdir -p ${deployment_dest}/${ename}; 
        cp -rf ${exp_dir}/${ename}/${common_repo_name}/build/* ${deployment_dest}/${ename}`
       );
@@ -60,7 +65,7 @@ function run(){
   const elistfn = process.argv[3];
   const commands = options.slice(6).split('');
 
-  const data = JSON.parse(readFileSync(elistfn, 'utf-8'));
+  const data = JSON.parse(fs.readFileSync(elistfn, 'utf-8'));
   const experiments = data.experiments;
   const config = require('./config.json');
   const exp_dir = config['exp_dir'];
@@ -68,8 +73,8 @@ function run(){
   const deployment_dest = config['deployment_dest'];
 
   const lab_dir_name = toDirName(data.lab);
-  const deployment_path = join(deployment_dest, lab_dir_name);
-  execSync(`mkdir -p ${exp_dir}`);
+  const deployment_path = path.join(deployment_dest, lab_dir_name);
+  child_process.execSync(`mkdir -p ${exp_dir}`);
   
   commands.forEach((cmd) => {
     switch(cmd) {
