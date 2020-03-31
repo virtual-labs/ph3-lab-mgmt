@@ -60,13 +60,24 @@ function deploy(experiments, exp_dir, common_repo_name, deployment_dest) {
 }
 
 
+function getExpList(data){
+  if (data.experiments){
+    const experiments = data.experiments;
+    return experiments;
+  }
+  else {
+    const experiments = data['experiment-sections'].map((es) => es.experiments).flat();
+    return experiments;
+  }
+}
+
 function run(){
   const options = process.argv[2];
   const elistfn = process.argv[3];
   const commands = options.slice(6).split('');
 
   const data = JSON.parse(fs.readFileSync(elistfn, 'utf-8'));
-  const experiments = data.experiments;
+  const experiments = getExpList(data);
   const config = require('./config.json');
   const exp_dir = config['exp_dir'];
   const common_repo_name = config['common_repo_name'];
