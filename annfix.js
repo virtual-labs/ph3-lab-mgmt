@@ -10,11 +10,15 @@ const lab_pattern = path.join(labpath, '*.html');
 function modify(p) {
   const dom = new JSDOM(fs.readFileSync(p));
   var ctnt = dom.window.document.querySelectorAll("#top > div")[1];
-  var ctnr = dom.window.document.querySelector("#top > #content");
+  var ctnr = dom.window.document.querySelector("#content");
+  var top = dom.window.document.querySelector("#top");
   var footer = dom.window.document.querySelector("#footer");
-  if (ctnt && ctnr && footer){
+  console.log(ctnt, ctnr, top, footer);
+  
+  if (ctnt && ctnr && footer && top){
+    console.log(p);
     ctnr.appendChild(ctnt);
-    ctnr.appendChild(footer);
+    top.appendChild(footer);
   }
   return dom.serialize();
 }
