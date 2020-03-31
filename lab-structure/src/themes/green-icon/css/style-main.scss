@@ -1645,10 +1645,6 @@ body {
     font-family:'Raleway' !important;
 }
 
-p {
-    font-size: 16px;
-}
-
 /*** Calendar **********************/
 .content .container-fluid div.calender  { position: relative; }
 
@@ -2997,15 +2993,6 @@ p {
 #feedback-btn-link:hover {
 	text-decoration: inherit !important;
 	color: inherit !important;
-}
-
-/*Styles for list*/
-ul li span, ol li span {
-	font-size: 1.3em
-}
-
-ul li, ol li{
-	font-size: 1.1em
 }
 
 /*Styles for progress bars*/
