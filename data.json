@@ -1,6 +1,7 @@
 {
     "broadArea": {
-	"name": "Computer Science"
+	"name": "Computer Science",
+	"link": "http://vlab.co.in/broad-area-computer-science-and-engineering"
     },
     "lab": "Data Structures 1",
     "baseUrl": "http://lab1.vlabs.ac.in/",
@@ -24,16 +25,6 @@
 		{
 			"sect-name": "Trees",
 			"experiments": [
-				{
-					"name": "BST",
-					"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
-					"branch": "master"
-				},
-				{
-					"name": "Red Black Tree",
-					"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
-					"branch": "master"
-				}
 			]		
 		}
 	],
