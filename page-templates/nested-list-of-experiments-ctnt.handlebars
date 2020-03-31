@@ -1,8 +1,8 @@
 <h1 class="text-h2-lightblue">{{ lab }}</h1>
-<div style="padding-bottom: 102px;">
-		{{#each experiment-sections }}
+<div>
+	{{#each experiment-sections }}
 		<li>
-			<span style="font-size:20px"> {{sect-name}} </span>
+			<span> {{sect-name}} </span>
 			<ol id="list-of-experiments">
 				{{#each experiments }}
 				<li>
@@ -13,5 +13,5 @@
 				{{/each}}
 			</ol>
 		</li>
-		{{/each}}
+	{{/each}}
 </div>

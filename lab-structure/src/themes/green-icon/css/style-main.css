@@ -46,55 +46,32 @@ img {
   overflow: hidden;
 }
 
-p {
-  margin: 0 0 15px;
-  font-size: 17.5px;
-}
-
-li {
-  font-size: 17.5px;
-  line-height: 1.6;
-}
-
-i {
-  font-size: 16px;
-  line-height: 1.6;
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", sans-serif;
-  margin: 0 0 15px;
-  /*color: #444;*/
   font-weight: 500;
 }
 
 h1 {
-  font-size: 48px;
   line-height: 50px;
 }
 
 h2 {
-  font-size: 38px;
   line-height: 40px;
 }
 
 h3 {
-  font-size: 30px;
   line-height: 32px;
 }
 
 h4 {
-  font-size: 24px;
   line-height: 26px;
 }
 
 h5 {
-  font-size: 20px;
   line-height: 22px;
 }
 
 h6 {
-  font-size: 16px;
   line-height: 20px;
 }
 
@@ -129,7 +106,6 @@ body {
   background: #3EC1D5;
   color: #fff;
   padding: 6px 12px 9px 12px;
-  font-size: 16px;
   border-radius: 2px;
   right: 15px;
   bottom: 15px;
@@ -202,8 +178,6 @@ div#preloader {
 
 .section-headline h2 {
   display: inline-block;
-  font-size: 40px;
-  /*font-weight: 600;*/
   margin-bottom: 59px;
   margin-top: 42px;
   position: relative;
@@ -223,7 +197,6 @@ div#preloader {
 
 .sec-head {
   display: inline-block;
-  font-size: 17px;
   font-weight: 600;
   margin-bottom: 0;
   padding: 0 0 10px;
@@ -259,7 +232,6 @@ div#preloader {
 .main-menu ul.navbar-nav li a {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   color: #a7a9ab;
-  font-size: 15px;
   font-weight: 500;
   padding: 24px 0px;
   text-transform: capitalize;
@@ -376,7 +348,6 @@ div#preloader {
   color: #fff;
   padding: 0;
   margin: 0;
-  font-size: 36px;
   font-weight: bold;
   line-height: 1;
 }
@@ -446,7 +417,6 @@ div#preloader {
 .services-icon {
   color: #444;
   display: inline-block;
-  font-size: 36px;
   line-height: 36px;
   margin-bottom: 20px;
 }
@@ -475,13 +445,11 @@ div#preloader {
 
 .single-services > h4 {
   color: #444;
-  font-size: 24px;
   font-weight: 500;
 }
 
 .single-services > p {
   color: #333;
-  font-size: 14px;
 }
 
 /*----------------------------------------
@@ -529,13 +497,11 @@ div#preloader {
 
 .well-text > h2 {
   color: #fff;
-  font-size: 44px;
   font-weight: 500;
   line-height: 50px;
 }
 
 .well-text p {
-  font-size: 18px;
   font-style: italic;
   color: #fff;
 }
@@ -559,7 +525,6 @@ div#preloader {
   border: medium none;
   color: #fff;
   float: left;
-  font-size: 15px;
   line-height: 24px;
   padding: 11px 15px;
   width: 70%;
@@ -572,7 +537,6 @@ div#preloader {
   border-radius: 0 20px 20px 0;
   color: #fff;
   float: left;
-  font-size: 20px;
   font-weight: 700;
   padding: 14px 20px;
   width: 30%;
@@ -624,14 +588,12 @@ div#preloader {
 
 .team-left-text h4 {
   color: #fff;
-  font-size: 30px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .team-left-text p {
   color: #fff;
-  font-size: 17px;
   line-height: 26px;
 }
 
@@ -648,7 +610,6 @@ div#preloader {
   border: 1px solid #fff;
   color: #fff;
   float: left;
-  font-size: 13px;
   padding: 8px;
   width: 81%;
 }
@@ -658,7 +619,6 @@ div#preloader {
   border: 1px solid #fff;
   color: #fff;
   float: left;
-  font-size: 16px;
   padding: 8px 12px;
   text-align: center;
 }
@@ -683,7 +643,6 @@ div#preloader {
   border: 2px solid #fff;
   color: #fff;
   display: block;
-  font-size: 16px;
   height: 40px;
   line-height: 37px;
   margin: 0 3px;
@@ -742,7 +701,6 @@ div#preloader {
   border-radius: 50%;
   color: #fff;
   display: block;
-  font-size: 14px;
   height: 34px;
   line-height: 35px;
   margin: 0 3px;
@@ -774,7 +732,6 @@ div#preloader {
 
 .head-team h4 {
   display: inline-block;
-  font-size: 25px;
   font-weight: 600;
   padding-bottom: 10px;
   text-transform: uppercase;
@@ -802,7 +759,6 @@ div#preloader {
 }
 
 #footer .footer-top .footer-info h3 {
-  font-size: 34px;
   margin: 0 0 20px 0;
   padding: 2px 0 2px 10px;
   line-height: 1;
@@ -813,13 +769,11 @@ div#preloader {
 }
 
 #footer .footer-top p {
-  font-size: 1.4rem;
   margin-bottom: 0;
   color: #eee;
 }
 
 #footer .footer-top .social-links a {
-  font-size: 18px;
   display: inline-block;
   background: #333;
   color: #eee;
@@ -839,7 +793,6 @@ div#preloader {
 }
 
 #footer .footer-top h4 {
-  font-size: 14px;
   color: #fff;
   position: relative;
   padding-bottom: 12px;
@@ -921,15 +874,9 @@ div#preloader {
 #intro h2 {
   color: #fff;
   margin-bottom: 30px;
-  font-size: 48px;
   font-weight: 700;
 }
 
-@media (max-width: 768px) {
-  #intro h2 {
-    font-size: 28px;
-  }
-}
 #intro p {
   width: 100%;
   margin: 0 auto 30px auto;
@@ -939,7 +886,6 @@ div#preloader {
 @media (min-width: 1024px) {
   #intro p {
     width: 100%;
-    font-size: 45px;
   }
 }
 #intro .carousel-fade .carousel-inner .carousel-item {
@@ -980,7 +926,6 @@ div#preloader {
 }
 #intro .carousel-control-next-icon, #intro .carousel-control-prev-icon {
   background: none;
-  font-size: 32px;
   line-height: 1;
 }
 
@@ -991,7 +936,6 @@ div#preloader {
 #intro .btn-get-started {
   font-family: "Open Sans", sans-serif;
   font-weight: 500;
-  font-size: 16px;
   letter-spacing: 1px;
   display: inline-block;
   padding: 8px 32px;
@@ -1096,7 +1040,6 @@ div#preloader {
 
 .oneline p {
   text-align: center;
-  font-size: 1.2em;
 }
 
 @media only screen and (min-width: 350px) {
@@ -1566,10 +1509,6 @@ Version: 1.0
 body {
   overflow-x: hidden;
   font-family: "Raleway" !important;
-}
-
-p {
-  font-size: 16px;
 }
 
 /*** Calendar **********************/
@@ -2704,15 +2643,6 @@ p {
 #feedback-btn-link:hover {
   text-decoration: inherit !important;
   color: inherit !important;
-}
-
-/*Styles for list*/
-ul li span, ol li span {
-  font-size: 1.3em;
-}
-
-ul li, ol li {
-  font-size: 1.1em;
 }
 
 /*Styles for progress bars*/
