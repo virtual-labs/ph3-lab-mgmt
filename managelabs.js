@@ -25,7 +25,7 @@ function clone(experiments, exp_dir, common_repo_name) {
     }
     else {
       console.log(`${ename} cloned already, trying to pull`);
-      execSync(
+      child_process.execSync(
         `cd ${exp_dir}/${ename}/${common_repo_name}; 
          git pull origin ${e.branch}`
       );
