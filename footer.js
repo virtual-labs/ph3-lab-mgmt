@@ -5,7 +5,6 @@ const { JSDOM } = require("jsdom");
 
 const labpath = path.join(process.argv[2], 'src/lab');
 const exp_pattern = path.join(labpath, '**/*.html');
-const lab_pattern = path.join(labpath, '*.html');
 
 const newFooterFile = './page-components/footer.html';
 
@@ -14,7 +13,6 @@ function hasFooter(fn) {
   console.log(fn);
   let dom = new JSDOM(htmlContent);
   if (dom.window.document.querySelector('footer')){
-    //console.log(fn);
     return true;
   }
   else {
