@@ -2343,6 +2343,10 @@ a:focus {
 
 /*******************/
 /*Labs page*/
+.sidebar-col-2 {
+  padding-bottom: 40px;
+}
+
 .lab-list-col-10 {
   background: url("../images/devider-blue-v-o.png") repeat-y;
   background-position: left top;
