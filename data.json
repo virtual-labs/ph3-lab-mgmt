@@ -1,32 +1,47 @@
 {
     "broadArea": {
-	"name": "Computer Science",
-	"link": "http://vlab.co.in/broad-area-computer-science-and-engineering"
+	"name": "Civil Engineering",
+	"link": "http://vlab.co.in/broad-area-civil-engineering"
     },
-    "lab": "Data Structures 1",
-    "baseUrl": "http://lab1.vlabs.ac.in/",
-	"introduction": "Welcome to the Data Structures Lab",
-	"experiment-sections":[
-		{
-			"sect-name": "Linked Lists",
-			"experiments": [
+    "lab": "Fluid Machinery",
+    "baseUrl": "http://fmc-nitk.vlabs.ac.in",
+	"introduction": "Welcome to the Fluid Machinery Lab",
+	"experiments": [
 				{
-					"name": "Poly Arithmetic",
-					"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
+					"name": "Performance Characteristics of Centrifugal Pump",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/centrifugal-pump",
 					"branch": "master"
 				},
 				{
-					"name": "Quicksort",
-					"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
+					"name": "Performance Characteristics of Hydraulic Ram",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/hydraulic-ram/",
 					"branch": "master"
-				}
-			]		
-		},
-		{
-			"sect-name": "Trees",
-			"experiments": [
-			]		
-		}
+				},
+				{
+					"name": "Performance Characteristics of Kaplan Turbine",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/kaplan-turbine/",
+					"branch": "master"
+				},
+				{
+					"name": "Double Acting Reciprocating Pump",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/reciprocating-pump/",
+					"branch": "master"
+				},
+				{
+					"name": "Pipe Bursting",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/pipe-bursting/",
+					"branch": "master"
+				},
+				{
+					"name": "Performance Characteristics of Pelton Turbine",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/pelton-turbine",
+					"branch": "master"
+				},
+				{
+					"name": "Performance Characteristics of Francis Turbine",
+					"repo": "http://fmc-nitk.vlabs.ac.in/fluid-machinery/francis-turbine/",
+					"branch": "master"
+				}		
 	],
     "targetAudience": {
 	"UG": [
@@ -36,7 +51,7 @@
 	    "MS/Ph. D. Beginners in Civil Engineering and related topics"
 	]
     },
-    "objective": "Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system. Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.  Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.",
+    "objective": "Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.",
     "courseAlignment": {
 	"description": "The syllabi of this lab aligns to the following universities in India.",
 	"universities": [
