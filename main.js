@@ -177,11 +177,11 @@ function dataPreprocess(datafile){
 }
 
 function toDirName(n) {
-  return n.toLowerCase().replace(' ', '-');
+  return n.toLowerCase().split(' ').join('-');
 }
 
 function generateLink(baseUrl, labName, expName) {
-  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName), 'exp.html'), baseUrl);
+  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName), 'index.html'), baseUrl);
   return expUrl;
 }
 
@@ -200,6 +200,7 @@ function run(){
     }
     else {
       if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){
+        console.log("not nested");
         fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
       }
     }
