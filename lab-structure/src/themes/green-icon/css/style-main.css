@@ -781,9 +781,22 @@ div#preloader {
 }
 
 #top {
-  display: grid;
   min-height: 100%;
-  grid-template-rows: max-content auto max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+#top > div {
+  flex: 1;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+}
+
+#content > div {
+  flex: 1;
 }
 
 /*--------------------------------------------------------------
