@@ -155,7 +155,7 @@ function dataPreprocess(datafile){
   if (data.experiments) {
     data.experiments = data.experiments.map((e) => {
       //const exp_url = new URL(e.link, data.baseUrl);
-      const exp_url = generateLink(data.baseUrl, data.lab, e.name);
+      const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
       return {"name": e.name, "link": exp_url.toString()}
     });
     return data;
@@ -166,7 +166,7 @@ function dataPreprocess(datafile){
         return { 
           "sect-name": es["sect-name"],
           "experiments": es.experiments.map((e) => {
-                          const exp_url = generateLink(data.baseUrl, data.lab, e.name);
+                          const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
                           return {"name": e.name, "link": exp_url.toString()}
                         })
         }; 
@@ -180,8 +180,8 @@ function toDirName(n) {
   return n.toLowerCase().split(' ').join('-');
 }
 
-function generateLink(baseUrl, labName, expName) {
-  const expUrl = new URL(path.join(toDirName(labName), toDirName(expName), 'index.html'), baseUrl);
+function generateLink(baseUrl, labName, expName, index_fn='') {
+  const expUrl = new URL(path.join(toDirName(labName), 'exp', toDirName(expName), index_fn), baseUrl);
   return expUrl;
 }
 
