@@ -127,21 +127,21 @@ function generateLab(pages, labpath, template_file, component_files){
     else {
       console.log("Lab already exists.");
       const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
+        input: process.stdin,
+        output: process.stdout
       });
 
       rl.question('Do you want to delete the existing lab(N/Y)[default N]?', (answer) => {
-	if (answer === 'Y'){
-	  child_process.execSync(`rm -rf ${labpath}`);
-	  rl.close();
-	  console.log("creating new");	  
-	  prepareStructure(labpath);
-	  copyPages(pages, template_file, component_files, labpath);
-	}
-	else {
-	  rl.close();
-	}
+        if (answer === 'Y'){
+          child_process.execSync(`rm -rf ${labpath}`);
+          rl.close();
+          console.log("creating new");	  
+          prepareStructure(labpath);
+          copyPages(pages, template_file, component_files, labpath);
+        }
+        else {
+          rl.close();
+        }
       });
     }
   });
@@ -151,13 +151,39 @@ function generateLab(pages, labpath, template_file, component_files){
 function dataPreprocess(datafile){
 
   const data = JSON.parse(fs.readFileSync(datafile));
-  data.experiments = data.experiments.map((e) => {
-    const exp_url = new URL(e.link, data.baseUrl);
-    return {"name": e.name, "link": exp_url.toString()}
-  });
-  return data;
+
+  if (data.experiments) {
+    data.experiments = data.experiments.map((e) => {
+      //const exp_url = new URL(e.link, data.baseUrl);
+      const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
+      return {"name": e.name, "link": exp_url.toString()}
+    });
+    return data;
+  }
+  else {
+    if (data["experiment-sections"]) {
+      data["experiment-sections"] = data["experiment-sections"].map((es) => {
+        return { 
+          "sect-name": es["sect-name"],
+          "experiments": es.experiments.map((e) => {
+                          const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
+                          return {"name": e.name, "link": exp_url.toString()}
+                        })
+        }; 
+      });
+      return data;      
+    }
+  }
 }
 
+function toDirName(n) {
+  return n.toLowerCase().split(' ').join('-');
+}
+
+function generateLink(baseUrl, labName, expName, index_fn='') {
+  const expUrl = new URL(path.join(toDirName(labName), 'exp', toDirName(expName), index_fn), baseUrl);
+  return expUrl;
+}
 
 function run(){
   const datafile = process.argv[2];
@@ -169,7 +195,15 @@ function run(){
   const component_files = config.commonComponents;
   
   glob('page-templates/*.handlebars', (err, fns) => {
-    fns.forEach((fn) => genComponentHtml(fn, data));
+    if ((data.experiments === undefined) && (data["experiment-sections"] !== undefined)){      
+      fns.forEach((fn) => genComponentHtml(fn, data));
+    }
+    else {
+      if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){
+        console.log("not nested");
+        fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
+      }
+    }
   });
 
   if (labpath === undefined){
