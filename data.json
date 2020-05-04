@@ -3,7 +3,9 @@
 	"name": "Civil Engineering",
 	"link": "http://vlab.co.in/broad-area-civil-engineering"
     },
-    "lab": "Fluid Machinery",
+	"lab": "Fluid Machinery",	
+	"phase": "3",
+	"collegeName": "NITS",
     "baseUrl": "http://fmc-nitk.vlabs.ac.in",
 	"introduction": "Welcome to the Fluid Machinery Lab",
 	"experiments": [
