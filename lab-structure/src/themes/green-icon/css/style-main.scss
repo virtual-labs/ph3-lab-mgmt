@@ -808,7 +808,7 @@ div#preloader {
   flex-direction: column;
 }
 
-#content > div {
+#content > div:nth-child(2) {
   flex: 1;
 }
 
@@ -3034,4 +3034,8 @@ p {
 
   font-size: 17.5px;
 
+}
+
+h1, h2, h3 {
+  color: #2C99CE;
 }

@@ -1,6 +1,7 @@
 {
     "commonComponents" : [ 
-	"head.html",
+		"head.html",
+		"lab-name.html",
     	"navbar.html",
     	"slider.html",
     	"broad-area.html",

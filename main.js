@@ -28,13 +28,14 @@ function loadComponents(component_files) {
 function populateTemplate(template, components, content) {
   let dom = new JSDOM(`${template}`);
   let res = addHead(dom, components[0]);
-  res = addNavbar(res, components[1]);
-  res = addSlider(res, components[2]);
-  res = addLabName(res, components[3]);
-  res = addSideBar(res, components[4]);
+  res = addLabName(res, components[1]);
+  res = addNavbar(res, components[2]);
+  res = addSlider(res, components[3]);
+  res = addBroadAreaName(res, components[4]);
+  res = addSideBar(res, components[5]);
   res = addContent(res, content);
-  res = addFooter(res, components[5]);
-  res = addRandomJsThings(res, components[6]);
+  res = addFooter(res, components[6]);
+  res = addRandomJsThings(res, components[7]);
   return res.serialize();
 }
 
@@ -58,13 +59,20 @@ function addSlider(dom, slider) {
 }
 
 
-function addLabName(dom, labname) {
+function addBroadAreaName(dom, broadareaName) {
   dom.window.document
      .querySelectorAll('#content > div')[1]
-     .querySelector('h2').innerHTML = labname;
+     .querySelector('h2').innerHTML = broadareaName;
   return dom;
 }
 
+
+function addLabName(dom, labname) {
+  dom.window.document
+     .querySelectorAll('#content > div')[1]
+     .querySelector('.t-content > span').innerHTML = labname;
+  return dom;
+}
 
 function addSideBar(dom, sidebar) {
   dom.window.document
@@ -77,7 +85,7 @@ function addSideBar(dom, sidebar) {
 function addContent(dom, ctnt) {
   dom.window.document
      .querySelectorAll('#content > div')[1]
-     .querySelector('.t-content').innerHTML = ctnt;
+     .querySelector('.t-content > div').innerHTML = ctnt;
   return dom;
 }
 
