@@ -1,13 +1,8 @@
 {
     "commonComponents" : [ 
 		"head.html",
-		"lab-name.html",
-    	"navbar.html",
-    	"slider.html",
-    	"broad-area.html",
-    	"sidebar.html",
-    	"footer.html",
-    	"random-js-things.html"
+		"lab-name.html",    	    	
+    	"broad-area.html"
     ],
     "pages" : [
 	{
@@ -37,5 +32,5 @@
     ],
     "exp_dir" : "experiments",
     "common_repo_name" : "content-html",
-    "deployment_dest" : "/var/www/html"    
+    "deployment_dest" : "/var/www/html"
 }

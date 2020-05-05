@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Google Tag Manager-->
+    <script class="gtm">
+        var dataLayer = [{
+            'labName': '{{lab}}',
+            'discipline': '{{broadArea.name}}',
+            'college': '{{college}}',
+            'phase': '{{phase}}',
+        }];
+
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-W59SWTR');
+    </script>
+    <!--End Google Tag Manager-->
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+     <!-- For iPhone -->
+     <meta name="msapplication-TileColor" content="#4076e0">
+     <!-- Chrome, Firefox OS and Opera -->
+     <meta name="theme-color" content="#4076e0">
+     <!-- Windows Phone -->
+     <meta name="msapplication-navbutton-color" content="#4076e0">
+ 
+    <title>Virtual Labs</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/vlabs-style.css">   
+    <script src="js/jquery-3.4.1.slim.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+	<!--Google Tag Manager (noscript)-->
+	<noscript class="gtm">
+		<iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-W59SWTR" style="display:none;visibility:hidden" width="0">			
+		</iframe>
+	</noscript>
+	<!--End Google Tag Manager (noscript)-->
+    <header class="vlabs-header sticky-top bg-white">
+        <nav class="p-0 navbar navbar-expand-lg navbar-light">
+            <a href="http://vlab.co.in" class="navbar-brand">
+                <img src="images/logo-new.png" alt="vlabs logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="headerNavbar">                
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="px-2" href="http://vlab.co.in">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="px-2" href="http://vlab.co.in/participating-institutes">PARTNERS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="px-2" href="http://vlab.co.in/contact-us">CONTACT</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        <div class="row py-4 px-4 breadcrumbs">
+            <a href="{{broadArea.link}}">
+                {{broadArea.name}}
+            </a>
+        </div>
+        <div class="row flex-grow-1 px-4">
+            <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
+                <a href="index.html" class="py-2">Aim</a>
+                <a href="theory.html" class="py-2">Theory</a>
+                <a href="pretest.html" class="py-2">Pre Test</a>
+                <a href="procedure.html" class="py-2">Procedure</a>
+                <a href="simulation.html" class="py-2">Simulation</a>
+                <a href="posttest.html" class="py-2">Post Test</a>
+                <a href="references.html" class="py-2">References</a>
+                <a href="feedback.html" class="py-2">Feedback</a>
+            </div>            
+            <div class="vlabs-page-content col col-sm-7 col-lg-10 pr-5 pb-4">                                
+                <h3>{{pageName}}</h3>
+                content to be soon.
+            </div>
+        </div>
+    </div>
+    <footer class="row text-light py-2 px-5 vlabs-footer">
+        <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Community Links</span>
+            <a href="http://www.sakshat.ac.in/" class="text-light">Sakshat Portal</a>
+            <a href="http://outreach.vlabs.ac.in/" class="text-light">Outreach Portal</a>
+            <a href="http://vlab.co.in/faq" class="text-light">FAQ: Virtual Labs</a>
+        </div>
+        <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Contact Us</span>
+            <span> Phone: General Information: 011-26582050 </span>
+            <span> Email: support@vlabs.ac.in </span>
+        </div>
+        <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Follow Us</span>
+            <div class="social-links">
+                <a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #55acee;" href="https://twitter.com/TheVirtualLabs" class="twitter">
+                  <i class="fa fa-twitter"></i>
+                </a>
+                <a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #3b5998;" href="https://www.facebook.com/Virtual-Labs-IIT-Delhi-301510159983871/" class="facebook">
+                  <i class="fa fa-facebook"></i>
+                </a>
+                <a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #e52d27;" href="https://www.youtube.com/watch?v=asxRaOgk6a0" class="google-plus">
+                  <i class="fa fa-youtube"></i>
+                </a>
+                <a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #2867B2;" href="https://in.linkedin.com/in/virtual-labs-008ba9136" class="linkedin">
+                  <i class="fa fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
