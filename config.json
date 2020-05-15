@@ -2,7 +2,8 @@
     "commonComponents" : [ 
 		"head.html",
 		"lab-name.html",    	    	
-    	"broad-area.html"
+		"broad-area.html",
+		"sidebar.html"		
     ],
     "pages" : [
 	{

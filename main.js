@@ -32,7 +32,7 @@ function populateTemplate(template, components, content) {
   //res = addNavbar(res, components[2]);
   //res = addSlider(res, components[3]);
   res = addBroadAreaName(res, components[2]);
-  //res = addSideBar(res, components[5]);
+  res = addSideBar(res, components[3]);
   res = addContent(res, content);
   //res = addFooter(res, components[6]);
   //res = addRandomJsThings(res, components[7]);
@@ -75,8 +75,7 @@ function addLabName(dom, labname) {
 
 function addSideBar(dom, sidebar) {
   dom.window.document
-     .querySelectorAll('#content > div')[1]
-     .querySelector('.t-sidebar').innerHTML = sidebar;
+     .querySelector('.sidebar').innerHTML = sidebar;
   return dom;
 }
 
@@ -104,6 +103,7 @@ function genComponentHtml(fn, data) {
   const template = fs.readFileSync(fn, 'utf-8');
   const base = path.parse(fn).name;
   html = (Handlebars.compile(template))(data);
+  console.log(base);
   fs.writeFileSync(`page-components/${base}.html`, html, 'utf-8');
 }
 
@@ -206,8 +206,7 @@ function run(){
       fns.forEach((fn) => genComponentHtml(fn, data));
     }
     else {
-      if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){
-        console.log("not nested");
+      if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){        
         fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
       }
     }
