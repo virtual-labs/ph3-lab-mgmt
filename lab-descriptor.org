@@ -36,7 +36,10 @@
   |                        |                |                   | populating the =List Of Experiments.html= page      |
   |                        |                |                   | and for deployment of experiments.                  |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
-  | *experiment-sections*  | /sect-name/    | =String=          |                                                     |
+  | *experiment-sections*  | /sect-name/    | =String=          | This is required when list of experiments is a      |
+  |                        |                |                   | nested list. (ex: Data Structures Lab). Otherwise   |
+  |                        |                |                   | just use *experiments* and ommit                    |
+  |                        |                |                   | *experiment-sections*.                              |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
   |                        | /experiments/  | =List Experiment= | List of experiments in a section.                   |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
@@ -130,7 +133,7 @@
         "broadArea": {
             "name": "Civil Engineering",
             "link": "http://vlab.co.in/broad-area-civil-engineering"
-        }
+        },
         "lab": "Fluid Machinery",
 	"deployLab":true,
         "phase": 3,
