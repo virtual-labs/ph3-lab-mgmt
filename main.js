@@ -225,7 +225,7 @@ function deployExperiments(labpath) {
     const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
     const ldpath = path.resolve(labpath, 'lab-descriptor.json');
     if(!fse.existsSync('deployment-scripts')){
-        child_process.execSync(`git clone ${expDeploymentRepo}; git checkout feature-remote-user`);
+        child_process.execSync(`git clone ${expDeploymentRepo}; git checkout feature-remote-param`);
     }
     child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
     child_process.execSync(`cd deployment-scripts; make all`);
