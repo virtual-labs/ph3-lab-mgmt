@@ -226,9 +226,8 @@ function generate(labpath) {
         fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
       }
     }
+    generateLab(config.pages, labpath, template_file, component_files);
   });
-
-  generateLab(config.pages, labpath, template_file, component_files);
 }
 
 
