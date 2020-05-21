@@ -240,6 +240,12 @@ function getLabName(labpath) {
 }
 
 
+function toDeployLab(labpath) {
+  const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+  const labdesc = require(ldpath);
+  return toDirName(labdesc.deployLab);
+}
+
 
 function run(){
   const task = process.argv[2];
@@ -255,12 +261,14 @@ function run(){
       generate(labpath);
       pushLab(labpath);
       break;
-    case 'deploy':      
-      const deploySrc = labpath + '/build/*';
-      const labname = getLabName(labpath);
-      const deployDestPath = path.resolve("/var/www/html/", labname);
-      console.log(deployDestPath);
-      deploy_lab(user, deploySrc, hostIP, deployDestPath);
+    case 'deploy':
+      if (toDeployLab(labpath)) {
+          const deploySrc = labpath + '/build/*';
+          const labname = getLabName(labpath);
+          const deployDestPath = path.resolve("/var/www/html/", labname);
+          console.log(deployDestPath);
+          deploy_lab(user, deploySrc, hostIP, deployDestPath);
+      }
       deployExperiments(labpath);
       break;
     default:
