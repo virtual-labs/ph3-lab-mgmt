@@ -243,7 +243,7 @@ function getLabName(labpath) {
 function toDeployLab(labpath) {
   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
   const labdesc = require(ldpath);
-  return toDirName(labdesc.deployLab);
+  return labdesc.deployLab;
 }
 
 
