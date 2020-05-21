@@ -6,7 +6,6 @@ const { JSDOM } = require("jsdom");
 const child_process = require('child_process');
 const readline = require('readline');
 const url = require('url');
-const NodeGit = require("nodegit");
 const fse = require("fs-extra");
 
 
