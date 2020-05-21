@@ -18,21 +18,14 @@ const labDescriptorFn = "lab-descriptor.json";
    Copy lab descriptor to the lab repository's working directory.  If a lab-descriptor is already present then don't copy.
 */
 function copyLabDescriptor(repoDir) {
-  NodeGit.Repository.open(repoDir)
-         .then(function(repo){
-           const ldpath = path.resolve(repoDir, labDescriptorFn);
-           if (fse.existsSync(ldpath)) {
-             console.error("Lab Descriptor Already exists");
-           }
-           else {
-             fse.copySync(labDescriptorFn, ldpath);
-           }
-         })
-         .catch(function(reason){
-           console.log(reason);
-         });
+  const ldpath = path.resolve(repoDir, labDescriptorFn);
+  if (fse.existsSync(ldpath)) {
+    console.error("Lab Descriptor Already exists");
+  }
+  else {
+    fse.copySync(labDescriptorFn, ldpath);
+  }  
 }
-
 
 
 
@@ -158,10 +151,7 @@ function prepareStructure(labpath){
 function copyPages(pages, template_file, component_files, labpath){
   pages.forEach( p => {
     const res_html = buildPage(template_file, component_files, p.src);
-    fs.writeFile(`${labpath}/src/lab/${p.target}`, res_html, 'utf-8', (err, data) => {
-      if (err) throw err;
-      console.log(`${p.target} built successfuly`);
-    });
+    fs.writeFileSync(`${labpath}/src/lab/${p.target}`, res_html, 'utf-8');
   });  
 }
 
@@ -231,6 +221,27 @@ function generate(labpath) {
 }
 
 
+
+function deployExperiments(labpath) {
+    const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
+    const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+    if(!fse.existsSync('deployment-scripts')){
+        child_process.execSync(`git clone ${expDeploymentRepo}; git checkout feature-remote-user`);
+    }
+    child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
+    child_process.execSync(`cd deployment-scripts; make all`);
+}
+
+
+
+function getLabName(labpath) {
+    const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+    const labdesc = require(ldpath);
+    return toDirName(labdesc.lab);
+}
+
+
+
 function run(){
   const task = process.argv[2];
   const labpath = path.resolve(process.argv[3]);
@@ -246,9 +257,12 @@ function run(){
       pushLab(labpath);
       break;
     case 'deploy':      
-      const deploySrc = path.resolve(labpath, "build");
-      const deployDestPath = path.resolve("/var/www/html/", path.basename(labpath));
+      const deploySrc = labpath + '/build/*';
+      const labname = getLabName(labpath);
+      const deployDestPath = path.resolve("/var/www/html/", labname);
+      console.log(deployDestPath);
       deploy_lab(user, deploySrc, hostIP, deployDestPath);
+      deployExperiments(labpath);
       break;
     default:
       console.error("unknown task"); 

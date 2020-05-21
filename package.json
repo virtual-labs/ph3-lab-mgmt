@@ -6,9 +6,7 @@
     "glob": "7.1.6",
     "handlebars": "4.7.3",
     "jsdom": "16.2.1",
-    "minimist": "^1.2.5",
-    "nodegit": "^0.26.5",
-    "sass": "1.26.3"
+    "minimist": "^1.2.5"
   },
   "description": "",
   "main": "main.js",
