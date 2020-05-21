@@ -1,0 +1,118 @@
+#+title: Generating a new Lab
+
+* Add Lab Descriptor to the repo
+
+** Pre Conditions
+
+   1. There should be a local repository where the lab sources are to
+      be generated.
+   
+** Process
+
+*** Init
+
+    Copy /lab-descriptor.json/ to the local lab repository.
+
+    #+BEGIN_SRC sh
+     npm run labgen -- init path/to/lab/repo    
+    #+END_SRC
+
+*** Edit Lab Descriptor
+
+    Edit the /lab-descriptor.json/ in the lab repository, and get it
+    verified.
+
+*** Generate Lab
+    
+    Once the lab-descriptor is verified run the following to generate
+    the lab and push its contents to remote origin.
+
+    #+BEGIN_SRC sh
+     npm run labgen -- generate path/to/lab/repo    
+    #+END_SRC
+
+*** Deploy
+
+    After generating the lab, deploy it to your server.
+
+   #+BEGIN_SRC sh
+     npm run labgen -- deploy path/to/lab/repo user host
+   #+END_SRC
+    
+** Copy Lab Descriptor
+
+   Given path to local lab repository, check if lab-descriptor json
+   file is already present in the repo.  If it is not there then copy
+   an empty lab-descriptor file to the repo working directory.
+
+   #+BEGIN_SRC js :eval no :noweb yes :tangle ./copyld.js
+
+     const NodeGit = require("nodegit");
+     const fse = require("fs-extra");
+     const path = require("path");
+     const labDescriptorFn = "lab-descriptor.json";
+
+     const repoDir = path.resolve(process.argv[2]);
+
+     function copyLabDescriptor(repoDir) {
+
+     NodeGit.Repository.open(repoDir)
+         .then(function(repo){
+             const ldpath = path.resolve(repoDir, labDescriptorFn);
+             if (fse.existsSync(ldpath)) {
+                 console.error("Lab Descriptor Already exists");
+             }
+             else {
+                 fse.copySync(labDescriptorFn, ldpath);
+             }
+         })
+         .catch(function(reason){
+             console.log(reason);
+         });
+     }
+
+   #+END_SRC
+
+
+* Push lab
+
+  Push generated lab.
+
+  #+BEGIN_SRC js :eval no :noweb yes :tangle ./pushlab.js  
+
+     const path = require("path");
+     const cp = require("child_process");
+     const repoDir = path.resolve(process.argv[2]);
+
+     function pushLab(repoDir) {
+         const branch = 'master';
+         const commitMsg = `Lab generated at ${Date.now()}`;
+         cp.execSync(`cd ${repoDir}; git add src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
+     }
+
+     pushLab(repoDir);
+
+  #+END_SRC
+
+** Deploy Lab
+
+   Deploy generated lab.
+
+   #+BEGIN_SRC js :eval no :noweb yes :tangle ./deploylab.js
+
+     const path = require("path");
+     const cp = require("child_process");
+     const repoDir = path.resolve(process.argv[2]);
+     const user = path.resolve(process.argv[3]);
+     const hostIP = path.resolve(process.argv[4]);
+
+     const deploySrc = path.resolve(repoDir, "build");
+     const deployDestPath = path.resolve("/var/www/html/", path.basename(repoDir));
+
+     function deploy_lab(user, src, destHost, destPath) {
+         cp.execSync(`rsync -a ${deploySrc} ${user}@${destHost}:${destPath}`);
+     }
+
+     deploy_lab(user, deploySrc, hostIP, deployDestPath);
+
+   #+END_SRC

@@ -1,0 +1,22 @@
+{
+    "broadArea": {
+        "name": "",
+        "link": ""
+    },
+    "lab": "",
+    "deployLab": ,
+    "phase": ,
+    "collegeName": "",
+    "baseUrl": "",
+    "introduction": "",
+    "experiments": [],
+    "targetAudience": {
+        "UG": [],
+        "PG": []
+    },
+    "objective": "",
+    "courseAlignment": {
+        "description": "",
+        "universities": []
+    }
+}

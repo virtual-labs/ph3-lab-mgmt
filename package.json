@@ -2,20 +2,19 @@
   "name": "labgen",
   "version": "1.0.0",
   "dependencies": {
+    "fs-extra": "^9.0.0",
     "glob": "7.1.6",
     "handlebars": "4.7.3",
     "jsdom": "16.2.1",
     "minimist": "^1.2.5",
+    "nodegit": "^0.26.5",
     "sass": "1.26.3"
   },
   "description": "",
-  "main": "buildpage.js",
+  "main": "main.js",
   "scripts": {
-      "css": "sass lab-structure/src/themes/green-icon/css/style-main.scss lab-structure/src/themes/green-icon/css/style-main.css",
-      "labgen": "npm run css; node main.js",
-      "test": "npm run labgen data.json ../tlg; cd ../tlg; make; cd build; python3 -m http.server",
-      "clean": "rm -rf ../tlg",
-      "labops": "node managelabs.js"
+    "labgen": "node main.js",
+    "labops": "node managelabs.js"
   },
   "keywords": [],
   "author": "",

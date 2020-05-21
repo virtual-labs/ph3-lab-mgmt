@@ -6,6 +6,47 @@ const { JSDOM } = require("jsdom");
 const child_process = require('child_process');
 const readline = require('readline');
 const url = require('url');
+const NodeGit = require("nodegit");
+const fse = require("fs-extra");
+
+
+
+const labDescriptorFn = "lab-descriptor.json";
+
+
+/* 
+   Copy lab descriptor to the lab repository's working directory.  If a lab-descriptor is already present then don't copy.
+*/
+function copyLabDescriptor(repoDir) {
+  NodeGit.Repository.open(repoDir)
+         .then(function(repo){
+           const ldpath = path.resolve(repoDir, labDescriptorFn);
+           if (fse.existsSync(ldpath)) {
+             console.error("Lab Descriptor Already exists");
+           }
+           else {
+             fse.copySync(labDescriptorFn, ldpath);
+           }
+         })
+         .catch(function(reason){
+           console.log(reason);
+         });
+}
+
+
+
+
+function pushLab(repoDir) {
+  const branch = 'master';
+  const commitMsg = `Lab generated at ${Date.now()}`;
+  child_process.execSync(`cd ${repoDir}; git add src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
+}
+
+
+
+function deploy_lab(user, src, destHost, destPath) {
+  child_process.execSync(`rsync -a ${src} ${user}@${destHost}:${destPath}`);
+}
 
 
 function buildPage(template_file, component_files, content_file) {
@@ -109,7 +150,6 @@ function genComponentHtml(fn, data) {
 
 
 function prepareStructure(labpath){
-  child_process.execSync(`mkdir -p ${labpath}`);
   child_process.execSync(`cp -rf lab-structure/* ${labpath}/`);
   child_process.execSync(`mkdir -p ${labpath}/src/lab`);
 }
@@ -126,32 +166,9 @@ function copyPages(pages, template_file, component_files, labpath){
 }
 
 function generateLab(pages, labpath, template_file, component_files){
-  fs.stat(labpath, function(err, stats) {
-    if (err) { 
-      prepareStructure(labpath);
-      copyPages(pages, template_file, component_files, labpath);
-    }
-    else {
-      console.log("Lab already exists.");
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
-
-      rl.question('Do you want to delete the existing lab(N/Y)[default N]?', (answer) => {
-        if (answer === 'Y'){
-          child_process.execSync(`rm -rf ${labpath}`);
-          rl.close();
-          console.log("creating new");	  
-          prepareStructure(labpath);
-          copyPages(pages, template_file, component_files, labpath);
-        }
-        else {
-          rl.close();
-        }
-      });
-    }
-  });
+  prepareStructure(labpath);
+  copyPages(pages, template_file, component_files, labpath);
+  child_process.execSync(`cd ${labpath}; make`);
 }
 
 
@@ -161,7 +178,6 @@ function dataPreprocess(datafile){
 
   if (data.experiments) {
     data.experiments = data.experiments.map((e) => {
-      //const exp_url = new URL(e.link, data.baseUrl);
       const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
       return {"name": e.name, "link": exp_url.toString()}
     });
@@ -173,9 +189,9 @@ function dataPreprocess(datafile){
         return { 
           "sect-name": es["sect-name"],
           "experiments": es.experiments.map((e) => {
-                          const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
-                          return {"name": e.name, "link": exp_url.toString()}
-                        })
+            const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
+            return {"name": e.name, "link": exp_url.toString()}
+          })
         }; 
       });
       return data;      
@@ -192,10 +208,10 @@ function generateLink(baseUrl, labName, expName, index_fn='') {
   return expUrl;
 }
 
-function run(){
-  const datafile = process.argv[2];
-  const data = dataPreprocess(datafile);
-  const labpath = process.argv[3];
+
+function generate(labpath) {
+  
+  const data = dataPreprocess(path.join(labpath, 'lab-descriptor.json'));
   
   const template_file = "skeleton-new.html";
   const config = JSON.parse(fs.readFileSync('config.json'));
@@ -212,11 +228,31 @@ function run(){
     }
   });
 
-  if (labpath === undefined){
-    const default_lp = path.parse(datafile).name;
-    generateLab(config.pages, default_lp, template_file, component_files);
-  } else {
-    generateLab(config.pages, labpath, template_file, component_files);
+  generateLab(config.pages, labpath, template_file, component_files);
+}
+
+
+function run(){
+  const task = process.argv[2];
+  const labpath = path.resolve(process.argv[3]);
+  const user = process.argv[4];
+  const hostIP = process.argv[5];
+  
+  switch (task) {
+    case 'init':
+      copyLabDescriptor(labpath);
+      break;
+    case 'generate':
+      generate(labpath);
+      pushLab(labpath);
+      break;
+    case 'deploy':      
+      const deploySrc = path.resolve(labpath, "build");
+      const deployDestPath = path.resolve("/var/www/html/", path.basename(labpath));
+      deploy_lab(user, deploySrc, hostIP, deployDestPath);
+      break;
+    default:
+      console.error("unknown task"); 
   }
 }
 

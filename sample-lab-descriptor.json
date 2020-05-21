@@ -1,0 +1,51 @@
+{
+    "broadArea": {
+        "name": "Civil Engineering",
+        "link": "http://vlab.co.in/broad-area-civil-engineering"
+    },
+    "lab": "Fluid Machinery",
+    "deployLab":true,
+    "phase": 3,
+    "collegeName": "NITS",
+    "baseUrl": "http://localhost",
+    "introduction": "Welcome to fluid macninery lab!",
+    "experiments": [
+        {
+            "name": "Performance Characteristics of Centrifugal Pump",
+            "short-name": "centrifugal-pump",
+            "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-centrifugal-pump-nitk.git",
+            "branch": "master",
+            "tag": "v1.0.0",
+            "deploy": true
+        },
+        {
+            "name": "Performance Characteristics of Hydraulic Ram",
+            "short-name": "hydraulic-ram",
+            "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-hydraulic-ram-nitk.git",
+            "branch": "master",
+            "tag": "v1.0.0",
+            "deploy": false
+        }
+    ],
+    "targetAudience": {
+        "UG": [
+            "B. Tech./ B.E in Civil Engineering"
+        ],
+        "PG": [
+            "MS/Ph. D. Beginners in Civil Engineering and related topics"
+        ]
+    },
+    "objective": "Hello World.",
+    "courseAlignment": {
+        "description": "course are listed here:",
+        "universities": [
+            "Visvesvaraya Technological University Karnataka",
+            "National Institute of Technology Karnataka Karnataka",
+            "Anna University Tamil Nadu",
+            "SRM University Delhi - NCR Sonepat Haryana",
+            "University of Kerala Kerala",
+            "APJ Abdul Kalam Technological University Kerala",
+            "CUSAT Kerala"
+        ]
+    }
+}
