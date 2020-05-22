@@ -221,14 +221,16 @@ function generate(labpath) {
 
 
 
-function deployExperiments(labpath) {
-    const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
-    const ldpath = path.resolve(labpath, 'lab-descriptor.json');
-    if(!fse.existsSync('deployment-scripts')){
-        child_process.execSync(`git clone ${expDeploymentRepo}; cd deployment-scripts; git checkout feature-remote-param`);
-    }
-    child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
-    child_process.execSync(`cd deployment-scripts; make all`);
+function deployExperiments(labpath, user, hostIP) {
+  const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
+  const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+  if(!fse.existsSync('deployment-scripts')){
+    child_process.execSync(`git clone ${expDeploymentRepo}; cd deployment-scripts; git checkout feature-remote-param`);
+  }
+  
+  child_process.execSync(`cd deployment-scripts; git pull origin feature-remote-param`);
+  child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
+  child_process.execSync(`cd deployment-scripts; make all user=${user} host=${hostIP}`);
 }
 
 
@@ -269,7 +271,7 @@ function run(){
           console.log(deployDestPath);
           deploy_lab(user, deploySrc, hostIP, deployDestPath);
       }
-      deployExperiments(labpath);
+      deployExperiments(labpath, user, hostIP);
       break;
     default:
       console.error("unknown task"); 
