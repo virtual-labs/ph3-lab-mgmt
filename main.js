@@ -36,8 +36,8 @@ function pushLab(repoDir) {
 
 
 
-function deploy_lab(user, src, destHost, destPath) {
-  child_process.execSync(`rsync -a ${src} ${user}@${destHost}:${destPath}`);
+function deploy_lab(src, destPath) {
+  child_process.execSync(`rsync -a ${src} ${destPath}`);
 }
 
 
@@ -269,7 +269,7 @@ function run(){
           const labname = getLabName(labpath);
           const deployDestPath = path.resolve("/var/www/html/", labname);
           console.log(deployDestPath);
-          deploy_lab(user, deploySrc, hostIP, deployDestPath);
+          deploy_lab(deploySrc, deployDestPath);
       }
       deployExperiments(labpath, user, hostIP);
       break;
