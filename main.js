@@ -31,7 +31,7 @@ function copyLabDescriptor(repoDir) {
 function pushLab(repoDir) {
   const branch = 'master';
   const commitMsg = `Lab generated at ${Date.now()}`;
-  child_process.execSync(`cd ${repoDir}; git add src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
+  child_process.execSync(`cd ${repoDir}; git add lab-descriptor.json src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
 }
 
 
@@ -221,24 +221,38 @@ function generate(labpath) {
 
 
 
-function deployExperiments(labpath, user, hostIP) {
-  const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
+/* function deployExperiments(labpath, user, hostIP) {
+ *   const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
+ *   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+ *   if(!fse.existsSync('deployment-scripts')){
+ *     child_process.execSync(`git clone ${expDeploymentRepo}; cd deployment-scripts; git checkout feature-remote-param`);
+ *   }
+ *   
+ *   child_process.execSync(`cd deployment-scripts; git pull origin feature-remote-param`);
+ *   child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
+ *   child_process.execSync(`cd deployment-scripts; make all user=${user} host=${hostIP}`);
+ * }
+ *  */
+
+function deployExperiments(labpath) {
+  const expDeploymentRepo = 'https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git';
+  const expDeploymentWd = 'ph3-beta-to-ui3.0-conv';
+  const branch = 'develop';
   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
-  if(!fse.existsSync('deployment-scripts')){
-    child_process.execSync(`git clone ${expDeploymentRepo}; cd deployment-scripts; git checkout feature-remote-param`);
+  if(!fse.existsSync(expDeploymentWd)){
+    child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git checkout ${branch}`);
   }
   
-  child_process.execSync(`cd deployment-scripts; git pull origin feature-remote-param`);
-  child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
-  child_process.execSync(`cd deployment-scripts; make all user=${user} host=${hostIP}`);
+  child_process.execSync(`cd ${expDeploymentWd}; git pull origin ${branch}`);
+  child_process.execSync(`cp ${ldpath} ${expDeploymentWd}/experiment-list.json`);
+  child_process.execSync(`cd ${expDeploymentWd}; make host-experiments`);
 }
 
 
-
 function getLabName(labpath) {
-    const ldpath = path.resolve(labpath, 'lab-descriptor.json');
-    const labdesc = require(ldpath);
-    return toDirName(labdesc.lab);
+  const ldpath = path.resolve(labpath, 'lab-descriptor.json');
+  const labdesc = require(ldpath);
+  return toDirName(labdesc.lab);
 }
 
 
@@ -271,7 +285,7 @@ function run(){
           console.log(deployDestPath);
           deploy_lab(deploySrc, deployDestPath);
       }
-      deployExperiments(labpath, user, hostIP);
+      deployExperiments(labpath);
       break;
     default:
       console.error("unknown task"); 
