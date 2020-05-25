@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-05-25 Mon 23:26 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lab Descriptor</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="ojas" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="../org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="../org-html-themes/styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="../org-html-themes/styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="../org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Lab Descriptor</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcd1c754">1. Introduction</a></li>
+<li><a href="#org0cdbdf3">2. Lab Descriptor Structure</a></li>
+<li><a href="#org939ce02">3. Experiment</a>
+<ul>
+<li><a href="#org194bd0e">3.1. Example</a></li>
+</ul>
+</li>
+<li><a href="#org97cd3cb">4. Empty Lab descriptor</a></li>
+<li><a href="#org103f797">5. Sample Lab Descriptor</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcd1c754" class="outline-2">
+<h2 id="orgcd1c754"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Lab Descriptor is a json file that contains information about
+generation, and deployment of lab pages and related experiments.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0cdbdf3" class="outline-2">
+<h2 id="org0cdbdf3"><span class="section-number-2">2</span> Lab Descriptor Structure</h2>
+<div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Field</th>
+<th scope="col" class="org-left">Sub Field</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>boradArea</b></td>
+<td class="org-left"><i>name</i></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Broad Area (Domain) name</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>link</i></td>
+<td class="org-left"><code>URL</code></td>
+<td class="org-left">Link to the page on vlab.co.in that</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">lists all labs in the domain.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>baseUrl</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>URL</code></td>
+<td class="org-left">A URL has <code>host</code> and <code>url-path</code>.  baseUrl</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">contains the <code>host</code> part of the lab.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>lab</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Lab name as displayed on lab pages.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>deployLab</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>Boolean</code></td>
+<td class="org-left">Should the lab be deployed?</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>phase</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>number</code></td>
+<td class="org-left">Virtual Labs Phase</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>collegeName</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Name of authoring college.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>introduction</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Contents of the <code>Introduction.html</code> page.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>experiments</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>List Experiment</code></td>
+<td class="org-left">List of Experiments.  Each item in this list</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">is an <code>Experiment</code> object.  <code>Experiment</code> object</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">is described <a href="#org939ce02">here</a>. This list is used for</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">populating the <code>List Of Experiments.html</code> page</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and for deployment of experiments.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>experiment-sections</b></td>
+<td class="org-left"><i>sect-name</i></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">This is required when list of experiments is a</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">nested list. (ex: Data Structures Lab). Otherwise</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">just use <b>experiments</b> and ommit</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><b>experiment-sections</b>.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>experiments</i></td>
+<td class="org-left"><code>List Experiment</code></td>
+<td class="org-left">List of experiments in a section.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>targetAudience</b></td>
+<td class="org-left"><i>UG</i></td>
+<td class="org-left"><code>List String</code></td>
+<td class="org-left">List of UG degrees, that the lab is targeted</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">towards.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>PG</i></td>
+<td class="org-left"><code>List String</code></td>
+<td class="org-left">List of PG degrees that the lab is targeted</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">towards.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>objective</b> [optional]</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Content for <code>Objective.html</code> page. This field is</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">optional.  If this is omitted then <code>Objective.html</code></td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">page is not generated.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>courseAlignment</b></td>
+<td class="org-left"><i>description</i></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Content for <code>Course Alignment.html</code> page.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>universities</i></td>
+<td class="org-left"><code>List String</code></td>
+<td class="org-left">Content for <code>Course Alignment.html</code> page.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org939ce02" class="outline-2">
+<h2 id="org939ce02"><span class="section-number-2">3</span> Experiment</h2>
+<div class="outline-text-2" id="text-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Field</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>name</b></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Name of the Experiment as displayed on</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">the Experiment pages.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>short-name</b></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Unique short name for the experiment.</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Used in the url path for the experiment.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>repo</b></td>
+<td class="org-left"><code>URL</code></td>
+<td class="org-left">URL of the remote repository for the</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">experiment sources.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>branch</b></td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Branch of the remote repository to be used.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>tag</b> [TODO]</td>
+<td class="org-left"><code>String</code></td>
+<td class="org-left">Tag of the repository to be used.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>deploy</b> [TODO]</td>
+<td class="org-left"><code>Boolean</code></td>
+<td class="org-left">Should the experiment be deployed.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org194bd0e" class="outline-3">
+<h3 id="org194bd0e"><span class="section-number-3">3.1</span> Example</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-js">
+{
+    <span style="color: #8b2252;">"name"</span>: <span style="color: #8b2252;">"Performance Characteristics of Centrifugal Pump"</span>,
+    <span style="color: #8b2252;">"short-name"</span>: <span style="color: #8b2252;">"centrifugal-pump"</span>,
+    <span style="color: #8b2252;">"repo"</span>: <span style="color: #8b2252;">"http://vlabs.ac.in/gitlab/central-hosting/fluid/centrifugal-pump-nitk.git"</span>,
+    <span style="color: #8b2252;">"branch"</span>: <span style="color: #8b2252;">"master"</span>,
+    <span style="color: #8b2252;">"tag"</span>: <span style="color: #8b2252;">"v1.0.1"</span>
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97cd3cb" class="outline-2">
+<h2 id="org97cd3cb"><span class="section-number-2">4</span> Empty Lab descriptor</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Following is a lab descriptor file which has not been filled.  Use
+this as a starting point to create the lab descriptor for your lab.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">{
+    <span style="color: #8b2252;">"broadArea"</span>: {
+        <span style="color: #8b2252;">"name"</span>: <span style="color: #8b2252;">""</span>,
+        <span style="color: #8b2252;">"link"</span>: <span style="color: #8b2252;">""</span>
+    },
+    <span style="color: #8b2252;">"lab"</span>: <span style="color: #8b2252;">""</span>,
+    <span style="color: #8b2252;">"deployLab"</span>: ,
+    <span style="color: #8b2252;">"phase"</span>: ,
+    <span style="color: #8b2252;">"collegeName"</span>: <span style="color: #8b2252;">""</span>,
+    <span style="color: #8b2252;">"baseUrl"</span>: <span style="color: #8b2252;">""</span>,
+    <span style="color: #8b2252;">"introduction"</span>: <span style="color: #8b2252;">""</span>,
+    <span style="color: #8b2252;">"experiments"</span>: [],
+    <span style="color: #8b2252;">"targetAudience"</span>: {
+        <span style="color: #8b2252;">"UG"</span>: [],
+        <span style="color: #8b2252;">"PG"</span>: []
+    },
+    <span style="color: #8b2252;">"objective"</span>: <span style="color: #8b2252;">""</span>,
+    <span style="color: #8b2252;">"courseAlignment"</span>: {
+        <span style="color: #8b2252;">"description"</span>: <span style="color: #8b2252;">""</span>,
+        <span style="color: #8b2252;">"universities"</span>: []
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org103f797" class="outline-2">
+<h2 id="org103f797"><span class="section-number-2">5</span> Sample Lab Descriptor</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Following lab descriptor is used for testing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">
+{
+    <span style="color: #8b2252;">"broadArea"</span>: {
+        <span style="color: #8b2252;">"name"</span>: <span style="color: #8b2252;">"Civil Engineering"</span>,
+        <span style="color: #8b2252;">"link"</span>: <span style="color: #8b2252;">"http://vlab.co.in/broad-area-civil-engineering"</span>
+    },
+    <span style="color: #8b2252;">"lab"</span>: <span style="color: #8b2252;">"Fluid Machinery"</span>,
+    <span style="color: #8b2252;">"deployLab"</span>:<span style="color: #008b8b;">true</span>,
+    <span style="color: #8b2252;">"phase"</span>: 3,
+    <span style="color: #8b2252;">"collegeName"</span>: <span style="color: #8b2252;">"NITS"</span>,
+    <span style="color: #8b2252;">"baseUrl"</span>: <span style="color: #8b2252;">"http://localhost"</span>,
+    <span style="color: #8b2252;">"introduction"</span>: <span style="color: #8b2252;">"Welcome to fluid macninery lab!"</span>,
+    <span style="color: #8b2252;">"experiments"</span>: [
+        {
+            <span style="color: #8b2252;">"name"</span>: <span style="color: #8b2252;">"Performance Characteristics of Centrifugal Pump"</span>,
+            <span style="color: #8b2252;">"short-name"</span>: <span style="color: #8b2252;">"centrifugal-pump"</span>,
+            <span style="color: #8b2252;">"repo"</span>: <span style="color: #8b2252;">"http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-centrifugal-pump-nitk.git"</span>,
+            <span style="color: #8b2252;">"branch"</span>: <span style="color: #8b2252;">"master"</span>,
+            <span style="color: #8b2252;">"tag"</span>: <span style="color: #8b2252;">"v1.0.0"</span>,
+            <span style="color: #8b2252;">"deploy"</span>: <span style="color: #008b8b;">true</span>
+        },
+        {
+            <span style="color: #8b2252;">"name"</span>: <span style="color: #8b2252;">"Performance Characteristics of Hydraulic Ram"</span>,
+            <span style="color: #8b2252;">"short-name"</span>: <span style="color: #8b2252;">"hydraulic-ram"</span>,
+            <span style="color: #8b2252;">"repo"</span>: <span style="color: #8b2252;">"http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-hydraulic-ram-nitk.git"</span>,
+            <span style="color: #8b2252;">"branch"</span>: <span style="color: #8b2252;">"master"</span>,
+            <span style="color: #8b2252;">"tag"</span>: <span style="color: #8b2252;">"v1.0.0"</span>,
+            <span style="color: #8b2252;">"deploy"</span>: <span style="color: #008b8b;">false</span>
+        }
+    ],
+    <span style="color: #8b2252;">"targetAudience"</span>: {
+        <span style="color: #8b2252;">"UG"</span>: [
+            <span style="color: #8b2252;">"B. Tech./ B.E in Civil Engineering"</span>
+        ],
+        <span style="color: #8b2252;">"PG"</span>: [
+            <span style="color: #8b2252;">"MS/Ph. D. Beginners in Civil Engineering and related topics"</span>
+        ]
+    },
+    <span style="color: #8b2252;">"objective"</span>: <span style="color: #8b2252;">"Hello World."</span>,
+    <span style="color: #8b2252;">"courseAlignment"</span>: {
+        <span style="color: #8b2252;">"description"</span>: <span style="color: #8b2252;">"course are listed here:"</span>,
+        <span style="color: #8b2252;">"universities"</span>: [
+            <span style="color: #8b2252;">"Visvesvaraya Technological University Karnataka"</span>,
+            <span style="color: #8b2252;">"National Institute of Technology Karnataka Karnataka"</span>,
+            <span style="color: #8b2252;">"Anna University Tamil Nadu"</span>,
+            <span style="color: #8b2252;">"SRM University Delhi - NCR Sonepat Haryana"</span>,
+            <span style="color: #8b2252;">"University of Kerala Kerala"</span>,
+            <span style="color: #8b2252;">"APJ Abdul Kalam Technological University Kerala"</span>,
+            <span style="color: #8b2252;">"CUSAT Kerala"</span>
+        ]
+    }
+}  
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: ojas</p>
+<p class="date">Created: 2020-05-25 Mon 23:26</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

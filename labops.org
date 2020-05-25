@@ -1,0 +1,10 @@
+
+* To deploy experiments of a lab
+
+  This does not apply to the phase 3 labs.
+
+  #+BEGIN_SRC bash
+
+  npm run labops -- tasks:CBD data.json
+  
+  #+END_SRC
