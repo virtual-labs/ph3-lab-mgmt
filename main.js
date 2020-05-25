@@ -206,17 +206,16 @@ function generate(labpath) {
   const config = JSON.parse(fs.readFileSync('config.json'));
   const component_files = config.commonComponents;
   
-  glob('page-templates/*.handlebars', (err, fns) => {
-    if ((data.experiments === undefined) && (data["experiment-sections"] !== undefined)){      
-      fns.forEach((fn) => genComponentHtml(fn, data));
+  const fns = glob.sync('page-templates/*.handlebars');
+  if ((data.experiments === undefined) && (data["experiment-sections"] !== undefined)){      
+    fns.forEach((fn) => genComponentHtml(fn, data));
+  }
+  else {
+    if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){        
+      fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
     }
-    else {
-      if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){        
-        fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
-      }
-    }
-    generateLab(config.pages, labpath, template_file, component_files);
-  });
+  }
+  generateLab(config.pages, labpath, template_file, component_files);
 }
 
 
