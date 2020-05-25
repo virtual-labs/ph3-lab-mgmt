@@ -155,6 +155,7 @@ function copyPages(pages, template_file, component_files, labpath){
 }
 
 function generateLab(pages, labpath, template_file, component_files){
+  child_process.execSync(`cd ${labpath}; git checkout master; git pull origin master`);
   prepareStructure(labpath);
   copyPages(pages, template_file, component_files, labpath);
   child_process.execSync(`cd ${labpath}; make`);
@@ -260,7 +261,6 @@ function toDeployLab(labpath) {
   const labdesc = require(ldpath);
   return labdesc.deployLab;
 }
-
 
 function run(){
   const task = process.argv[2];
