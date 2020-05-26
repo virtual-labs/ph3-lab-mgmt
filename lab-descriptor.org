@@ -72,8 +72,6 @@
   | *repo*          | =URL=     | URL of the remote repository for the        |
   |                 |           | experiment sources.                         |
   |-----------------+-----------+---------------------------------------------|
-  | *branch*        | =String=  | Branch of the remote repository to be used. |
-  |-----------------+-----------+---------------------------------------------|
   | *tag* [TODO]    | =String=  | Tag of the repository to be used.           |
   |-----------------+-----------+---------------------------------------------|
   | *deploy* [TODO] | =Boolean= | Should the experiment be deployed.          |
@@ -145,7 +143,6 @@
                 "name": "Performance Characteristics of Centrifugal Pump",
                 "short-name": "centrifugal-pump",
                 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-centrifugal-pump-nitk.git",
-                "branch": "master",
                 "tag": "v1.0.0",
                 "deploy": true
             },
@@ -153,9 +150,8 @@
                 "name": "Performance Characteristics of Hydraulic Ram",
                 "short-name": "hydraulic-ram",
                 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-hydraulic-ram-nitk.git",
-                "branch": "master",
                 "tag": "v1.0.0",
-                "deploy": false
+                "deploy": true
             }
         ],
         "targetAudience": {

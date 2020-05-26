@@ -14,7 +14,6 @@
             "name": "Performance Characteristics of Centrifugal Pump",
             "short-name": "centrifugal-pump",
             "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-centrifugal-pump-nitk.git",
-            "branch": "master",
             "tag": "v1.0.0",
             "deploy": true
         },
@@ -22,7 +21,6 @@
             "name": "Performance Characteristics of Hydraulic Ram",
             "short-name": "hydraulic-ram",
             "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-hydraulic-ram-nitk.git",
-            "branch": "master",
             "tag": "v1.0.0",
             "deploy": false
         }
