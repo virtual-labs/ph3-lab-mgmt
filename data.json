@@ -1,70 +1,79 @@
 {
     "broadArea": {
-	"name": "Civil Engineering",
-	"link": "http://vlab.co.in/broad-area-civil-engineering"
+        "name": "Mechanical Engineering",
+        "link": "http://vlab.co.in/broad-area-civil-engineering"
     },
-	"lab": "Fluid Machinery",	
-	"phase": "3",
-	"collegeName": "NITS",
-    "baseUrl": "http://fmc-nitk.vlabs.ac.in",
-	"introduction": "Welcome to the Fluid Machinery Lab",
-	"experiments": [
-	    {
-			"name": "Performance Characteristics of Centrifugal Pump",
-			"short-name": "centrifugal-pump",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-centrifugal-pump-nitk.git",
-			"branch": "master"
-	    }, {
-			"name": "Performance Characteristics of Hydraulic Ram",
-			"short-name": "hydraulic-ram",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-hydraulic-ram-nitk.git",
-			"branch": "master"			
-	    }, {
-			"name": "Performance Characteristics of Kaplan Turbine",
-			"short-name": "kaplan-turbine",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-kaplan-turbine-nitk.git",
-			"branch": "master"
-	    }, {
-			"name": "Double Acting Reciprocating Pump",
-			"short-name": "reciprocating-pump",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/double-acting-reciprocating-pump-nitk.git",
-			"branch": "master"
-	    }, {
-			"name": "Performance Characteristics of Pelton Turbine",
-			"short-name": "pelton-turbine",
-			"repo": "http://vlabs.iitb.ac.in/vlabs-dev/labs/nitk_labs/fluid-machinary-lab/labs/performance-characteristics-pelton-turbine-nitk/index.html",
-			"branch": "master"
-	    }, {
-			"name": "Pipe Bursting",
-			"short-name": "pipe-bursting",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/pipe-bursting-nitk.git",
-			"branch": "master"
-	    }, {
-			"name": "Performance Characteristics of Francis Turbine",
-			"short-name": "francis-turbine",
-			"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/fluid-machinery-nitk/performance-characteristics-francis-turbine-nitk.git",
-			"branch": "master"
-        }
+    "lab": "Dynamics of Machine",
+    "phase": "3",
+    "collegeName": "NITS",	
+    "baseUrl": "http://dom-nitk.vlabs.ac.in",
+        "introduction": "Dynamics of Machine Lab refers to study and simulation of a system's motion based on forces acting on it. These experiments aim at enhancing the knowledge of students on force analysis in a dynamic system and improve the understanding of inertial effects on them. This lab covers the basic concept of courses on Kinematics of Machine, Dynamics of Machine, Robotics and Vehicle Dynamics.",
+        "experiments": [
+
+	       {
+                "name": "Proell Governer",
+		"short-name": "proell-governet",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/proell-governor-nitk.git",
+                "branch": "master"
+            }, {
+                "name": "Porter Governer",
+		"short-name": "porter-governer",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/porter-governer-nitk.git",
+                "branch": "master"
+            },  {
+                "name": "Hartnell Governer",
+		"short-name": "hartnell-governer",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/hartnell-governer-nitk.git",
+                "branch": "master"
+            }, {
+                "name": "Dynamics analysis of slider crank mechanism",
+		"short-name": "slider-crank-mechanism",	
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/slider-crank-mechanism-nitk.git",
+                "branch": "master"
+            }, {
+                "name": "Dynamics analysis of Four bar mechanism",
+                "short-name": "four-bar-mechanism",
+		"repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/four-bar-mechanism-nitk.git",
+                "branch": "master"
+            },  {
+                "name": "Balancing of multiple mass in single plane",
+		"short-name":"multiple-mass-in-single-plane",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/balancing-multiple-mass-single-plane-nitk.git",
+                "branch": "master"
+            }, {
+                "name": "Balancing of Multiple Mass in Multiple Plane",
+		"short-name": "muliple-mass-in-multiple-plane",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/balancing-multiple-mass-multiple-plane-nitk.git",
+                "branch": "master"
+            }, {
+                "name": "Disc Type Flywheel",
+		"short-name": "disc-type-flywheel",	
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/disc-type-flywheel-nitk.git",
+                "branch": "master"
+           }, {
+                "name": "Rim Type Flywheel",
+		"short-name": "rim-type-flywheel",
+                "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/dynamics-of-machine-nitk/rim-type-flywheel-nitk.git",
+                "branch": "master"
+	   }
     ],
     "targetAudience": {
 	"UG": [
-	    "B. Tech./ B.E in Civil Engineering"
+	    "B.E/B.Tech in Mechanical Engineering, Automobile Engineering, Mechatronics Engineering, Production Engineering, Power Engineering and Aeronautical Engineering."
 	],
 	"PG": [
-	    "MS/Ph. D. Beginners in Civil Engineering and related topics"
+	    "M.Tech/MS in Design Engineering and Manufacturing Engineering."
 	]
     },
-    "objective": "Many of our daily life activity depends on fluid machinery so it is important to understand the functioning principles and characteristics of such machinery from an engineering point of view. This lab focuses on giving the user an idea about practical behaviour of such machines before performing operations on a real system.",
     "courseAlignment": {
 	"description": "The syllabi of this lab aligns to the following universities in India.",
 	"universities": [
-	    "Visvesvaraya Technological University Karnataka",
-	    "National Institute of Technology Karnataka Karnataka",
-	    "Anna University Tamil Nadu",
-	    "SRM University Delhi - NCR Sonepat Haryana",
-	    "University of Kerala Kerala",
-	    "APJ Abdul Kalam Technological University Kerala",
-	    "CUSAT Kerala"
+	    "Visvesvaraya Technological University",
+	     "Kerala Technological University",
+             "Anna University",
+	     "Goa University",
+             "Cochin University of Science and Technology (CUSAT)",
+	     "Dr. A.P.J. Abdul Kalam Technical University, Lucknow"
 	]
     }
 }
