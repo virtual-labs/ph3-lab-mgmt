@@ -1,0 +1,143 @@
+{
+    "broadArea": {
+	"name": "Computer Science and Engineering",
+	"link": "http://vlab.co.in/broad-area-computer-science-and-engineering"
+    },
+    "lab": "Data Structures – 1",
+    "phase": "3",
+    "collegeName": "IIITH",
+    "baseUrl": "http://ds1-iiith.vlabs.ac.in/",
+	"introduction": "Welcome to the Data Structures Lab - I developed at IIIT Hyderabad. Data Structures (also called Data Structures and Algorithms in some places) is a core course in all computer science undergraduate curricula. The course is the basis for understanding several data structures and also algorithms that operate on them. The course forms the foundation for almost all computer science subjects: compilers, operating systems, databases, AI and software engineering. The course comes with a lab in most universities in India. The associated lab in university curricula focuses on implementation of algorithms operating on the data structures, i.e., coding programs on the data structures and algorithms. Students embarking on the task of writing programs, however, often have difficulty visualizing how operations and algorithms modify a data structure. As a result students are often unable to understand or show the execution of an algorithm on a given data structure and write code effectively. Furthermore, students are unable to visually reason about the time and space complexities associated with an algorithm running on a data structure. The interactive experiments in this lab will give the students an opportunity for learning and better understanding of using algorithms.",
+	"experiment-sections":[
+	    {
+			"sect-name": "Sorting",
+			"experiments": [
+				{
+					"name": "Bubble Sort",
+					"short-name": "bubble-sort",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/bubble-sort",
+					"branch": "master"
+				},
+				{
+					"name": "Merge Sort",
+					"short-name": "mergesort",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/mergesort-winter",
+					"branch": "master"
+				},
+				{
+					"name": "Heap Sort",
+					"short-name": "heapsort",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/heap-sort",
+					"branch": "master"
+				},
+				{
+					"name": "Quick Sort",
+					"short-name": "quicksort",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/quicksort-summer-2019",
+					"branch": "master"
+				}
+			]		
+	    },	    
+	    {
+			"sect-name": "Graphs",
+			"experiments": [
+				{
+					"name": "Depth First Search",
+					"short-name": "dfs",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/depth-first-search",
+					"branch": "master"
+				},
+				{
+					"name": "Breadth First Search",
+					"short-name": "bfs",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/breadth-first-search",
+					"branch": "master"
+				}
+			]		
+		},
+		{
+			"sect-name": "Trees",
+			"experiments": [
+				{
+					"name": "Tree Traversal",
+					"short-name": "tt",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/tree-traversal",
+					"branch": "master"
+				},
+				{
+					"name": "Binary Search Tree",
+					"short-name": "bst",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/binary-search-trees",
+					"branch": "master"
+				}
+			]		
+		},
+		{
+			"sect-name": "Stacks and Queues",
+			"experiments": [
+				{
+					"name": "Stacks and Queues",
+					"short-name": "sq",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/stacks-and-queues",
+					"branch": "master"
+				},
+				{
+					"name": "Infix to Postfix",
+					"short-name": "infixpostfix",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/infix-to-postfix",
+					"branch": "master"
+				}
+			]		
+		},
+		{
+			"sect-name": "Searching",
+			"experiments": [
+				{
+					"name": "Unsorted Arrays vs. Binary search",
+					"short-name": "unsorted-arrays",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/unsorted-arrays-vs-binary-search",
+					"branch": "master"
+				},
+				{
+					"name": "Hashtables",
+					"short-name": "hashtables",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/hash-tables",
+					"branch": "master"
+				}
+			]		
+		},
+		{
+			"sect-name": "Linked Lists",
+			"experiments": [
+				{
+					"name": "Linked lists",
+					"short-name": "linkedlists",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/linked-list",
+					"branch": "master"
+				},
+				{
+					"name": "Polynomial Arithmetic using linked lists",
+					"short-name": "polynomial-arithmetic",
+					"repo": "https://gitlab.com/vlead-projects/experiments/ds/poly-arithmetic-summer-2019",
+					"branch": "master"
+				}
+			]		
+		}
+	],
+    "targetAudience": {
+	"UG": [
+	    " Data Structures & Algorithms for 1st & 2nd year B. Tech./ B.E in Computer Science & Information Technology <br/>- B.Sc / B.S in Computer Science "
+	],
+	"PG": [
+	    "Computer Science, Information Technology, Compilers, Operating systems, Databases, AI and Software engineering. <br/> - Ph. D. Beginners"
+	]
+    },
+    "objective": "The Virtual Lab for Data Structures will focus on creating an environment where the student interactively explores data structures. The role of this Virtual Labs is to complement the lectures and reading material and the programming lab in three ways : 1. Present visual animations of data structures 2. Allow students to interactively execute algorithms in these data structures. 3. Allow students to interactively compute the cost of using these data structures with different algorithms.",
+    "courseAlignment": {
+	"description": "The syllabi of this lab aligns to the following universities in India.",
+	"universities": [
+	    "Osmania University Data Structures Lab",
+	    "JNTU Data Structures Lab"
+	]
+    }
+}
