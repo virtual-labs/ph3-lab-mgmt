@@ -225,7 +225,7 @@ function generate(labpath) {
 function deployExperiments(labpath) {
   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
   const ld = require(ldpath);
-  if (ld.exptype === 'iiith') {
+  if (ld.collegeName === 'IIITH') {
     iiith_exp_manage(ld);
     return;
   }
