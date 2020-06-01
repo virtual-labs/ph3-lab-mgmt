@@ -7,14 +7,14 @@ const child_process = require('child_process');
 const readline = require('readline');
 const url = require('url');
 const fse = require("fs-extra");
-
+const {StringDecoder} = require('string_decoder');
 
 const labDescriptorFn = "lab-descriptor.json";
 
 
 /* 
    Copy lab descriptor to the lab repository's working directory.  If a lab-descriptor is already present then don't copy.
-*/
+ */
 function copyLabDescriptor(repoDir) {
   const ldpath = path.resolve(repoDir, labDescriptorFn);
   if (fse.existsSync(ldpath)) {
@@ -28,9 +28,24 @@ function copyLabDescriptor(repoDir) {
 
 
 function pushLab(repoDir) {
+
+  console.log(repoDir);
+  const res = child_process.execSync(`cd ${repoDir}; git describe --tags`);
+  const dc = new StringDecoder('utf-8');
+  const tag = Buffer.from(res);  
+  
   const branch = 'master';
   const commitMsg = `Lab generated at ${Date.now()}`;
   child_process.execSync(`cd ${repoDir}; git add lab-descriptor.json src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
+  let version = 0;
+  if (tag.includes('fatal')) {
+    version = 0;
+  }
+  else {
+    version = parseInt(tag.slice(1))+1;
+  }
+  console.log(version);
+  child_process.execSync(`cd ${repoDir}; git tag -a v${version} -m "version ${version}"; git push origin v${version}`);
 }
 
 
@@ -346,11 +361,11 @@ function run(){
       break;
     case 'deploy':      
       if (toDeployLab(labpath)) {
-          const deploySrc = labpath + '/build/*';
-          const labname = getLabName(labpath);
-          const deployDestPath = path.resolve("/var/www/html/", labname);
-          console.log(deployDestPath);
-          deploy_lab(deploySrc, deployDestPath);
+        const deploySrc = labpath + '/build/*';
+        const labname = getLabName(labpath);
+        const deployDestPath = path.resolve("/var/www/html/", labname);
+        console.log(deployDestPath);
+        deploy_lab(deploySrc, deployDestPath);
       }
       deployExperiments(labpath);
       break;
