@@ -15,6 +15,10 @@
 	    "target": "List of experiments.html"
 	},
 	{
+	    "src": "nested-list-of-experiments-ctnt.html",
+	    "target": "List of experiments.html"
+	},
+	{
 	    "src": "objective-ctnt.html",
 	    "target": "Objective.html"
 	},
@@ -31,7 +35,7 @@
 	    "target": "Feedback.html"
 	}
     ],
-    "exp_dir" : "experiments",
+    "exp_dir" : "exprepos",
     "common_repo_name" : "content-html",
     "deployment_dest" : "/var/www/html"
 }

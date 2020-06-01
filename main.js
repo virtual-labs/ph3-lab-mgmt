@@ -9,7 +9,6 @@ const url = require('url');
 const fse = require("fs-extra");
 
 
-
 const labDescriptorFn = "lab-descriptor.json";
 
 
@@ -155,7 +154,8 @@ function copyPages(pages, template_file, component_files, labpath){
 }
 
 function generateLab(pages, labpath, template_file, component_files){
-  child_process.execSync(`cd ${labpath}; git checkout master; git pull origin master`);
+  //child_process.execSync(`cd ${labpath}; git checkout master; git pull origin master`);
+  child_process.execSync(`cd ${labpath}`);
   prepareStructure(labpath);
   copyPages(pages, template_file, component_files, labpath);
   child_process.execSync(`cd ${labpath}; make`);
@@ -179,7 +179,7 @@ function dataPreprocess(datafile){
         return { 
           "sect-name": es["sect-name"],
           "experiments": es.experiments.map((e) => {
-            const exp_url = generateLink(data.baseUrl, data.lab, e['short-name']);
+            const exp_url = generateLink(data.baseUrl, data.lab, e['short-name'], index_fn='exp.html');
             return {"name": e.name, "link": exp_url.toString()}
           })
         }; 
@@ -190,7 +190,7 @@ function dataPreprocess(datafile){
 }
 
 function toDirName(n) {
-  return n.toLowerCase().split(' ').join('-');
+  return n.toLowerCase().trim().replace(/–/g, '').replace(/ +/g, '-');
 }
 
 function generateLink(baseUrl, labName, expName, index_fn='') {
@@ -210,44 +210,41 @@ function generate(labpath) {
   const fns = glob.sync('page-templates/*.handlebars');
   if ((data.experiments === undefined) && (data["experiment-sections"] !== undefined)){      
     fns.forEach((fn) => genComponentHtml(fn, data));
+    config.pages = config.pages.filter((p) => !(p.src === 'list-of-experiments-ctnt.html'));
   }
   else {
     if ((data.experiments !== undefined) && (data["experiment-sections"] === undefined)){        
       fns.filter((fn) => !(fn.includes("nested"))).forEach((fn) => genComponentHtml(fn, data));
     }
+    config.pages = config.pages.filter((p) => !(p.src === 'nested-list-of-experiments-ctnt.html'));
   }
   generateLab(config.pages, labpath, template_file, component_files);
 }
 
 
-
-/* function deployExperiments(labpath, user, hostIP) {
- *   const expDeploymentRepo = 'https://gitlab.com/vlead-systems/host-ph3-exp-ui-3.0/deployment-scripts.git';
- *   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
- *   if(!fse.existsSync('deployment-scripts')){
- *     child_process.execSync(`git clone ${expDeploymentRepo}; cd deployment-scripts; git checkout feature-remote-param`);
- *   }
- *   
- *   child_process.execSync(`cd deployment-scripts; git pull origin feature-remote-param`);
- *   child_process.execSync(`cp ${ldpath} deployment-scripts/experiment-list.json`);
- *   child_process.execSync(`cd deployment-scripts; make all user=${user} host=${hostIP}`);
- * }
- *  */
-
 function deployExperiments(labpath) {
-  const expDeploymentRepo = 'https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git';
-  const expDeploymentWd = 'ph3-beta-to-ui3.0-conv';
-  const branch = 'develop';
   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
-  if(!fse.existsSync(expDeploymentWd)){
-    child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git checkout ${branch}`);
+  const ld = require(ldpath);
+  if (ld.exptype === 'iiith') {
+    iiith_exp_manage(ld);
+    return;
   }
-  
-  child_process.execSync(`cd ${expDeploymentWd}; git pull origin ${branch}`);
-  child_process.execSync(`cp ${ldpath} ${expDeploymentWd}/experiment-list.json`);
-  child_process.execSync(`cd ${expDeploymentWd}; make host-experiments`);
+  else {
+    
+    const expDeploymentRepo = 'https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git';
+    const expDeploymentWd = 'ph3-beta-to-ui3.0-conv';
+    //const branch = 'develop';
+    const branch = 'footer-license';
+    
+    if(!fse.existsSync(expDeploymentWd)){
+      child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git checkout ${branch}`);
+    }
+    
+    child_process.execSync(`cd ${expDeploymentWd}; git pull origin ${branch}`);
+    child_process.execSync(`cp ${ldpath} ${expDeploymentWd}/experiment-list.json`);
+    child_process.execSync(`cd ${expDeploymentWd}; make host-experiments`);
+  }
 }
-
 
 function getLabName(labpath) {
   const ldpath = path.resolve(labpath, 'lab-descriptor.json');
@@ -262,6 +259,80 @@ function toDeployLab(labpath) {
   return labdesc.deployLab;
 }
 
+
+// --- iiit exp
+
+function iiithexp_clone(experiments, exp_dir, common_repo_name) {
+  console.log("\nClone\n");
+  console.log(exp_dir);
+  experiments.forEach((e) => {
+    const ename = toDirName(e.name);
+    child_process.execSync(`mkdir -p ${exp_dir}/${ename}`);
+    child_process.execSync(
+      `cd ${exp_dir}/${ename}; rm -rf ${common_repo_name};
+         git clone ${e.repo}/${common_repo_name}; cd ${common_repo_name}; git fetch --all; git checkout ${e.tag}`
+    );
+    console.log('cloned');
+  });
+}
+
+function iiithexp_build(experiments, exp_dir, common_repo_name) {
+  console.log("\nBuild\n");
+  experiments.forEach((e) => {
+    const ename = toDirName(e.name);
+    console.log(`building ${ename}`);
+    child_process.execSync(
+      `cd ${exp_dir}/${ename}/${common_repo_name}; 
+       cp config.mk.sample config.mk; make -sk all`
+    );
+    
+  });
+}
+
+
+function iiithexp_deploy(experiments, exp_dir, common_repo_name, deployment_dest) {
+  console.log("\nDeploy\n");
+  experiments.forEach((e) => {
+    const ename = toDirName(e.name);
+    child_process.execSync(
+      `mkdir -p ${deployment_dest}/exp/${ename}; 
+       cp -rf ${exp_dir}/${ename}/${common_repo_name}/build/* ${deployment_dest}/exp/${ename}`
+    );
+    console.log(`${ename} deployed to ${deployment_dest}`);
+  });
+}
+
+
+function iiithexp_getExpList(data){
+  if (data.experiments){
+    const experiments = data.experiments;
+    return experiments;
+  }
+  else {
+    const experiments = data['experiment-sections'].map((es) => es.experiments).flat();
+    return experiments;
+  }
+}
+
+
+function iiith_exp_manage(lab_descriptor) {
+  
+  const config = require('./config.json');
+  const exp_dir = config['exp_dir'];
+  const common_repo_name = config['common_repo_name'];
+  const deployment_dest = config['deployment_dest'];
+  const lab_dir_name = toDirName(lab_descriptor.lab);
+  const deployment_path = path.join(deployment_dest, lab_dir_name);
+  const experiments = iiithexp_getExpList(lab_descriptor);
+  
+  iiithexp_clone(experiments, exp_dir, common_repo_name);
+  iiithexp_build(experiments, exp_dir, common_repo_name);
+  iiithexp_deploy(experiments, exp_dir, common_repo_name, deployment_path);
+}
+
+// --- iiit exp
+
+
 function run(){
   const task = process.argv[2];
   const labpath = path.resolve(process.argv[3]);
@@ -274,9 +345,9 @@ function run(){
       break;
     case 'generate':
       generate(labpath);
-      pushLab(labpath);
+      //pushLab(labpath);
       break;
-    case 'deploy':
+    case 'deploy':      
       if (toDeployLab(labpath)) {
           const deploySrc = labpath + '/build/*';
           const labname = getLabName(labpath);
