@@ -154,7 +154,7 @@ function copyPages(pages, template_file, component_files, labpath){
 }
 
 function generateLab(pages, labpath, template_file, component_files){
-  //child_process.execSync(`cd ${labpath}; git checkout master; git pull origin master`);
+  child_process.execSync(`cd ${labpath}; git checkout master; git pull origin master`);
   child_process.execSync(`cd ${labpath}`);
   prepareStructure(labpath);
   copyPages(pages, template_file, component_files, labpath);
@@ -233,14 +233,11 @@ function deployExperiments(labpath) {
     
     const expDeploymentRepo = 'https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git';
     const expDeploymentWd = 'ph3-beta-to-ui3.0-conv';
-    //const branch = 'develop';
-    const branch = 'footer-license';
-    
-    if(!fse.existsSync(expDeploymentWd)){
-      child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git checkout ${branch}`);
-    }
-    
-    child_process.execSync(`cd ${expDeploymentWd}; git pull origin ${branch}`);
+    //const branch = 'master';
+    const tag = 'v1.0.0';
+
+    child_process.execSync(`rm -rf ${expDeploymentWd}`);
+    child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`);
     child_process.execSync(`cp ${ldpath} ${expDeploymentWd}/experiment-list.json`);
     child_process.execSync(`cd ${expDeploymentWd}; make host-experiments`);
   }
@@ -345,7 +342,7 @@ function run(){
       break;
     case 'generate':
       generate(labpath);
-      //pushLab(labpath);
+      pushLab(labpath);
       break;
     case 'deploy':      
       if (toDeployLab(labpath)) {

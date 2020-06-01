@@ -91,14 +91,14 @@
 
    #+NAME: labgen-init-example
    #+BEGIN_SRC bash
-     npm labgen -- init /home/myuser/virtual-labs/myNewLab
+     npm run labgen -- init /home/myuser/virtual-labs/myNewLab
    #+END_SRC
    
    or 
 
    #+NAME: labgen-init-example-rel-path
    #+BEGIN_SRC bash
-     npm labgen -- init ~/virtual-labs/myNewLab
+     npm run labgen -- init ~/virtual-labs/myNewLab
    #+END_SRC
 
    This will generate the file
