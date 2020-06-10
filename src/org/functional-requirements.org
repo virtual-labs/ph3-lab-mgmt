@@ -1,20 +1,5 @@
 #+title: Functional Requirements
 
-* User
-  :PROPERTIES:
-  :CUSTOM_ID: user
-  :END:
-
-Hosting Engineer
-
-** User Requirement
-   :PROPERTIES:
-   :CUSTOM_ID: user-requirement
-   :END:
-
-The user should be able to build and deploy a lab and its experiments
-using a json file to describe the lab and its experiments.
-
 * Interface Requirements
   :PROPERTIES:
   :CUSTOM_ID: interface-requirements
@@ -30,82 +15,89 @@ using a json file to describe the lab and its experiments.
    build and deploy the lab and all its experiments using the json file
    (=lab-descriptor.json=) available in the local repository.
 
-* Initialize
-  :PROPERTIES:
-  :CUSTOM_ID: initialize
-  :END:
+* Process Requirements
 
-The lab and experiment building and deployment process requires a
-*lab-descriptor* json file that describes the lab and all its
-experiments. To help the user get started with populating the json file,
-the initialize process should create a sample json file in the local lab
-repository containing all the required fields.
+  The user should be able to perform the following processes.  The
+  general usage flow is described in the figure below.
 
-* Run
-  :PROPERTIES:
-  :CUSTOM_ID: run
-  :END:
+  [[../img/Process_Flow.png]]
 
-This process should build and deploy all the experiments and the lab
-using the *lab-descriptor* json file available in the local lab
-repository.
-
-** Lab
+** Initialize
    :PROPERTIES:
-   :CUSTOM_ID: lab
+   :CUSTOM_ID: initialize
    :END:
 
-A lab is described by the following fields: 
-  - Name 
-  - Discipline 
-  - Discipline URL 
-  - Host 
-  - Phase 
-  - Experiments 
-  - College 
-  - Introduction 
-  - Objective (Optional) 
-  - Target Audience 
-  - Course Alignment
+ The lab and experiment building and deployment process requires a
+ *lab-descriptor* json file that describes the lab and all its
+ experiments. To help the user get started with populating the json file,
+ the initialize process should create a sample json file in the local lab
+ repository containing all the required fields.
 
-The Following Pages should be generated: 
-  - /Introduction.html/ 
-  - /ListOfExperiments.html/ 
-  - /Objective.html/ (Optional: Only if the objective is defined in the descriptor) 
-  - /TargetAudience.html/ 
-  - /CourseAlignment.html/ 
-  - /Feedback.html/
-
-Each page should display the following (lab specific) information: 
-- Discipline (with link to discipline home page) 
-- Lab Name 
-- Navigation links to each page listed above
-
-** Experiments
+** Run
    :PROPERTIES:
-   :CUSTOM_ID: experiments
+   :CUSTOM_ID: run
    :END:
 
-The experiments in a lab are described in the lab-descriptor json file.
-The following informatioin is available for each experiment:
+ This process should build and deploy all the experiments and the lab
+ using the *lab-descriptor* json file available in the local lab
+ repository.
 
-- Name
-- Short Name
-- Repository URL
-- Tag
-- Kind
-
-*** Kinds of Experiments
+*** Lab Pages to be generated
     :PROPERTIES:
-    :CUSTOM_ID: kinds-of-experiments
+    :CUSTOM_ID: lab
     :END:
 
-The system should support build and deployment of the following two
-kinds of experiments. 1. IIITH Experiments 2. Phase 3 Markdown
-Experiments
+ A lab is described by the following fields: 
+   - Name 
+   - Discipline 
+   - Discipline URL 
+   - Host 
+   - Phase 
+   - Experiments 
+   - College 
+   - Introduction 
+   - Objective (Optional) 
+   - Target Audience 
+   - Course Alignment
 
-Each kind of experiment has a different build process which is described
-in the related experiment project repository.
+ The Following Pages should be generated: 
+   - /Introduction.html/ 
+   - /ListOfExperiments.html/ 
+   - /Objective.html/ (Optional: Only if the objective is defined in the descriptor) 
+   - /TargetAudience.html/ 
+   - /CourseAlignment.html/ 
+   - /Feedback.html/
+
+ Each page should display the following (lab specific) information: 
+ - Discipline (with link to discipline home page) 
+ - Lab Name 
+ - Navigation links to each page listed above
+
+*** Experiments to be suported
+    :PROPERTIES:
+    :CUSTOM_ID: experiments
+    :END:
+
+ The experiments in a lab are described in the lab-descriptor json file.
+ The following informatioin is available for each experiment:
+
+ - Name
+ - Short Name
+ - Repository URL
+ - Tag
+ - Kind
+
+**** Kinds of Experiments
+     :PROPERTIES:
+     :CUSTOM_ID: kinds-of-experiments
+     :END:
+
+ The system should support build and deployment of the following two
+ kinds of experiments. 1. IIITH Experiments 2. Phase 3 Markdown
+ Experiments
+
+ Each kind of experiment has a different build process which is described
+ in the related experiment project repository.
 
 * Functional Requirements
   :PROPERTIES:
