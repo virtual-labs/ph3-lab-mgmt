@@ -1,4 +1,4 @@
-#+title: Functional Requirements
+#+title: Requirements
 
 * Interface Requirements
   :PROPERTIES:
