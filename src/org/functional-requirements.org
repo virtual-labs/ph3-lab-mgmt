@@ -55,18 +55,31 @@ repository.
    :CUSTOM_ID: lab
    :END:
 
-A lab is described by the following fields: - Name - Discipline -
-Discipline URL - Host - Phase - Experiments - College - Introduction -
-Objective (Optional) - Target Audience - Course Alignment
+A lab is described by the following fields: 
+  - Name 
+  - Discipline 
+  - Discipline URL 
+  - Host 
+  - Phase 
+  - Experiments 
+  - College 
+  - Introduction 
+  - Objective (Optional) 
+  - Target Audience 
+  - Course Alignment
 
-The Following Pages should be generated: - /Introduction.html/ -
-/ListOfExperiments.html/ - /Objective.html/ (Optional: Only if the
-objective is defined in the descriptor) - /TargetAudience.html/ -
-/CourseAlignment.html/ - /Feedback.html/
+The Following Pages should be generated: 
+  - /Introduction.html/ 
+  - /ListOfExperiments.html/ 
+  - /Objective.html/ (Optional: Only if the objective is defined in the descriptor) 
+  - /TargetAudience.html/ 
+  - /CourseAlignment.html/ 
+  - /Feedback.html/
 
-Each page should display the following (lab specific) information: -
-Discipline (with link to discipline home page) - Lab Name - Navigation
-links to each page listed above
+Each page should display the following (lab specific) information: 
+- Discipline (with link to discipline home page) 
+- Lab Name 
+- Navigation links to each page listed above
 
 ** Experiments
    :PROPERTIES:
