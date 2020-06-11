@@ -1,0 +1,83 @@
+#+title: DESIGN DESCRIPTION
+
+* High Level Design
+
+  Components:
+  - Lab Pages
+    - Build
+    - Deployment
+  - Experiments
+    - Build
+    - Deployment
+      
+** Lab Pages 
+
+*** How are the lab pages built?
+
+    The lab pages are built using the following things:
+    1. Page templates
+    3. Lab Descriptor
+
+    The figure below depicts the process of building a page using data
+    from lab descriptor and templates.
+
+    [[../img/page-generation.png]]
+
+    
+**** Page Configuration
+
+     To generate a page, we need to know the template to use, and the
+     name of the resulting html page. The =Page Configuration=
+     contains this information.
+
+     |-----------+---------------------------------|
+     | Field     | Description                     |
+     |-----------+---------------------------------|
+     | Heading   | Content Heading to be displayed |
+     | Tempalate | The Template to be used         |
+     | Outfn     | Name of the generated html page |
+     |-----------+---------------------------------|
+
+     
+
+***** Why not derive the page name from the template name?
+
+      Template file-name to generated file-name is not a one-to-one
+      mapping.  More than one template names map to a one target page.
+      
+      Example:
+
+      #+BEGIN_EXAMPLE
+	NestedListOfExperiments.handlebars => ListOfExperiments.html
+	ListOfExperiments.handlebars => ListOfExperiments.html      
+      #+END_EXAMPLE
+      
+**** Page Templates
+
+     Page templates are html templates written in a templating
+     language.
+
+     Following templates are defined:
+     1. Skeleton
+     2. Introduction
+     3. Objective
+     4. ListOfExperiments
+     5. NestedListOfExperiments
+     6. TargetAudience
+
+***** Skeleton
+
+      The =skeleton.handlebars= template is used to build the page
+      structure that is common for each of the Lab pages.
+
+***** Pages
+
+****** Introduction
+
+****** Objective
+
+****** List Of Experiments
+
+****** Target Audience
+
+****** Feedback
