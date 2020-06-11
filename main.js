@@ -30,13 +30,13 @@ function copyLabDescriptor(repoDir) {
 function pushLab(repoDir) {
   const branch = 'master';
   const commitMsg = `Lab generated at ${Date.now()}`;
-  child_process.execSync(`cd '${repoDir}'; git add lab-descriptor.json src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
+  child_process.execSync(`cd ${repoDir}; git add lab-descriptor.json src/; git commit -m "${commitMsg}"; git push origin ${branch}`);
 }
 
 
 
 function deploy_lab(src, destPath) {
-  child_process.execSync(`rsync -a '${src}' '${destPath}'`);
+  child_process.execSync(`rsync -a ${src} '${destPath}'`);
 }
 
 
