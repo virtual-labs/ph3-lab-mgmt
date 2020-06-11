@@ -234,7 +234,7 @@ function deployExperiments(labpath) {
     const expDeploymentRepo = 'https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git';
     const expDeploymentWd = 'ph3-beta-to-ui3.0-conv';
     //const branch = 'master';
-    const tag = 'v1.0.1';
+    const tag = 'v1.0.2';
 
     child_process.execSync(`rm -rf ${expDeploymentWd}`);
     child_process.execSync(`git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`);
