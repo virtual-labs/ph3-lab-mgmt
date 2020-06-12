@@ -60,22 +60,30 @@
 
 * Experiment
 
-  |-----------------+-----------+---------------------------------------------|
-  | Field           | Type      | Description                                 |
-  |-----------------+-----------+---------------------------------------------|
-  | *name*          | =String=  | Name of the Experiment as displayed on      |
-  |                 |           | the Experiment pages.                       |
-  |-----------------+-----------+---------------------------------------------|
-  | *short-name*    | =String=  | Unique short name for the experiment.       |
-  |                 |           | Used in the url path for the experiment.    |
-  |-----------------+-----------+---------------------------------------------|
-  | *repo*          | =URL=     | URL of the remote repository for the        |
-  |                 |           | experiment sources.                         |
-  |-----------------+-----------+---------------------------------------------|
-  | *tag* [TODO]    | =String=  | Tag of the repository to be used.           |
-  |-----------------+-----------+---------------------------------------------|
-  | *deploy* [TODO] | =Boolean= | Should the experiment be deployed.          |
-  |-----------------+-----------+---------------------------------------------|
+  Each experiment record should contain the following information:
+
+  |--------------+-----------+------------------+------------------------------------------|
+  | Field        | Type      | Source           | Description                              |
+  |--------------+-----------+------------------+------------------------------------------|
+  | *name*       | =String=  | Hosting Request  | Name of the Experiment as displayed on   |
+  |              |           |                  | the Experiment pages.                    |
+  |--------------+-----------+------------------+------------------------------------------|
+  | *short-name* | =String=  | Hosting Engineer | Unique short name for the experiment.    |
+  |              |           |                  | Used in the url path for the experiment. |
+  |--------------+-----------+------------------+------------------------------------------|
+  | *repo*       | =URL=     | Hosting Request  | URL of the remote repository for the     |
+  |              |           |                  | experiment sources.                      |
+  |--------------+-----------+------------------+------------------------------------------|
+  | *tag*        | =String=  | Hosting Request  | Tag of the repository to be used.        |
+  |--------------+-----------+------------------+------------------------------------------|
+  | *deploy*     | =Boolean= | Hosting Engineer | Should the experiment be deployed.       |
+  |--------------+-----------+------------------+------------------------------------------|
+
+  The information comes from two sources: Hosting Request and Hosting
+  Engineer.  The hosting engineer has to provide a unique =short-name=
+  for the experiment which is used for the experiment deployment path.
+  All other values should be taken from the Hosting Request.
+
 
 ** Example
 
@@ -85,8 +93,8 @@
          "name": "Performance Characteristics of Centrifugal Pump",
          "short-name": "centrifugal-pump",
          "repo": "http://vlabs.ac.in/gitlab/central-hosting/fluid/centrifugal-pump-nitk.git",
-         "branch": "master",
-         "tag": "v1.0.1"
+         "tag": "v1.0.1",
+	 "deploy": true
      }
 
    #+END_SRC
