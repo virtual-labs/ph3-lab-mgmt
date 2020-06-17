@@ -418,15 +418,15 @@ function run(){
 	    pushLab(labpath);
 	}
 	break;
-    case 'deploy':      
-	if (toDeployLab(labpath)) {
-            const deploySrc = labpath + '/build/*';
-            const labname = getLabName(labpath);
-            const deployDestPath = path.resolve("/var/www/html/", labname);
-            console.log(deployDestPath);
-            deploy_lab(deploySrc, deployDestPath);
-	}
-	deployExperiments(labpath);
+    case 'deploy':
+        deployExperiments(labpath);
+        
+        const deploySrc = labpath + '/build/*';
+        const labname = getLabName(labpath);
+        const deployDestPath = path.resolve("/var/www/html/", labname);
+        console.log(deployDestPath);
+        deploy_lab(deploySrc, deployDestPath);
+        
 	break;
     default:
 	console.error("unknown task"); 
