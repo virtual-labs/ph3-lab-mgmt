@@ -136,28 +136,12 @@
     Once this pull request is merged to master, do not make any new
     changes to the lab-descriptor.
 
-** Generate Lab
+
+** Run All
 
    From the /Phase-3-Lab-Template/ repository, run the following.
    
    #+NAME: labgen-generate
    #+BEGIN_SRC bash
-     npm run labgen -- generate <path/to/lab/repo>
+     npm run labgen -- all <path/to/lab/repo>
    #+END_SRC
-
-   This will generate the lab pages using the verified
-   /lab-descriptor.json/ from the lab repository and push the
-   generated content to remote.
-
-** Deploy Lab and Experiments
-
-   From the /Phase-3-Lab-Template/ repository, run the following.
-
-   #+NAME: labgen-deploy
-   #+BEGIN_SRC bash
-     npm run labgen -- deploy <path/to/lab/repo>
-   #+END_SRC
-  
-   This will copy the lab pages to =/var/www/html/<lab-name>=, and
-   then build and copy experiments listed in the lab-descriptor to
-   =/var/www/html/<lab-name>/<exp>=.

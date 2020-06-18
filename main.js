@@ -52,7 +52,7 @@ function copyLabDescriptor(repoDir) {
 function pushLab(repoDir) {
     let mj, mn, pt;
     try {
-	const res = child_process.execSync(`cd ${repoDir}; git describe --tags`);
+	const res = child_process.execSync(`cd ${repoDir}; git describe --abbrev=0 --tags`);
 	const dc = new StringDecoder('utf-8');
 	tag = dc.write(Buffer.from(res));
 	[mj, mn, pt] = tag.slice(1).split('.').map(parseFloat);
@@ -75,7 +75,7 @@ function pushLab(repoDir) {
      */
     
     rl.question(chalk`\n{cyan Lab release? {bold [major, minor, patch]}} {bold (default=minor)} `, (answer) => {
-	if (!answer) answer = 'minor';
+	//if (!answer) answer = 'minor';
 	switch (answer) {
 	case 'major':
 	    mj += 1; mn = 0; pt = 0;
@@ -94,6 +94,7 @@ function pushLab(repoDir) {
 	const version = `v${mj}.${mn}.${pt}`;
 	const branch = 'master';
 	const commitMsg = `Lab generated at ${Date.now()}`;
+        rl.close();
 	child_process.execSync(
 	    `cd ${repoDir}; 
 git add license.org lab-descriptor.json src/;
@@ -104,9 +105,8 @@ git push origin ${branch}`
 	    `cd ${repoDir}; 
 git tag -a ${version} -m "version ${version}"; 
 git push origin ${version}`
-	);	
-	rl.close();
-    })    
+	);
+    });
 }
 
 
@@ -333,9 +333,9 @@ function toDeployLab(labpath) {
 // --- iiit exp
 
 function iiithexp_clone(e, exp_dir, common_repo_name) {
-    const ename = toDirName(e.name);
-    shell.mkdir('-p', path.resolve(exp_dir, ename));
-    shell.cd(path.resolve(exp_dir, ename));
+    const e_short_name = e['short-name'];
+    shell.mkdir('-p', path.resolve(exp_dir, e_short_name));
+    shell.cd(path.resolve(exp_dir, e_short_name));
     shell.rm('-rf', common_repo_name);
     shell.exec(`git clone ${e.repo}/${common_repo_name}`);
     shell.cd(common_repo_name);
@@ -346,11 +346,11 @@ function iiithexp_clone(e, exp_dir, common_repo_name) {
 }
 
 function iiithexp_build(e, exp_dir, common_repo_name) {
-    const ename = toDirName(e.name);
+    const e_short_name = e['short-name'];
     
-    console.log(`Building ${ename}`);
+    console.log(`Building ${e_short_name}`);
     
-    shell.cd(`${exp_dir}/${ename}/${common_repo_name}`);
+    shell.cd(`${exp_dir}/${e_short_name}/${common_repo_name}`);
     shell.cp('config.mk.sample', 'config.mk');
     shell.exec('make clean-infra; make clean; make -k all');
     shell.cd('../../../');
@@ -359,14 +359,14 @@ function iiithexp_build(e, exp_dir, common_repo_name) {
 
 function iiithexp_deploy(e, exp_dir, common_repo_name, deployment_dest) {
 
-    const ename = toDirName(e.name);
+    const e_short_name = toDirName(e['short-name']);
+    console.log(`Deploying ${e_short_name}\n`);
     shell.mkdir('-p',
-                path.resolve(deployment_dest, 'exp', ename)
+                path.resolve(deployment_dest, 'exp', e_short_name)
                );    
     shell.exec(
-        `cp -rf ${exp_dir}/${ename}/${common_repo_name}/build/* ${deployment_dest}/exp/${ename}`
+        `cp -rf ${exp_dir}/${e_short_name}/${common_repo_name}/build/* ${deployment_dest}/exp/${e_short_name}`
     );
-    console.log(`${ename} deployed to ${deployment_dest}\n`);
 }
 
 
@@ -412,6 +412,18 @@ function run(){
     case 'init':
 	copyLabDescriptor(labpath);
 	break;
+    case 'all':
+        const isjsonvalid = validator.validateLabDescriptor(
+            path.resolve(labpath, 'lab-descriptor.json')
+        );
+        if (!isjsonvalid) return;
+	generate(labpath);
+        deployExperiments(labpath);        
+        deploy_lab(`${labpath}/build/*`,
+                   path.resolve("/var/www/html/", getLabName(labpath))
+                  );
+        pushLab(labpath);
+        break;
     case 'generate':
 	if (validator.validateLabDescriptor(path.resolve(labpath, 'lab-descriptor.json'))) {
 	    generate(labpath);
@@ -419,14 +431,10 @@ function run(){
 	}
 	break;
     case 'deploy':
-        deployExperiments(labpath);
-        
-        const deploySrc = labpath + '/build/*';
-        const labname = getLabName(labpath);
-        const deployDestPath = path.resolve("/var/www/html/", labname);
-        console.log(deployDestPath);
-        deploy_lab(deploySrc, deployDestPath);
-        
+        deployExperiments(labpath);        
+        deploy_lab(`${labpath}/build/*`,
+                   path.resolve("/var/www/html/", getLabName(labpath))
+                  );
 	break;
     default:
 	console.error("unknown task"); 
