@@ -1,4 +1,4 @@
-#+Title:  Virtual Labs Phase 3 Hosting Process
+o#+Title:  Virtual Labs Phase 3 Hosting Process
 #+Author: VLEAD
 #+Email: engg@vlabs.ac.in
 #+DATE: [2020-05-08 Wed]
@@ -126,88 +126,6 @@
 - *Section III*
 - Target Audience, Objective and Courses Alignment: Update from R0
   file
-- Sample JSON file
-#+BEGIN_EXAMPLE
-{
-	"broadArea": {
-    "name": "Civil Engineering",
-    "link": "http://vlab.co.in/broad-area-civil-engineering"
-	},
-	"lab": "Marine Structures",
-	"phase": "3",
-	"deployLab":true,
-	"collegeName": "NITS",
-	"baseUrl": "http://ms-nitk.vlabs.ac.in",
-	"introduction": "Welcome to the Marine Structures Lab",
-	"experiments": [
-    	{
-        	"name": "Wave Attenuation in Pile Based Breakwater",
-   	 "short-name": "pile-based-breakwater",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/wave-attenuation-in-pile-based-breakwater-nitk.git",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Wave Attenuation in Vegetation Based Breakwater",
-   	 "short-name": "vegetation-based-breakwater",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/wave-attenuation-in-vegetation-based-breakwater-nitk.git",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Slump Test",
-   	 "short-name": "slump-test",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/slump-test-nitk.git",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Concrete Mix Design",
-   	 "short-name": "concrete-mix-design",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/concrete-mix-design-nitk.git",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Specific Gravity of Cement and Aggregates",
-   	 "short-name": "cement-and-aggregates",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/specific-gravity-of-cement-and-aggregates-nitk.git",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Fineness Modulus of Aggregates",
-   	 "short-name": "fineness-modulus-of-aggregates",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/fineness-modulus-of-cement-and-aggregates-nitk.git",
-        	"tag": "v1.0.0",
-    		 "deploy": true
-    	}, {
-        	"name": "Standard Consistency and Initial Setting Time of Cement",
-   	 "short-name": "time-of-cement",
-   	 "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/marine-structures-nitk/standard-consistency-and-initial-setting-time-of-cement-nitk",
-	     	"tag": "v1.0.0",
-    		 "deploy": true
-    	}
-	],
-	"targetAudience": {
-    "UG": [
-    	"B. Tech./ B.E in Civil Engineering and Ocean Engineering"
-    ],
-    "PG": [
-    	"M.Tech/MS in Marine Structures",
-    	"Diploma in Civil Engineering"    
-    ]
-	},
-	"objective": "To visualize the wave attenuation characteristics of the breakwaters and to provide basic knowledge of structural and concreting materials used for marine purpose.",
-	"courseAlignment": {
-    "description": "Following are the courses in which one can come across the theory connected to the experiments in this lab :",
-    "universities": [
-    	"Wave Hydrodynamics and Coastal Engineering - APJ Abdul Kalam Technological University",
-    	"Marine Structure & Instrumentation Lab - National Institute of Technology Karnataka Surathkal",
-    	"Construction Material Laboratory - Anna University",
-    	"Material Testing Laboratory - Goa University",
-    	"Concrete Laboratory - Visvesvaraya Technological University (VTU)"
-    	]
-	}
-}
-
-#+END_EXAMPLE
-
 ** Hosting Lab and Experiments
   In this section, we will discuss hosting a Lab and Experiments.
 
