@@ -10,15 +10,19 @@ const fse = require("fs-extra");
 const {StringDecoder} = require('string_decoder');
 const figures = require('figures');
 const chalk = require('chalk');
-var shell = require('shelljs');
+const shell = require('shelljs');
+const moment = require('moment');
+const Git = require('nodegit');
+const prettier = require("prettier");
+
+
+const validator = require('./validateDescriptor.js');
+const gs = require('./googlesheet.js');
+const labDescriptorFn = "lab-descriptor.json";
+
 
 shell.config.silent = true;
 shell.set('-e');
-
-const validator = require('./validateDescriptor.js');
-
-const labDescriptorFn = "lab-descriptor.json";
-
 
 /* 
    Copy lab descriptor to the lab repository's working directory.  If
@@ -36,82 +40,9 @@ function copyLabDescriptor(repoDir) {
 
 
 
-/*
-
-  If this is the first time, then there is no tag, so start with
-  v0.0.0
-
-  If there already exists a tag then we increment the tag based on
-  release type taken as input from user.
-
-  If this works, then push the new tag.  If the user input is invalid,
-  return.
-  
-*/
-
-function pushLab(repoDir) {
-    let mj, mn, pt;
-    try {
-	const res = child_process.execSync(`cd ${repoDir}; git describe --abbrev=0 --tags`);
-	const dc = new StringDecoder('utf-8');
-	tag = dc.write(Buffer.from(res));
-	[mj, mn, pt] = tag.slice(1).split('.').map(parseFloat);
-    }
-    catch(e) {
-	console.log("This is the first release");
-	mj = 0; mn = 0; pt = 0;
-    }
-    const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-    });
-
-    /*
-      
-      patch 1.0.0 => 1.0.1
-      minor 1.0.0 => 1.1.0
-            1.0.2 => 1.1.0
-      
-     */
-    
-    rl.question(chalk`\n{cyan Lab release? {bold [major, minor, patch]}} {bold (default=minor)} `, (answer) => {
-	//if (!answer) answer = 'minor';
-	switch (answer) {
-	case 'major':
-	    mj += 1; mn = 0; pt = 0;
-	    break;
-	case 'minor':
-	    mn +=1 ; pt = 0;
-	    break;
-	case 'patch':
-	    pt += 1;
-	    break;
-	default:
-	    console.log(chalk`{bold {red Invalid response.  Please run the script again}}`);
-	    rl.close();	    
-	    return;
-	}
-	const version = `v${mj}.${mn}.${pt}`;
-	const branch = 'master';
-	const commitMsg = `Lab generated at ${Date.now()}`;
-        rl.close();
-	child_process.execSync(
-	    `cd ${repoDir}; 
-git add license.org lab-descriptor.json src/;
-git commit -m "${commitMsg}";
-git push origin ${branch}`
-	);
-	child_process.execSync(
-	    `cd ${repoDir}; 
-git tag -a ${version} -m "version ${version}"; 
-git push origin ${version}`
-	);
-    });
-}
-
-
-
-function deploy_lab(src, destPath) {
+function stageLab(src, destPath) {
+    console.log(`STAGE LAB to ${destPath}\n`);
+    shell.exec(`mkdir -p ${destPath}`);
     child_process.execSync(`rsync -a ${src} ${destPath}`);
 }
 
@@ -267,15 +198,20 @@ function toDirName(n) {
 function generateLink(baseUrl, labName, expName, index_fn='') {
     
     const expUrl = new URL(`http://${baseUrl}/${toDirName(labName)}/exp/${expName}/${index_fn}`);
-    console.log(expUrl.href);
+    //console.log(expUrl.href);
     return expUrl;
+}
+
+
+function labURL(host, name) {
+    return (new URL(`http://${host}/${toDirName(name)}`));
 }
 
 
 function generate(labpath) {
     
     const data = dataPreprocess(path.join(labpath, 'lab-descriptor.json'));
-    
+
     const template_file = "skeleton-new.html";
     const config = JSON.parse(fs.readFileSync('config.json'));
     const component_files = config.commonComponents;
@@ -333,6 +269,7 @@ function toDeployLab(labpath) {
 // --- iiit exp
 
 function iiithexp_clone(e, exp_dir, common_repo_name) {
+    console.log(chalk`{cyan CLONE} {yellow from} ${e.repo}`);
     const e_short_name = e['short-name'];
     shell.mkdir('-p', path.resolve(exp_dir, e_short_name));
     shell.cd(path.resolve(exp_dir, e_short_name));
@@ -342,13 +279,12 @@ function iiithexp_clone(e, exp_dir, common_repo_name) {
     shell.exec('git fetch --all');
     shell.exec(`git checkout ${e.tag}`);
     shell.cd(__dirname);
-    console.log(`Cloned ${e.repo}`);
 }
 
 function iiithexp_build(e, exp_dir, common_repo_name) {
     const e_short_name = e['short-name'];
     
-    console.log(`Building ${e_short_name}`);
+    console.log(chalk`{cyan BUILD} {yellow at} ${path.resolve(exp_dir, e_short_name, common_repo_name)}`);
     
     shell.cd(`${exp_dir}/${e_short_name}/${common_repo_name}`);
     shell.cp('config.mk.sample', 'config.mk');
@@ -357,23 +293,27 @@ function iiithexp_build(e, exp_dir, common_repo_name) {
 }
 
 
-function iiithexp_deploy(e, exp_dir, common_repo_name, deployment_dest) {
+function iiithexp_stage(e, exp_dir, common_repo_name, deployment_dest) {    
 
     const e_short_name = toDirName(e['short-name']);
-    console.log(`Deploying ${e_short_name}\n`);
+    
+    console.log(chalk`{cyan STAGE} {yellow to} ${path.resolve(deployment_dest, 'stage', 'exp', e_short_name)}`);
+    
+    shell.rm('-rf', `${deployment_dest}/stage/exp/${e_short_name}/`);
     shell.mkdir('-p',
-                path.resolve(deployment_dest, 'exp', e_short_name)
-               );    
-    shell.exec(
-        `cp -rf ${exp_dir}/${e_short_name}/${common_repo_name}/build/* ${deployment_dest}/exp/${e_short_name}`
-    );
+                path.resolve(deployment_dest, 'stage', 'exp', e_short_name)
+               );
+    shell.cp('-rf',
+             `${exp_dir}/${e_short_name}/${common_repo_name}/build/*`,
+             `${deployment_dest}/stage/exp/${e_short_name}/`
+            );
 }
 
 
-function iiithexp_getExpList(data){
+function expList(data){
     if (data.experiments){
 	const experiments = data.experiments;
-	return experiments;
+        return experiments;
     }
     else {
 	const experiments = data['experiment-sections'].map((es) => es.experiments).flat();
@@ -390,16 +330,43 @@ function iiith_exp_manage(lab_descriptor) {
     const deployment_dest = config['deployment_dest'];
     const lab_dir_name = toDirName(lab_descriptor.lab);
     const deployment_path = path.join(deployment_dest, lab_dir_name);
-    const experiments = iiithexp_getExpList(lab_descriptor);
+    const experiments = expList(lab_descriptor);
     
-    experiments.forEach((e) => {        
+    experiments.forEach((e) => {
+        console.log('');
         iiithexp_clone(e, exp_dir, common_repo_name);
         iiithexp_build(e, exp_dir, common_repo_name);
-        iiithexp_deploy(e, exp_dir, common_repo_name, deployment_path);
+        iiithexp_stage(e, exp_dir, common_repo_name, deployment_path);
+        console.log('');
     });
 }
 
 // --- iiit exp
+
+
+function golive(labpath) {
+    const config = require('./config.json');
+    const exp_dir = config['exp_dir'];
+    const common_repo_name = config['common_repo_name'];
+    const deployment_dest = config['deployment_dest'];
+    const lab_descriptor = require(path.resolve(labpath, 'lab-descriptor.json'));
+    const lab_dir_name = toDirName(lab_descriptor.lab);
+    const deployment_path = path.join(deployment_dest, lab_dir_name);
+
+    const elist = expList(require(path.resolve(labpath, 'lab-descriptor.json')));
+
+    elist.forEach(e => {
+        console.log(chalk`{bold DEPLOY} {yellow to} ${path.resolve(deployment_path, 'exp', e['short-name'])}`);
+        shell.mkdir('-p', path.resolve(deployment_path, 'exp', e['short-name']));
+        shell.exec(`rsync -arv --exclude .git \
+${deployment_path}/stage/exp/${e['short-name']}/* ${deployment_path}/exp/${e['short-name']}`);        
+    });
+
+    
+    console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
+    shell.exec(`rsync -arv --exclude .git \
+${deployment_dest}/stage/${lab_dir_name}/* ${deployment_dest}/${lab_dir_name}`);    
+}
 
 
 function run(){
@@ -417,12 +384,29 @@ function run(){
             path.resolve(labpath, 'lab-descriptor.json')
         );
         if (!isjsonvalid) return;
-	generate(labpath);
-        deployExperiments(labpath);        
-        deploy_lab(`${labpath}/build/*`,
-                   path.resolve("/var/www/html/", getLabName(labpath))
-                  );
-        pushLab(labpath);
+	try {
+	    const v = getNextVersion(labpath);
+	    generate(labpath);
+//	    throw Error("$$$$");
+            deployExperiments(labpath);        
+            stageLab(`${labpath}/build/*`,
+                   path.resolve("/var/www/html/stage", getLabName(labpath))
+                  );        
+            golive(labpath);
+	    pushLab(labpath);
+	}
+	catch(e) {
+	    const lab_info = require(path.resolve(labpath, 'lab-descriptor.json'));
+	    const rec = { date: moment().format("DD MMMM YYYY"),
+			  time: moment().format("hh:mm:ss"),
+			  unit: 'LAB',
+			  url: labURL(lab_info.baseUrl, lab_info.lab),
+			  version: getNextVersion(),
+			  status: "FAILURE"
+			};
+	    gs.appendExecutionResult(rec);
+	}
+
         break;
     case 'generate':
 	if (validator.validateLabDescriptor(path.resolve(labpath, 'lab-descriptor.json'))) {
@@ -431,8 +415,9 @@ function run(){
 	}
 	break;
     case 'deploy':
-        deployExperiments(labpath);        
-        deploy_lab(`${labpath}/build/*`,
+        deployExperiments(labpath);
+        
+        stageLab(`${labpath}/build/*`,
                    path.resolve("/var/www/html/", getLabName(labpath))
                   );
 	break;
@@ -441,4 +426,228 @@ function run(){
     }
 }
 
-run();
+//run();
+
+function init(){
+    console.log("initializing");
+}
+
+
+async function maybeProcessAll(labpath) {
+    generate(labpath);
+    deployExperiments(labpath);
+    stageLab(`${labpath}/build/*`,
+	     path.resolve("/var/www/html/stage", getLabName(labpath))
+	    );
+    golive(labpath);
+}
+
+
+function labgen() {
+    const args = require('minimist')( process.argv.slice(2), {
+	boolean : ["init"]
+    } );
+
+    const labpath = args._[0];
+    if (!fs.existsSync(labpath)) {
+	console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
+    }
+    else {
+	if (args.init) {
+	    init(args._);
+	}
+	else {
+	    const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout
+	    });    
+	    rl.question("release type?  :: ", (release_type) => {
+		rl.close();
+		const lab_descriptor = LD(labpath);
+		nextVersion(labpath, release_type)
+		    .then(t => {			
+			maybeProcessAll(labpath)
+			    .then(() => {
+				reportRes(labpath, t, 'SUCCESS');
+			    })
+			    .catch((e) => {
+				console.log(e);
+				reportRes(labpath, t, 'FAILURE');
+			    })
+		    })
+		    .catch(e => {
+			console.log(e);
+			reportRes(labpath, t, 'FAILURE');
+		    });		
+	    });
+	}
+    }
+}
+
+
+
+function reportRes(labpath, tag, res) {
+    ld = updateDescriptor(labpath, tag);
+    updateRecord(ld, res);
+    pushlab(labpath);
+    if (res === 'SUCCESS') {
+	release(labpath, tag)
+    }
+}
+
+
+
+function updateDescriptor(labpath, t){
+    ld = LD(labpath);
+    ld.version = t;
+    lds = prettier.format(JSON.stringify(ld), {parser: "json"});
+    fs.writeFileSync(path.resolve(labpath, 'lab-descriptor.json'), lds, 'utf-8');
+    return ld;
+}
+
+
+/*
+
+,
+        {
+	    "sect-name": "Graphs",
+	    "experiments": [
+		{
+		    "name": "Breadth First Search",
+		    "short-name": "bfs",
+		    "repo": "https://gitlab.com/vlead-projects/experiments/ds/breadth-first-search",
+                    "tag": "v4.0.4",
+                    "deploy": true
+                }
+	    ]
+	}
+
+*/
+
+
+
+function updateRecord(lab_descriptor, exec_status) {
+    const rec = { date: moment().format("DD MMMM YYYY"),
+		  time: moment().format("hh:mm:ss"),
+		  unit: 'LAB',
+		  url: labURL(lab_descriptor.baseUrl, lab_descriptor.lab),
+		  version: lab_descriptor.version,
+		  status: exec_status
+		};
+    gs.appendExecutionResult(rec);
+}
+
+
+function LD(lp){
+    return (require(path.resolve(lp, 'lab-descriptor.json')));
+}
+
+
+function pushlab(labpath) {
+    const commitMsg = `Lab generated at ${moment()}`;
+    child_process.execSync(
+	`cd ${labpath};
+git add license.org lab-descriptor.json src/;
+git commit -m "${commitMsg}";
+git push origin master`
+    );    
+}
+
+
+function release(labpath, tag_name){    
+    child_process.execSync(
+	`cd ${labpath}; 
+git tag -a ${tag_name} -m "version ${tag_name}"; 
+git push origin ${tag_name}`
+    );
+    return tag_name;
+}
+
+
+function semanticVersion(t) {
+    const nums = t.slice(1).split('.');
+    return {
+	major: parseInt(nums[0]),
+	minor: parseInt(nums[1]),
+	patch: parseInt(nums[2]),
+	id: parseInt(t.slice(1).replace(/\./g, ''))
+    }
+}
+
+
+function compareTags(t1, t2){
+    const st1 = semanticVersion(t1);
+    const st2 = semanticVersion(t2);
+    return st2.id - st1.id;
+}
+
+
+function latestTag(tags){
+    if (tags.length === 0) {
+	return 'v0.0.0';
+    }
+    tags.sort(compareTags);
+    return tags[0];
+}
+
+
+function nextMajor(t) {
+    t.major += 1;
+    t.minor = 0;
+    t.patch = 0;
+    return t;
+}
+
+
+
+function nextMinor(t) {
+    t.minor += 1;
+    t.patch = 0;
+    return t;
+}
+
+
+
+function nextPatch(t) {
+    t.patch += 1;
+    return t;
+}
+
+
+
+function incrementTagNumber(tag, release_type) {
+    const st = semanticVersion(tag);
+    switch(release_type){
+
+    case 'major':
+	nextMajor(st);
+	break;
+	
+    case 'minor':
+	nextMinor(st);
+	break;
+	
+    case 'patch':
+	nextPatch(st);
+	break;
+	
+    default:
+	nextMinor(st);
+	break;	
+    }
+
+    return `v${st.major}.${st.minor}.${st.patch}`;
+}
+
+
+function nextVersion(labpath, release_type) {
+    const p = Git.Repository.open(labpath)
+	  .then(function(repository) {	
+	      return Git.Tag.listMatch('v*.*.*', repository);
+	  })
+	  .then(latestTag)
+	  .then((t) => incrementTagNumber(t, release_type))
+    return p;
+}
+
+labgen();
