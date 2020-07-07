@@ -1,0 +1,29 @@
+{
+    "templates_dir" : "templates",
+    "components" : [
+	    "analytics",
+	    "labName",
+	    "discipline",
+	    "sidebar",
+	],
+    "pages" : [
+	{ "name": "Introduction",
+	  "required": true
+	},
+	{ "name": "ListOfExperiments",
+	  "required": true
+	},
+	{ "name": "Objective",
+	  "required": false
+	},
+	{ "name": "TargetAudience",
+	  "required": true
+	},
+	{ "name": "CourseAlignment",
+	  "required": true
+	},
+	{ "name": "Feedback",
+	  "required": true
+	}
+    ]
+}

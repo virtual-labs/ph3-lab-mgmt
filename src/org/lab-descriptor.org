@@ -1,0 +1,40 @@
+#+TITLE: Experiment
+#+SETUPFILE: ~/apps/org-html-themes/setup/theme-readtheorg.setup
+#+export_file_name: ../docs/lab-descriptor.html
+
+#+NAME: lab-desc-ifc
+#+BEGIN_SRC typescript
+  export interface LabDescriptor {
+      broadArea : {name : string, link : string},
+      lab: string,
+      phase: number,
+      collegeName: string,
+      baseUrl: string,
+      introduction: string,
+      experiments?: object[],
+      experimentSections?: object[],
+      targetAudience: { UG : string[], PG: string[] },
+      objective?: string,
+      courseAlignment: {description: string, universities: string[]}
+  }
+
+  export function loadLabDescriptor(fn: string) : LabDescriptor {
+      const ld = JSON.parse(fs.readFileSync(`${fn}`, 'utf-8'));
+      if (ld["experiment-sections"]) {
+          if (ld.experiments) {
+              throw Error('INVALID_LAB_DESCRIPTOR');
+          }
+          ld.experimentSections = ld["experiment-sections"];
+      } 
+      return ld;
+  }
+#+END_SRC
+
+
+* Tangle :noexport:
+  
+  #+BEGIN_SRC typescript :noweb yes :tangle ../code/labdescriptor.ts
+  import * as fs from 'fs-extra';
+
+  <<lab-desc-ifc>>
+  #+END_SRC
