@@ -1,4 +1,4 @@
-#+Title:  Virtual Labs Phase 3 Hosting Process
+o#+Title:  Virtual Labs Phase 3 Hosting Process
 #+Author: VLEAD
 #+Email: engg@vlabs.ac.in
 #+DATE: [2020-05-08 Wed]
@@ -13,24 +13,24 @@
   Human Resources and Development (MHRD). The objective of this
   project is to provide laboratory learning experience to the students
   who do not have access to adequate laboratory
-  infrastructure. Currently there are around 90 labs developed by
+  infrastructure. Currently, there are around 90 labs developed by
   various institutes in the consortium.  A streamlined software
   development life cycle process followed for the development of these
-  labs ensures high quality labs. This document defines the hosting
-  process to be followed by an intergration engineer while hosting
+  labs ensures high-quality labs. This document defines the hosting
+  process to be followed by an integration engineer while hosting
   phase 3 lab units.
 * Motivation
-  A well defined experiment hosting process will help maintain
+  A well-defined experiment hosting process will help maintain
   reliable servers. Consolidated information regarding all the
   deployments will also facilitate reporting.
 * Audience
   The target audience for this document is the hosting team at IIITH
-  who wants to host a unit on receving hosting request.
+  who wants to host a unit on receiving the hosting request.
 * Hosting/Onboarding Process for Phase III Experiment/Labs 
 ** Commencing the hosting request
   Keeping the deliverables/due date and the current hosting model in
   mind, the following process will need to be followed for getting a
-  Lab hosted on AWS during the Phase III of the Virtual Labs project (
+  lab hosted on AWS during the Phase III of the Virtual Labs project (
   ending on March 31st 2020). This is as per many discussions with
   IITB and the [[https://drive.google.com/open?id=1-ndJYbxXucCRkpL_JktI_46tUG5CJ9Dw][meeting]] on [2020-03-03 Tue].
 
@@ -42,11 +42,11 @@
 
   - Step 1 :: IIITH will create lab repo for the lab that is ready (
               marked in green) in the 200224_Deliverable_Status_Phase3
-              sheet shared by IITB and also populate the lab urls in
+              sheet shared by IITB and also populate the lab URLs in
               the sheet.
 
   - Step 2 :: IITB will raise an issue of type Phase 3 Onboarding
-              [[https://github.com/virtual-labs/engineers-forum/issues/new/choose][Request]] and fill the lab name and lab url ( as populated
+              [[https://github.com/virtual-labs/engineers-forum/issues/new/choose][Request]] and fill the lab name and lab URL ( as populated
               in the excel sheet by IIITH) and attach the R0 of the
               lab.
 
@@ -55,9 +55,9 @@
               200224_Deliverable_Status_Phase3 as v1.0.0
 
   - Step 4 :: IIITH will populate the received Phase 3 Onboarding
-              [[https://github.com/virtual-labs/engineers-forum/issues/new/choose][Request]] with experiment details ( name, url, tag, branch
+              [[https://github.com/virtual-labs/engineers-forum/issues/new/choose][Request]] with experiment details ( name, URL, tag, branch
               and build command) and Owner details and request for
-              approval from IITB . It will be assumed by IIITH that no
+              approval from IITB. It will be assumed by IIITH that no
               special hardware or software is required for the running
               of the experiments.  IITB will have to specially state
               if this is not the case.
@@ -71,16 +71,63 @@
               experiments, target audience, course alignment ) from
               the R0 shared by IITB in the Phase 3 Onboarding [[https://github.com/virtual-labs/engineers-forum/issues/new/choose][Request]].
 
-  - Step 7 :: IIITH will host the lab and share the hosted url link as
+  - Step 7 :: IIITH will host the lab and share the hosted URL link as
               part of the onboarding request issue and seek approval
-              from the github handle of the owner of the lab ( as
+              from the GitHub handle of the owner of the lab ( as
               recorded in the onboarding request)
 
   - Step 8 :: On approval from the Lab owner, IIITH will share the
               link with IIT Delhi.
 
+** Pre-Hosting/Rehosting Checklist
+- In this section, we will look at the instructions to fill or update
+  the lab-descriptor.json file which is used to host a lab. Make Sure
+  that everything in the JSON file is updated correctly before sending
+  it for verification and hosting.
+
+- *Section I - Lab* 
+  1. Name: Should be Discipline name
+  2. Link: - Crosscheck the discipline link from vlab.co.in and update
+     correctly.
+- Discipline Should be in the following format:
+  + Mechanical Engineering
+  + Computer Science and Engineering
+  + Electronics and Communication Engineering
+  + Electrical Engineering
+  + Civil Engineering
+  + Chemical Sciences
+  + Biotechnology and Biomedical Engineering
+  + Physical Sciences
+  + Chemical Engineering
+  + Humanity
+  + Metallurgical and Materials Engineering
+  + Design Engineering
+  + Aerospace Engineering
+- Lab Name: Should be same in the JSON file, GitHub repo name and in
+  /var/www/html/
+- Phase: Should be the number that the lab belongs to Phase 3 or so
+- Deploy: Should be true if we are hosting lab and exp or only lab. If
+  we want to host only exp then it should be false
+- College Name: Update from the R0 file (which is given in the request
+  for hosting issue)
+- Base URL: Crosscheck the lab domain in the reverse proxy and update
+  correctly
+- Introduction: from R0 file
+ 
+- *Section II - Experiment*
+- Name: experiment name from R0 file
+- Short Name: it should be in small letters and not more than 4 words
+  or can give exp repo name from GitLab (if it has only 4 words)
+- Repo: give the experiment repo URL from GitLab
+- Tag: for every request for hosting, a repo should have a new tag
+- Deploy: Should be true if we are hosting lab and exp or only exp. If
+  we want to host only lab then it should be false
+
+- *Section III*
+- Target Audience, Objective and Courses Alignment: Update from R0
+  file
 ** Hosting Lab and Experiments
-  In this section, we will discuss about hosting Lab and Experiments.
+  In this section, we will discuss hosting a Lab and Experiments.
 
   - Step 1 :: [[https://github.com/virtual-labs/Phase-3-Lab-Template][Phase-3-Lab-Template]] to be cloned initially on the
               server.
@@ -154,7 +201,7 @@
               added to vlab.co.in).
 
 ** (Re)Hosting Lab and Experiments
-  In this section, we will discuss about (re)hosting Lab and Experiments.
+  In this section, we will discuss (re)hosting a Lab and Experiments.
 
   - Step 1 :: Check for [[https://github.com/virtual-labs/Phase-3-Lab-Template][Phase-3-Lab-Template]] and lab repo on the server.
 
@@ -172,7 +219,7 @@
               lab-descriptor approved.
 
   - Step 5 :: After getting approval from the legitimate authority,
-              generate lab and build experiments.
+              generate lab, and build experiments.
 
   - Step 6 :: From the Phase-3-Lab-Template repository, run the
               following. This will generate the lab pages using the
@@ -192,14 +239,47 @@
 	      npm run labgen -- deploy <path/to/lab/repo>
 	      #+END_SRC
 
+** Post Hosting Tasks
+- In this section, we will look at the tasks to be done after hosting
+  a unit,
+- *Task I - Testing*
+  - A quick SMOKE TEST to be performed on the hosted unit. We will
+    talk about this in the next section.
+- *Task II - Updating hosting request*
+  - After successfuly hosting a unit, go to the hosting request and
+    update the request with the following:
+    + Hosted URL
+    + Branch
+    + Tag 
+    + Approval
+
+- *Task III - Updating central hosting sheet* 
+  - Final task would be to update the [[https://docs.google.com/spreadsheets/d/1WXJA_1QkLg-5S0YYBRKyhEXwOgTSbKvm972Fy-thCUc/edit#gid=129834454][central hosting sheet]] with the
+    following:
+    + Hosted URL
+    + Current Tag
+    + Previous Tag
+    + Hosting request date
+    + Hosting Date
+    + Link to Hosting Request
+    + Requester
+    + Status(Approval)
+    + Number of Experiment
+    + Added to analytics server 
+
 ** Testing
-  In this section, we will discuss about testing of an hosted unit.
+  In this section, we will discuss testing of a hosted unit.
 
   - Step 1 :: A quick SMOKE TEST to be performed on the hosted unit. 
 
-  - Step 2 :: If any issues are found in SMOKE TEST the hosting
+  - Step 2 :: If any issues are found in SMOKE TEST, the hosting
               unit to be debugged and (re)hosted.
 
+** Hosting Outcome
+- A unit of lab or experiment is hosted on AWS VM.
+- All the hosted units will have the same UI ie.., [[https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv][UI 3.0]] with
+  analytics integrated into them at the time of building with [[https://github.com/virtual-labs/Phase-3-Lab-Template][lab
+  generation]] script.
 * FAQ
 ** Can you provide a sample JSON file with data?
   This is a sample JSON file with data.
