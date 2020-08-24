@@ -382,7 +382,6 @@ async function maybeProcessAll(labpath) {
     path.resolve("/var/www/html/stage", getLabName(labpath))
   );
   golive(labpath);
-  deployExperiments(labpath);
 }
 
 
