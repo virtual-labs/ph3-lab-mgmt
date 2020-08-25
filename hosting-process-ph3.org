@@ -239,6 +239,21 @@ o#+Title:  Virtual Labs Phase 3 Hosting Process
 	      npm run labgen -- deploy <path/to/lab/repo>
 	      #+END_SRC
 
+** Steps for creating a new lab entry(Phase 3)
+- Build and deploy sources to correct path i.e., (/var/www/html/example-lab) {Hosting Engineer}
+- Check for example-lab and sources at /var/www/html/example-lab/ {Hosting Engineer}
+- If step 1 and step 2 are true then go to step 4 else go to step 1 {Hosting Engineer}
+- Hosting Engineer needs to raise a request to System Engineer
+- Add entry to virtual host file in apache configuration(Phase3) {Systems Engineer}
+- Reload the apache server {Systems Engineer}
+- Add entry to ALB {Raj}
+- Finally, add entry in DNS server {Systems Engineer}
+- Reload DNS server {Systems Engineer}
+
+*** NOTE
+- Do not add entries without sources as it will create duplicate date in analytics.
+- When modifying entries, try modifying before 9:00 AM or after 5:00 PM, it will give buffer time if something goes wrong and wont effect live users.
+
 ** Post Hosting Tasks
 - In this section, we will look at the tasks to be done after hosting
   a unit,
