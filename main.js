@@ -150,7 +150,7 @@ function dataPreprocess(datafile) {
 
   if (data.experiments) {
     data.experiments = data.experiments.map((e) => {
-      const exp_url = generateLink(data.baseUrl, data.lab, e["short-name"]);
+      const exp_url = generateLink(data.baseUrl, e["short-name"]);
       return { name: e.name, link: exp_url.toString() };
     });
     return data;
@@ -162,7 +162,6 @@ function dataPreprocess(datafile) {
           experiments: es.experiments.map((e) => {
             const exp_url = generateLink(
               data.baseUrl,
-              data.lab,
               e["short-name"],
               (index_fn = "exp.html")
             );
@@ -179,9 +178,9 @@ function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
 }
 
-function generateLink(baseUrl, labName, expName, index_fn = "") {
+function generateLink(baseUrl, expName, index_fn = "") {
   const expUrl = new URL(
-    `https://${baseUrl}/${toDirName(labName)}/exp/${expName}/${index_fn}`
+    `https://${baseUrl}/exp/${expName}/${index_fn}`
   );
   //console.log(expUrl.href);
   return expUrl;
@@ -342,8 +341,6 @@ function iiith_exp_manage(lab_descriptor) {
 
 function golive(labpath) {
   const config = require("./config.json");
-  const exp_dir = config["exp_dir"];
-  const common_repo_name = config["common_repo_name"];
   const deployment_dest = config["deployment_dest"];
   const lab_descriptor = require(path.resolve(labpath, "lab-descriptor.json"));
   const lab_dir_name = toDirName(lab_descriptor.lab);
@@ -558,3 +555,6 @@ function nextVersion(labpath, release_type) {
 }
 
 labgen();
+
+
+// "de-iitr.vlabs.ac.in",
