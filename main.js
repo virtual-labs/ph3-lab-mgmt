@@ -267,7 +267,7 @@ function iiithexp_clone(experiments, exp_dir, common_repo_name) {
     child_process.execSync(`mkdir -p ${exp_dir}/${ename}`);
     child_process.execSync(
       `cd ${exp_dir}/${ename}; rm -rf ${common_repo_name};
-         git clone ${e.repo}/${common_repo_name}; cd ${common_repo_name}; git fetch --all; git checkout ${e.tag}`
+         git clone --depth 1 ${e.repo}/${common_repo_name}; cd ${common_repo_name}; git fetch --all; git checkout ${e.tag}`
     );
     console.log('cloned');
   });
