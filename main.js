@@ -259,7 +259,7 @@ function iiithexp_clone(e, exp_dir, common_repo_name) {
   shell.mkdir("-p", path.resolve(exp_dir, e_short_name));
   shell.cd(path.resolve(exp_dir, e_short_name));
   shell.rm("-rf", common_repo_name);
-  shell.exec(`git clone ${e.repo}/${common_repo_name}`);
+  shell.exec(`git clone --depth 1 ${e.repo}/${common_repo_name}`);
   shell.cd(common_repo_name);
   shell.exec("git fetch --all");
   shell.exec(`git checkout ${e.tag}`);
