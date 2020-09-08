@@ -123,7 +123,7 @@ function genComponentHtml(fn, data) {
   fs.writeFileSync(`page-components/${base}.html`, html, "utf-8");
 }
 
-function prepareStructure(labpath) {
+function prepaareStructure(labpath) {
   child_process.execSync(`cp -rf lab-structure/* ${labpath}/`);
   child_process.execSync(`mkdir -p ${labpath}/src/lab`);
 }
