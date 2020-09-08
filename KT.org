@@ -1,0 +1,85 @@
+#+TITLE: KT on Phase 3 Lab Processes Automation
+
+* Scope of the Project
+
+  This project aims to provide a central interface for performing
+  routine tasks related to Phase 3 labs hosted by VLEAD.  A command
+  line untility is provided that automates the following tasks:
+
+  1. Lab Pages Genreration
+  2. Lab Pages Release Management
+  3. Lab Pages Hosting
+  4. Experiment Generation
+  5. Experiment Hosting
+
+  Each of the above topics are described in detail in this document.
+
+** TODO Move the contents of this document to proper places
+   This document should only contain meeting notes.  All other
+   contents should be somewhere else (where?).
+
+
+* Session 1
+
+** Detail
+
+   - Date :: [2020-08-31 Mon]
+   - Time :: 12:30 PM
+   - Participants :: 
+     - Ojas :: Current Project Maintainer
+     - Balamma :: New Project Maintainer (onboarding)
+
+** Agenda
+
+   *Introduction to the project* : In this session we will be
+    discussion the high level concepts and scope of the project.  Ojas
+    will demonstrate the operation of the main command line utility
+    while explaining what underlying processes are performed.
+
+** Topics
+
+*** Steps for Development Installation
+
+    - Repo link :: https://github.com/virtual-labs/Phase-3-Lab-Template.git
+    - Branch :: feature-json-validate
+
+*** DONE Lab Descriptor
+    - schema can be found here: [[file:labDescSchema.json][schema]]
+    - The descriptor should be in the lab repo
+    - Found issue in the README documentation.  The init command is
+      not working.  Please copy the descriptor manually. (TO BE FIXED
+      BY : Ojas)
+
+*** DONE Lab Repository
+    - created a [[https://github.com/virtual-labs/trial-lab-src][new repository]] for demo of lab sources generation.
+
+*** DONE Demo
+    - init :: command didn't work. Need to fix
+    - all :: generation, deployment and release is working.
+             Demonstrated generation and deployment of a sample lab
+
+	     Found out that links to experiments are not working on
+             the local system after changing the links to remove lab
+             name.  This was working on Pavan's machine.  (NEED TO
+             CHECK but Balamma knows what to do for this.)
+
+*** Types of Experiments
+
+**** IIITH format
+     - ds1 and ds2
+     - phase 2 labs
+
+**** IITB format
+     - all others
+
+*** TODO Next Step
+
+    - Balamma to go through the README and try the installation and
+      generation process.
+    - Next session on Thursday.
+
+* Session 2
+  
+- [2020-09-07 Mon]
+  
+  
