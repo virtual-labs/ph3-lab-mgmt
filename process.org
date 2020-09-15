@@ -82,6 +82,8 @@
     Finally, the makefile is executed in the =labpath/src= directory.
    
 ** Build and Stage Experiments
+
+   [[file:deployment-process.jpg][file:deployment-process.jpg]]
    
    After the lab pages are built, the experiments need to built and
    staged.
