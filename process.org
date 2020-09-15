@@ -1,0 +1,137 @@
+#+TITLE: Process
+
+* Introduction
+
+  This document describes the page generation process.
+
+* Process
+  
+** Generate Pages
+   =generate= function is reponsible for generating the lab pages.  It
+   takes the labpath and generates all the html pages required for the
+   lab.
+
+   
+*** Dependencies
+    - Template :: The template html file that defines the common
+                  skeleton for all pages.
+    - Config :: This contains information about which pages are
+                generated using which templates.
+    - Lab Descriptor :: This is a json document that contains all the
+                        lab related data.  This should be present in
+                        the lab repository, on the master branch.
+    - Page Templates :: Each page in the lab is generated using the
+                        top level skeleton and a page specific
+                        template.  The data for the page specific
+                        template comes from the lab descriptor.  All
+                        the page templates are placed in a directory
+                        called =page-templates=.
+
+*** Generating Components
+    The components are generated using templates.  Templates are found
+    in the [[file:page-templates][page-templates]] directory.
+
+    The =page-templates= directory contains [[https://handlebarsjs.com/][handlebarsjs]] templates.
+    Each of these templates is one of two types:
+    - Page Specific Template :: Page specific templates are defined
+         for components that are required in a single page.
+    - Common Template :: Common Templates are used to generate
+         components like headers, footers etc. that are placed in each
+         page.
+
+**** Difference Between IIITH and Other Lab pages
+     The IIITH lab pages are similar to all other lab pages, except
+     for the List of Experiments Page.  The list of experiments page
+     has different template for the two types of experiments.
+
+     - Template for IIITH Labs :: nested-list-of-experiments-ctnt.handlebars
+     - Template for Other Labs :: list-of-experiments-ctnt.handlebars
+     
+     As the templates are different, the data also comes from
+     different fields in the lab-descriptor.
+
+     - IIITH Lab List of Experiments Field :: =experiments=
+     - Other Lab List of Experiments Field :: =nested-experiments=
+
+     Only one of these fields should be present in a lab-descriptor.
+
+     *NOTE*: If both fields are present, the lab pages will not be
+     generated.
+
+*** Generate Lab
+
+    Once the pages are generated (generated pages are present in
+    =page-components=) the lab is generated using the following:
+
+    - Lab Structure :: The =lab-structure= directory contains the
+                       files and directories needed to make the pages
+                       work.  Like the needed css and js files are
+                       present here.  This directory also contains a
+                       makefile that contains the recipe for building
+                       the lab using the sources.
+    - Page Components :: Page Components are the html pages generated
+         using the data and templates.
+
+    The lab structure directory is copied to the =labpath= directory
+    (that contains the lab-descriptor) and then the generated pages
+    are copied there.
+    
+    Finally, the makefile is executed in the =labpath/src= directory.
+   
+** Build and Stage Experiments
+   
+   After the lab pages are built, the experiments need to built and
+   staged.
+
+   The =deployExperiments= function handles this process.
+
+   Here again, we make a distinction between IIITH Experiments and
+   Other experiments.  The type of experiments is decided based on the
+   =collegeName= field in the lab-descriptor.  If the =collegeName= is
+   =IIITH= then all experiments are identified as =IIITH= experiments.
+
+   The reason we make this distinction, is because these two types of
+   experiments have a different build process.
+
+*** IIITH Experiments
+    The IIITH Experiments are designed in such a way that there are
+    three repositories that contain different content for each
+    experiments.
+
+    - content-html :: the main pages.
+    - artefacts :: the artefacts like images, simulations etc.
+    - ? :: 
+
+    The build process requires us the clone the =content-html=
+    repository and run the makefile.  This makefile takes care of the
+    entire build process.
+
+*** Other Experiments
+    For all experiments that are developed using the =IITB Development
+    Process=, the build process is different than that of =IIITH=
+    experiments.  The experiment content is authored in markdown and
+    the simulations are embedded in iframes.
+
+    The scripts for building and hosting these experiments is
+    available in a separate [[https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv][repository]].  We provide the repo URL and
+    the version of the sources to use for our deployment.  Our scripts
+    then clones the repo, and executes the scripts on our behalf.
+
+** Stage Lab
+   
+   If the build and staging process of experiments is successful, we
+   move on to the process of staging the lab.
+
+   Here we basically just copy the contents of the =build= directory
+   from the labpath to the staging location, which is a directory on
+   the server.
+   
+** Deploy
+
+   If the staging of experiments and lab sources succeeds the last
+   step is to place the lab sources and the experiments to their final
+   location on the server.
+
+   *NOTE*: We assume that is process is not prone to any known errors.
+
+   
