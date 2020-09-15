@@ -7,6 +7,9 @@
 * Process
   
 ** Generate Pages
+   
+   [[file:page-generation.png][file:page-generation.png]]
+
    =generate= function is reponsible for generating the lab pages.  It
    takes the labpath and generates all the html pages required for the
    lab.
