@@ -139,4 +139,23 @@
 
    *NOTE*: We assume that is process is not prone to any known errors.
 
+** Release Management
+
+   After each successful lab generation and deployment process, the
+   lab sources are pushed to its repository along with the timestamp
+   in its commit message.
+
+   A new release of the sources is made by incrementing the previous
+   release number.  The numbering scheme follows semantic versioning.
+   The type of release determines the version number.
    
+   
+*** Version scheme
+
+    Every release follows the scheme : =v<X>.<Y>.<Z>=. Where X, Y, and
+    Z are non-negative integers.
+
+    Types of releases:
+    - Major :: X is incremented and Y, Z become 0.
+    - Minor :: X stays the same.  Y is incremented and Z becomes 0.
+    - Patch :: X and Y remain the same.  Z is incremented.
