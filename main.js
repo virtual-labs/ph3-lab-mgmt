@@ -232,7 +232,7 @@ function deployExperiments(labpath) {
     const expDeploymentRepo =
       "https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git";
     const expDeploymentWd = "ph3-beta-to-ui3.0-conv";
-    const tag = "v1.1.0";
+    const tag = "v1.1.1";
 
     child_process.execSync(`rm -rf ${expDeploymentWd}`);
     child_process.execSync(
