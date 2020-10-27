@@ -234,10 +234,11 @@ function deployExperiments(labpath) {
     const expDeploymentWd = "ph3-beta-to-ui3.0-conv";
     const tag = "1.1.1_fix_3";
 
-    child_process.execSync(`rm -rf ${expDeploymentWd}`);
-    child_process.execSync(
-      `git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`
-    );
+    //child_process.execSync(`rm -rf ${expDeploymentWd}`);
+    //child_process.execSync(
+    //  `git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`
+      //);
+      
     child_process.execSync(
       `cp ${ldpath} ${expDeploymentWd}/experiment-list.json`
     );
@@ -428,10 +429,10 @@ function labgen() {
 
 function reportRes(labpath, tag, res) {
   ld = updateDescriptor(labpath, tag);
-  updateRecord(ld, res);
-  pushlab(labpath);
+  //updateRecord(ld, res);
+  //pushlab(labpath);
   if (res === "SUCCESS") {
-    release(labpath, tag);
+    //release(labpath, tag);
   }
 }
 
