@@ -102,7 +102,7 @@ find expbuilds/$EXP_SHORT_NAME/ -type f -name "*.html" -exec sed -i "s,{{LAB_LIN
 
 cp fixpointer.py expbuilds/$EXP_SHORT_NAME/round-template/experiment/simulation/
 cd expbuilds/$EXP_SHORT_NAME/round-template/experiment/simulation/
-python fixpointer.py
+python2 fixpointer.py
 cp -r images ../../../
 cd ..
 cp -r images/* ../../images/

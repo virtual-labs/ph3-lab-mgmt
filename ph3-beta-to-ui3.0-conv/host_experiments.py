@@ -17,7 +17,7 @@ def build_exp(exp, broad_area_name, display_lab_name, lab_name, college_name, ph
     return exp['repo']
 
 def copy_exps_to_server(build_loc, exp_copy_loc):
-    rsync_cmd = "mkdir -p '%s'; rsync -a '%s' '%s'" % (exp_copy_loc, build_loc, exp_copy_loc)
+    rsync_cmd = "mkdir -p '%s'; rsync -a '%s'/* '%s'" % (exp_copy_loc, build_loc, exp_copy_loc)
     try:
         (ret_code, output) = execute_command(rsync_cmd)
         print "copy to remote successful"
@@ -33,7 +33,7 @@ def host_experiments():
         if (exp["deploy"]):
             lab_name = re.sub(r' +', '-', data["lab"].lower())
             lab_link = os.path.join(data["baseUrl"], lab_name)
-            exp_copy_loc = "/var/www/html/" + lab_name + "/stage/exp/"
+            exp_copy_loc = "/home/p/public"
             build_exp(exp,
                       data["broadArea"]["name"],
                       data["lab"], lab_name, data['collegeName'],

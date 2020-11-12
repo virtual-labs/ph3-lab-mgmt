@@ -1,44 +1,33 @@
 {
-  "broadArea": {
-    "name": "Electronics and Communication Engineering",
-    "link": "http://www.vlab.co.in/broad-area-electronics-and-communications"
-  },
-  "lab": "Digital Electronics IITR",
-  "phase": 3,
-  "collegeName": "IITR",
-  "baseUrl": "de-iitr.vlabs.ac.in",
-  "introduction": "Welcome to the Digital Electronics Lab",
-  "experiments": [
-    {
-      "name": "Verification and interpretation of truth table for AND, OR, NOT, NAND, NOR, Ex-OR, Ex-NOR gates",
-      "short-name": "truth-table-gates",
-      "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/digital-electronics-iitr/verification-and-interpretation-truth-table-gates-iitr.git",
-      "tag": "v1.0.0",
-      "deploy": true
+    "broadArea": {
+        "name": "Mechanical Engineering",
+        "link": "http://vlab.co.in/broad-area-mechanical-engineering"
     },
-    {
-      "name": "Construction of half and full adder using XOR and NAND gates and verification of its operation",
-      "short-name": "half-full-adder",
-      "repo": "http://vlabs.iitb.ac.in/gitlab/vlabs-dev-central-hosting/digital-electronics-iitr/construction-half-full-adder-verification-of-operation-iitr",
-      "tag": "v1.0.0",
-      "deploy": true
-    }
-  ],
-  "targetAudience": {
-    "UG": ["B. Tech./ B.E in Electronics and Communications"],
-    "PG": [
-      "MS/Ph. D. Beginners in Electronics and Communications and related topics"
-    ]
-  },
-  "objective": "To learn and understand the basic concepts of digital electronics.",
-  "courseAlignment": {
-    "description": "The syllabi of this lab aligns to the following universities in India.",
-    "universities": [
-      "M. Morris Mano and M. D. Ciletti, “Digital Design”, Pearson Education.",
-      "David J. Comer, “Digital Logic & State Machine Design”, Oxford University Press",
-      "Taub, Schilieng, “Digital Integrated Electronics”.",
-      "John F Wakerly, “Digital Design: Principles and Practices”, Prentice Hall."
-    ]
-  },
-  "version": "v5.11.0"
+    "lab": "Electron Microscopy For Beginners",
+    "deployLab":true,
+    "phase": 3,
+    "collegeName": "IITK",
+    "baseUrl": "http://emb-iitk.vlabs.ac.in",
+    "introduction": "Welcome to Electron Microscopy For Beginners",
+    "experiments": [
+	    	    {
+            "name": "Basics of Scanning Electron Microscopy: Secondary Electron and BSE imaging mode",
+            "short-name": "sem-basics",
+            "repo": "https://github.com/virtual-labs/exp-beam-voltage-ph3-iitk",
+            "branch": "master",
+            "tag": "v1.0.0",
+            "deploy": true
+                }
+    ],
+    "targetAudience": {
+        "UG": ["B.Tech./ B.E in Mechanical Engineering"],
+        "PG": ["M.Tech/ M.E in Mechanical Engineering"]
+    },
+    "objective": ["To understand basic operation of SEM",
+		  "To observe the imaging modes of Secondary electron for topographical features and back-scattered electron imaging for compositional contrast",
+		  "Get a feel of characterizing the feature size",
+		  "To understand the basic operation of the TEM Loading sample, searching and selecting region of interest, Magnifying the features, Purpose of tilting and optimizing the contrast, setting for bright field imaging, setting for diffraction pattern",
+		  "Purpose of bright field imaging, purpose of dark field imaging, weak beam imaging"
+    		]
+
 }
