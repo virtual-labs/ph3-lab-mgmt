@@ -33,7 +33,7 @@ mkdir -p expbuilds
 
 
 ##### Clone repository
-cd exprepos; git clone $url -q; cd ../
+cd exprepos; git clone -b dev $url -q; cd ../
 
 basename=$(basename $url)
 reponame=${basename%.*}
