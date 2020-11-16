@@ -10,7 +10,7 @@ cp -r $template/* ../../build
 
 ## Copy content (simulations, and other files like markdown, images etc) from the source repo directory
 ## to the build directory and rename it to "round-template".
-cp -r ../../experiment build/round-template
+cp -r ../../experiment ../../build/round-template
 
 
 cp fixpointer.py ../../build/round-template/experiment/simulation/
