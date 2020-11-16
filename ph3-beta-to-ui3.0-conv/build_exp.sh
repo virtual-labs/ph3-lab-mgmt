@@ -14,7 +14,7 @@ cp -r ../../experiment ../../build/round-template
 
 
 cp fixpointer.py ../../build/round-template/experiment/simulation/
-cd ../build/round-template/experiment/simulation/
+cd ../../build/round-template/experiment/simulation/
 python2 fixpointer.py
 
 exit 0
