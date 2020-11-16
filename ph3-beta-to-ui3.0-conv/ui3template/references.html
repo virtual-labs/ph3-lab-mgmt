@@ -1,25 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!--Google Tag Manager-->
-    <script class="gtm">
-      var dataLayer = [{
-          'labName': '{{LAB_NAME}}',
-          'discipline': '{{BROAD_AREA}}',
-          'college': '{{COLLEGE_NAME}}',
-          'phase': '{{PHASE}}',
-          'expName': '{{EXP_NAME}}',
-          'expShortName': '{{EXP_SHORT_NAME}}'
-      }];
-
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                                                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                           j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
-                           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                          })(window,document,'script','dataLayer','GTM-W59SWTR');
-    </script>
-    <!--End Google Tag Manager-->
-    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -74,12 +55,6 @@
     </script>
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
-    <!--Google Tag Manager (noscript)-->
-    <noscript class="gtm">
-      <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-W59SWTR" style="display:none;visibility:hidden" width="0">			
-      </iframe>
-    </noscript>
-    <!--End Google Tag Manager (noscript)-->
     <header class="vlabs-header sticky-top bg-white">
       <nav class="p-0 navbar navbar-expand-lg navbar-light">
         <a href="#" class="navbar-brand">
@@ -104,23 +79,6 @@
       </nav>
     </header>
     <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
-      <div class="row py-4 px-4 breadcrumbs">
-        <a href="{{BA_LINK}}">
-          {{BROAD_AREA}}               
-        </a>
-        <span class="mx-2">
-          <i aria-hidden="true" class="fa fa-angle-right"></i>
-        </span>
-        <a href="{{LAB_LINK}}"> 
-          {{LAB_NAME}}
-        </a>
-        <span class="mx-2">
-          <i aria-hidden="true" class="fa fa-angle-right"></i>
-        </span>
-        <a href="{{LAB_LINK}}/List of experiments.html">
-          List Of Experiments
-        </a>
-      </div>        
       <div class="row flex-grow-1 px-4">
         <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
           <a href="index.html" class="py-2">Aim</a>
