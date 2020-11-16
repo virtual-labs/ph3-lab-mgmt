@@ -5,6 +5,7 @@ template=ui3template
 
 ## Copy template files to the build directory of the experiment.
 mkdir -p ../../build
+mkdir -p ../../build/round-template
 cp -r $template/* ../../build
 
 
