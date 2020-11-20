@@ -1,0 +1,206 @@
+#+title: Phase 3 Lab and Experiment Operations
+#+setupfile: ./org-html-themes/setup/theme-readtheorg-local.setup
+#+export_file_name: ./docs/index.html
+
+* Introduction
+
+  A Virtual Labs /Experiment/ is a systematic collection of learning
+  resources for Engineering students to learn about a single topic in
+  a subject.  Each experiment consists of some theory and reading
+  material, interactive simulations and quizes or tests.  The
+  authoring process may be different for each institute but the end
+  result is a collection of web-pages that are published together as
+  an /Experiment/.
+
+  Each experiment is a part of of /Lab/.  A /Lab/ is a conceptually a
+  collection of /Experiments/ related to a subject.  A /Lab/ is
+  published as a collection of web-pages that provide an entry point
+  for a user to learn about that subject.  The list of experiments
+  included in a lab provides links to all the available experiments.
+
+  Creating a publishable lab along with all it's experiments, is a
+  process that involves a lot of manual effort that does not add any
+  value to the lab itself.  *Labgen* is a command-line tool that helps
+  in avoiding all the repeatative effort involved in creating a lab
+  from individual experiments and other lab content.
+
+  The following processes are supported by *labgen*:
+  1. Generation of Lab pages.
+  2. Deployment of Lab
+  3. Build and Deployment of Experiments
+
+  The automated build and deployment of experiments is supported only
+  for experiments generated using the /Phase 3 experiment authoring
+  process/ (link?) defined by IIT-B.
+  
+
+* Requirements
+  
+  1. *node 12.12.x*
+     - Download link: [[https://nodejs.org/en/download/][node]]
+     - recommended to install via [[https://github.com/nvm-sh/nvm][nvm]]
+  2. *npm 6.11.x*
+
+
+* Setup
+
+** Install Dependencies
+
+   #+BEGIN_SRC bash
+
+   npm install
+   
+   #+END_SRC
+
+  
+* Generating Lab Pages
+  
+  
+** Create Lab Repository
+
+   Create a new lab repository on [[https://github.com/virtual-labs][Github]] or clone and existing one.
+   The repository should be empty.
+
+** Initialize Lab Descriptor
+
+   To start with the process of lab generation, you need a /Lab
+   Descriptor/.
+
+   /Lab Descriptor/ is a json file the contains data for lab pages and
+   other information for lab and experiment deployment.  [[file:lab-descriptor.org][This]] document
+   describes the structure of a lab descriptor file.
+
+   Run the following command to initialize a lab descriptor file that
+   contains all the required fields, without any values.  
+
+   #+NAME: labgen-init
+   #+BEGIN_SRC bash
+     npm run labgen -- init <path/to/lab/repo>
+   #+END_SRC
+
+   In the above command =<path/to/lab/repo>= should be replaced with
+   the actual path to the local lab repository mentioned in the first
+   step.
+
+*** Init Example
+
+   For example, if https://github.com/virtual-labs/myNewLab is your
+   repository and you clone it on your local system at location
+   =/home/myuser/virtual-labs/=, then you would do run the following
+   commands -
+
+   #+NAME: labgen-init-example
+   #+BEGIN_SRC bash
+     npm run labgen -- init /home/myuser/virtual-labs/myNewLab
+   #+END_SRC
+   
+   or 
+
+   #+NAME: labgen-init-example-rel-path
+   #+BEGIN_SRC bash
+     npm run labgen -- init ~/virtual-labs/myNewLab
+   #+END_SRC
+
+   This will generate the file
+   =~/virtual-labs/myNewLab/lab-descriptor.json=.
+   
+** Complete and Verify Lab Descriptor   
+
+   Fill all the values in the =<path/to/lab/repo>/lab-descriptor.json=
+   file generated above and create a pull-request to get the
+   lab-descriptor approved.
+
+   
+*** LD Verification Example
+
+    Continuing the [[Init Example][init]] example, lets see how to submit the completed
+    lab-descriptor for verification.
+
+    In the lab repository, switch to a new branch and edit the json.
+
+    #+BEGIN_SRC bash
+    cd ~/virtual-labs/myNewLab
+    git checkout -b lab-descriptor
+    editor lab-descriptor.json
+    #+END_SRC
+
+    After filling the json push the file to remote and create a pull
+    request.
+
+    #+BEGIN_SRC bash
+      git add lab-descriptor.json
+      git commit -m "lab-descriptor for verification"
+      git push origin lab-descriptor
+    #+END_SRC
+
+    Once this pull request is merged to master, do not make any new
+    changes to the lab-descriptor.
+
+
+** Run All
+
+   From the /Phase-3-Lab-Template/ repository, run the following.
+   
+   #+NAME: labgen-generate
+   #+BEGIN_SRC bash
+     npm run labgen -- <path/to/lab/repo>
+   #+END_SRC
+
+* Updates
+
+** Reporting
+
+   The timestamp, verion number and status (success or failure) of the
+   run is updated to a google sheet.
+
+** Release management of Lab Sources
+
+   After a lab (including all its experiments) is deployed, a new tag
+   is created for the lab using the master branch.  The tag number
+   follows semantic versioning and the next version number is derived
+   from the previous version with the help of input provided by the
+   user regarding type of the release (major, minor or patch).  By
+   default a minor version is generated.
+
+   The lab descriptor is updated with the current release number.
+
+** Automated JSON Validation
+
+   The lab descriptor is validated using a [[file:labDescSchema.json][schema]].  If anything is
+   invalid in the lab descriptor, the error is displayed and process
+   aborts.
+
+** Deployment Process
+
+   1. Stage all experiments
+   2. Stage Lab
+   3. Deploy Experiments
+   4. Deploy Lab
+
+*** Staging
+
+    - /var/www/html/
+      - <lab-name>/
+	- stage/
+	  - all lab sources here.
+	  - exp/
+	    - all experiments here.
+	- contents of the stage/ directory are copied here after
+          staging is complete.
+
+    If anything fails, you need to start the process again.
+	
+** TODO 
+
+   - [-] move release type to pre run option.
+   - [-] log to file
+   - [X] remove lab name from path to experiment
+     - experiment is unit of development
+     - Current url pattern: https://de-iitr.vlabs.ac.in/digital-electronics-iitr/exp/truth-table-gates/
+     - New url pattern: https://de-iitr.vlabs.ac.in/exp/truth-table-gates/
+     - [X] +symlink for compatibility+
+     - [X] test on a lab that is not linked
+   - KT to Balamma
+     - [-] session 1 scheduled on <2020-08-31 Mon>.  Find the [[file:KT.org][minutes]]
+       here.
+
