@@ -429,10 +429,10 @@ function labgen() {
 
 function reportRes(labpath, tag, res) {
   ld = updateDescriptor(labpath, tag);
-  //updateRecord(ld, res);
-  //pushlab(labpath);
+  updateRecord(ld, res);
+  pushlab(labpath);
   if (res === "SUCCESS") {
-    //release(labpath, tag);
+    release(labpath, tag);
   }
 }
 
