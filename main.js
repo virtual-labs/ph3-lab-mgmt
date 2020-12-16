@@ -175,7 +175,7 @@ function dataPreprocess(datafile) {
 }
 
 function toDirName(n) {
-  return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
+  return n.toLowerCase().trim().replace(/[–\(\)]/g, "").replace(/ +/g, "-");
 }
 
 function generateLink(baseUrl, expName, index_fn = "") {
