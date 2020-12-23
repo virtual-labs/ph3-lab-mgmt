@@ -37,7 +37,7 @@ function copyLabDescriptor(repoDir) {
 
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
-  shell.exec(`mkdir -p ${destPath}`);
+  shell.exec(`mkdir -p '${destPath}'`);
   child_process.execSync(`rsync -a ${src} ${destPath}`);
 }
 
@@ -176,9 +176,10 @@ function dataPreprocess(datafile) {
 
 function toDirName(n) {
     return n.toLowerCase().trim().replace(/–/g, "")
-	.replace(/ +/g, "-")
+	.replace(/ +/g, "-");
+/*    
 	.replace(/[\(]/, "\\\(")
-	.replace(/[\)]/, "\\\)");
+	.replace(/[\)]/, "\\\)"); */    
 }
 
 function generateLink(baseUrl, expName, index_fn = "") {
