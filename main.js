@@ -363,12 +363,12 @@ function golive(labpath) {
     );
     shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
     shell.exec(`rsync -arv --exclude .git \
-${deployment_path}/stage/exp/${e["short-name"]}/* ${deployment_path}/exp/${e["short-name"]}`);
+'${deployment_path}/stage/exp/${e["short-name"]}/*' '${deployment_path}/exp/${e["short-name"]}'`);
   });
 
   console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
   shell.exec(`rsync -arv --exclude .git \
-${deployment_dest}/stage/${lab_dir_name}/* ${deployment_dest}/${lab_dir_name}`);
+'${deployment_dest}/stage/${lab_dir_name}/*' '${deployment_dest}/${lab_dir_name}'`);
 }
 
 
