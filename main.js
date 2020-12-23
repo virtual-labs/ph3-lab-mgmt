@@ -38,7 +38,7 @@ function copyLabDescriptor(repoDir) {
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
   shell.exec(`mkdir -p '${destPath}'`);
-  child_process.execSync(`rsync -a ${src} ${destPath}`);
+  child_process.execSync(`rsync -a ${src} '${destPath}'`);
 }
 
 function buildPage(template_file, component_files, content_file) {
