@@ -31,7 +31,9 @@ def host_experiments():
 
     for exp in data["experiments"]:
         if (exp["deploy"]):
-            lab_name = re.sub(r' +', '-', data["lab"].lower())
+            lab_name = re.sub(r'\)', '\\\)',
+                              re.sub(r'\(', '\\\(',
+                                     re.sub(r' +', '-', data["lab"].lower())))
             lab_link = os.path.join(data["baseUrl"], lab_name)
             exp_copy_loc = "/var/www/html/" + lab_name + "/stage/exp/"
             build_exp(exp,
