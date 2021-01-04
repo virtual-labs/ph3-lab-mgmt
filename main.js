@@ -18,6 +18,8 @@ const prettier = require("prettier");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
+const {buildExp} = require("./buildexp.js");
+
 
 shell.config.silent = true;
 shell.set("-e");
@@ -34,6 +36,7 @@ function copyLabDescriptor(repoDir) {
     fse.copySync(labDescriptorFn, ldpath);
   }
 }
+
 
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
@@ -166,7 +169,7 @@ function dataPreprocess(datafile) {
               (index_fn = "exp.html")
             );
             return { name: e.name, link: exp_url.toString() };
-          }),
+          })
         };
       });
       return data;
@@ -227,28 +230,31 @@ function generate(labpath) {
 }
 
 function deployExperiments(labpath) {
-  const ldpath = path.resolve(labpath, "lab-descriptor.json");
-  const ld = require(ldpath);
-  if (ld.collegeName === "IIITH") {
-    iiith_exp_manage(ld);
-    return;
-  } else {
-    const expDeploymentRepo =
-      "https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git";
-    const expDeploymentWd = "ph3-beta-to-ui3.0-conv";
-    const tag = "1.1.1_fix_3";
-
-    //child_process.execSync(`rm -rf ${expDeploymentWd}`);
-    //child_process.execSync(
-    //  `git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`
-      //);
-      
-    child_process.execSync(
-      `cp ${ldpath} ${expDeploymentWd}/experiment-list.json`
-    );
-    child_process.execSync(`cd ${expDeploymentWd}; make host-experiments`);
-  }
+    
+    const ldpath = path.resolve(labpath, "lab-descriptor.json");
+    const ld = require(ldpath);
+    if (ld.collegeName === "IIITH") {
+	iiith_exp_manage(ld);
+	return;
+    }
+    else {	
+	ld.experiments.forEach((e) => {
+	    buildExp(ld, e);
+	    stageExp(e, labpath)
+	});
+    }
 }
+
+
+function stageExp(exp, labpath) {
+    const deployment_dest = "/var/www/html";
+    shell.mkdir("-p", path.join(deployment_dest, getLabName(labpath), "stage/exp"));
+    shell.cp( "-R",
+	path.join("expbuilds", exp["short-name"]),
+	path.join(deployment_dest, getLabName(labpath), "stage/exp")
+    );
+}
+
 
 function getLabName(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
