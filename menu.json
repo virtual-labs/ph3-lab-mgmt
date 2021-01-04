@@ -1,0 +1,66 @@
+[
+    {
+	"item": "aim",
+	"target": "index.html",
+	"source": "aim.md",
+	"label": "Aim"
+    },
+    {
+	"item": "theory",
+	"target": "theory.html",
+	"source": "theory.md",
+	"label": "Theory"
+    },
+    {
+	"item": "pretest",
+	"target": "pretest.html",
+	"source": "pretest.js",
+	"label": "Pretest"
+    },
+    {
+	"item": "procedure",
+	"target": "procedure.html",
+	"source": "procedure.md",
+	"label": "Procedure"
+    },
+    {
+	"item": "simulation",
+	"target": "simulation.html",
+	"label": "Simulation"
+    },
+    {
+	"item": "posttest",
+	"target": "posttest.html",
+	"source": "posttest.js",
+	"label": "Posttest"
+    },
+    {
+	"item": "observation",
+	"target": "observation.html",
+	"source": "observation.md",
+	"label": "Observation"
+    },
+    {
+	"item": "assignment",
+	"target": "assignment.html",
+	"source": "assignment.md",
+	"label": "Assignment"
+    },
+    {
+	"item": "quiz",
+	"target": "quiz.html",
+	"source": "quiz.md",
+	"label": "Quiz"
+    },	
+    {
+	"item": "references",
+	"target": "references.html",
+	"source": "references.md",
+	"label": "References"
+    },
+    {
+	"item": "feedback",
+	"target": "feedback.html",
+	"label": "Feedback"
+    }
+]
