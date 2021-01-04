@@ -45,7 +45,7 @@ function copyPages( experiment ) {
 function buildExp(data, experiment) {
     //console.log("building experiment");
     copySources( experiment );
-    buildPages( data, experiment, true );
+    buildPages( data, experiment, false );
     copyPages( experiment );
 }
 

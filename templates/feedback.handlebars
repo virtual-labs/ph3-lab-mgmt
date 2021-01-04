@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    {{#if analytics}}      
+    {{#if production}}
     <!--Google Tag Manager-->
     <script class="gtm">
       var dataLayer = [{
@@ -64,7 +64,7 @@
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
     
-    {{#if analytics}}
+    {{#if production}}
     <!--Google Tag Manager (noscript)-->
     <noscript class="gtm">
       <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-W59SWTR" style="display:none;visibility:hidden" width="0">
@@ -97,6 +97,8 @@
       </nav>
     </header>
     <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+      
+      {{#if production }}
       <div class="row py-4 px-4 breadcrumbs">
         <a href="{{broadArea.link}}">
           {{broadArea.name}}               
@@ -114,6 +116,8 @@
           Experiments
         </a>
       </div>
+      {{/if }}
+      
       <div class="row flex-grow-1 px-4">
         <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
           {{#each menu}}            

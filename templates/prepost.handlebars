@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {{#if production }}
     <!--Google Tag Manager-->
     <script class="gtm">
       var dataLayer = [{
@@ -19,6 +20,7 @@
                           })(window,document,'script','dataLayer','GTM-W59SWTR');
     </script>
     <!--End Google Tag Manager-->
+    {{/if }}
     
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,12 +63,16 @@
 
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+    
+    {{#if production }}
     <!--Google Tag Manager (noscript)-->
     <noscript class="gtm">
       <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-W59SWTR" style="display:none;visibility:hidden" width="0">			
       </iframe>
     </noscript>
-    <!--End Google Tag Manager (noscript)-->    
+    <!--End Google Tag Manager (noscript)-->
+    {{/if }}
+    
     <header class="vlabs-header sticky-top bg-white">
       <nav class="p-0 navbar navbar-expand-lg navbar-light">
         <a href="http://vlab.co.in" class="navbar-brand">
@@ -91,6 +97,9 @@
       </nav>
     </header>
     <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+
+      {{#if production }}
+      
       <div class="row py-4 px-4 breadcrumbs">
         <a href="{{broadArea.link}}">
           {{broadArea.name}}               
@@ -108,6 +117,9 @@
           Experiments
         </a>
       </div>
+
+      {{/if }}
+      
       <div class="row flex-grow-1 px-4">
         <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
           {{#each menu}}

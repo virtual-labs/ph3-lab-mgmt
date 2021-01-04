@@ -44,7 +44,6 @@ function templateFile(item) {
 
 function buildPage( data, current_item, template_content, exp_dir_name ) {
 
-    //console.log("working.");
     
     data["current_item"] = current_item;
     data["menu"] = menu.filter((mi) => hasSource(mi, exp_dir_name));
@@ -53,26 +52,20 @@ function buildPage( data, current_item, template_content, exp_dir_name ) {
     const compiled_template = template(data);
     
     fs.writeFileSync(`${build_dir}/${exp_dir_name}/${data["current_item"].target}`, compiled_template );
-    //console.log("page done");
 }
 
 
-
-exports.buildPages = ( data, experiment, include_analytics ) => {
-
-    //console.log("build pages");    
+function buildPages(data, experiment, production) {
     menu.forEach((mi) => {
 
 	data["exp_name"] = experiment.name;
 	data["exp_short_name"] = experiment["short-name"];
-	if ( include_analytics ) {
-	    data["analytics"] = true;
-	}
-	else {
-	    data["analytics"] = false;
-	}
+	data["production"] = production;
 	
 	const template_content = fs.readFileSync(path.join(template_dir, templateFile(mi.item)), "utf-8");
 	buildPage(data, mi, template_content, experiment["short-name"]);
     });
 }
+
+
+exports.buildPages = buildPages;
