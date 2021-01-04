@@ -7,13 +7,13 @@ const shell = require("shelljs");
 const template_dir = "templates";
 let menu = require("./menu.json");
 
-const repo_dir = "exprepos";
-const build_dir = "expbuilds";
+const repo_dir = "../";
+const build_dir = "../build";
 
-function hasSource( menu, exp_dir_name ) {
+function hasSource( menu ) {
     if (menu.source) {
 	try {
-	    fs.accessSync(path.join(repo_dir, exp_dir_name, "experiment", menu.source));
+	    fs.accessSync(path.join(repo_dir, "experiment", menu.source));
 	}
 	catch (err) {
 	    if (err.code === "ENOENT") return false;
@@ -42,28 +42,26 @@ function templateFile(item) {
 
 
 
-function buildPage( data, current_item, template_content, exp_dir_name ) {
+function buildPage( data, current_item, template_content ) {
 
     
     data["current_item"] = current_item;
-    data["menu"] = menu.filter((mi) => hasSource(mi, exp_dir_name));
+    data["menu"] = menu.filter((mi) => hasSource(mi));
     
     const template = Handlebars.compile(template_content);
     const compiled_template = template(data);
     
-    fs.writeFileSync(`${build_dir}/${exp_dir_name}/${data["current_item"].target}`, compiled_template );
+    fs.writeFileSync(`${build_dir}/${data["current_item"].target}`, compiled_template );
 }
 
 
 function buildPages(data, experiment, production) {
     menu.forEach((mi) => {
 
-	data["exp_name"] = experiment.name;
-	data["exp_short_name"] = experiment["short-name"];
 	data["production"] = production;
 	
 	const template_content = fs.readFileSync(path.join(template_dir, templateFile(mi.item)), "utf-8");
-	buildPage(data, mi, template_content, experiment["short-name"]);
+	buildPage(data, mi, template_content);
     });
 }
 
