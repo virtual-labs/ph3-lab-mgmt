@@ -1,0 +1,21 @@
+* Process update
+
+** Menu json
+
+   Update the =menu.json= document according to the lab.
+
+** Clone Experiment Repos
+
+#+BEGIN_SRC shell
+
+node cloneexp.js <path>
+
+#+END_SRC
+
+** Run
+
+#+BEGIN_SRC shell
+
+npm run labgen -- <path>
+
+#+END_SRC
