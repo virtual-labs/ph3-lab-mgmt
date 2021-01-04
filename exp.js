@@ -39,7 +39,7 @@ function copyPages() {
 function buildExp() {
     copySources();
     buildPages( {}, {}, false );
-    copyPages( experiment );
+    copyPages();
 }
 
 
