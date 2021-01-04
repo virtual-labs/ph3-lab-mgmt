@@ -12,7 +12,7 @@ const build_root = "expbuilds";
 
 function copySources( experiment ) {
 
-    console.log("copy sources");
+    //console.log("copy sources");
     
     const repo_dir = path.join( repo_root, experiment["short-name"], "experiment" );
     const build_dir = path.join( build_root, experiment["short-name"] );
@@ -32,7 +32,7 @@ function copySources( experiment ) {
 
 function copyPages( experiment ) {
 
-    console.log("copy pages");
+    //console.log("copy pages");
     
     const build_dir = path.join( build_root, experiment["short-name"] );
     const repo_dir = path.join( repo_root, experiment["short-name"], "experiment" );
@@ -43,9 +43,9 @@ function copyPages( experiment ) {
 
 
 function buildExp(data, experiment) {
-    console.log("building experiment");
+    //console.log("building experiment");
     copySources( experiment );
-    buildPages( data, experiment, false );
+    buildPages( data, experiment, true );
     copyPages( experiment );
 }
 

@@ -2,6 +2,7 @@ const git = require("simple-git");
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const shell = require("shelljs");
 
 const gitOptions = {
     baseDir: "exprepos"
@@ -10,15 +11,20 @@ const gitOptions = {
 
 function cloneExperiment(exp) {
 
+    shell.mkdir("-p", "exprepos");
+    
     const repo_name = exp["short-name"];
     const target_dir = path.join(gitOptions.baseDir, repo_name);
     
     try {
 	fs.rmdirSync(target_dir, {recursive: true});
-	console.log("clone experiment...!");
+	console.log(`cloning ${exp["short-name"]}`);
 
-	return git( gitOptions )
-	    .clone(exp.repo, repo_name, {"--depth": 1, "--branch": exp.tag});
+	git( gitOptions )
+	    .clone(exp.repo, repo_name, {"--depth": 1, "--branch": exp.tag})
+	    .then((res) => console.log(res))
+	    .catch((err) => console.log(err));
+	
     }
     catch (err) {
 	console.log(err.code);

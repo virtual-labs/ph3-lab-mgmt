@@ -44,7 +44,7 @@ function templateFile(item) {
 
 function buildPage( data, current_item, template_content, exp_dir_name ) {
 
-    console.log("working.");
+    //console.log("working.");
     
     data["current_item"] = current_item;
     data["menu"] = menu.filter((mi) => hasSource(mi, exp_dir_name));
@@ -53,15 +53,14 @@ function buildPage( data, current_item, template_content, exp_dir_name ) {
     const compiled_template = template(data);
     
     fs.writeFileSync(`${build_dir}/${exp_dir_name}/${data["current_item"].target}`, compiled_template );
-    console.log("page done");
+    //console.log("page done");
 }
 
 
 
 exports.buildPages = ( data, experiment, include_analytics ) => {
 
-    console.log("build pages");
-    
+    //console.log("build pages");    
     menu.forEach((mi) => {
 
 	data["exp_name"] = experiment.name;
