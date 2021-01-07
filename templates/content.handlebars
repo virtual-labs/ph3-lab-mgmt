@@ -124,7 +124,7 @@
         <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
           {{#each menu}}            
             <a href="{{this.target}}"
-              class="py-2 {{#if (isActive current_item.target this.target) }} {{/if }}">
+              class="py-2 {{#if (isActive current_item.target this.target) }} current-item {{/if }}">
                 {{this.label}}
             </a>
           {{/each}}
