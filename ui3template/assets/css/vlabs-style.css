@@ -49,7 +49,12 @@
 .sidebar a {
     color: #3e6389;
 }
+
 .sidebar a:hover {
+    color: #ff6600;
+}
+
+.sidebar a.current-item {
     color: #ff6600;
 }
 

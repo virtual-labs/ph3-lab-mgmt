@@ -47,6 +47,10 @@ function buildPage( data, current_item, template_content ) {
     
     data["current_item"] = current_item;
     data["menu"] = menu.filter((mi) => hasSource(mi));
+
+    Handlebars.registerHelper('isActive', function (current_page, page) {
+	return (current_page === page);
+    });
     
     const template = Handlebars.compile(template_content);
     const compiled_template = template(data);
