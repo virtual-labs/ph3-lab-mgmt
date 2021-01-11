@@ -230,28 +230,24 @@ function generate(labpath) {
 }
 
 function deployExperiments(labpath) {
-    
-    const ldpath = path.resolve(labpath, "lab-descriptor.json");
-    const ld = require(ldpath);
-    if (ld["experiment-sections"]) {
-	iiith_exp_manage(ld);
-	return;
-    }
-    else {	
-	ld.experiments.forEach((e) => {
-	    buildExp(ld, e);
-	    stageExp(e, labpath)
-	});
-    }
-}
+  const ldpath = path.resolve(labpath, "lab-descriptor.json");
+  const ld = require(ldpath);
+  if (ld["experiment-sections"]) {
+    iiith_exp_manage(ld);
+    return;
+  } else {
+    const expDeploymentRepo =
+      "https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git";
+    const expDeploymentWd = "ph3-beta-to-ui3.0-conv";
+    const tag = "1.1.1_fix_3";
 
-
-function stageExp(exp, labpath) {
-    const deployment_dest = "/var/www/html";
-    shell.mkdir("-p", path.join(deployment_dest, getLabName(labpath), "stage/exp"));
-    shell.cp( "-R",
-	path.join("expbuilds", exp["short-name"]),
-	path.join(deployment_dest, getLabName(labpath), "stage/exp")
+    //child_process.execSync(`rm -rf ${expDeploymentWd}`);
+    //child_process.execSync(
+    //  `git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`
+      //);
+      
+    child_process.execSync(
+      `cp ${ldpath} ${expDeploymentWd}/experiment-list.json`
     );
 }
 
@@ -566,6 +562,3 @@ function nextVersion(labpath, release_type) {
 }
 
 labgen();
-
-
-// "de-iitr.vlabs.ac.in",
