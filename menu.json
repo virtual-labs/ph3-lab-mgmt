@@ -35,10 +35,10 @@
 	"label": "Posttest"
     },
     {
-	"item": "observation",
-	"target": "observation.html",
-	"source": "observation.md",
-	"label": "Observation"
+	"item": "observations",
+	"target": "observations.html",
+	"source": "observations.md",
+	"label": "Observations"
     },
     {
 	"item": "assignment",
