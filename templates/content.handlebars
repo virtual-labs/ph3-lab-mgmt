@@ -74,23 +74,35 @@
     {{/if}}
     
     <header class="vlabs-header sticky-top bg-white">
-      <nav class="p-0 navbar navbar-expand-lg navbar-light">
-        <a href="http://vlab.co.in" class="navbar-brand">
+      <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
+        
+	<button class="navbar-toggler px-4"
+		type="button"
+		data-bs-toggle="collapse"
+		data-bs-target="#menu"
+		aria-controls="menu"
+		aria-expanded="true" aria-label="Toggle navigation">
+                
+                <span class="navbar-toggler-icon"></span>
+                
+	</button>
+
+        <div class="d-flex justify-content-center">        
+          <a href="http://vlab.co.in" class="navbar-brand">
           <img src="assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="headerNavbar">                
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="px-2" href="http://vlab.co.in">HOME</a>
+          </a>
+        </div>
+        
+        <div id="headerNavbar" class="border-top flex-grow-1 d-flex align-items-center">
+          <ul class="navbar-nav ml-auto text-center d-flex flex-md-row">
+            <li class="nav-item px-2 m-1">
+              <a href="http://vlab.co.in">HOME</a>
             </li>
-            <li class="nav-item">
-              <a class="px-2" href="http://vlab.co.in/participating-institutes">PARTNERS</a>
+            <li class="nav-item px-2 m-1">
+              <a href="http://vlab.co.in/participating-institutes">PARTNERS</a>
             </li>
-            <li class="nav-item">
-              <a class="px-2" href="http://vlab.co.in/contact-us">CONTACT</a>
+            <li class="nav-item px-2 m-1">
+              <a href="http://vlab.co.in/contact-us">CONTACT</a>
             </li>
           </ul>
         </div>
@@ -120,16 +132,13 @@
       
       {{/if }}
       
-      <div class="row flex-grow-1 px-4">
-        <div class="nav flex-column col col-sm-3 col-lg-2 sidebar">
+      <div class="row flex-grow-1 px-4 d-flex flex-nowrap">
+        <div class="nav flex-column sidebar flex-shrink-1 pr-4" id="menu">
           {{#each menu}}            
-            <a href="{{this.target}}"
-              class="py-2 {{#if (isActive current_item this.target) }} current-item {{/if }}">
-                {{this.label}}
-            </a>
+            <a href="{{this.target}}" class="py-2"> {{this.label}} </a>
           {{/each}}
         </div>
-        <div class="vlabs-page-content col col-sm-7 col-lg-10 pr-5 pb-4">
+        <div class="vlabs-page-content px-4 pb-4 flex-grow-1">
           <zero-md src="round-template/experiment/experiment-name.md">
           <template>
               <style>
