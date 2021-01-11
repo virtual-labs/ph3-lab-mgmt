@@ -233,7 +233,7 @@ function deployExperiments(labpath) {
     
     const ldpath = path.resolve(labpath, "lab-descriptor.json");
     const ld = require(ldpath);
-    if (ld.collegeName === "IIITH") {
+    if (ld["experiment-sections"]) {
 	iiith_exp_manage(ld);
 	return;
     }
