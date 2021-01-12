@@ -177,13 +177,11 @@
             
             <h3 class="page-name">Simulation</h3>
             <br>
-	    <div class="simulation-container">
-              <iframe class="responsive-iframe"
+              <iframe
 		      id="fraDisabled"
 		      src="round-template/experiment/simulation/index.html"
 		      frameborder="0" scrolling="no" onMyLoad="disableContextMenu();">
 	      </iframe>
-	      </div>
         </div>
       </div>
     </div>
@@ -225,5 +223,23 @@
       </div>
     </footer>
 
+
+<script type="application/javascript">
+
+function resizeIFrameToFitContent( iFrame ) {
+
+    iFrame.width  = iFrame.contentWindow.document.body.scrollWidth + 10;
+    iFrame.height = iFrame.contentWindow.document.body.scrollHeight + 10;
+}
+
+window.addEventListener('DOMContentLoaded', function(e) {
+
+    // or, to resize all iframes:
+    var iframe = document.querySelector("iframe");
+    iframe.onload = () => resizeIFrameToFitContent(iframe);
+} );
+
+</script>
+    
   </body>
 </html>
