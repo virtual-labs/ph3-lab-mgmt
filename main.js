@@ -236,19 +236,10 @@ function deployExperiments(labpath) {
     iiith_exp_manage(ld);
     return;
   } else {
-    const expDeploymentRepo =
-      "https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv.git";
-    const expDeploymentWd = "ph3-beta-to-ui3.0-conv";
-    const tag = "1.1.1_fix_3";
-
-    //child_process.execSync(`rm -rf ${expDeploymentWd}`);
-    //child_process.execSync(
-    //  `git clone ${expDeploymentRepo}; cd ${expDeploymentWd}; git fetch --all; git checkout ${tag}`
-      //);
-      
-    child_process.execSync(
-      `cp ${ldpath} ${expDeploymentWd}/experiment-list.json`
-    );
+      const expDeploymentWd = "ph3-beta-to-ui3.0-conv";      
+      shell.cp(ldpath, `${expDeploymentWd}/experiment-list.json`);
+      shell.exec(`cd ${expDeploymentWd}; make host-experiments`);
+  }
 }
 
 
