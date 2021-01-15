@@ -1,6 +1,7 @@
 const shell = require("shelljs");
 const path = require("path");
 const fs = require("fs");
+const { JSDOM } = require("jsdom");
 
 const {buildPages} = require("./renderpage.js");
 
@@ -36,10 +37,23 @@ function copyPages() {
 }
 
 
+function insertIframeResizer() {
+    let sim_index = fs.readFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ));
+    let dom = new JSDOM(sim_index);
+    let iframeScript = dom.window.document.createElement("script");
+    iframeScript.src = "./iframeResize.js";
+    dom.window.document.body.appendChild(iframeScript);
+    fs.writeFileSync(sim_index, dom.serialize());
+    shell.cp(path.join( build_root, "assets/js/iframeResize.js" ),
+	     path.join( build_root, "round-template/experiment/simulation/"));
+}
+
+
 function buildExp() {
     copySources();
     buildPages( {}, {}, false );
     copyPages();
+    insertIframeResizer();
 }
 
 
