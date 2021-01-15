@@ -7,10 +7,8 @@ const shell = require("shelljs");
 const template_dir = "templates";
 let menu = require("./menu.json");
 
-const repo_dir = "../";
-const build_dir = "../build";
 
-function hasSource( menu ) {
+function hasSource( repo_dir, menu ) {
     if (menu.source) {
 	try {
 	    fs.accessSync(path.join(repo_dir, "experiment", menu.source));
@@ -42,11 +40,11 @@ function templateFile(item) {
 
 
 
-function buildPage( data, current_item, template_content ) {
+function buildPage( repo_dir, build_dir, data, current_item, template_content ) {
 
     
     data["current_item"] = current_item;
-    data["menu"] = menu.filter((mi) => hasSource(mi));
+    data["menu"] = menu.filter((mi) => hasSource(repo_dir, mi));
 
     Handlebars.registerHelper('isActive', function (current_page, page) {
 	return (current_item.target === page);
@@ -59,13 +57,13 @@ function buildPage( data, current_item, template_content ) {
 }
 
 
-function buildPages(data, experiment, production) {
+function buildPages(repo_dir, build_dir, data, production) {
     menu.forEach((mi) => {
 
 	data["production"] = production;
 	
 	const template_content = fs.readFileSync(path.join(template_dir, templateFile(mi.item)), "utf-8");
-	buildPage(data, mi, template_content);
+	buildPage(repo_dir, build_dir, data, mi, template_content);
     });
 }
 

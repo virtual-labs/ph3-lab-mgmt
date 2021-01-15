@@ -19,7 +19,8 @@ const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
 const {buildExp} = require("./buildexp.js");
-
+const Exp = require("./exp.js");
+const config = require("./config.json");
 
 shell.config.silent = true;
 shell.set("-e");
@@ -230,29 +231,21 @@ function generate(labpath) {
 }
 
 function deployExperiments(labpath) {
-    
-    const ldpath = path.resolve(labpath, "lab-descriptor.json");
-    const ld = require(ldpath);
-    if (ld.collegeName === "IIITH") {
-	iiith_exp_manage(ld);
-	return;
-    }
-    else {	
-	ld.experiments.forEach((e) => {
-	    buildExp(ld, e);
-	    stageExp(e, labpath)
-	});
-    }
-}
-
-
-function stageExp(exp, labpath) {
-    const deployment_dest = "/var/www/html";
-    shell.mkdir("-p", path.join(deployment_dest, getLabName(labpath), "stage/exp"));
-    shell.cp( "-R",
-	path.join("expbuilds", exp["short-name"]),
-	path.join(deployment_dest, getLabName(labpath), "stage/exp")
-    );
+  const ldpath = path.resolve(labpath, "lab-descriptor.json");
+  const ld = require(ldpath);
+  if (ld["experiment-sections"]) {
+    iiith_exp_manage(ld);
+    return;
+  } else {
+      ld.experiments.forEach(e => {
+	  repo_root = path.join("exprepos", e["short-name"]);
+	  build_root = path.join("expbuilds", e["short-name"]);
+	  Exp.buildExp(repo_root, build_root, ld, true);
+	  shell.cp("-R", build_root, path.join(config["deployment_dest"],
+					       toDirName(ld.lab),
+					       "stage", "exp"));
+      });
+  }
 }
 
 
@@ -566,6 +559,3 @@ function nextVersion(labpath, release_type) {
 }
 
 labgen();
-
-
-// "de-iitr.vlabs.ac.in",

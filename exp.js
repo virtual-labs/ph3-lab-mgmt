@@ -5,11 +5,7 @@ const { JSDOM } = require("jsdom");
 
 const {buildPages} = require("./renderpage.js");
 
-const repo_root = "../";
-const build_root = "../build";
-
-
-function copySources() {
+function copySources(repo_root, build_root) {
     
     const repo_dir = path.join( repo_root, "experiment" );
     const build_dir = path.join( build_root );
@@ -27,7 +23,7 @@ function copySources() {
 }
 
 
-function copyPages() {
+function copyPages(repo_root, build_root) {
     
     const repo_dir = path.join( repo_root, "experiment" );
     const build_dir = path.join( build_root );
@@ -37,7 +33,7 @@ function copyPages() {
 }
 
 
-function insertIframeResizer() {
+function insertIframeResizer(repo_root, build_root) {
     let sim_index = fs.readFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ));
     let dom = new JSDOM(sim_index);
     let iframeScript = dom.window.document.createElement("script");
@@ -49,12 +45,17 @@ function insertIframeResizer() {
 }
 
 
-function buildExp() {
-    copySources();
-    buildPages( {}, {}, false );
-    copyPages();
-    insertIframeResizer();
+function buildExp(repo_root, build_root, data, prod) {
+    copySources(repo_root, build_root);
+    buildPages( repo_root, build_root, data, prod );
+    copyPages(repo_root, build_root);
+    insertIframeResizer(repo_root, build_root);
 }
 
+exports.buildExp = buildExp;
 
-buildExp();
+if (require.main === module) {
+    const repo_root = "../";
+    const build_root = "../build";
+    buildExp(repo_root, build_root, {}, false);
+}
