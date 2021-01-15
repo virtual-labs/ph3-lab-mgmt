@@ -43,7 +43,7 @@ function insertIframeResizer() {
     let iframeScript = dom.window.document.createElement("script");
     iframeScript.src = "./iframeResize.js";
     dom.window.document.body.appendChild(iframeScript);
-    fs.writeFileSync(sim_index, dom.serialize());
+    fs.writeFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ), dom.serialize());
     shell.cp(path.join( build_root, "assets/js/iframeResize.js" ),
 	     path.join( build_root, "round-template/experiment/simulation/"));
 }
