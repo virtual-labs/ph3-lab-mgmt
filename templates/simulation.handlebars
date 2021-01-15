@@ -223,6 +223,19 @@
         <a class="text-primary font-weight-bold" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons (CC BY-NC-SA 4.0) </a>
       </div>
     </footer>
+
+    <script>
+
+
+      window.onmessage = (e) => {
+	  if (e.data.hasOwnProperty("frameHeight")) {
+	      var iframeDiv = document.querySelector(".simulation-container");
+	      iframeDiv.style["padding-top"] = `${e.data.frameHeight + 30}px`;
+	  }
+      };
+      
+    </script>
+
     
   </body>
 </html>
