@@ -143,7 +143,10 @@
       <div class="row flex-grow-1 px-4 d-flex flex-nowrap">
         <div class="nav flex-column sidebar flex-shrink-1 pr-4" id="menu">
           {{#each menu}}
-            <a href="{{this.target}}" class="py-2"> {{this.label}} </a>
+            <a href="{{this.target}}"
+              class="py-2 {{#if (isActive current_item this.target) }} current-item {{/if }}">	
+              {{this.label}}	
+            </a>
           {{/each}}
         </div>
         <div class="vlabs-page-content px-4 pb-4 flex-grow-1">
