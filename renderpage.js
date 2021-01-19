@@ -59,7 +59,9 @@ function buildPage( repo_dir, build_dir, data, current_item, template_content ) 
 
 function buildPages(repo_dir, build_dir, data, production) {
     menu.forEach((mi) => {
-
+	
+	data["exp_name"] = experiment.name;
+	data["exp_short_name"] = experiment["short-name"];
 	data["production"] = production;
 	
 	const template_content = fs.readFileSync(path.join(template_dir, templateFile(mi.item)), "utf-8");
