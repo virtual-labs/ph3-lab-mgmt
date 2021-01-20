@@ -18,7 +18,6 @@ const prettier = require("prettier");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const {buildExp} = require("./buildexp.js");
 const Exp = require("./exp.js");
 const config = require("./config.json");
 
@@ -240,7 +239,7 @@ function deployExperiments(labpath) {
       ld.experiments.forEach(e => {
 	  repo_root = path.join("exprepos", e["short-name"]);
 	  build_root = path.join("expbuilds", e["short-name"]);
-	  Exp.buildExp(repo_root, build_root, ld, true);
+	  Exp.buildExp(repo_root, build_root, ld, true, e);
 	  shell.cp("-R", build_root, path.join(config["deployment_dest"],
 					       toDirName(ld.lab),
 					       "stage", "exp"));
@@ -433,7 +432,7 @@ function labgen() {
 function reportRes(labpath, tag, res) {
   ld = updateDescriptor(labpath, tag);
   updateRecord(ld, res);
-  pushlab(labpath);
+  //pushlab(labpath);
   if (res === "SUCCESS") {
     release(labpath, tag);
   }

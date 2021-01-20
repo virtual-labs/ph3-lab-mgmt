@@ -15,8 +15,8 @@ function cloneExperiment(exp) {
     
     const repo_name = exp["short-name"];
     const target_dir = path.join(gitOptions.baseDir, repo_name);
-    console.log(target_dir);
-    
+
+    shell.rm("-rf", target_dir);
     try {
 	console.log(`cloning ${repo_name} ${exp.tag} `);
 

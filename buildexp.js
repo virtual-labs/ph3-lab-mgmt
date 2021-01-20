@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 
 const {buildPages} = require("./renderpage.js");
-const {cloneExperiment} = require("./cloneexp.js");
 
 const repo_root = "exprepos";
 const build_root = "expbuilds";
@@ -39,7 +38,8 @@ function copyPages( experiment ) {
 
 
 function buildExp(data, experiment) {
-    cloneExperiment(experiment);
+    console.log("building experiment");
+    //cloneExperiment(experiment);
     copySources( experiment );
     buildPages( data, experiment, false );
     copyPages( experiment );

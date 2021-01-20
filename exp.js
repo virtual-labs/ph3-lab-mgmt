@@ -45,9 +45,9 @@ function insertIframeResizer(repo_root, build_root) {
 }
 
 
-function buildExp(repo_root, build_root, data, prod) {
+function buildExp(repo_root, build_root, data, prod, e) {
     copySources(repo_root, build_root);
-    buildPages( repo_root, build_root, data, prod );
+    buildPages( repo_root, build_root, data, prod, e);
     copyPages(repo_root, build_root);
     insertIframeResizer(repo_root, build_root);
 }
