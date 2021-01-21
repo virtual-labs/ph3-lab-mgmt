@@ -19,6 +19,7 @@ const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
 const Exp = require("./exp.js");
+
 const config = require("./config.json");
 
 shell.config.silent = true;
@@ -121,7 +122,8 @@ function addRandomJsThings(dom, jsthings) {
 
 function genComponentHtml(fn, data) {
   const template = fs.readFileSync(fn, "utf-8");
-  const base = path.parse(fn).name;
+    const base = path.parse(fn).name;
+    
   html = Handlebars.compile(template)(data);
   fs.writeFileSync(`page-components/${base}.html`, html, "utf-8");
 }
@@ -199,33 +201,30 @@ function labURL(host, name) {
 
 function generate(labpath) {
   const data = dataPreprocess(path.join(labpath, "lab-descriptor.json"));
-
   const template_file = "skeleton-new.html";
-  const config = JSON.parse(fs.readFileSync("config.json"));
   const component_files = config.commonComponents;
 
   const fns = glob.sync("page-templates/*.handlebars");
-  if (
-    data.experiments === undefined &&
-    data["experiment-sections"] !== undefined
-  ) {
-    fns.forEach((fn) => genComponentHtml(fn, data));
+  if ( data.experiments === undefined && data["experiment-sections"] !== undefined ) {
     config.pages = config.pages.filter(
       (p) => !(p.src === "list-of-experiments-ctnt.html")
     );
-  } else {
-    if (
-      data.experiments !== undefined &&
-      data["experiment-sections"] === undefined
-    ) {
+      data.menu = config.pages;
+      fns.forEach((fn) => genComponentHtml(fn, data));
+  }
+  else {
+    if ( data.experiments !== undefined && data["experiment-sections"] === undefined ) {
+      config.pages = config.pages.filter(
+	(p) => !(p.src === "nested-list-of-experiments-ctnt.html")
+      );
+      data.menu = config.pages;
       fns
         .filter((fn) => !fn.includes("nested"))
         .forEach((fn) => genComponentHtml(fn, data));
     }
-    config.pages = config.pages.filter(
-      (p) => !(p.src === "nested-list-of-experiments-ctnt.html")
-    );
+
   }
+    
   generateLab(config.pages, labpath, template_file, component_files);
 }
 
@@ -240,6 +239,9 @@ function deployExperiments(labpath) {
 	  repo_root = path.join("exprepos", e["short-name"]);
 	  build_root = path.join("expbuilds", e["short-name"]);
 	  Exp.buildExp(repo_root, build_root, ld, true, e);
+	  shell.mkdir("-p", path.join(config["deployment_dest"],
+				      toDirName(ld.lab),
+				      "stage"));
 	  shell.cp("-R", build_root, path.join(config["deployment_dest"],
 					       toDirName(ld.lab),
 					       "stage", "exp"));
