@@ -8,31 +8,39 @@
     "pages" : [
 	{
 	    "src": "introduction-ctnt.html",
-	    "target": "Introduction.html"
+	    "target": "Introduction.html",
+	    "label": "Introduction"
+	    
 	},
 	{
 	    "src": "list-of-experiments-ctnt.html",
-	    "target": "List of experiments.html"
+	    "target": "List of experiments.html",
+	    "label": "List of experiments"
 	},
 	{
 	    "src": "nested-list-of-experiments-ctnt.html",
-	    "target": "List of experiments.html"
+	    "target": "List of experiments.html",
+	    "label": "List of experiments"
 	},
 	{
 	    "src": "objective-ctnt.html",
-	    "target": "Objective.html"
+	    "target": "Objective.html",
+	    "label": "Objective"
 	},
 	{
 	    "src": "target-audience-ctnt.html",
-	    "target": "Target Audience.html"
+	    "target": "Target Audience.html",
+	    "label": "Target Audience"
 	},
 	{
 	    "src": "course-alignment-ctnt.html",
-	    "target": "Course Alignment.html"
+	    "target": "Course Alignment.html",
+	    "label": "Course Alignment"
 	},
 	{
 	    "src": "feedback-ctnt.html",
-	    "target": "Feedback.html"
+	    "target": "Feedback.html",
+	    "label": "Feedback"
 	}
     ],
     "exp_dir" : "exprepos",
