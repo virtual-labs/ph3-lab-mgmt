@@ -118,5 +118,19 @@
         <a class="text-primary font-weight-bold" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons (CC BY-NC-SA 4.0) </a>
       </div>
     </footer>
+
+    <script>
+      
+      window.addEventListener('DOMContentLoaded', (event) => {
+	  const menu = document.getElementById("menu");
+	  Array
+	      .from(menu.children)
+	      .filter(mi => mi.href === window.location.href)
+	      .map(mi => mi.classList.add("current-item"));
+	  
+      });
+      
+    </script>
+    
   </body>
 </html>
