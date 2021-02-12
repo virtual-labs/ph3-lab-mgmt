@@ -33,13 +33,10 @@ mkdir -p expbuilds
 
 
 ##### Clone repository
-cd exprepos; git clone $url -q; cd ../
+cd exprepos; git clone -b $tag --depth 1 $url; cd ../
 
 basename=$(basename $url)
 reponame=${basename%.*}
-
-## switch to the given tag
-cd exprepos/$reponame; git fetch --all; git checkout $tag; cd ../../
 
 template=ui3template
 

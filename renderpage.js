@@ -47,7 +47,7 @@ function buildPage( repo_dir, build_dir, data, current_item, template_content ) 
     data["menu"] = menu.filter((mi) => hasSource(repo_dir, mi));
 
     Handlebars.registerHelper('isActive', function (current_page, page) {
-	return (current_item.target === page);
+	    return (current_item.target === page);
     });
     
     const template = Handlebars.compile(template_content);
