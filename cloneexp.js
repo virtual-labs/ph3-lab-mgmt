@@ -15,10 +15,10 @@ function cloneExperiment(exp) {
     
     const repo_name = exp["short-name"];
     const target_dir = path.join(gitOptions.baseDir, repo_name);
-    
+
+    shell.rm("-rf", target_dir);
     try {
-	fs.rmdirSync(target_dir, {recursive: true});
-	console.log(`cloning ${exp["short-name"]}`);
+	console.log(`cloning ${repo_name} ${exp.tag} `);
 
 	git( gitOptions )
 	    .clone(exp.repo, repo_name, {"--depth": 1, "--branch": exp.tag})

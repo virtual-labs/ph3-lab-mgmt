@@ -18,8 +18,9 @@ const prettier = require("prettier");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const {buildExp} = require("./buildexp.js");
+const Exp = require("./exp.js");
 
+const config = require("./config.json");
 
 shell.config.silent = true;
 shell.set("-e");
@@ -36,7 +37,6 @@ function copyLabDescriptor(repoDir) {
     fse.copySync(labDescriptorFn, ldpath);
   }
 }
-
 
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
@@ -122,6 +122,7 @@ function addRandomJsThings(dom, jsthings) {
 function genComponentHtml(fn, data) {
   const template = fs.readFileSync(fn, "utf-8");
   const base = path.parse(fn).name;
+
   html = Handlebars.compile(template)(data);
   fs.writeFileSync(`page-components/${base}.html`, html, "utf-8");
 }
@@ -169,7 +170,7 @@ function dataPreprocess(datafile) {
               (index_fn = "exp.html")
             );
             return { name: e.name, link: exp_url.toString() };
-          })
+          }),
         };
       });
       return data;
@@ -178,17 +179,14 @@ function dataPreprocess(datafile) {
 }
 
 function toDirName(n) {
-    return n.toLowerCase().trim().replace(/–/g, "")
-	.replace(/ +/g, "-");
-/*    
+  return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
+  /*    
 	.replace(/[\(]/, "\\\(")
-	.replace(/[\)]/, "\\\)"); */    
+	.replace(/[\)]/, "\\\)"); */
 }
 
 function generateLink(baseUrl, expName, index_fn = "") {
-  const expUrl = new URL(
-    `https://${baseUrl}/exp/${expName}/${index_fn}`
-  );
+  const expUrl = new URL(`https://${baseUrl}/exp/${expName}/${index_fn}`);
   //console.log(expUrl.href);
   return expUrl;
 }
@@ -199,9 +197,7 @@ function labURL(host, name) {
 
 function generate(labpath) {
   const data = dataPreprocess(path.join(labpath, "lab-descriptor.json"));
-
   const template_file = "skeleton-new.html";
-  const config = JSON.parse(fs.readFileSync("config.json"));
   const component_files = config.commonComponents;
 
   const fns = glob.sync("page-templates/*.handlebars");
@@ -209,23 +205,26 @@ function generate(labpath) {
     data.experiments === undefined &&
     data["experiment-sections"] !== undefined
   ) {
-    fns.forEach((fn) => genComponentHtml(fn, data));
     config.pages = config.pages.filter(
       (p) => !(p.src === "list-of-experiments-ctnt.html")
     );
+    data.menu = config.pages;
+    fns.forEach((fn) => genComponentHtml(fn, data));
   } else {
     if (
       data.experiments !== undefined &&
       data["experiment-sections"] === undefined
     ) {
+      config.pages = config.pages.filter(
+        (p) => !(p.src === "nested-list-of-experiments-ctnt.html")
+      );
+      data.menu = config.pages;
       fns
         .filter((fn) => !fn.includes("nested"))
         .forEach((fn) => genComponentHtml(fn, data));
     }
-    config.pages = config.pages.filter(
-      (p) => !(p.src === "nested-list-of-experiments-ctnt.html")
-    );
   }
+
   generateLab(config.pages, labpath, template_file, component_files);
 }
 
@@ -236,12 +235,22 @@ function deployExperiments(labpath) {
     iiith_exp_manage(ld);
     return;
   } else {
-      const expDeploymentWd = "ph3-beta-to-ui3.0-conv";      
-      shell.cp(ldpath, `${expDeploymentWd}/experiment-list.json`);
-      shell.exec(`cd ${expDeploymentWd}; make host-experiments`);
+    ld.experiments.forEach((e) => {
+      repo_root = path.join("exprepos", e["short-name"]);
+      build_root = path.join("expbuilds", e["short-name"]);
+      Exp.buildExp(repo_root, build_root, ld, true, e);
+      shell.mkdir(
+        "-p",
+        path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
+      );
+      shell.cp(
+        "-R",
+        build_root,
+        path.join(config["deployment_dest"], toDirName(ld.lab), "stage", "exp")
+      );
+    });
   }
 }
-
 
 function getLabName(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
@@ -364,7 +373,6 @@ function golive(labpath) {
 '${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
 }
 
-
 function init() {
   console.log("initializing");
 }
@@ -379,7 +387,6 @@ async function maybeProcessAll(labpath) {
   golive(labpath);
 }
 
-
 function labgen() {
   const args = require("minimist")(process.argv.slice(2), {
     boolean: ["init"],
@@ -392,9 +399,10 @@ function labgen() {
     if (args.init) {
       init(args._);
     } else {
-
-      const isValid = validator.validateLabDescriptor(path.resolve(labpath, labDescriptorFn));
-      if(!isValid){
+      const isValid = validator.validateLabDescriptor(
+        path.resolve(labpath, labDescriptorFn)
+      );
+      if (!isValid) {
         return;
       }
 
@@ -427,7 +435,7 @@ function labgen() {
 function reportRes(labpath, tag, res) {
   ld = updateDescriptor(labpath, tag);
   updateRecord(ld, res);
-  pushlab(labpath);
+  //pushlab(labpath);
   if (res === "SUCCESS") {
     release(labpath, tag);
   }
@@ -440,7 +448,6 @@ function updateDescriptor(labpath, t) {
   fs.writeFileSync(path.resolve(labpath, "lab-descriptor.json"), lds, "utf-8");
   return ld;
 }
-
 
 function updateRecord(lab_descriptor, exec_status) {
   const rec = {

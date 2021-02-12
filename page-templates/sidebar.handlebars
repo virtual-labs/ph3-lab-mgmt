@@ -1,8 +1,6 @@
-<a href="Introduction.html" class="py-2">Introduction</a>
-{{#if objective}}
-	<a href="Objective.html" class="py-2">Objective</a>
-{{/if}}
-<a href="List of experiments.html" class="py-2">List of experiments</a>
-<a href="Target Audience.html" class="py-2">Target Audience</a>
-<a href="Course Alignment.html" class="py-2">Course Alignment</a>
-<a href="Feedback.html" class="py-2">Feedback</a>
+{{#each menu}}
+  <a href="{{this.target}}"
+    class="py-2">	
+    {{this.label}}	
+  </a>
+{{/each}}

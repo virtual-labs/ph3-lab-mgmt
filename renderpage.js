@@ -7,13 +7,11 @@ const shell = require("shelljs");
 const template_dir = "templates";
 let menu = require("./menu.json");
 
-const repo_dir = "exprepos";
-const build_dir = "expbuilds";
 
-function hasSource( menu, exp_dir_name ) {
+function hasSource( repo_dir, menu ) {
     if (menu.source) {
 	try {
-	    fs.accessSync(path.join(repo_dir, exp_dir_name, "experiment", menu.source));
+	    fs.accessSync(path.join(repo_dir, "experiment", menu.source));
 	}
 	catch (err) {
 	    if (err.code === "ENOENT") return false;
@@ -42,32 +40,35 @@ function templateFile(item) {
 
 
 
-function buildPage( data, current_item, template_content, exp_dir_name ) {
+function buildPage( repo_dir, build_dir, data, current_item, template_content ) {
 
     
     data["current_item"] = current_item;
-    data["menu"] = menu.filter((mi) => hasSource(mi, exp_dir_name));
+    data["menu"] = menu.filter((mi) => hasSource(repo_dir, mi));
 
     Handlebars.registerHelper('isActive', function (current_page, page) {
-	return (current_page === page);
+	    return (current_item.target === page);
     });
     
     const template = Handlebars.compile(template_content);
     const compiled_template = template(data);
     
-    fs.writeFileSync(`${build_dir}/${exp_dir_name}/${data["current_item"].target}`, compiled_template );
+    fs.writeFileSync(`${build_dir}/${data["current_item"].target}`, compiled_template );
 }
 
 
-function buildPages(data, experiment, production) {
+function buildPages(repo_dir, build_dir, data, production, experiment) {
+    console.log(repo_dir, build_dir);
     menu.forEach((mi) => {
-
-	data["exp_name"] = experiment.name;
-	data["exp_short_name"] = experiment["short-name"];
+	if (experiment) {
+	    console.log(experiment.name, experiment["short-name"]);
+	    data["exp_name"] = experiment.name;
+	    data["exp_short_name"] = experiment["short-name"];
+	}
 	data["production"] = production;
 	
 	const template_content = fs.readFileSync(path.join(template_dir, templateFile(mi.item)), "utf-8");
-	buildPage(data, mi, template_content, experiment["short-name"]);
+	buildPage(repo_dir, build_dir, data, mi, template_content);
     });
 }
 

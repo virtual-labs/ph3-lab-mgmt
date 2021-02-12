@@ -1,0 +1,75 @@
+#+title: Experiment Authoring Configuration
+
+* Types of Content
+
+1. Text
+2. Simulation
+3. Quiz
+
+** Text
+
+- Source :: markdown (.md) file.
+- Authoring :: The author writes the content in a markdown document.
+
+** Simulation
+
+- Source :: html and js
+- Authoring :: The author provides the working demo in a directory
+               containing the html and all required resources (js,
+               css, images etc.).  The author needs to provide the
+               path to the demo entry point in the config.
+
+** Quiz
+
+- source :: js
+- Authoring :: The author writes the quiz (questions and options) in a
+               js template file that is provided.
+
+* Configuration
+
+The Experiment Author defines a configuration using a json.  This
+configuration Provides an list that acts as the source of the menu.
+Each item in the list is either a page info item or another (possibly nested)
+list of page info items.
+
+For example:
+
+#+BEGIN_SRC js
+  [
+      {
+	  "content-type": "text",
+	  "label": "Aim",
+	  "source": "./experiment/aim.md",
+	  "target": "./aim.html"
+      },
+      {
+	  "content-type": "text",
+	  "label": "Theory",
+	  "source": "./experiment/theory.md",
+	  "target": "./theory.html"
+      },
+      {
+	  "content-type": "quiz",
+	  "label": "Pre Test",
+	  "source": "./experiment/pretest.js",
+	  "target": "./pretest.html"
+      },
+      {
+	  "label": "Bubble Sort",
+	  [
+	      {
+		  "content-type": "text",
+		  "label": "Basics",
+		  "source": "./experiment/lu/bubble-sort/basics.md",
+		  "target": "./bubble-sort/basics.html"
+	      },
+	      {
+		  "content-type": "demo",
+		  "label": "Bubblesort Demo",
+		  "source": "./experiment/lu/bubble-sort/simulation/index.html",
+		  "target": "./bubble-sort/demo.html"
+	      }
+	  ]
+      }
+  ]
+#+END_SRC
