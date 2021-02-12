@@ -4,7 +4,7 @@
 
 1. Text
 2. Simulation
-3. Quiz
+3. Assesment
 
 ** Text
 
@@ -19,7 +19,7 @@
                css, images etc.).  The author needs to provide the
                path to the demo entry point in the config.
 
-** Quiz
+** Assesment
 
 - source :: js
 - Authoring :: The author writes the quiz (questions and options) in a
@@ -34,42 +34,54 @@ list of page info items.
 
 For example:
 
-#+BEGIN_SRC js
-  [
-      {
-	  "content-type": "text",
-	  "label": "Aim",
-	  "source": "./experiment/aim.md",
-	  "target": "./aim.html"
-      },
-      {
-	  "content-type": "text",
-	  "label": "Theory",
-	  "source": "./experiment/theory.md",
-	  "target": "./theory.html"
-      },
-      {
-	  "content-type": "quiz",
-	  "label": "Pre Test",
-	  "source": "./experiment/pretest.js",
-	  "target": "./pretest.html"
-      },
-      {
-	  "label": "Bubble Sort",
-	  [
-	      {
-		  "content-type": "text",
-		  "label": "Basics",
-		  "source": "./experiment/lu/bubble-sort/basics.md",
-		  "target": "./bubble-sort/basics.html"
-	      },
-	      {
-		  "content-type": "demo",
-		  "label": "Bubblesort Demo",
-		  "source": "./experiment/lu/bubble-sort/simulation/index.html",
-		  "target": "./bubble-sort/demo.html"
-	      }
-	  ]
-      }
-  ]
+#+NAME: Sample_Exp_Config
+#+BEGIN_SRC js :tangle ./sample-exp-config.json
+    [
+	{
+	    "content-type": "text",
+	    "label": "Aim",
+	    "source": "./experiment/aim.md",
+	    "target": "./aim.html"
+	},
+	{
+	    "content-type": "text",
+	    "label": "Theory",
+	    "source": "./experiment/theory.md",
+	    "target": "./theory.html"
+	},
+	{
+	    "content-type": "assesment",
+	    "label": "Pre Test",
+	    "source": "./experiment/pretest.js",
+	    "target": "./pretest.html"
+	},
+	{
+	    "label": "Bubble Sort",
+	    "source": "./experiment/lu/bubble-sort/",
+	    "target": "./bubble-sort/",
+	    "pages": [
+		{
+		    "content-type": "text",
+		    "label": "Basics",
+		    "source": "./basics.md",
+		    "target": "./basics.html"
+		},
+		{
+		    "content-type": "demo",
+		    "label": "Bubblesort Demo",
+		    "source": "./experiment/lu/bubble-sort/simulation/index.html",
+		    "target": "./bubble-sort/demo.html"
+		}
+	    ]
+	}
+    ]
+
+
+  {
+      "content-type": "video",
+      "label": "Intro Video",
+      "source": "https://www.youtube.com/watch?v=xJzYRgmnJrE",
+      "target": "video.html"    
+  }
 #+END_SRC
+
