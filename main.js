@@ -238,20 +238,34 @@ function deployExperiments(labpath) {
     ld.experiments.forEach((e) => {
       repo_root = path.join("exprepos", e["short-name"]);
       build_root = path.join("expbuilds", e["short-name"]);
-      Exp.buildExp(repo_root, build_root, ld, true, e);
-      shell.mkdir(
-        "-p",
-        path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-      );
-      shell.cp(
-        "-R",
-        build_root,
-        path.join(config["deployment_dest"], toDirName(ld.lab), "stage", "exp")
-      );
+      try {
+	Exp.buildExp(repo_root, build_root, ld, true, e);
+	shell.mkdir(
+          "-p",
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
+	);
+	shell.cp(
+          "-R",
+          build_root,
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage", "exp")
+	);
+      }
+      catch(e) {
+	shell.mkdir(
+          "-p",
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
+	);
+	shell.cp(
+          "-R",
+          build_root,
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage", "exp")
+	);
+      }
     });
-  }
-}
 
+  }
+  }
+  
 function getLabName(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
   const labdesc = require(ldpath);
