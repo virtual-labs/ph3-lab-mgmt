@@ -22,7 +22,7 @@ const Exp = require("./exp.js");
 
 const config = require("./config.json");
 
-shell.config.silent = true;
+shell.config.silent = false;
 shell.set("-e");
 
 /* 
@@ -251,6 +251,7 @@ function deployExperiments(labpath) {
 	);
       }
       catch(e) {
+	console.log(e.message);
 	shell.mkdir(
           "-p",
           path.join(config["deployment_dest"], toDirName(ld.lab), "stage")

@@ -27,9 +27,13 @@ function copyPages(repo_root, build_root) {
     
     const repo_dir = path.join( repo_root, "experiment" );
     const build_dir = path.join( build_root );
-    
+  try {
     shell.cp( "-R", "ui3template/assets", build_dir );
     shell.cp( "-R", path.join(repo_dir, "images"), build_dir );
+  }
+  catch(e) {
+    console.log(e.message);
+  }
 }
 
 
@@ -38,7 +42,7 @@ function insertIframeResizer(repo_root, build_root) {
     let dom = new JSDOM(sim_index);
     let iframeScript = dom.window.document.createElement("script");
     iframeScript.src = "./iframeResize.js";
-    dom.window.document.body.appendChild(iframeScript);
+  dom.window.document.body.appendChild(iframeScript);
     fs.writeFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ), dom.serialize());
     shell.cp(path.join( build_root, "assets/js/iframeResize.js" ),
 	     path.join( build_root, "round-template/experiment/simulation/"));
@@ -49,7 +53,7 @@ function buildExp(repo_root, build_root, data, prod, e) {
     copySources(repo_root, build_root);
     buildPages( repo_root, build_root, data, prod, e);
     copyPages(repo_root, build_root);
-    insertIframeResizer(repo_root, build_root);
+  insertIframeResizer(repo_root, build_root);
 }
 
 exports.buildExp = buildExp;
