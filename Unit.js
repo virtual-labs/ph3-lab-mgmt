@@ -36,10 +36,6 @@ class Unit {
 
   menuItemInfo(host_page_level) {
 
-    if (host_page_level === 0) {
-      console.log(this.page_level());
-    }
-
     let rel_path = this.relativeRootPath();
     let diff = (host_page_level - this.page_level());
 
@@ -48,6 +44,10 @@ class Unit {
       for(let i=0; i<diff; i++) {
         rel_path += "../";
       }
+    }
+
+    if (diff < 0) {
+      rel_path = "./";
     }
 
     return {
@@ -74,9 +74,9 @@ class Unit {
   }
 
   asset_path() {
-    let ap = "./";
+    let ap = ".";
     for (let i=0; i<this.page_level(); i++) {
-      ap+="../";
+      ap+="/..";
     }
     return ap;
   }
