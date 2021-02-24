@@ -1,13 +1,11 @@
 const path = require("path");
 const fs = require("fs");
 const marked = require("marked");
-const { JSDOM } = require("jsdom");
-const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
 
 const Config = require("./Config.js");
-const {UnitTypes, ContentTypes, validType, validContentType, validUnitType} = require("./Enums.js");
+const {ContentTypes, validContentType, validUnitType} = require("./Enums.js");
 
 class Unit {
   constructor(
@@ -29,26 +27,36 @@ class Unit {
   }
 
   targetPath() {
-    return path.resolve(".", this.exp_path, 'build/experiment', this.basedir, this.target);
+    return path.resolve(".", this.exp_path, Config.Experiment.build_dir, this.basedir, this.target);
   }
 
   sourcePath() {
-    //".", this.exp_path, 'build/experiment',
-    return path.resolve(".", this.exp_path, 'build/experiment', this.basedir, this.source);
+    return path.resolve(".", this.exp_path, Config.Experiment.build_dir, this.basedir, this.source);
   }
 
   menuItemInfo() {
     return {
       label: this.label,
       isCurrentItem: false,
-      target: path.join("../../", "experiment", this.basedir, this.target)
+      target: path.join(this.relativeRootPath(), this.basedir, this.target)
     };
   }
   
+  relativeRootPath() {
+    if(this.basedir === "."){
+      return ".";
+    }
+    else {
+      return this.target.split("/").map(i => "..").join("/");
+    }
+  }
+
   getMenu(menu_data) {
-    return menu_data.map(mi => {
-      return mi.menuItemInfo(this.label);
-    });
+    return menu_data
+      .filter((mi) => shell.test("-e", mi.sourcePath()))
+      .map(mi => {
+        return mi.menuItemInfo(this.label);
+      });
   }
   
   setCurrent(menu) {
@@ -77,7 +85,8 @@ class Unit {
       isText: false,
       isVideo: false,
       isSimulation: false,
-      isAssesment: false
+      isAssesment: false,
+      assets_path: this.relativeRootPath()
     };
 
     switch(this.content_type) {
@@ -98,6 +107,11 @@ class Unit {
     case ContentTypes.SIMULATION:
       page_data.isSimulation = true;
       page_data.sim_src = this.source;
+      
+      // Inject IframeResizer
+      let content = fs.readFileSync(path.resolve(this.sourcePath())).toString();
+      content = content.replace("</body>", `<script src="${this.relativeRootPath()}/assets/js/iframeResize.js"></script></body>`);
+      fs.writeFileSync(path.resolve(this.sourcePath()), content);
       break;
       
     case ContentTypes.ASSESMENT:
@@ -105,7 +119,7 @@ class Unit {
       page_data.quiz_src = this.source;
       break;
     }
-    
+
     const page_template = fs.readFileSync(path.resolve(Config.Experiment.ui_template_name, 'pages', 'content.handlebars'));
     return Handlebars.compile(page_template.toString())(page_data);
   }

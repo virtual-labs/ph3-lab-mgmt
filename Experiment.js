@@ -6,8 +6,7 @@ const shell = require("shelljs");
 
 const Config = require("./Config.js");
 const {LearningUnit} = require("./LearningUnit.js");
-const {Task} = require("./Task.js");
-const {UnitTypes, ContentTypes, validType, validContentType} = require("./Enums.js");
+const {UnitTypes, ContentTypes} = require("./Enums.js");
 
 class Experiment {
   constructor(src) {
@@ -18,10 +17,6 @@ class Experiment {
 
   static build_path(src) {
     return path.resolve(src, Config.Experiment.build_dir);
-  }
-  
-  static exp_path(src) {
-    return path.resolve(src, Config.Experiment.build_dir, Config.Experiment.exp_dir);
   }
   
   static ui_template_path = path.resolve(Config.Experiment.ui_template_name);
@@ -49,13 +44,9 @@ class Experiment {
   init(hb) {
     try{
       const bp = Experiment.build_path(this.src);
-      const ep = Experiment.exp_path(this.src);
-      shell.mkdir(bp);
-      shell.mkdir(ep);
-      shell.mkdir(path.resolve(ep, "feedback"));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
-      shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), ep);
-      shell.cp("-R", path.resolve(Experiment.static_content_path, "feedback.md"), path.resolve(ep, "feedback"));
+      shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
+      shell.cp("-R", path.resolve(Experiment.static_content_path, "feedback.md"), bp);
       Experiment.registerPartials(hb);
     }
     catch(e) {
@@ -65,7 +56,7 @@ class Experiment {
   }
   
   name() {
-    const name_file = fs.readFileSync(path.resolve(this.src, "build/experiment", "experiment-name.md"));
+    const name_file = fs.readFileSync(path.resolve(Experiment.build_path(this.src), "experiment-name.md"));
     return marked(name_file.toString());
   }
   
@@ -82,9 +73,12 @@ class Experiment {
     return this.lus.map(lu => lu.menuInfo());
   }
 
-  build(){
-    const exp_info = {name: this.name(), menu: this.lus};
-    this.lus.forEach((lu) => {
+  build(options){
+    const exp_info = { 
+      name: this.name(), 
+      menu: this.lus,
+    };
+    this.lus.forEach((lu) => {      
       lu.writePage(exp_info);
       if(lu.tasks){
 	      lu.tasks.forEach(t => t.writePage(exp_info));
@@ -97,7 +91,7 @@ class Experiment {
       "Feedback",
       ContentTypes.TEXT,
       this.src,
-      "feedback",
+      ".",
       "feedback.md",
       "feedback.html",
       []

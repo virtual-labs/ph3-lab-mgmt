@@ -57,6 +57,14 @@
     color: #ff6600;
 }
 
+.sidebar .tasks {
+    font-size: 1rem;
+}
+
+.sidebar .tasks a {
+    color: #5c5c5c;
+}
+
 .sidebar {
     border-right: 2px dotted #89a7c4;
     font-size: 1.2rem;
@@ -124,6 +132,21 @@ h1, h2, h3 {
     color: #2C99CE;
 }
 
+h2 {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: black;
+    padding-top: 1rem;
+    text-decoration: underline;
+}
+
+p {
+    font-size: 1.2rem;
+}
 
 .simulation-container {
     position: relative;
@@ -148,5 +171,3 @@ h1, h2, h3 {
 	display: none;
     }
 }
-
-

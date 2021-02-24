@@ -34,10 +34,12 @@
     {{#if isSimulation}}
       <script>
         window.onmessage = (e) => {
-	  if (e.data.hasOwnProperty("frameHeight")) {
-	    var iframeDiv = document.querySelector(".simulation-container");
-	    iframeDiv.style["padding-top"] = `${e.data.frameHeight + 30}px`;
-	  }
+	        if (e.data.hasOwnProperty("frameHeight")) {
+	          var iframeDiv = document.querySelector(".simulation-container");
+            if (iframeDiv.style["padding-top"] === "" || parseInt( iframeDiv.style["padding-top"]) < e.data.frameHeight + 200 ) {
+              iframeDiv.style["padding-top"] = `${e.data.frameHeight + 200}px`;
+            }
+	        }
         };
       </script>
     {{/if}}
