@@ -36,6 +36,9 @@ class Unit {
 
   menuItemInfo(host_page_level) {
 
+    if (host_page_level === 0) {
+      console.log(this.page_level());
+    }
 
     let rel_path = this.relativeRootPath();
     let diff = (host_page_level - this.page_level());
@@ -69,6 +72,14 @@ class Unit {
         return mi.menuItemInfo(this.page_level());
       });
   }
+
+  asset_path() {
+    let ap = "./";
+    for (let i=0; i<this.page_level(); i++) {
+      ap+="../";
+    }
+    return ap;
+  }
   
   setCurrent(menu) {
     menu.map(lu => {
@@ -97,7 +108,7 @@ class Unit {
       isVideo: false,
       isSimulation: false,
       isAssesment: false,
-      assets_path: "" //this.relativeRootPath()
+      assets_path: this.asset_path() //this.relativeRootPath()
     };
 
     switch(this.content_type) {
