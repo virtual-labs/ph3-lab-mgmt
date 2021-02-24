@@ -38,24 +38,19 @@ class Unit {
     return {
       label: this.label,
       isCurrentItem: false,
-      target: path.join(this.relativeRootPath(), this.basedir, this.target)
+      target: path.join("/", this.basedir, this.target)
     };
   }
   
   relativeRootPath() {
-    if(this.basedir === "."){
-      return ".";
-    }
-    else {
-      return this.target.split("/").map(i => "..").join("/");
-    }
+      return this.target.split("/").filter(pi => pi === ".").map(i => "..").join("/");
   }
 
   getMenu(menu_data) {
     return menu_data
       .filter((mi) => shell.test("-e", mi.sourcePath()))
       .map(mi => {
-        return mi.menuItemInfo(this.label);
+        return mi.menuItemInfo();
       });
   }
   
@@ -86,7 +81,7 @@ class Unit {
       isVideo: false,
       isSimulation: false,
       isAssesment: false,
-      assets_path: this.relativeRootPath()
+      assets_path: "" //this.relativeRootPath()
     };
 
     switch(this.content_type) {
