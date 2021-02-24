@@ -8,7 +8,7 @@ const sendPostMessage = () => {
 }
 
 
-window.onload = () => sendPostMessage();
+//window.onload = () => sendPostMessage();
 window.onresize = () => sendPostMessage();
 
 const config = { attributes: true, childList: true, subtree: true };
