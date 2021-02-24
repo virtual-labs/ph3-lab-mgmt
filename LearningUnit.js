@@ -58,11 +58,11 @@ class LearningUnit extends Unit {
     );
   }
 
-  menuItemInfo() {
-    const mi = super.menuItemInfo();
+  menuItemInfo(host_page_level) {
+    const mi = super.menuItemInfo(host_page_level);
     mi.id = this.label.toLowerCase().replace(/ /g, '-');
     mi.tasks = this.tasks?this.tasks.map(t => {
-      return t.menuItemInfo();
+      return t.menuItemInfo(host_page_level);
     }):[];
     return mi;
   }

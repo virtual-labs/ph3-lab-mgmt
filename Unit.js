@@ -34,23 +34,39 @@ class Unit {
     return path.resolve(".", this.exp_path, Config.Experiment.build_dir, this.basedir, this.source);
   }
 
-  menuItemInfo() {
+  menuItemInfo(host_page_level) {
+
+
+    let rel_path = this.relativeRootPath();
+    let diff = (host_page_level - this.page_level());
+
+    if ( diff > 0) {
+      rel_path = "";
+      for(let i=0; i<diff; i++) {
+        rel_path += "../";
+      }
+    }
+
     return {
       label: this.label,
       isCurrentItem: false,
-      target: path.join("/", this.basedir, this.target)
+      target: path.join(rel_path, this.basedir, this.target)
     };
+  }
+
+  page_level() {
+    return this.target.split("/").filter(pi => pi === ".").length;
   }
   
   relativeRootPath() {
-      return this.target.split("/").filter(pi => pi === ".").map(i => "..").join("/");
+    return this.target.split("/").filter(pi => pi === ".").map(i => "..").join("/");
   }
 
   getMenu(menu_data) {
     return menu_data
       .filter((mi) => shell.test("-e", mi.sourcePath()))
       .map(mi => {
-        return mi.menuItemInfo();
+        return mi.menuItemInfo(this.page_level());
       });
   }
   

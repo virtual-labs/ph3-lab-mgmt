@@ -26,8 +26,8 @@ class Task extends Unit {
 
   static unit_type = UnitTypes.TASK;
 
-  menuItemInfo() {
-    const info = super.menuItemInfo();
+  menuItemInfo(host_page_level) {
+    const info = super.menuItemInfo(host_page_level);
     info.lu = this.lu;
     return info;
   }
