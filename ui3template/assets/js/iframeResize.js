@@ -1,6 +1,6 @@
 const sendPostMessage = () => {
     
-    let height = document.body.offsetHeight;
+    let height = document.body.scrollHeight;
     console.log(height);
     window.parent.postMessage({
 	frameHeight: height
