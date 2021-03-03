@@ -1,0 +1,26 @@
+<div class="vlabs-page-content px-4 pb-4 flex-grow-1 markdown-body">
+  <div class="text-center">
+    {{{experiment_name}}}
+  </div>
+  {{#if isText}}
+    {{{content}}}
+  {{/if}}
+  {{#if isVideo}}
+    {{{content}}}
+  {{/if}}
+  {{#if isSimulation}}
+    <div class="simulation-container">
+      <iframe class="responsive-iframe" id="fraDisabled" src="{{sim_src}}"
+	      frameborder="0" scrolling="no" onMyLoad="disableContextMenu();">
+      </iframe>
+    </div>
+  {{/if}}
+  {{#if isAssesment}}
+    <div id="quiz"></div>
+    <button id="submit" class="btn btn-primary">Submit Quiz</button>
+    <div id="results"></div>
+  {{/if}}
+</div>
+{{#if isAssesment}}
+  <script src="{{quiz_src}}"></script>
+{{/if}}

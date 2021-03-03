@@ -1,0 +1,82 @@
+[
+  {
+    "target": "index.html",
+    "source": "aim.md",
+    "label": "Aim",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  },
+  {
+    "target": "theory.html",
+    "source": "theory.md",
+    "label": "Theory",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  },
+  {
+    "target": "pretest.html",
+    "source": "pretest.js",
+    "label": "Pretest",
+    "unit-type": "lu",
+    "content-type": "assesment",
+    "basedir": "."
+  },
+  {
+    "target": "procedure.html",
+    "source": "procedure.md",
+    "label": "Procedure",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  },
+  {
+    "target": "simulation.html",
+    "source": "simulation/index.html",
+    "label": "Simulation",
+    "unit-type": "lu",
+    "content-type": "simulation",
+    "basedir": "."
+  },
+  {
+    "target": "posttest.html",
+    "source": "posttest.js",
+    "label": "Posttest",
+    "unit-type": "lu",
+    "content-type": "assesment",
+    "basedir": "."
+  },
+  {
+    "target": "observations.html",
+    "source": "observations.md",
+    "label": "Observations",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  },
+  {
+    "target": "assignment.html",
+    "source": "assignment.md",
+    "label": "Assignment",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  },
+  {
+    "target": "quiz.html",
+    "source": "quiz.md",
+    "label": "Quiz",
+    "unit-type": "lu",
+    "content-type": "assesment",
+    "basedir": "."
+  },
+  {
+    "target": "references.html",
+    "source": "references.md",
+    "label": "References",
+    "unit-type": "lu",
+    "content-type": "text",
+    "basedir": "."
+  }
+]

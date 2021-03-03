@@ -58,7 +58,6 @@ function buildPage( repo_dir, build_dir, data, current_item, template_content ) 
 
 
 function buildPages(repo_dir, build_dir, data, production, experiment) {
-    console.log(repo_dir, build_dir);
     menu.forEach((mi) => {
 	if (experiment) {
 	    console.log(experiment.name, experiment["short-name"]);

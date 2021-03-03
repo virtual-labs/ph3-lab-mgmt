@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">  
+  <head>
+    {{> analytics_head }}
+    {{> meta }}
+    {{> commons }}
+    <style>
+      h1 {
+      font-size: 1.8rem;
+      }
+      h2 {
+      font-size: 1.4rem;
+      }
+      h3 {
+      font-size: 1.2rem;
+      }
+
+      h2, h3 {
+      font-weight: 800;
+      }
+    </style>
+  </head>  
+  <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+    {{> analytics_body }}
+    {{> header }}    
+    <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+      {{> breadcrumbs }} 
+      <div class="row flex-grow-1 px-4 d-flex flex-nowrap">
+        {{> side_menu }}
+        {{> content }}
+      </div>
+    </div>
+    {{> footer }}
+    {{#if isSimulation}}
+      <script>
+        window.onmessage = (e) => {
+	        if (e.data.hasOwnProperty("frameHeight")) {
+	          var iframeDiv = document.querySelector(".simulation-container");
+            if (iframeDiv.style["padding-top"] === "" || parseInt( iframeDiv.style["padding-top"]) < e.data.frameHeight + 200 ) {
+              iframeDiv.style["padding-top"] = `${e.data.frameHeight + 200}px`;
+            }
+	        }
+        };
+      </script>
+    {{/if}}
+  </body>
+</html>

@@ -15,7 +15,7 @@
 	"item": "pretest",
 	"target": "pretest.html",
 	"source": "pretest.js",
-	"label": "Pretest"
+	"label": "Pre Test"
     },
     {
 	"item": "procedure",
@@ -32,7 +32,7 @@
 	"item": "posttest",
 	"target": "posttest.html",
 	"source": "posttest.js",
-	"label": "Posttest"
+	"label": "Post Test"
     },
     {
 	"item": "observations",

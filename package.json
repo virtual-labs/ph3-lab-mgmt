@@ -11,6 +11,7 @@
     "googleapis": "^67.0.0",
     "handlebars": "^4.7.6",
     "jsdom": "16.2.1",
+    "marked": "^2.0.0",
     "minimist": "^1.2.5",
     "moment": "^2.27.0",
     "nodegit": "^0.26.5",
@@ -22,9 +23,14 @@
   "main": "main.js",
   "scripts": {
     "labgen": "node main.js",
-    "labops": "node managelabs.js"
+    "build-ds-exp": "node exp.v1.js ../"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.16",
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.12.13"
+  }
 }

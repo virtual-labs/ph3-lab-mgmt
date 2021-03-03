@@ -13,6 +13,11 @@
 	    
 	},
 	{
+	    "src": "objective-ctnt.html",
+	    "target": "Objective.html",
+	    "label": "Objective"
+	},
+	{
 	    "src": "list-of-experiments-ctnt.html",
 	    "target": "List of experiments.html",
 	    "label": "List of experiments"
@@ -21,11 +26,6 @@
 	    "src": "nested-list-of-experiments-ctnt.html",
 	    "target": "List of experiments.html",
 	    "label": "List of experiments"
-	},
-	{
-	    "src": "objective-ctnt.html",
-	    "target": "Objective.html",
-	    "label": "Objective"
 	},
 	{
 	    "src": "target-audience-ctnt.html",

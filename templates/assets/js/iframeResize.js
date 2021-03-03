@@ -1,14 +1,11 @@
 const sendPostMessage = () => {
     
-    let height = document.body.scrollHeight;
-    console.log(height);
+    let height = document.body.offsetHeight;
     window.parent.postMessage({
 	frameHeight: height
     }, '*');
 }
 
-
-//window.onload = () => sendPostMessage();
 window.onresize = () => sendPostMessage();
 
 const config = { attributes: true, childList: true, subtree: true };

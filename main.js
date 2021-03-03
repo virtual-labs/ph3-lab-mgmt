@@ -22,7 +22,7 @@ const Exp = require("./exp.js");
 
 const config = require("./config.json");
 
-shell.config.silent = true;
+shell.config.silent = false;
 shell.set("-e");
 
 /* 
@@ -238,16 +238,39 @@ function deployExperiments(labpath) {
     ld.experiments.forEach((e) => {
       repo_root = path.join("exprepos", e["short-name"]);
       build_root = path.join("expbuilds", e["short-name"]);
-      Exp.buildExp(repo_root, build_root, ld, true, e);
-      shell.mkdir(
-        "-p",
-        path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-      );
-      shell.cp(
-        "-R",
-        build_root,
-        path.join(config["deployment_dest"], toDirName(ld.lab), "stage", "exp")
-      );
+      try {
+        Exp.buildExp(repo_root, build_root, ld, true, e);
+        shell.mkdir(
+          "-p",
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
+        );
+        shell.cp(
+          "-R",
+          build_root,
+          path.join(
+            config["deployment_dest"],
+            toDirName(ld.lab),
+            "stage",
+            "exp"
+          )
+        );
+      } catch (e) {
+        console.log(e.message);
+        shell.mkdir(
+          "-p",
+          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
+        );
+        shell.cp(
+          "-R",
+          build_root,
+          path.join(
+            config["deployment_dest"],
+            toDirName(ld.lab),
+            "stage",
+            "exp"
+          )
+        );
+      }
     });
   }
 }
