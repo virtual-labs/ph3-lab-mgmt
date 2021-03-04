@@ -2,7 +2,7 @@ const sendPostMessage = (mutationList, ob) => {
     if (mutationList) {
 
         console.log(mutationList.length);
-	    let height = document.body.scrollHeight;
+	    let height = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.body.clientHeight);
 	    window.parent.postMessage({
 		frameHeight: height
 	    }, '*');    	
