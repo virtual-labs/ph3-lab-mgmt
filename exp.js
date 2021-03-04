@@ -28,7 +28,7 @@ function copyPages(repo_root, build_root) {
     const repo_dir = path.join( repo_root, "experiment" );
     const build_dir = path.join( build_root );
   try {
-    shell.cp( "-R", "ui3template/assets", build_dir );
+    shell.cp( "-R", "templates/assets", build_dir );
     shell.cp( "-R", path.join(repo_dir, "images"), build_dir );
   }
   catch(e) {
