@@ -1,7 +1,0 @@
-#+title: Lab Generation
-#+setupfile: ../org-html-themes/setup/theme-readtheorg-local.setup
-#+export_file_name: ../docs/labgen.html
-
-* Intro
-
-  He ho
