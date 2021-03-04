@@ -2,7 +2,7 @@ const sendPostMessage = (mutationList, ob) => {
     if (mutationList) {
 
         console.log(mutationList.length);
-	    let height = document.body.offsetHeight;
+	    let height = document.body.scrollHeight;
 	    window.parent.postMessage({
 		frameHeight: height
 	    }, '*');    	
