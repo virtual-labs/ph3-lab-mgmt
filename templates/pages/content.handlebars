@@ -35,25 +35,29 @@
       <script>
 
       window.onmessage = (e) => { 
-        if (e.data.hasOwnProperty("frameHeight")) { 
-          var iframeDiv = document.querySelector(".simulation-container");  
-          iframeDiv.style["padding-top"] = `${e.data.frameHeight + 30}px`;  
+        if (e.data.hasOwnProperty("frameHeight")) {
+          updateSize(e.data.frameHeight);
         } 
       };  
 
+      function updateSize(s){
+        var iframeDiv = $("div.simulation-container");
+        iframeDiv.css("padding-top", s);
+      }
 
-      function iframeResize(iframeDiv) {
+      function iframeResize() {
         let doc = $("iframe").contents()[0];
         let bodyHeight = doc.body.scrollHeight;
         console.log(bodyHeight);
-        iframeDiv.style["padding-top"] = `${bodyHeight + 30}px`;
+        updateSize(bodyHeight);
       }
 
 
       $(window).on("load", () => {
         const iframeDiv = document.querySelector(".simulation-container");
-        iframeResize(iframeDiv);
+        iframeResize();
       });
+
 
       </script>
     {{/if}}

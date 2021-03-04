@@ -1,5 +1,7 @@
 const sendPostMessage = (mutationList, ob) => {    
     if (mutationList) {
+
+        console.log(mutationList.length);
 	    let height = document.body.offsetHeight;
 	    window.parent.postMessage({
 		frameHeight: height
@@ -9,7 +11,7 @@ const sendPostMessage = (mutationList, ob) => {
 
 window.onresize = () => sendPostMessage();
 
-const config = { attributes: true, childList: true, subtree: true };
+const config = { attributes: true, childList: true, subtree: false };
 
 const observer = new MutationObserver(sendPostMessage);
 observer.observe(document.body, config);
@@ -23,7 +25,7 @@ window.onmessage = (e) => {
     if (e.data.hasOwnProperty("frameHeight")) {
 	var iframeDiv = document.querySelector("iframe");
 	if (iframeDiv) {
-	    iframeDiv.style["padding-top"] = `${e.data.frameHeight + 30}px`;
+	    iframeDiv.style["padding-top"] = `${e.data.frameHeight}px`;
 	}
     }
 };
