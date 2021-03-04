@@ -246,11 +246,7 @@
         updateSize(bodyHeight);
       }
 
-
-      $(document).on("load", () => {
-        const iframeDiv = document.querySelector(".simulation-container");
-        iframeResize();
-      });
+      $("iframe").on("load", iframeResize);
 
     </script>
   </body>
