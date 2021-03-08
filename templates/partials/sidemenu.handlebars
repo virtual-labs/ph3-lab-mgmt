@@ -1,11 +1,17 @@
 <div class="nav flex-column sidebar flex-shrink-1 flex-md-shrink-0 pr-4" id="menu">
-  {{#each lus}}
+  {{#each units}}
     <div>
       <div class="d-flex">
+      {{#unless this.units}} 
         <a href="{{this.target}}" class="py-2 flex-grow-1 {{#if isCurrentItem}} current-item {{/if}}">
           {{this.label}}
         </a>
-        {{#if this.tasks}}
+      {{/unless}}
+        
+        {{#if this.units}}
+        <span class="py-2 flex-grow-1 {{#if isCurrentItem}} current-item {{/if}}">
+          {{this.label}}
+        </span>
           <button class="btn btn-white" type="button"
             data-bs-toggle="collapse" data-bs-target="#t-{{this.id}}"
             aria-controls="{{this.id}}">
@@ -18,7 +24,7 @@
           {{#unless isCurrentLU }} class="collapse" {{/unless}}
         >
         <div class="px-1 d-flex flex-column tasks">
-          {{#each tasks}}
+          {{#each this.units}}
             <a href="{{this.target}}" class="py-1 {{#if isCurrentItem}} current-item {{/if}}"> {{this.label}} </a>
           {{/each}}
         </div>

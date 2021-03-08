@@ -8,7 +8,7 @@ const exp = new Experiment(path.resolve(process.argv[2]));
 
 exp.clean();
 exp.init(Handlebars);
-exp.includeFeedbackAsLU();
+exp.includeFeedback();
 exp.build();
 
 // when there is no descriptor.
@@ -19,3 +19,14 @@ exp.build();
 // open close menu.
 
 // finalize the urls.
+
+/*
+
+The side menu:
+
+- list of items
+- each item is either a task or a learning unit
+- if the item is a task :: it becomes a link
+- if the item is a learning unit :: it becomes of list of links
+
+*/

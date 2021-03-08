@@ -8,6 +8,7 @@ const shell = require("shelljs");
 
 const {Unit} = require("./Unit.js");
 const {Task} = require("./Task.js");
+const {Aim} = require("./Aim.js");
 
 const {UnitTypes, ContentTypes, validType, validContentType} = require("./Enums.js");
 
@@ -15,56 +16,65 @@ class LearningUnit extends Unit {
   constructor(
     unit_type,
     label,
-    content_type,
     exp_path,
     basedir,
-    source,
-    target,
-    tasks
+    units
   ) {
-    super(unit_type, label, content_type, exp_path, basedir, source, target);
-    if (tasks) {
-    this.tasks = Array.from(tasks).map(
-      (t) =>
-        new Task(
-          t["unit-type"],
-          t["label"],
-          t["content-type"],
-          exp_path,
-          basedir,
-          t["source"],
-          t["target"],
-          this.label
-        )
-    );
+    super(unit_type, label, exp_path, basedir);
+    if (units) {
+    this.units = Array.from(units).map(
+      (u) => {
+        switch(u["unit-type"]){
+          case UnitTypes.LU:
+            return LearningUnit.fromRecord(u, exp_path);
+            break;
+          case UnitTypes.TASK:
+            u.basedir = basedir;
+            return Task.fromRecord(u, label, exp_path);
+            break;
+          case UnitTypes.AIM:
+            return (new Aim(this.basedir, label, exp_path));
+            break;
+        }
+      });
     }
     else {
-      tasks = [];
+      units = [];
     }
   }
 
   static unit_type = UnitTypes.LU;
 
   static fromRecord(lu, exp_path) {
-    return new LearningUnit(
+    const u = new LearningUnit(
       lu["unit-type"],
       lu["label"],
-      lu["content-type"],
       exp_path,
       lu["basedir"],
-      lu["source"],
-      lu["target"],
       lu["units"]
     );
+    return u;
   }
 
-  menuItemInfo(host_page_level) {
-    const mi = super.menuItemInfo(host_page_level);
-    mi.id = this.label.toLowerCase().replace(/ /g, '-');
-    mi.tasks = this.tasks?this.tasks.map(t => {
-      return t.menuItemInfo(host_page_level);
-    }):[];
-    return mi;
+
+  menuItemInfo(host_path) {
+    return {
+      label: this.label,
+      unit_type: this.unit_type,
+      id: this.label.toLowerCase().replace(/ /g, '-'),
+      units: this.units?this.units.map(t => {
+        let info = t.menuItemInfo(host_path);
+        //console.log(info);
+        return info;
+      }):[]
+    };
+  }
+  
+
+  build(exp_info) {
+    if (this.units.length > 0) {
+      this.units.forEach(u => u.build(exp_info));
+    }
   }
 }
 

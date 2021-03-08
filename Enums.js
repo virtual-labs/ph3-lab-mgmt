@@ -1,6 +1,7 @@
 const UnitTypes = {
   LU: "lu",
   TASK: "task",
+  AIM: "aim"
 };
 
 const ContentTypes = {

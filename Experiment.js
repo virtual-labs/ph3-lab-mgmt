@@ -6,13 +6,13 @@ const shell = require("shelljs");
 
 const Config = require("./Config.js");
 const {LearningUnit} = require("./LearningUnit.js");
+const {Task} = require("./Task.js");
 const {UnitTypes, ContentTypes} = require("./Enums.js");
 
 class Experiment {
   constructor(src) {
     this.src = src;
     this.descriptor = require(Experiment.descriptorPath(src));
-    this.lus = this.descriptor.map((lu) => LearningUnit.fromRecord(lu, src));
   }
 
   static build_path(src) {
@@ -60,43 +60,32 @@ class Experiment {
     return marked(name_file.toString());
   }
   
-  summary() {
-    /* return the number of learning units and tasks. */
-    const desc = this.descriptor;
-    const lus = Array.from(desc).map((lu) => [lu["label"], lu["units"].length]);
-    const nlus = lus.length;
-    const ntasks = lus.reduce((nts, l) => nts + l[1], 0);
-    return { nlus: nlus, ntasks: ntasks, lus: lus };
-  }
-
-  menudata() {
-    return this.lus.map(lu => lu.menuInfo());
-  }
 
   build(options){
+    /*
+    here we are assuming that the descriptor contains a simgle object 
+    that represents the learning unit corresponding to the experiment.
+    */
+    const explu = LearningUnit.fromRecord(this.descriptor, this.src);
+    
     const exp_info = { 
       name: this.name(), 
-      menu: this.lus,
+      menu: explu.units
     };
-    this.lus.forEach((lu) => {      
-      lu.writePage(exp_info);
-      if(lu.tasks){
-	      lu.tasks.forEach(t => t.writePage(exp_info));
-      }
-    });
+
+    explu.build(exp_info);
   }
 
-  includeFeedbackAsLU() {
-    const feedbackLU = new LearningUnit(UnitTypes.LU,
-      "Feedback",
-      ContentTypes.TEXT,
-      this.src,
-      ".",
-      "feedback.md",
-      "feedback.html",
-      []
-    );
-    this.lus.push(feedbackLU);
+  includeFeedback() {
+    const feedbackLU = {
+      "unit-type": "task",
+      "label": "Feedback",
+      "content-type": "text",
+      "source": "feedback.md",
+      "target": "feedback.html"
+    };
+
+    this.descriptor.units.push(feedbackLU);
   }
 }
 
