@@ -118,6 +118,7 @@
 .markdown-body {
     font-family: 'Raleway', sans-serif;
     color: #000000;
+    text-align: justify;
 }
 
 /* to fix the  extended lines*/

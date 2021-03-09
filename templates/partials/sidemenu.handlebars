@@ -9,9 +9,9 @@
       {{/unless}}
         
         {{#if this.units}}
-        <span class="py-2 flex-grow-1 {{#if isCurrentItem}} current-item {{/if}}">
+        <a data-bs-toggle="collapse" href="#t-{{this.id}}" class="py-2 flex-grow-1 {{#if isCurrentItem}} current-item {{/if}}">
           {{this.label}}
-        </span>
+        </a>
           <button class="btn btn-white" type="button"
             data-bs-toggle="collapse" data-bs-target="#t-{{this.id}}"
             aria-controls="{{this.id}}">
