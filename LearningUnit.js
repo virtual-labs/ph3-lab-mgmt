@@ -69,7 +69,7 @@ class LearningUnit extends Unit {
       }):[]
     };
   }
-  
+
 
   build(exp_info) {
     if (this.units.length > 0) {

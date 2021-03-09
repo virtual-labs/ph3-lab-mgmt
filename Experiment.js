@@ -15,10 +15,11 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-  static build_path(src) {
-    return path.resolve(src, Config.Experiment.build_dir);
-  }
-  
+//   static build_path(src) {
+//     console.log(path.basename(src));
+//     return path.resolve(src, Config.Experiment.build_dir, path.basename(src));
+//   }
+
   static ui_template_path = path.resolve(Config.Experiment.ui_template_name);
 
   static static_content_path = path.resolve(Config.Experiment.static_content_dir);
@@ -28,12 +29,12 @@ class Experiment {
   }
 
   clean() {
-    const bp = Experiment.build_path(this.src);
+    const bp = Config.build_path(this.src);
     if (shell.test("-d", bp)){
       shell.rm("-rf", bp);
     }
   }
-  
+
   static registerPartials(hb) {
     Config.Experiment.partials.forEach(([name, file]) => {
       const partial_content = fs.readFileSync(path.resolve(Experiment.ui_template_path, 'partials', `${file}.handlebars`));
@@ -43,7 +44,8 @@ class Experiment {
 
   init(hb) {
     try{
-      const bp = Experiment.build_path(this.src);
+      const bp = Config.build_path(this.src);
+      shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
       shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
       shell.cp("-R", path.resolve(Experiment.static_content_path, "feedback.md"), bp);
@@ -54,22 +56,22 @@ class Experiment {
       process.exit();
     }
   }
-  
+
   name() {
-    const name_file = fs.readFileSync(path.resolve(Experiment.build_path(this.src), "experiment-name.md"));
+    const name_file = fs.readFileSync(path.resolve(Config.build_path(this.src), "experiment-name.md"));
     return marked(name_file.toString());
   }
-  
+
 
   build(options){
     /*
-    here we are assuming that the descriptor contains a simgle object 
+    here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
     */
     const explu = LearningUnit.fromRecord(this.descriptor, this.src);
-    
-    const exp_info = { 
-      name: this.name(), 
+
+    const exp_info = {
+      name: this.name(),
       menu: explu.units
     };
 

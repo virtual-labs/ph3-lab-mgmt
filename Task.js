@@ -8,6 +8,7 @@ const shell = require("shelljs");
 
 const Config = require("./Config.js");
 const { Unit } = require("./Unit.js");
+
 const {
   UnitTypes,
   ContentTypes,
@@ -82,7 +83,7 @@ class Task extends Unit {
 
     menu.map((u) => {
       if (u.unit_type === UnitTypes.TASK || u.unit_type === UnitTypes.AIM) {
-        u.isCurrentItem = this.target === u.target; 
+        u.isCurrentItem = this.target === u.target;
       }
       else {
         u.isCurrentLU = (u.units? u.units.some((t) => {
@@ -105,27 +106,25 @@ class Task extends Unit {
 
 
   targetPath() {
-    return path.resolve(
-      ".",
-      this.exp_path,
-      Config.Experiment.build_dir,
+    return path.resolve(path.join(
+      Config.build_path(this.exp_path),
       this.basedir,
       this.target
-    );
+    ));
   }
 
   sourcePath() {
-    return path.resolve(
-      ".",
-      this.exp_path,
-      Config.Experiment.build_dir,
+    return path.resolve(path.join(
+      Config.build_path(this.exp_path),
       this.basedir,
       this.source
-    );
+    ));
   }
 
 
   buildPage(exp_info) {
+    let assets_path = path.relative(path.dirname(this.targetPath()), Config.build_path(this.exp_path));
+    assets_path = assets_path?assets_path:".";
 
     const page_data = {
       production: false,
@@ -135,7 +134,7 @@ class Task extends Unit {
       isVideo: false,
       isSimulation: false,
       isAssesment: false,
-      assets_path: path.relative(path.dirname(this.targetPath()), path.join(this.exp_path, "build"))
+      assets_path: assets_path
     };
 
     switch (this.content_type) {
@@ -162,7 +161,7 @@ class Task extends Unit {
           .readFileSync(path.resolve(this.sourcePath()))
           .toString();
 
-        let rp = path.join(path.relative(path.dirname(this.sourcePath()), path.resolve(path.join(this.exp_path, "build/assets"))), "js/iframeResize.js");
+        let rp = path.join(path.relative(path.dirname(this.sourcePath()), Config.build_path(this.exp_path)), "assets/js/iframeResize.js");
 
         content = content.replace(
           "</body>",

@@ -1,3 +1,5 @@
+const path = require("path");
+
 const Experiment = {
   descriptor_name: "experiment-descriptor",
   build_dir: "build",
@@ -22,4 +24,9 @@ const Experiment = {
   ]
 };
 
+function build_path(src) {
+  return path.resolve(src, Experiment.build_dir, path.basename(src));
+}
+
 module.exports.Experiment = Experiment;
+module.exports.build_path = build_path;
