@@ -90,9 +90,3 @@ class Experiment {
 }
 
 module.exports = {Experiment};
-
-
-/*
-- color of learning units
-- make it a button//
-*/
