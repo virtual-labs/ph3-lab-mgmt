@@ -241,7 +241,7 @@
 
       function iframeResize() {
         let doc = $("iframe").contents()[0];
-        let bodyHeight = doc.body.scrollHeight;
+        let bodyHeight = Math.max(doc.scrollingElement.scrollHeight, doc.body.scrollHeight);
         console.log(bodyHeight);
         updateSize(bodyHeight);
       }
