@@ -25,7 +25,7 @@ const Experiment = {
 };
 
 function build_path(src) {
-  return path.resolve(src, Experiment.build_dir, path.basename(src));
+  return path.resolve(src, Experiment.build_dir, path.basename(path.resolve(src)));
 }
 
 module.exports.Experiment = Experiment;
