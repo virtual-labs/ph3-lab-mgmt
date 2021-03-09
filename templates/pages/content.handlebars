@@ -42,7 +42,9 @@
 
       function updateSize(s){
         var iframeDiv = $("div.simulation-container");
-        iframeDiv.css("padding-top", s);
+        if (iframeDiv.css("padding-top") < s) {
+          iframeDiv.css("padding-top", s);  
+        }
       }
 
       function iframeResize() {
@@ -52,9 +54,7 @@
         updateSize(bodyHeight);
       }
 
-
       $("iframe").on("load", iframeResize);
-
 
       </script>
     {{/if}}

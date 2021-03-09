@@ -51,9 +51,6 @@ class Task extends Unit {
 
   menuItemInfo(host_path) {
 
-    console.log(path.dirname(host_path), this.targetPath(), path.relative(path.dirname(host_path), this.targetPath()));
-    console.log();
-
     return {
       label: this.label,
       unit_type: this.unit_type,
