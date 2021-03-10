@@ -71,9 +71,9 @@ class LearningUnit extends Unit {
   }
 
 
-  build(exp_info) {
+  build(exp_info, options) {
     if (this.units.length > 0) {
-      this.units.forEach(u => u.build(exp_info));
+      this.units.forEach(u => u.build(exp_info, options));
     }
   }
 }

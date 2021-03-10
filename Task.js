@@ -51,7 +51,6 @@ class Task extends Unit {
 
 
   menuItemInfo(host_path) {
-
     return {
       label: this.label,
       unit_type: this.unit_type,
@@ -63,7 +62,6 @@ class Task extends Unit {
 
 
   getMenu(menu_data) {
-
     return menu_data
       .filter((mi) => {
         if ( mi.unit_type === UnitTypes.TASK || mi.unit_type === UnitTypes.AIM ){
@@ -80,7 +78,6 @@ class Task extends Unit {
 
 
   setCurrent(menu) {
-
     menu.map((u) => {
       if (u.unit_type === UnitTypes.TASK || u.unit_type === UnitTypes.AIM) {
         u.isCurrentItem = this.target === u.target;
@@ -90,20 +87,17 @@ class Task extends Unit {
               return t.target === this.target;
             })
           : false);
-
         u.units = u.units
           ? u.units.map((t) => {
               t.isCurrentItem = this.target === t.target;
               return t;
             })
           : [];
-
       }
       return u;
     });
     return menu;
   }
-
 
   targetPath() {
     return path.resolve(path.join(
@@ -121,13 +115,14 @@ class Task extends Unit {
     ));
   }
 
-
-  buildPage(exp_info) {
+  buildPage(exp_info, options) {
     let assets_path = path.relative(path.dirname(this.targetPath()), Config.build_path(this.exp_path));
     assets_path = assets_path?assets_path:".";
 
     const page_data = {
-      production: false,
+      production: options.production,
+      testing: options.testing,
+      local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
       isText: false,
@@ -161,7 +156,11 @@ class Task extends Unit {
           .readFileSync(path.resolve(this.sourcePath()))
           .toString();
 
-        let rp = path.join(path.relative(path.dirname(this.sourcePath()), Config.build_path(this.exp_path)), "assets/js/iframeResize.js");
+        let rp = path.join(
+          path.relative(path.dirname(this.sourcePath()),
+          Config.build_path(this.exp_path)),
+          "assets/js/iframeResize.js"
+        );
 
         content = content.replace(
           "</body>",
@@ -192,8 +191,8 @@ class Task extends Unit {
   }
 
 
-  build(exp_info) {
-    this.buildPage(exp_info);
+  build(exp_info, options) {
+    this.buildPage(exp_info, options);
   }
 }
 

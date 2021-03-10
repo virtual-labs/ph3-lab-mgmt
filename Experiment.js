@@ -7,7 +7,7 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const {LearningUnit} = require("./LearningUnit.js");
 const {Task} = require("./Task.js");
-const {UnitTypes, ContentTypes} = require("./Enums.js");
+const {UnitTypes, ContentTypes, BuildEnvs} = require("./Enums.js");
 
 class Experiment {
   constructor(src) {
@@ -29,7 +29,7 @@ class Experiment {
   }
 
   clean() {
-    const bp = Config.build_path(this.src);
+    const bp = path.resolve(this.src, Config.Experiment.build_dir);
     if (shell.test("-d", bp)){
       shell.rm("-rf", bp);
     }
@@ -69,13 +69,18 @@ class Experiment {
     that represents the learning unit corresponding to the experiment.
     */
     const explu = LearningUnit.fromRecord(this.descriptor, this.src);
-
     const exp_info = {
       name: this.name(),
       menu: explu.units
     };
 
-    explu.build(exp_info);
+    console.log(options);
+
+    explu.build(exp_info, options);
+    if (options.env === BuildEnvs.TESTING) {
+      shell.mv(path.resolve(Config.build_path(this.src), "*"), path.resolve(this.src, Config.Experiment.build_dir));
+      shell.rm("-rf", Config.build_path(this.src));
+    }
   }
 
   includeFeedback() {

@@ -1,4 +1,5 @@
 const path = require("path");
+const {BuildMEnvs} = require("./Enums.js");
 
 const Experiment = {
   descriptor_name: "experiment-descriptor",
