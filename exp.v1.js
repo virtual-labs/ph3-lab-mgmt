@@ -3,17 +3,24 @@ const Handlebars = require("handlebars");
 const {Experiment} = require("./Experiment.js");
 const {BuildEnvs, validBuildEnv} = require("./Enums.js");
 
-args = require("minimist")(process.argv.slice(2));
+function run (src, lab_data, build_options) {
+  const exp = new Experiment(src);
+  exp.clean();
+  exp.init(Handlebars);
+  exp.includeFeedback();
+  exp.build(lab_data, build_options);
+}
 
-const exp = new Experiment(path.resolve(args._[0]));
-const build_options = {
-  env: validBuildEnv(args.env)
-};
-exp.clean();
-exp.init(Handlebars);
-exp.includeFeedback();
-exp.build(build_options);
+module.exports.run = run;
 
+if (require.main === module) {
+  const args = require("minimist")(process.argv.slice(2));
+  const build_options = {
+    env: validBuildEnv(args.env)
+  };
+  const src = path.resolve(args._[0])
+  run(src, build_options);
+}
 // node exp.v1.js --env=production ../
 // node exp.v1.js --env=testing ../
 // node exp.v1.js --env=local ../

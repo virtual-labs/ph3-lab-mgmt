@@ -15,11 +15,6 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-//   static build_path(src) {
-//     console.log(path.basename(src));
-//     return path.resolve(src, Config.Experiment.build_dir, path.basename(src));
-//   }
-
   static ui_template_path = path.resolve(Config.Experiment.ui_template_name);
 
   static static_content_path = path.resolve(Config.Experiment.static_content_dir);
@@ -63,7 +58,7 @@ class Experiment {
   }
 
 
-  build(options){
+  build(lab_data, options){
     /*
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
@@ -74,13 +69,17 @@ class Experiment {
       menu: explu.units
     };
 
-    console.log(options);
-
-    explu.build(exp_info, options);
-    if (options.env === BuildEnvs.TESTING) {
-      shell.mv(path.resolve(Config.build_path(this.src), "*"), path.resolve(this.src, Config.Experiment.build_dir));
-      shell.rm("-rf", Config.build_path(this.src));
-    }
+    explu.build(exp_info, lab_data, options);
+    /*
+      This "tmp" directory is needed because when you have a sub-directory 
+      with the same name, it can cause issue.  So, we assume that there should
+      not be any sub-directory with "tmp" name, and first move the contents to tmp
+      before moving the contents to the top level directory.
+     */
+    const tmp_dir = path.resolve(this.src, Config.Experiment.build_dir, "tmp");
+    shell.mv(path.resolve(Config.build_path(this.src)), tmp_dir);
+    shell.mv(path.resolve(tmp_dir, "*"), path.resolve(this.src, Config.Experiment.build_dir));
+    shell.rm("-rf", tmp_dir);
   }
 
   includeFeedback() {

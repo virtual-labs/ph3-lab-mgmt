@@ -12,6 +12,7 @@ const { Unit } = require("./Unit.js");
 const {
   UnitTypes,
   ContentTypes,
+  BuildEnvs,
   validType,
   validContentType,
 } = require("./Enums.js");
@@ -115,12 +116,12 @@ class Task extends Unit {
     ));
   }
 
-  buildPage(exp_info, options) {
+  buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(path.dirname(this.targetPath()), Config.build_path(this.exp_path));
     assets_path = assets_path?assets_path:".";
 
     const page_data = {
-      production: options.production,
+      production: (options.env === BuildEnvs.PRODUCTION),
       testing: options.testing,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
@@ -129,7 +130,15 @@ class Task extends Unit {
       isVideo: false,
       isSimulation: false,
       isAssesment: false,
-      assets_path: assets_path
+      assets_path: assets_path,
+      lab: lab_data.lab,
+      broadArea: lab_data.broadArea,
+      deployLab: lab_data.deployLab,
+      phase: lab_data.phase,
+      collegeName: lab_data.collegeName,
+      baseUrl: lab_data.baseUrl,
+      exp_name: lab_data.exp_name,
+      exp_short_name: lab_data.exp_short_name
     };
 
     switch (this.content_type) {
@@ -191,8 +200,8 @@ class Task extends Unit {
   }
 
 
-  build(exp_info, options) {
-    this.buildPage(exp_info, options);
+  build(exp_info, lab_data, options) {
+    this.buildPage(exp_info, lab_data, options);
   }
 }
 

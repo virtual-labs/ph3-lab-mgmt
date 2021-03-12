@@ -19,8 +19,9 @@ const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
 const Exp = require("./exp.js");
-
+const {run} = require("./exp.v1.js");
 const config = require("./config.json");
+const {BuildEnvs} = require("./Enums.js");
 
 shell.config.silent = false;
 shell.set("-e");
@@ -283,37 +284,40 @@ function getLabName(labpath) {
 
 // --- iiit exp
 
-function iiithexp_clone(e, exp_dir, common_repo_name) {
+function iiithexp_clone(e, exp_dir) {
   console.log(chalk`{cyan CLONE} {yellow from} ${e.repo}`);
   const e_short_name = e["short-name"];
-  shell.mkdir("-p", path.resolve(exp_dir, e_short_name));
-  shell.cd(path.resolve(exp_dir, e_short_name));
-  shell.rm("-rf", common_repo_name);
-  shell.exec(`git clone --depth 1 ${e.repo}/${common_repo_name}`);
-  shell.cd(common_repo_name);
-  shell.exec("git fetch --all");
-  shell.exec(`git checkout ${e.tag}`);
-  shell.cd(__dirname);
+  shell.mkdir("-p", path.resolve(exp_dir));
+  shell.rm("-rf", path.resolve(exp_dir, e_short_name));
+  shell.exec(`git clone -b ${e.tag} --depth 1 ${e.repo} ${path.resolve(exp_dir, e_short_name)}`);
 }
 
-function iiithexp_build(e, exp_dir, common_repo_name) {
+function iiithexp_build(e, ld, exp_dir) {
   const e_short_name = e["short-name"];
-
   console.log(
     chalk`{cyan BUILD} {yellow at} ${path.resolve(
       exp_dir,
-      e_short_name,
-      common_repo_name
+      e_short_name
     )}`
   );
 
-  shell.cd(`${exp_dir}/${e_short_name}/${common_repo_name}`);
-  shell.cp("config.mk.sample", "config.mk");
-  shell.exec("make clean-infra; make clean; make -k all");
-  shell.cd("../../../");
+  /* 
+     Including name and short-name to the lab descriptor
+     because these field are needed in the analytics.  There
+     is no other (easy) way to identify the experiment from the 
+     list of experiments.
+  */
+  
+  ld.exp_name = e.name;
+  ld.exp_short_name = e_short_name;
+  
+  run(path.resolve(exp_dir, e_short_name),
+      ld,
+      {env: BuildEnvs.PRODUCTION}
+     );
 }
 
-function iiithexp_stage(e, exp_dir, common_repo_name, deployment_dest) {
+function iiithexp_stage(e, exp_dir, deployment_dest) {
   const e_short_name = toDirName(e["short-name"]);
 
   console.log(
@@ -332,7 +336,7 @@ function iiithexp_stage(e, exp_dir, common_repo_name, deployment_dest) {
   );
   shell.cp(
     "-rf",
-    `${exp_dir}/${e_short_name}/${common_repo_name}/build/*`,
+    `${exp_dir}/${e_short_name}/build/*`,
     `${deployment_dest}/stage/exp/${e_short_name}/`
   );
 }
@@ -352,7 +356,6 @@ function expList(data) {
 function iiith_exp_manage(lab_descriptor) {
   const config = require("./config.json");
   const exp_dir = config["exp_dir"];
-  const common_repo_name = config["common_repo_name"];
   const deployment_dest = config["deployment_dest"];
   const lab_dir_name = toDirName(lab_descriptor.lab);
   const deployment_path = path.join(deployment_dest, lab_dir_name);
@@ -360,12 +363,32 @@ function iiith_exp_manage(lab_descriptor) {
 
   experiments.forEach((e) => {
     console.log("");
-    iiithexp_clone(e, exp_dir, common_repo_name);
-    iiithexp_build(e, exp_dir, common_repo_name);
-    iiithexp_stage(e, exp_dir, common_repo_name, deployment_path);
+    iiithexp_clone(e, exp_dir);
+    iiithexp_build(e, lab_descriptor, exp_dir);
+    iiithexp_stage(e, exp_dir, deployment_path);
     console.log("");
   });
 }
+
+/////////////////////////////////////////////////////////////////////////
+// function iiith_exp_manage(lab_descriptor) {			       //
+//   const config = require("./config.json");			       //
+//   const exp_dir = config["exp_dir"];				       //
+//   const common_repo_name = config["common_repo_name"];	       //
+//   const deployment_dest = config["deployment_dest"];		       //
+//   const lab_dir_name = toDirName(lab_descriptor.lab);	       //
+//   const deployment_path = path.join(deployment_dest, lab_dir_name); //
+//   const experiments = expList(lab_descriptor);		       //
+// 								       //
+//   experiments.forEach((e) => {				       //
+//     console.log("");						       //
+//     iiithexp_clone(e, exp_dir, common_repo_name);		       //
+//     iiithexp_build(e, exp_dir, common_repo_name);		       //
+//     iiithexp_stage(e, exp_dir, common_repo_name, deployment_path);  //
+//     console.log("");						       //
+//   });							       //
+// }								       //
+/////////////////////////////////////////////////////////////////////////
 
 // --- iiit exp
 
