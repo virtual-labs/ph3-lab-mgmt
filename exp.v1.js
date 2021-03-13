@@ -18,8 +18,23 @@ if (require.main === module) {
   const build_options = {
     env: validBuildEnv(args.env)
   };
-  const src = path.resolve(args._[0])
-  run(src, build_options);
+  const src = path.resolve(args._[0]);
+  /*
+    We are making an assumption here that if you are running this
+    script from the command line then this is being used for testing
+    the individual experiment, and by convention when we are testing
+    individual experiment, we do not use any lab level information and
+    we do not include analytics.
+
+    So, while it is possible to give build_options.env as
+    'production', it does not make any sense and we should probably
+    remove it or change the build process to make it useful.
+
+    Anyways, for now, we will send an empty object as lab_data and
+    hope things work out.
+   */
+  const default_lab_data = {}; 
+  run(src, {}, build_options);
 }
 // node exp.v1.js --env=production ../
 // node exp.v1.js --env=testing ../
