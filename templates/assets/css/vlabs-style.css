@@ -161,8 +161,7 @@ h3 {
 }
 
 .visible {
-    width: 8rem;
-    
+    width: max-content;
 }
 
 .hidden {
