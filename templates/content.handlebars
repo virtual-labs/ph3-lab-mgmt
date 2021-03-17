@@ -78,11 +78,7 @@
       <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
         
 	<button class="navbar-toggler px-4"
-		type="button"
-		data-bs-toggle="collapse"
-		data-bs-target="#menu"
-		aria-controls="menu"
-		aria-expanded="true" aria-label="Toggle navigation">
+		type="button" onclick="toggle()">
                 
                 <span class="navbar-toggler-icon"></span>
                 
@@ -133,7 +129,7 @@
       
       {{/if }}
       
-      <div class="row flex-grow-1 px-4 d-flex flex-nowrap">
+      <div class="row flex-grow-1 px-sm-4 d-flex flex-nowrap">
         <div class="nav flex-column sidebar flex-shrink-1 pr-4" id="menu">
           {{#each menu}}
             <a href="{{this.target}}"
@@ -142,7 +138,7 @@
             </a>
           {{/each}}
         </div>
-        <div class="vlabs-page-content px-4 pb-4 flex-grow-1">
+        <div class="vlabs-page-content px-sm-4 pb-4 flex-grow-1">
           <zero-md src="round-template/experiment/experiment-name.md">
           <template>
               <style>
@@ -201,5 +197,30 @@
       </div>
     </footer>
 
+    <script>
+      
+      function toggle() {
+        const sb = document.querySelector(".sidebar");
+        if(sb.classList.contains("hidden")) {
+          sb.classList.remove("hidden");
+          sb.classList.add("visible");
+        }
+        else {
+          sb.classList.remove("visible");
+          sb.classList.add("hidden");
+        }
+      }
+
+      $(window).resize(() => {
+        const w = $(this).width();
+        if (w < 576) {
+          document.querySelector(".sidebar").classList.remove("visible");
+          document.querySelector(".sidebar").classList.add("hidden");
+        }
+      });
+        
+    </script>
+
+    
   </body>
 </html>
