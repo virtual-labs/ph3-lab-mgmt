@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">  
+<html lang="en">
   <head>
     {{> analytics_head }}
     {{> meta }}
@@ -19,12 +19,12 @@
       font-weight: 800;
       }
     </style>
-  </head>  
+  </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
     {{> analytics_body }}
-    {{> header }}    
+    {{> header }}
     <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
-      {{> breadcrumbs }} 
+      {{> breadcrumbs }}
       <div class="row flex-grow-1 px-4 d-flex flex-nowrap">
         {{> side_menu }}
         {{> content }}
@@ -34,28 +34,30 @@
     {{#if isSimulation}}
       <script>
 
-      window.onmessage = (e) => { 
+      window.onmessage = (e) => {
         if (e.data.hasOwnProperty("frameHeight")) {
           updateSize(e.data.frameHeight);
-        } 
-      };  
+        }
+      };
 
       function updateSize(s){
-        var iframeDiv = $("div.simulation-container");
-        if (iframeDiv.css("padding-top") < s) {
-          iframeDiv.css("padding-top", s);  
+        const iframeDiv = $("div.simulation-container");
+        const current_padding = parseFloat(iframeDiv.css("padding-top"), 10);
+
+        if (current_padding < s) {
+          iframeDiv.css("padding-top", (s + 200));
         }
       }
 
       function iframeResize() {
         let doc = $("iframe").contents()[0];
-
         let bodyHeight = Math.max(doc.scrollingElement.scrollHeight, doc.body.scrollHeight);
         console.log(bodyHeight);
         updateSize(bodyHeight);
       }
 
       $("iframe").on("load", iframeResize);
+      window.onresize = iframeResize;
 
       </script>
     {{/if}}
