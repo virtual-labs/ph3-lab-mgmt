@@ -26,7 +26,7 @@ const {BuildEnvs} = require("./Enums.js");
 shell.config.silent = false;
 shell.set("-e");
 
-/* 
+/*
    Copy lab descriptor to the lab repository's working directory.  If
    a lab-descriptor is already present then don't copy.
 */
@@ -168,7 +168,7 @@ function dataPreprocess(datafile) {
             const exp_url = generateLink(
               data.baseUrl,
               e["short-name"],
-              (index_fn = "exp.html")
+              (index_fn = "index.html")
             );
             return { name: e.name, link: exp_url.toString() };
           }),
@@ -181,7 +181,7 @@ function dataPreprocess(datafile) {
 
 function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
-  /*    
+  /*
 	.replace(/[\(]/, "\\\(")
 	.replace(/[\)]/, "\\\)"); */
 }
@@ -301,16 +301,16 @@ function iiithexp_build(e, ld, exp_dir) {
     )}`
   );
 
-  /* 
+  /*
      Including name and short-name to the lab descriptor
      because these field are needed in the analytics.  There
-     is no other (easy) way to identify the experiment from the 
+     is no other (easy) way to identify the experiment from the
      list of experiments.
   */
-  
+
   ld.exp_name = e.name;
   ld.exp_short_name = e_short_name;
-  
+
   run(path.resolve(exp_dir, e_short_name),
       ld,
       {env: BuildEnvs.PRODUCTION}
@@ -523,8 +523,8 @@ git push origin master`
 
 function release(labpath, tag_name) {
   child_process.execSync(
-    `cd ${labpath}; 
-git tag -a ${tag_name} -m "version ${tag_name}"; 
+    `cd ${labpath};
+git tag -a ${tag_name} -m "version ${tag_name}";
 git push origin ${tag_name}`
   );
   return tag_name;
