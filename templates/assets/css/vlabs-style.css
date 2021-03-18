@@ -144,6 +144,14 @@ h3 {
     text-decoration: underline;
 }
 
+
+/* for ds experiments - video iframes */
+iframe {
+    width: 100%;
+    height: calc(100vw/3);
+}
+
+
 .simulation-container {
     position: relative;
     overflow: hidden;
