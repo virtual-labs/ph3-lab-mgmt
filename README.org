@@ -70,41 +70,8 @@
    other information for lab and experiment deployment.  [[file:lab-descriptor.org][This]] document
    describes the structure of a lab descriptor file.
 
-   Run the following command to initialize a lab descriptor file that
-   contains all the required fields, without any values.  
-
-   #+NAME: labgen-init
-   #+BEGIN_SRC bash
-     npm run labgen -- init <path/to/lab/repo>
-   #+END_SRC
-
-   In the above command =<path/to/lab/repo>= should be replaced with
-   the actual path to the local lab repository mentioned in the first
-   step.
-
-*** Init Example
-
-   For example, if https://github.com/virtual-labs/myNewLab is your
-   repository and you clone it on your local system at location
-   =/home/myuser/virtual-labs/=, then you would do run the following
-   commands -
-
-   #+NAME: labgen-init-example
-   #+BEGIN_SRC bash
-     npm run labgen -- init /home/myuser/virtual-labs/myNewLab
-   #+END_SRC
    
-   or 
-
-   #+NAME: labgen-init-example-rel-path
-   #+BEGIN_SRC bash
-     npm run labgen -- init ~/virtual-labs/myNewLab
-   #+END_SRC
-
-   This will generate the file
-   =~/virtual-labs/myNewLab/lab-descriptor.json=.
-   
-** Complete and Verify Lab Descriptor   
+** Complete and Verify Lab Descriptor
 
    Fill all the values in the =<path/to/lab/repo>/lab-descriptor.json=
    file generated above and create a pull-request to get the
