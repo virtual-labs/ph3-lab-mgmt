@@ -1,0 +1,157 @@
+#+TITLE: Experiment Build Process
+
+* Introduction
+This document describes the Experiment UI build process.
+
+
+* Conceptual Model of an Experiment
+An experiment is divided into several /learning units/ and /tasks/.
+Learning Units and Tasks are logical units of an experiment that we
+discuss in the next few sections.
+
+** Learning Unit
+*** Concept of a Learning Unit
+A Learning Unit is a pedagogical term used to denote a set of learning
+material including lessons, exercises and evaluations aimed at
+teaching a particular subset of topics to be covered in a course.
+
+The students have to perform a set of activities of various kind in
+order to achieve the learning objectives of the learning unit.  We
+refer to these activities as /Tasks/.
+
+*** Structure and Properties of a Learning Unit
+Learning Units have the following properties:
+
+- AIM :: A learning unit always has an aim/learning objective.  This
+         aim outlines the topics and concepts that the students are
+         expected to learn from a given learning unit.
+
+- Sub Learning Units :: A learning unit can be further divided into
+     more than one learning units.  This is useful when a topic is
+     huge and consists of several sub-topics that require detailed
+     study.
+
+- Tasks :: There can be several tasks in a learning unit.  Each task
+           corresponds to a learning activity that the students need
+           to perform.
+
+
+** Task
+*** Concept of a Task
+A Learning Unit can be divided into several smaller Learning Units and
+Tasks.  Currently, Tasks are the lowest logical units in any
+experiment and cannot be further divided.  A task corresponds to a
+single activity that the students need to perform.
+
+*** Structure and Properties of a Task
+
+- Content Type :: Each Task has one of the following content types:
+  + Text
+  + Video
+  + Assesment
+  + Simulation
+
+- Source :: File used to build the page related to that task.  The
+            nature of this source document depends on the content type
+            and is discussed in the sections on the relevant content
+            types.
+
+- Target :: The Html page to be generated for this task.  Each task
+            has a corresponding Html page related to it that contains
+            the content related to this task.
+
+
+
+* Experiment Webpages
+A Virtual Labs Experiment is a collection of webpages containing the
+learning material for the topics covered in the Experiment.  These
+webpages are built using content provided by the subject matter
+experts and it can be in several formats.  The resulting page and it's
+build process depends on the nature of the content.
+
+** Relation between Learning Units, Tasks and Pages
+
+- Learning Unit :: A learning unit itself does not have a page
+                   associated with it.  A learning unit has a set of
+                   sub-units and tasks.
+
+- Task :: Each task has exactly one page associated with it.  The kind
+          of page that is generated for a task depends on the content
+          type of the task.
+
+** Contents supported for Task Pages
+Each task has a corresponding webpage associated with it.  This page
+is generated as a result of the build process.  The build process of a
+page depends on the content type of the task.
+
+In the following sections we discuss the different content types and
+build process details.
+
+*** Text
+A Task with the "text" content type contains reading meterial for the
+learner.  It contains mostly textual information and may include
+images and hyperlinks.
+
+*NOTE* : *text content may not contain videos.*
+
+- Source :: A page of text type requires a markdown document
+            containing the source of text.  This markdown document is
+            used to build the final page for the task.
+
+- Target :: The target page is build using the markdown source.  The
+            markdown content is processed throught a markdown parser
+            and the resulting html is added to the common page
+            template.
+
+
+*** Video
+A Task with "video" content type contains at least one video in the
+task page.  It can also have additional information in the form of
+text, images and hyperlinks.
+
+All the processing for video content type is similar to "text" type.
+
+**** What is the difference between text and video content types?
+
+- For Authors ::
+  + Text content cannot have embedded video.
+  + Video content must have at least one embedded video.
+
+- For Developers ::
+  + Embedded videos in "video" type pages need to be processing with
+    analytics information.
+  + If there are embedded videos in a "text" source document, the
+    processing should fail with appropriate error message.
+  + If there is no embedded video in a "video" source document, the
+    processing should fail with appropriate error message.
+
+**** Implementation Status
+Video and text content types are processed the same way.  The
+analytics injection in embedded video pages is to be implemented.
+
+
+*** Simulation
+A Simulation type page contains interactive simulations that
+demonstrate the concepts learned in the reading material/ videos.  A
+simulation is an html document along with all it's assets (css, js,
+images, etc.) required to run the simulation.  These pages are
+embedded in the corresponding task page using iframes.
+
+- Source :: The html document that contains the simulation.
+- Target :: The task page is built by inserting an iframe in the
+            common template.  This iframe points to the source html
+            document.
+
+One task page can only contain a single simulation.
+
+
+*** Assesment
+Assesment type page contains multiple-choice questions related to the
+material in the learning unit.
+
+- Source :: The questions in an assesment are written in a js module
+            with a predefined format that contains questions along
+            with assesment code.  The source should provide link to
+            this document.
+- Target :: Page corresponding to the assesment task.  The source is
+            included as a script in the task page.
