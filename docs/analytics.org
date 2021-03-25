@@ -1,0 +1,41 @@
+#+TITLE: Analytics
+
+* Introduction
+This document describes the analytics information included in a lab
+and experiment page.
+
+The Lab and Experiment pages are tracked for analytics information
+using the google analytics service.  This service keeps track usage
+information for each page in a given domain.  Currently we collect
+analytics for labs hosted in the [[vlabs.ac.in][vlabs.ac.in]] domain.
+
+The reporting of analytics is done using googld data studio reports
+and is publically available [[https://datastudio.google.com/u/0/reporting/1bVjKkAw-e617LmNE1v_WPdIByVRz2waa/page/5fLPB][here]].
+
+The setup for tracking analytics is done using google tag manager.
+
+*Tag Manager Container: GTM-W59SWTR*
+
+* Mechanism for Collecting Analytics
+There are two types of information collected for any page by google
+analytics:
+
+- predefined variable :: Predefined/inbuilt variables are things like
+     page url, timestamp etc which is common to all webpages.  No
+     configuration is required for these variables.
+
+- user defined variables :: These variables are used to store
+     additional information related to the page.  For example, in an
+     experiment level page, the experiment name is stored in a user
+     defined variable.  The [[https://support.google.com/tagmanager/answer/6164391?hl=en][Datalayer]] facility of google tag manager
+     is used to create these variables.
+
+In the next two sections we discuss the datalayer variables for Lab
+and Experiment level pages.
+
+
+* Lab Analytics
+
+
+
+* Experiment Analytics
