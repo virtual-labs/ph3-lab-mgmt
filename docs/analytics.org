@@ -36,6 +36,32 @@ and Experiment level pages.
 
 * Lab Analytics
 
+|------------+---------------------------|
+| VARIABLE   | DESCRIPTION               |
+|------------+---------------------------|
+| labName    | Name of the Lab           |
+| discipline | Subject Domain of the Lab |
+| college    | College Code              |
+| phase      | Phase Number of the Lab   |
+|------------+---------------------------|
 
+All of these fields are given in the lab-descriptor document.
 
 * Experiment Analytics
+
+|--------------+---------------------------|
+| VARIABLE     | DESCRIPTION               |
+|--------------+---------------------------|
+| labName      | Name of the Lab           |
+| discipline   | Subject Domain of the Lab |
+| college      | College Code              |
+| phase        | Phase Number of the Lab   |
+| expName      | Experiment Name           |
+| expShortName | Experiment Short Name     |
+|--------------+---------------------------|
+
+All of these fields are given in the lab-descriptor.
+
+
+*NOTE*: *Please get all the fields verified by Analytics Maintainers
+before building a lab.*
