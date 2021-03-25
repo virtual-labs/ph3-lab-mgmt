@@ -171,3 +171,10 @@
      - [-] session 1 scheduled on <2020-08-31 Mon>.  Find the [[file:KT.org][minutes]]
        here.
 
+
+* DOCS
+
+** Experiment build Process
+
+[[docs/experiments.org]]
+   
