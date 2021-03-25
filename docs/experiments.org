@@ -155,3 +155,116 @@ material in the learning unit.
             this document.
 - Target :: Page corresponding to the assesment task.  The source is
             included as a script in the task page.
+
+* Experiment Descriptor
+
+The experiment descriptor is a json document that provides information
+about all the learning units and tasks in an experiment, that is
+required to build an experiment.
+
+The =experiment-descriptor.json= needs to be provided by the
+experiment authors in the root of the experiment repository.  If it is
+not present then a [[default-experiment-descriptor.json][default descriptor]] is used.
+
+** Elements of a descriptor
+
+*** Task Object
+A Task Object describes a task.  For example:
+
+#+BEGIN_SRC js
+{
+  "unit-type": "task",
+  "label": "Overview",
+  "content-type": "video",
+  "source": "overview.md",
+  "target": "overview.html"
+}
+#+END_SRC
+
+The above json object represents a task.  It is identified as a task
+by the field =unit-type=.  All possible values of a unit type are
+listed [[Unit Types][here]].  
+
+The =label= field is used as a label for the unit's link in the
+sidemenu.
+
+The =content-type= field describes the type of content in the target
+html page generated for this unit.  The content types are describes [[Contents supported for Task Pages][here]].
+
+The =source= field gives a relative link to the source document
+required to build the page to be generated for the task.  The path of
+the page to be generated is given in the =target= field.
+
+*** Learning Unit Object
+A Learning Unit object describes a learning unit.  For example: 
+
+#+BEGIN_SRC js
+{
+  "unit-type": "lu",
+  "label": "Bubble Sort",
+  "basedir": "bubble-sort",
+  "units": [...]
+
+}
+#+END_SRC
+
+The above object describes a learning unit.  Observe that a learning
+unit does not have source and target fields.  This is because no page
+is generated for a learning unit.  Pages are only generated for tasks
+in a learning unit.
+
+Some additional fields:
+
+- basedir :: This field gives relative path to the directory that
+             contains all the contents (tasks and units) in this unit.
+             All the tasks and units use this directory as root and
+             relative paths are computed accordingly.
+
+- units :: This is a list of units (Tasks and LUs) that are contained
+           within this learning unit.
+
+*** Aim Object
+
+Each Learning Unit needs to have an Aim.  This aim describes the
+learning objectives of a unit.  This Aim Object denotes the fact that
+an Aim is required in this learning unit.
+
+*Each learning unit should have the aim object as the first object in
+its list of units.* (This is not enforced as of now, but it is a good
+practice.)
+
+The aim object looks as follows:
+
+#+BEGIN_SRC js
+{
+  "unit-type": "aim"
+}
+#+END_SRC
+
+An aim object is a special case of task, and is similar to the
+following task:
+
+#+BEGIN_SRC js
+{
+  "unit-type": "task",
+  "label": "Aim",
+  "content-type": "text",
+  "source": "aim.md",
+  "target": "index.html"
+}
+#+END_SRC
+
+
+** Overall structure of an experiment descriptor
+
+The experiment descriptor contains a single Learning Unit object that
+acts as the root unit for the experiment.
+
+See [[https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json][this]] descriptor for an example
+
+
+** Unit Types
+
+- lu :: Learning Unit
+- task :: Task
+- aim :: Aim

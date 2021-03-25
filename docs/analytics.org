@@ -60,6 +60,9 @@ The body snippet for the lab pages is included in the
 [[../skeleton-new.html][skeleton-new.html]] document which is the common template for all lab
 pages.
 
+The body snippet for the experiment pages is included in the
+[[../templates/partials/analytics-body.handlebars][analytics-body.handlebars]] template.
+
 
 * Lab Analytics
 
