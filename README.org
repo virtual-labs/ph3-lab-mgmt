@@ -55,7 +55,6 @@
   
 * Generating Lab Pages
   
-  
 ** Create Lab Repository
 
    Create a new lab repository on [[https://github.com/virtual-labs][Github]] or clone and existing one.
@@ -115,25 +114,6 @@
 
 
 
-* Deployment Process
-
-   1. Stage all experiments
-   2. Stage Lab
-   3. Deploy Experiments
-   4. Deploy Lab
-
-** Staging
-
-    - /var/www/html/
-      - <lab-name>/
-	- stage/
-	  - all lab sources here.
-	  - exp/
-	    - all experiments here.
-	- contents of the stage/ directory are copied here after
-          staging is complete.
-
-    If anything fails, you need to start the process again.
 	
 
 * DOCS
