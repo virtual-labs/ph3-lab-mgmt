@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@types/shelljs": "^0.8.8",
+    "ajv": "^7.2.4",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "figures": "^3.2.0",
@@ -14,7 +15,6 @@
     "marked": "^2.0.0",
     "minimist": "^1.2.5",
     "moment": "^2.27.0",
-    "nodegit": "^0.26.5",
     "prettier": "^2.0.5",
     "shelljs": "^0.8.4",
     "simple-git": "^2.31.0"
