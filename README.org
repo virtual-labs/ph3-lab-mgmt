@@ -114,27 +114,6 @@
    #+END_SRC
 
 
-* Reporting
-
-   The timestamp, verion number and status (success or failure) of the
-   run is updated to a google sheet.
-
-* Release management of Lab Sources
-
-   After a lab (including all its experiments) is deployed, a new tag
-   is created for the lab using the master branch.  The tag number
-   follows semantic versioning and the next version number is derived
-   from the previous version with the help of input provided by the
-   user regarding type of the release (major, minor or patch).  By
-   default a minor version is generated.
-
-   The lab descriptor is updated with the current release number.
-
-* Automated JSON Validation
-
-   The lab descriptor is validated using a [[file:labDescSchema.json][schema]].  If anything is
-   invalid in the lab descriptor, the error is displayed and process
-   aborts.
 
 * Deployment Process
 
