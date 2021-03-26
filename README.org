@@ -159,17 +159,15 @@
 
 * DOCS
 
-** Lab Descriptor
+|--------------------------+---------------------------------------------------------------------------|
+| DOCUMENT                 | DESCRIPTION                                                               |
+|--------------------------+---------------------------------------------------------------------------|
+| [[file:docs/lab-build-process.org][Lab Build Process]]        | This document describes the lab build process.                            |
+| [[file:docs/lab-descriptor.org][Lab Descriptor]]           | This document describes the structure and functions of the lab-descriptor |
+| [[file:docs/exp-build-process.org][Experiment Build Process]] | Document describing the experiment build process.                         |
+| [[file:docs/analytics.org][Analytics]]                | Lab and Experiment Analytics details.                                     |
+|--------------------------+---------------------------------------------------------------------------|
 
-[[lab-descriptor.org]]
-
-** Experiment build Process
-
-[[docs/experiments.org]]
-   
-** Analytics Details
-
-[[docs/analytics.org]]
 
 * TODO
 
@@ -187,8 +185,14 @@
 
   + script usage - TODO
 
-  + quiz - TODO
+- quiz - TODO
 
-  + exp process integration and testing - IN PROGRESS
+- exp process integration and testing - IN PROGRESS
 
-  + descriptor validation - TODO
+- descriptor validation - TODO
+
+------------
+
+- identify modules
+
+- label -> backend => build-process
