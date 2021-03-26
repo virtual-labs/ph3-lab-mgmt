@@ -24,6 +24,7 @@
   "scripts": {
     "labgen": "node main.js",
     "build-ds-exp": "node exp.v1.js --env=testing ../"
+    "build-exp": "node exp.v1.js --env=testing ../"
   },
   "keywords": [],
   "author": "",
