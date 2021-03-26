@@ -25,10 +25,18 @@ module.exports.build_experiment = run;
 
 if (require.main === module) {
   const args = require("minimist")(process.argv.slice(2));
-  const build_options = {
-    env: validBuildEnv(args.env)
-  };
 
+  // for backwards compatibility if the env is not given assume it to
+  // be testing.
+  const build_options = {};
+
+  if(args.env) {
+    build_options.env = validBuildEnv(args.env);
+  }
+  else {
+    build_options.env = BuildEnvs.TESTING;
+  }
+  
   // if the path is not provided assume "../" for backward
   // compatability.
 
