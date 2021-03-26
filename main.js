@@ -22,21 +22,8 @@ const {run} = require("./exp.js");
 const config = require("./config.json");
 const {BuildEnvs} = require("./Enums.js");
 
-shell.config.silent = false;
-shell.set("-e");
+shell.config.silent = true;
 
-/*
-   Copy lab descriptor to the lab repository's working directory.  If
-   a lab-descriptor is already present then don't copy.
-*/
-function copyLabDescriptor(repoDir) {
-  const ldpath = path.resolve(repoDir, labDescriptorFn);
-  if (fse.existsSync(ldpath)) {
-    console.error("Lab Descriptor Already exists");
-  } else {
-    fse.copySync(labDescriptorFn, ldpath);
-  }
-}
 
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
@@ -55,7 +42,7 @@ function buildPage(template_file, component_files, content_file) {
 function loadComponents(component_files) {
   const components = component_files.map((fn) =>
     fs.readFileSync(`page-components/${fn}`, "utf-8")
-  );
+					);
   return components;
 }
 
@@ -128,14 +115,15 @@ function genComponentHtml(fn, data) {
 }
 
 function prepareStructure(labpath) {
-  child_process.execSync(`cp -rf lab-structure/* ${labpath}/`);
-  child_process.execSync(`mkdir -p ${labpath}/src/lab`);
+  shell.mkdir("-p", path.resolve(labpath, "build"));
+  shell.cp("-r", path.resolve("templates/assets/*"),
+	   path.resolve(labpath, "build"));
 }
 
 function copyPages(pages, template_file, component_files, labpath) {
   pages.forEach((p) => {
     const res_html = buildPage(template_file, component_files, p.src);
-    fs.writeFileSync(`${labpath}/src/lab/${p.target}`, res_html, "utf-8");
+    fs.writeFileSync(`${labpath}/build/${p.target}`, res_html, "utf-8");
   });
 }
 
@@ -143,10 +131,8 @@ function generateLab(pages, labpath, template_file, component_files) {
   child_process.execSync(
     `cd ${labpath}; git checkout master; git pull origin master`
   );
-  child_process.execSync(`cd ${labpath}`);
   prepareStructure(labpath);
   copyPages(pages, template_file, component_files, labpath);
-  child_process.execSync(`cd ${labpath}; make`);
 }
 
 function dataPreprocess(datafile) {
@@ -193,7 +179,7 @@ function labURL(host, name) {
 
 function generate(labpath) {
   const data = dataPreprocess(path.join(labpath, "lab-descriptor.json"));
-  const template_file = "skeleton-new.html";
+  const template_file = "skeleton.html";
   const component_files = config.commonComponents;
 
   const fns = glob.sync("page-templates/*.handlebars");
@@ -347,9 +333,6 @@ function golive(labpath) {
 '${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
 }
 
-function init() {
-  console.log("initializing");
-}
 
 async function maybeProcessAll(labpath) {
   generate(labpath);
@@ -380,28 +363,15 @@ function labgen() {
         return;
       }
 
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-      rl.question("release type?  :: ", (release_type) => {
-        rl.close();
-        nextVersion(labpath, release_type)
-          .then((t) => {
-            maybeProcessAll(labpath)
-              .then(() => {
-                //reportRes(labpath, t, "SUCCESS");
-              })
-              .catch((e) => {
-                console.log(e);
-                //reportRes(labpath, t, "FAILURE");
-              });
-          })
-          .catch((e) => {
-            console.log(e);
-            //reportRes(labpath, t, "FAILURE");
-          });
-      });
+      /*
+	main.js --release patch <path>
+	main.js --release minor <path>
+	main.js --release major <path>
+       */
+      const release_type = args.release;
+      maybeProcessAll(labpath)
+      nextVersion(labpath, release_type).then(v => console.log(v));
+      //reportRes(labpath, t, "SUCCESS");
     }
   }
 }
