@@ -65,6 +65,7 @@ class Task extends Unit {
   getMenu(menu_data) {
     return menu_data
       .filter((mi) => {
+
         if ( mi.unit_type === UnitTypes.TASK || mi.unit_type === UnitTypes.AIM ){
           return shell.test("-e", mi.sourcePath());
         }

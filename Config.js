@@ -4,8 +4,9 @@ const {BuildEnvs} = require("./Enums.js");
 const Lab = {
   descriptor_name: "lab-descriptor",
   build_dir: "build",
-  exp_dir: "experiments",
+  exp_dir: "exp",
   deployment_dest: "/var/www/html",
+  stage_dir: "stage",
   ui_template_name: "templates",
   static_content_dir: "static_content",
   partials: [
@@ -13,15 +14,21 @@ const Lab = {
     ["analytics_body", "lab-analytics-body"],
     ["commons", "commons"],
     ["header", "header"],
-    ["breadcrumbs", "breadcrumbs"],
+    ["breadcrumbs", "lab-breadcrumbs"],
     ["side_menu", "sidemenu"],
     ["content", "content"],
     ["footer", "footer"]
+  ],
+  pages: [
+    {
+
+    }
   ]
 }
 
 const Experiment = {
   descriptor_name: "experiment-descriptor",
+  default_descriptor: "default-experiment-descriptor.json",
   build_dir: "build",
   exp_dir: "experiment",
   ui_template_name: "templates",

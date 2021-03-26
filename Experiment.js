@@ -39,6 +39,7 @@ class Experiment {
 
   init(hb) {
     try{
+
       const bp = Config.build_path(this.src);
       shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
@@ -71,7 +72,7 @@ class Experiment {
 
     explu.build(exp_info, lab_data, options);
     /*
-      This "tmp" directory is needed because when you have a sub-directory 
+      This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
       not be any sub-directory with "tmp" name, and first move the contents to tmp
       before moving the contents to the top level directory.
@@ -96,3 +97,23 @@ class Experiment {
 }
 
 module.exports = {Experiment};
+
+
+// need to handle optional menu items
+
+/*
+
+TODO
+
+Removing this becaiuse it is optional and we have not yet handled
+the case.
+
+    {
+      "target": "posttest.html",
+      "source": "posttest.js",
+      "label": "Posttest",
+      "unit-type": "task",
+      "content-type": "assesment"
+    },
+
+*/
