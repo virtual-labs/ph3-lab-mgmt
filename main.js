@@ -18,7 +18,7 @@ const prettier = require("prettier");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const {run} = require("./exp.v1.js");
+const {run} = require("./exp.js");
 const config = require("./config.json");
 const {BuildEnvs} = require("./Enums.js");
 
