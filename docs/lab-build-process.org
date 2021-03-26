@@ -159,3 +159,15 @@
     - Major :: X is incremented and Y, Z become 0.
     - Minor :: X stays the same.  Y is incremented and Z becomes 0.
     - Patch :: X and Y remain the same.  Z is incremented.
+
+* Reporting
+
+   The timestamp, verion number and status (success or failure) of the
+   run is updated to a google sheet.
+
+
+* Automated JSON Validation
+
+  The lab descriptor is validated using a [[file:~/iiith/vlead/Phase-3-Lab-Template/labDescSchema.json][schema]].  If anything is
+  invalid in the lab descriptor, the error is displayed and process
+  aborts.
