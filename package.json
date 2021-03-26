@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@types/shelljs": "^0.8.8",
-    "ajv": "^7.2.4",
+    "ajv": "^6.12.6",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "figures": "^3.2.0",
@@ -23,6 +23,7 @@
   "main": "main.js",
   "scripts": {
     "labgen": "node main.js",
+    "validate-lab-descriptor": "node validateDescriptor.js",
     "build-ds-exp": "node exp.v1.js --env=testing ../",
     "build-exp": "node exp.v1.js --env=testing ../"
   },
