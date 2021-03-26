@@ -40,7 +40,7 @@
       "label": "Posttest",
       "unit-type": "task",
       "content-type": "assesment"
-    }
+    },
     {
       "target": "references.html",
       "source": "references.md",
