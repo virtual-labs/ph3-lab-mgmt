@@ -18,7 +18,6 @@ const prettier = require("prettier");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const Exp = require("./exp.js");
 const {run} = require("./exp.v1.js");
 const config = require("./config.json");
 const {BuildEnvs} = require("./Enums.js");
@@ -181,14 +180,10 @@ function dataPreprocess(datafile) {
 
 function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
-  /*
-	.replace(/[\(]/, "\\\(")
-	.replace(/[\)]/, "\\\)"); */
 }
 
 function generateLink(baseUrl, expName, index_fn = "") {
   const expUrl = new URL(`https://${baseUrl}/exp/${expName}/${index_fn}`);
-  //console.log(expUrl.href);
   return expUrl;
 }
 
@@ -231,49 +226,22 @@ function generate(labpath) {
 
 function deployExperiments(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
-  const ld = require(ldpath);
-  if (ld["experiment-sections"]) {
-    iiith_exp_manage(ld);
-    return;
-  } else {
-    ld.experiments.forEach((e) => {
-      repo_root = path.join("exprepos", e["short-name"]);
-      build_root = path.join("expbuilds", e["short-name"]);
-      try {
-        Exp.buildExp(repo_root, build_root, ld, true, e);
-        shell.mkdir(
-          "-p",
-          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-        );
-        shell.cp(
-          "-R",
-          build_root,
-          path.join(
-            config["deployment_dest"],
-            toDirName(ld.lab),
-            "stage",
-            "exp"
-          )
-        );
-      } catch (e) {
-        console.log(e.message);
-        shell.mkdir(
-          "-p",
-          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-        );
-        shell.cp(
-          "-R",
-          build_root,
-          path.join(
-            config["deployment_dest"],
-            toDirName(ld.lab),
-            "stage",
-            "exp"
-          )
-        );
-      }
-    });
-  }
+  const lab_descriptor = require(ldpath);
+
+  const config = require("./config.json");
+  const exp_dir = config["exp_dir"];
+  const deployment_dest = config["deployment_dest"];
+  const lab_dir_name = toDirName(lab_descriptor.lab);
+  const deployment_path = path.join(deployment_dest, lab_dir_name);
+  const experiments = expList(lab_descriptor);
+
+  experiments.forEach((e) => {
+    console.log("");
+    exp_clone(e, exp_dir);
+    exp_build(e, lab_descriptor, exp_dir);
+    exp_stage(e, exp_dir, deployment_path);
+    console.log("");
+  });
 }
 
 function getLabName(labpath) {
@@ -282,9 +250,7 @@ function getLabName(labpath) {
   return toDirName(labdesc.lab);
 }
 
-// --- iiit exp
-
-function iiithexp_clone(e, exp_dir) {
+function exp_clone(e, exp_dir) {
   console.log(chalk`{cyan CLONE} {yellow from} ${e.repo}`);
   const e_short_name = e["short-name"];
   shell.mkdir("-p", path.resolve(exp_dir));
@@ -292,7 +258,7 @@ function iiithexp_clone(e, exp_dir) {
   shell.exec(`git clone -b ${e.tag} --depth 1 ${e.repo} ${path.resolve(exp_dir, e_short_name)}`);
 }
 
-function iiithexp_build(e, ld, exp_dir) {
+function exp_build(e, ld, exp_dir) {
   const e_short_name = e["short-name"];
   console.log(
     chalk`{cyan BUILD} {yellow at} ${path.resolve(
@@ -317,7 +283,7 @@ function iiithexp_build(e, ld, exp_dir) {
      );
 }
 
-function iiithexp_stage(e, exp_dir, deployment_dest) {
+function exp_stage(e, exp_dir, deployment_dest) {
   const e_short_name = toDirName(e["short-name"]);
 
   console.log(
@@ -353,44 +319,6 @@ function expList(data) {
   }
 }
 
-function iiith_exp_manage(lab_descriptor) {
-  const config = require("./config.json");
-  const exp_dir = config["exp_dir"];
-  const deployment_dest = config["deployment_dest"];
-  const lab_dir_name = toDirName(lab_descriptor.lab);
-  const deployment_path = path.join(deployment_dest, lab_dir_name);
-  const experiments = expList(lab_descriptor);
-
-  experiments.forEach((e) => {
-    console.log("");
-    iiithexp_clone(e, exp_dir);
-    iiithexp_build(e, lab_descriptor, exp_dir);
-    iiithexp_stage(e, exp_dir, deployment_path);
-    console.log("");
-  });
-}
-
-/////////////////////////////////////////////////////////////////////////
-// function iiith_exp_manage(lab_descriptor) {			       //
-//   const config = require("./config.json");			       //
-//   const exp_dir = config["exp_dir"];				       //
-//   const common_repo_name = config["common_repo_name"];	       //
-//   const deployment_dest = config["deployment_dest"];		       //
-//   const lab_dir_name = toDirName(lab_descriptor.lab);	       //
-//   const deployment_path = path.join(deployment_dest, lab_dir_name); //
-//   const experiments = expList(lab_descriptor);		       //
-// 								       //
-//   experiments.forEach((e) => {				       //
-//     console.log("");						       //
-//     iiithexp_clone(e, exp_dir, common_repo_name);		       //
-//     iiithexp_build(e, exp_dir, common_repo_name);		       //
-//     iiithexp_stage(e, exp_dir, common_repo_name, deployment_path);  //
-//     console.log("");						       //
-//   });							       //
-// }								       //
-/////////////////////////////////////////////////////////////////////////
-
-// --- iiit exp
 
 function golive(labpath) {
   const config = require("./config.json");
@@ -462,16 +390,16 @@ function labgen() {
           .then((t) => {
             maybeProcessAll(labpath)
               .then(() => {
-                reportRes(labpath, t, "SUCCESS");
+                //reportRes(labpath, t, "SUCCESS");
               })
               .catch((e) => {
                 console.log(e);
-                reportRes(labpath, t, "FAILURE");
+                //reportRes(labpath, t, "FAILURE");
               });
           })
           .catch((e) => {
             console.log(e);
-            reportRes(labpath, t, "FAILURE");
+            //reportRes(labpath, t, "FAILURE");
           });
       });
     }
