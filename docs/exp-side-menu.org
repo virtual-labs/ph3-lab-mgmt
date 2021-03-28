@@ -1,0 +1,44 @@
+#+TITLE: Experiment UI - Side Menu
+
+* INTRODUCTION
+This document describes the side menu of the experiment user
+interface.
+
+* PURPOSE OF THE SIDE MENU
+The side menu is intended as navigation tool for the user.  It allows
+the user to navigate different parts/units of the experiment that are
+divided into different pages.  The side menu highlights the current
+page to make it easy for the user to track their location in the
+experiment.
+
+* FEATURES
+The side menu provides the following features:
+
+** Links to all the pages in the experiment
+The side menu provies links to all the pages in the expriment.
+
+** Highlights the link to the current page
+To facilitate tracking the current page, the side menu highlights the
+link to the current page in a different text color.
+
+** Drawers for links to nested units
+
+Ther are three kinds of units: Learning Unit, Task, and Aim.  Out
+these units, only Task and Aim units have a page.  Learning units do
+not have a page.  This difference is reflected in the side menu as
+follows:
+
+- TASK AND AIM :: For Task and Aim units, the side menu provides links
+                  to the corresponding pages.
+
+- LEARNING UNIT :: Learning units do have pages associated with them.
+                   The side menu has a drawer in place of a link for
+                   each learning unit.  The drawer groups all links to
+                   the units within the learning unit and the user can
+                   open/close the drawer to access the links contained
+                   within.
+		   
+		   If drawer that contains the link to the current
+                   page is open by default.
+
+
