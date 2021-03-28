@@ -183,14 +183,13 @@ A Task Object describes a task.  For example:
 #+END_SRC
 
 The above json object represents a task.  It is identified as a task
-by the field =unit-type=.  All possible values of a unit type are
-listed [[Unit Types][here]].  
+by the field =unit-type=.
 
 The =label= field is used as a label for the unit's link in the
 sidemenu.
 
 The =content-type= field describes the type of content in the target
-html page generated for this unit.  The content types are describes [[Contents supported for Task Pages][here]].
+html page generated for this unit.
 
 The =source= field gives a relative link to the source document
 required to build the page to be generated for the task.  The path of
@@ -303,6 +302,53 @@ The experiment descriptor contains a single Learning Unit object that
 acts as the root unit for the experiment.
 
 See [[https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json][this]] descriptor for an example
+
+*** Problems and Limitations of the experiment descriptor
+The experiment descriptor is intended to provided a mechanism to make
+the experiment structure more flexible.  The authors get the freedom
+to define their own directory structure and file names and divide
+their experiment into several learning units.  However, the current
+implementation supports this under certain limits.  In this section we
+didcuss the limitations of the functionalities supported by the
+experiment descriptor.
+
+**** No support for Nested Learning Units
+The experiment descriptor is designed with flexibility in mind.  It
+allows for a recursive structure where each learning unit can contain
+several nested units.  But, the current implementation does not
+support this.  It assumes the following:
+
+- The top level learning unit that represents the experiment contains
+  all the learning units listed as its direct children in the "units"
+  field.
+
+- The inner learning units contain only tasks, no learning units.
+
+The main challenge in supporting nested learning units is the
+structure and functioning of the side menu.  The side menu is a list
+of links to all the units in the experiment that is presented at the
+left side of each page in the experiment.  The details of the side
+menu are discussed [[file:exp-side-menu.org][here]].  The side menu contains a drawer for each
+learning unit that contains links to all the units contained in that
+unit.
+
+The challenge is to design the user interface that facilitates easy
+navigation with nested drawers for nested learning units.  The drawers
+a separated from each other visually by a horizontal left margin that
+represents its level in the heirarchy and when you go deeper in the
+nested structure it might be difficult to accomodate the spacing.
+
+
+**** The Label field in the top level unit object
+The top level object is a learning unit that represents the entire
+experiment.  A learning unit object has a *label* field which is used
+as a label for the side menu drawer for that unit.  Because the side
+menu does not have a drawer for the experiment unit this is field is
+not used anywhere.
+
+This can cause confusion to the authors who might assume that this
+field is used for the name of the experiment whereas the experiment
+name comes from the "experiment-name.md" document.
 
 
 ** Unit Types
