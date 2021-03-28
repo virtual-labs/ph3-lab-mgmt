@@ -156,6 +156,7 @@ material in the learning unit.
 - Target :: Page corresponding to the assesment task.  The source is
             included as a script in the task page.
 
+
 * Experiment Descriptor
 
 The experiment descriptor is a json document that provides information
@@ -255,7 +256,48 @@ following task:
 #+END_SRC
 
 
-** Overall structure of an experiment descriptor
+** Default Descriptor
+
+- assumptions
+
+- the experiment authors follow the experiment structure prescribed by
+  the template.
+  - The directory structure is preserved.
+  - The file names remain the same and are used for the intended
+    purpose.
+  - Refer to the [[file:~/iiith/vlead/Phase-3-Lab-Template/default-experiment-descriptor.json][default descriptor]] for details.
+
+- failure scenarios 
+  - The main reason for why the experiment build process fails is
+    missing files.
+
+  - *How does the build script know which files to look for?*
+
+    - The experiment build process depends on the experiment
+      descriptor for all the experiment structure related information.
+      The experiment descriptor is a json document that lists all the
+      learning units and tasks in an experiment.  It contains
+      information regarding the html pages to build for each unit and
+      their dependencies in the form of relative file paths.  The
+      build script looks for each of these dependencies in the given
+      path in the experiment repository and it exits with failure if
+      any of the dependent files are missing.  The experiment
+      descriptor is written by the authors but it is optional and
+      usually not needed.  If the authors do not write the experiment
+      descriptor then a default descriptor is used.
+
+  - There are two possible scenarios :: 
+    1. Custom Experiment Descriptor - If the authors have provided an
+       experiment descriptor in the root directory of the experiment
+       repository.  This is done when a different experiment structure
+       is required from the one given in the template.
+
+    2. Default Experiment Descriptor - This is the most common
+       scenario.  The authors do not provide any experiment descriptor
+       and follow the prescribed experiment template.  In this case
+       the default experiment descriptor is used.
+
+** Structure of an experiment descriptor
 
 The experiment descriptor contains a single Learning Unit object that
 acts as the root unit for the experiment.
