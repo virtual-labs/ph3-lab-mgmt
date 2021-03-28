@@ -3,7 +3,6 @@
 * Introduction
 This document describes the Experiment UI build process.
 
-
 * Conceptual Model of an Experiment
 An experiment is divided into several /learning units/ and /tasks/.
 Learning Units and Tasks are logical units of an experiment that we
@@ -155,6 +154,21 @@ material in the learning unit.
             this document.
 - Target :: Page corresponding to the assesment task.  The source is
             included as a script in the task page.
+
+
+** URL Scheme for a page
+- github pages :: https://virtual-labs.github.io/<file-path>
+- vlab website :: https://<lab-code>.vlabs.ac.in/<lab-name>/exp/<file-path>
+
+/lab-code/ refers to the 2-3 letter code used for the sub-domain of
+the lab.  For example: /de-iitr/ for IITR Digital Electronics Labs,
+/ds1/ and /ds2/ for IIITH data structures labs.
+
+Each learning unit has a different directory for all its content.  So,
+the filepath for any page is <base-dir-name>/<filename>.
+
+
+** The Feedback Page
 
 
 * Experiment Descriptor
