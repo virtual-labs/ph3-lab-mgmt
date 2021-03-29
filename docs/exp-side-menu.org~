@@ -31,12 +31,4 @@ follows:
 - TASK AND AIM :: For Task and Aim units, the side menu provides links
                   to the corresponding pages.
 
-- LEARNING UNIT :: Learning units do have pages associated with them.
-                   The side menu has a drawer in place of a link for
-                   each learning unit.  The drawer groups all links to
-                   the units within the learning unit and the user can
-                   open/close the drawer to access the links contained
-                   within.
-		   
-		   If drawer that contains the link to the current
-                   page is open by default.
+- LEARNING UNIT :: 
