@@ -1,0 +1,106 @@
+#+TITLE: UNITS - DESIGN
+
+* Introduction
+This document describes the classes used for implementing the
+experiment model.
+
+* Enums
+Enums (Enumerated types) are used here to define the datatypes for
+different elements.
+
+These are used for two reasons:
+- Central place for defining all the types
+- Validation of inputs (descriptors)
+
+The module that implements these enums also defines the validation
+function for each of then.  The validation functions are used to
+verify the input (string).  The input strings have to match exactly
+with the given string representations, otherwise the validation fails.
+
+*Note for future enhancement:* /This should be moved to a json
+schema. The schema already has features to validate inputs. See the
+following issue for details: [[https://gitlab.com/vlead/task-allocation/-/issues/95][95]]/
+
+
+** UnitTypes
+The =UnitTypes= record defines the valid unit types.
+
+|------+-----------------------|
+| Type | String Representation |
+|------+-----------------------|
+| LU   | "lu"                  |
+| TASK | "task"                |
+| AIM  | "aim"                 |
+|------+-----------------------|
+
+** ContentTypes
+Content Types represent the types of content available for building
+pages.
+
+|------------+-----------------------|
+| Type       | String Representation |
+|------------+-----------------------|
+| TEXT       | "text"                |
+| VIDEO      | "video"               |
+| SIMULATION | "simulation"          |
+| ASSESMENT  | "assesment"           |
+|------------+-----------------------|
+
+** BuildEnvs
+The build environments used for configuring the build process.
+
+|------------+-----------------------|
+| Type       | String Representation |
+|------------+-----------------------|
+| PRODUCTION | "production"          |
+| TESTING    | "testing"             |
+| LOCAL      | "local"               |
+|------------+-----------------------|
+
+The local mode is not yet implemented, it's just an idea.
+
+The main difference between testing and production environments:
+
+|-------------------------------+----------+------------|
+| Feature                       | Testing  | Production |
+|-------------------------------+----------+------------|
+| Analytics                     | DISABLED | ENABLED    |
+| Breadcrumbs with links to lab | DISABLED | ENABLED    |
+|-------------------------------+----------+------------|
+
+The reason why breadcrums are disabled in testing mode is because the
+testing mode was initially designed to be used with individual
+experiment build process.  When the experiments are built
+individually, the lab level information is not available, so the links
+to lab pages are not generated.
+
+** Future Improvement
+The analytics and breadcrumbs features are coupled together.  There
+should be a configuration option that allows the developers to
+enable/disable features for each mode.
+
+This can only be properly achieved when we move to the plugin based
+architecture.
+
+* Unit
+
+=Unit= is the base class for all types of units in an experiment.  It
+defines the common attributes in all units.
+
+* LearningUnit
+The =LearningUnit= class inherits from the =Unit= class.  It has an
+additional field called =units=.  This field defines the list of units
+contained in this unit.
+
+* Task
+Defines the =Task= class.  Inherits from =Unit=.  Difference between
+=Task= and =LearningUnit= classes:
+
+- Tasks have a corresponding =source= and =target (html)= page.
+- Learning units can contains other units.
+
+
+* Aim
+=Aim= inherits from Task.  It is a special kind of task which acts as
+the entry point for each learning unit.  Each learning unit should
+have an aim.

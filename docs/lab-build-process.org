@@ -1,8 +1,7 @@
 #+TITLE: Lab Build Process
 
 * Introduction
-
-  This document describes the page generation process.
+This document describes the lab generation process.
 
 * Process
   
@@ -66,20 +65,11 @@
     Once the pages are generated (generated pages are present in
     =page-components=) the lab is generated using the following:
 
-    - Lab Structure :: The =lab-structure= directory contains the
-                       files and directories needed to make the pages
-                       work.  Like the needed css and js files are
-                       present here.  This directory also contains a
-                       makefile that contains the recipe for building
-                       the lab using the sources.
     - Page Components :: Page Components are the html pages generated
          using the data and templates.
 
-    The lab structure directory is copied to the =labpath= directory
-    (that contains the lab-descriptor) and then the generated pages
-    are copied there.
-    
-    Finally, the makefile is executed in the =labpath/src= directory.
+    - assets :: the css, js, images and fonts are taken from
+                =templates/assets= directory.
    
 ** Build and Stage Experiments
 
@@ -87,40 +77,6 @@
    
    After the lab pages are built, the experiments need to built and
    staged.
-
-   The =deployExperiments= function handles this process.
-
-   Here again, we make a distinction between IIITH Experiments and
-   Other experiments.  The type of experiments is decided based on the
-   =collegeName= field in the lab-descriptor.  If the =collegeName= is
-   =IIITH= then all experiments are identified as =IIITH= experiments.
-
-   The reason we make this distinction, is because these two types of
-   experiments have a different build process.
-
-*** IIITH Experiments
-    The IIITH Experiments are designed in such a way that there are
-    three repositories that contain different content for each
-    experiments.
-
-    - content-html :: the main pages.
-    - artefacts :: the artefacts like images, simulations etc.
-    - ? :: 
-
-    The build process requires us the clone the =content-html=
-    repository and run the makefile.  This makefile takes care of the
-    entire build process.
-
-*** Other Experiments
-    For all experiments that are developed using the =IITB Development
-    Process=, the build process is different than that of =IIITH=
-    experiments.  The experiment content is authored in markdown and
-    the simulations are embedded in iframes.
-
-    The scripts for building and hosting these experiments is
-    available in a separate [[https://github.com/virtual-labs/ph3-beta-to-ui3.0-conv][repository]].  We provide the repo URL and
-    the version of the sources to use for our deployment.  Our scripts
-    then clones the repo, and executes the scripts on our behalf.
 
 ** Stage Lab
    
