@@ -40,6 +40,7 @@ Any feature that is not related to the application domain, can be
 separated as a plugin.  In the Lab and Experiment build processes the
 following features can be separated as plugins.
 
+- Page 
 - Content Rendering
 - Content Dependency Validation
 - Analytics

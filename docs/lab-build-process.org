@@ -1,19 +1,26 @@
 #+TITLE: Lab Build Process
 
 * Introduction
-This document describes the lab generation process.
+This document describes the lab build process.
 
 * Process
   
 ** Generate Pages
    
    [[file:page-generation.png][file:page-generation.png]]
-
-   =generate= function is reponsible for generating the lab pages.  It
-   takes the labpath and generates all the html pages required for the
-   lab.
-
    
+*** Assumptions
+- There exists a git repository for the lab.
+- The lab repository is available on the machine that runs this
+  script.
+- The lab repository has a remote (usually on
+  https://github.com/virtual-labs/)
+- The lab repository has a =master= branch.
+- There exists a =lab-descriptor.json= in the lab repository.
+- Experiment repositories (and tags) exist and follow the provided
+  experiment [[https://github.com/virtual-labs/ph3-exp-template/][template]].
+
+
 *** Dependencies
     - Template :: The template html file that defines the common
                   skeleton for all pages.
@@ -119,10 +126,9 @@ This document describes the lab generation process.
 * Reporting
 
    The timestamp, verion number and status (success or failure) of the
-   run is updated to a google sheet.
+   run is updated to a [[https://docs.google.com/spreadsheets/d/1Z-acT5GKrna_JyHanxq3mXKocRPUb1KPL8vY7mKa5KA/edit#gid=0][google sheet]].
 
-
-* Automated JSON Validation
+* Descriptor Validation
 
   The lab descriptor is validated using a [[file:~/iiith/vlead/Phase-3-Lab-Template/labDescSchema.json][schema]].  If anything is
   invalid in the lab descriptor, the error is displayed and process
