@@ -109,12 +109,35 @@
    
    #+NAME: labgen-generate
    #+BEGIN_SRC bash
-     npm run labgen -- <path/to/lab/repo>
+     npm run labgen -- --release minor <path/to/lab/repo>
    #+END_SRC
 
 
+* Building an Experiment
 
-	
+To build an individual experiment first clone the experiment and run
+the following:
+
+
+#+BEGIN_SRC sh
+cd <path/to/experiment/repo>
+git clone https://github.com/virtual-labs/ph3-lab-mgmt/
+cd ph3-lab-mgmt
+npm install
+npm run build-exp ../
+#+END_SRC
+
+Or, from with this repository:
+
+#+BEGIN_SRC sh
+npm run build-exp <path/to/exp/repo>
+#+END_SRC
+
+The first method is useful when running the script from the github
+actions pipeline.
+
+The experiment can be found in the =build= directory with the
+experiment repository location.
 
 * DOCS
 
@@ -125,6 +148,8 @@
 | [[file:docs/lab-descriptor.org][Lab Descriptor]]           | This document describes the structure and functions of the lab-descriptor |
 | [[file:docs/exp-build-process.org][Experiment Build Process]] | Document describing the experiment build process.                         |
 | [[file:docs/analytics.org][Analytics]]                | Lab and Experiment Analytics details.                                     |
+| [[docs/units.org][Units]]                    | Defines all types of  units in an experiment                              |
+| [[docs/plugins.org][Proposed Plugins]]         | Proposal for moving towards a plugin based architecture.                  |
 |--------------------------+---------------------------------------------------------------------------|
 
 
@@ -134,24 +159,23 @@
   + Lab Build Process
     + Lab descriptor - DONE
     + templates - TODO
-    + staging and deployment process - IN PROGRESS
+    + staging and deployment process - DONE
 
   + Experiment build process
     - experiment descriptor - DONE
     - experiment model - DONE
 
-  + Analytics - IN PROGRESS
+  + Analytics - DONE
 
-  + script usage - TODO
+  + script usage - DONE
 
 - quiz - TODO
 
-- exp process integration and testing - IN PROGRESS
-
-- descriptor validation - TODO
+- exp process integration and testing - DONE
 
 ------------
 
-- identify modules
+- identify modules - WIP
+- FAQ - WIP
 
-- label -> backend => build-process
+- label -> backend => build-process - DONE
