@@ -15,7 +15,9 @@ class Unit {
     this.basedir = basedir;
   }
 
-
+  /*
+    To be implemented by the inheriting sub-class.
+   */
   build() {
     console.log(this.lu, this.label);
   }
