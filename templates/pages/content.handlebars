@@ -29,8 +29,13 @@
         {{> side_menu }}
         {{> content }}
       </div>
-    </div>
+    </div>    
     {{> footer }}
+
+    <!-- bug reporting widget -->
+    <div id="bug-report"></div>
+
+    
     {{#if isSimulation}}
       <script>
 
@@ -63,6 +68,7 @@
       {{/if}}
 
       <script src="{{assets_path}}/assets/js/toggleSidebar.js"></script>
+      <script src="https://unpkg.com/@vlead/bug-report"></script>      
       
   </body>
 </html>
