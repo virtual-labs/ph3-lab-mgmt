@@ -68,23 +68,80 @@ the developers.
 
 ## What is a Lab Descriptor?
 
+A Lab Descriptor is a document that contains all the relevant
+information about a lab.  It can be found in the repository of a lab.
+Details of lab descriptor can be found
+[here](docs/lab-descriptor.org).
 
 
 ## What is the format of a Lab Descriptor?
+
+A lab descriptor is a json document containing an object with key
+value pairs.
+
 ## What is the structure of a Lab Descriptor?
-## Where do I find the details of all the elements of a Lab Descriptor?
+
+The structure of a lab descriptor can be found in
+[this](docs/lab-descriptor.org) document.  Please refer to the
+[schema](../labDescSchema.json) for a formal definition.
+
 ## Who writes a Lab Descriptor?
+
+A lab descriptor is created by the hosting engineer at VLEAD.  This is
+because VLEAD is responsible for creating labs.  The different team
+that work on developing experiments do not create lab.
+
 ## Is it necessary to write a Lab Descriptor?
 
+Yes, lab descriptor must be created and verified before the lab is
+built.  The build process checks if the descriptor is present and
+valid.
+
 ## What is an Experiment?
-## What do you mean by the experiment build process?
-## What is the difference between developing an experiment and building an experiment?
+An experiment is a collection of webpages that contain learning
+resources for a particular topic of interest.
+
+
+# What is the process of building an experiment from the sources?
+The process of building an individual experiment from its sources
+provided by the authors, it described in [this](exp-build-process.org)
+document.
+
+
 ## Who develops an experiment?
+An experiment is developed by subject matter experts at various
+insitutes.  The development teams follow the given
+[template](https://github.com/virtual-labs/ph3-exp-template/) to
+develop experiments.
+
 ## Who builds an experiment?
+The experiment is built in two environment:
+1. Testing: The teams can test their experiments while developing
+   them.  This happens automatically using the experiment build
+   scripts and github actions.
+   
+2. Production: This is done as a part of the lab build process by the
+   hosting engineer.
+
 
 ## What is an Experiment Descriptor?
+An experiment descriptor is used to as a map for building the
+experiments.  It describes all the elements that go into an experiment
+and where to find the sources for each page.
+
 ## What is the format of an Experiment Descriptor?
-## What is the structure of a Lab Descriptor?
-## Where do I find the details of all the elements of a Lab Descriptor?
+The experiment descriptor is a json document.  Find a sample
+experiment descriptor
+[here](https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json).
+
+## What is the structure of an Experiment Descriptor?
+Details of the experiment descriptor can be found
+[here](exp-build-process.org).
+
 ## Who wirtes an Experiment Descriptor?
+The experiment descriptor is written by the developers of the
+experiment.
+
 ## Is it necessary to write an experiment descriptor?
+No.  The experiment descriptor is needed when you want a structure
+that is different from the one prescribed by the template.
