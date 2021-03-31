@@ -1,0 +1,8 @@
+#+TITLE: TEMPLATES
+
+This document describes the templates used for building experiment and
+lab pages.
+
+* LAB TEMPLATES
+
+* EXPERIMEMT TEMPLATES

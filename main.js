@@ -3,45 +3,26 @@ const fs = require("fs");
 const glob = require("glob");
 const path = require("path");
 const { JSDOM } = require("jsdom");
-const child_process = require("child_process");
 const readline = require("readline");
 const url = require("url");
-const fse = require("fs-extra");
-const { StringDecoder } = require("string_decoder");
-const figures = require("figures");
 const chalk = require("chalk");
 const shell = require("shelljs");
 const moment = require("moment");
-const Git = require("nodegit");
 const prettier = require("prettier");
-
+const simpleGit = require("simple-git");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const Exp = require("./exp.js");
-
+const { run } = require("./exp.js");
 const config = require("./config.json");
+const { BuildEnvs } = require("./Enums.js");
 
-shell.config.silent = false;
-shell.set("-e");
-
-/* 
-   Copy lab descriptor to the lab repository's working directory.  If
-   a lab-descriptor is already present then don't copy.
-*/
-function copyLabDescriptor(repoDir) {
-  const ldpath = path.resolve(repoDir, labDescriptorFn);
-  if (fse.existsSync(ldpath)) {
-    console.error("Lab Descriptor Already exists");
-  } else {
-    fse.copySync(labDescriptorFn, ldpath);
-  }
-}
+shell.config.silent = true;
 
 function stageLab(src, destPath) {
   console.log(`STAGE LAB to ${destPath}\n`);
   shell.exec(`mkdir -p '${destPath}'`);
-  child_process.execSync(`rsync -a ${src} '${destPath}'`);
+  shell.exec(`rsync -a ${src} '${destPath}'`);
 }
 
 function buildPage(template_file, component_files, content_file) {
@@ -74,16 +55,6 @@ function addAnalytics(dom, analyticsSnippet) {
   return dom;
 }
 
-function addNavbar(dom, navbar) {
-  dom.window.document.querySelector("header").innerHTML = navbar;
-  return dom;
-}
-
-function addSlider(dom, slider) {
-  dom.window.document.querySelector("#content > div").innerHTML = slider;
-  return dom;
-}
-
 function addBroadAreaName(dom, broadareaName) {
   dom.window.document.querySelector(
     ".vlabs-page-main > div"
@@ -108,16 +79,6 @@ function addContent(dom, ctnt) {
   return dom;
 }
 
-function addFooter(dom, footer) {
-  dom.window.document.querySelector("footer").innerHTML = footer;
-  return dom;
-}
-
-function addRandomJsThings(dom, jsthings) {
-  dom.window.document.body.innerHTML =
-    dom.window.document.body.innerHTML + jsthings;
-  return dom;
-}
 
 function genComponentHtml(fn, data) {
   const template = fs.readFileSync(fn, "utf-8");
@@ -128,25 +89,21 @@ function genComponentHtml(fn, data) {
 }
 
 function prepareStructure(labpath) {
-  child_process.execSync(`cp -rf lab-structure/* ${labpath}/`);
-  child_process.execSync(`mkdir -p ${labpath}/src/lab`);
-}
-
-function copyPages(pages, template_file, component_files, labpath) {
-  pages.forEach((p) => {
-    const res_html = buildPage(template_file, component_files, p.src);
-    fs.writeFileSync(`${labpath}/src/lab/${p.target}`, res_html, "utf-8");
-  });
+  shell.mkdir("-p", path.resolve(labpath, "build"));
+  shell.cp(
+    "-r",
+    path.resolve("templates/assets/*"),
+    path.resolve(labpath, "build")
+  );
 }
 
 function generateLab(pages, labpath, template_file, component_files) {
-  child_process.execSync(
-    `cd ${labpath}; git checkout master; git pull origin master`
-  );
-  child_process.execSync(`cd ${labpath}`);
+  shell.exec(`cd ${labpath}; git checkout master; git pull origin master`);
   prepareStructure(labpath);
-  copyPages(pages, template_file, component_files, labpath);
-  child_process.execSync(`cd ${labpath}; make`);
+  pages.forEach((p) => {
+    const res_html = buildPage(template_file, component_files, p.src);
+    fs.writeFileSync(`${labpath}/build/${p.target}`, res_html, "utf-8");
+  });
 }
 
 function dataPreprocess(datafile) {
@@ -167,7 +124,7 @@ function dataPreprocess(datafile) {
             const exp_url = generateLink(
               data.baseUrl,
               e["short-name"],
-              (index_fn = "exp.html")
+              (index_fn = "index.html")
             );
             return { name: e.name, link: exp_url.toString() };
           }),
@@ -180,14 +137,10 @@ function dataPreprocess(datafile) {
 
 function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
-  /*    
-	.replace(/[\(]/, "\\\(")
-	.replace(/[\)]/, "\\\)"); */
 }
 
 function generateLink(baseUrl, expName, index_fn = "") {
   const expUrl = new URL(`https://${baseUrl}/exp/${expName}/${index_fn}`);
-  //console.log(expUrl.href);
   return expUrl;
 }
 
@@ -197,7 +150,7 @@ function labURL(host, name) {
 
 function generate(labpath) {
   const data = dataPreprocess(path.join(labpath, "lab-descriptor.json"));
-  const template_file = "skeleton-new.html";
+  const template_file = "skeleton.html";
   const component_files = config.commonComponents;
 
   const fns = glob.sync("page-templates/*.handlebars");
@@ -228,51 +181,29 @@ function generate(labpath) {
   generateLab(config.pages, labpath, template_file, component_files);
 }
 
-function deployExperiments(labpath) {
+
+
+/*
+  Publish: clone -> build -> stage
+*/
+function publishExperiments(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
-  const ld = require(ldpath);
-  if (ld["experiment-sections"]) {
-    iiith_exp_manage(ld);
-    return;
-  } else {
-    ld.experiments.forEach((e) => {
-      repo_root = path.join("exprepos", e["short-name"]);
-      build_root = path.join("expbuilds", e["short-name"]);
-      try {
-        Exp.buildExp(repo_root, build_root, ld, true, e);
-        shell.mkdir(
-          "-p",
-          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-        );
-        shell.cp(
-          "-R",
-          build_root,
-          path.join(
-            config["deployment_dest"],
-            toDirName(ld.lab),
-            "stage",
-            "exp"
-          )
-        );
-      } catch (e) {
-        console.log(e.message);
-        shell.mkdir(
-          "-p",
-          path.join(config["deployment_dest"], toDirName(ld.lab), "stage")
-        );
-        shell.cp(
-          "-R",
-          build_root,
-          path.join(
-            config["deployment_dest"],
-            toDirName(ld.lab),
-            "stage",
-            "exp"
-          )
-        );
-      }
-    });
-  }
+  const lab_descriptor = require(ldpath);
+
+  const config = require("./config.json");
+  const exp_dir = config["exp_dir"];
+  const deployment_dest = config["deployment_dest"];
+  const lab_dir_name = toDirName(lab_descriptor.lab);
+  const deployment_path = path.join(deployment_dest, lab_dir_name);
+  const experiments = expList(lab_descriptor);
+
+  experiments.forEach((e) => {
+    console.log("");
+    exp_clone(e, exp_dir);
+    exp_build(e, lab_descriptor, exp_dir);
+    exp_stage(e, exp_dir, deployment_path);
+    console.log("");
+  });
 }
 
 function getLabName(labpath) {
@@ -281,39 +212,39 @@ function getLabName(labpath) {
   return toDirName(labdesc.lab);
 }
 
-// --- iiit exp
-
-function iiithexp_clone(e, exp_dir, common_repo_name) {
+function exp_clone(e, exp_dir) {
   console.log(chalk`{cyan CLONE} {yellow from} ${e.repo}`);
   const e_short_name = e["short-name"];
-  shell.mkdir("-p", path.resolve(exp_dir, e_short_name));
-  shell.cd(path.resolve(exp_dir, e_short_name));
-  shell.rm("-rf", common_repo_name);
-  shell.exec(`git clone --depth 1 ${e.repo}/${common_repo_name}`);
-  shell.cd(common_repo_name);
-  shell.exec("git fetch --all");
-  shell.exec(`git checkout ${e.tag}`);
-  shell.cd(__dirname);
-}
-
-function iiithexp_build(e, exp_dir, common_repo_name) {
-  const e_short_name = e["short-name"];
-
-  console.log(
-    chalk`{cyan BUILD} {yellow at} ${path.resolve(
+  shell.mkdir("-p", path.resolve(exp_dir));
+  shell.rm("-rf", path.resolve(exp_dir, e_short_name));
+  shell.exec(
+    `git clone -b ${e.tag} --depth 1 ${e.repo} ${path.resolve(
       exp_dir,
-      e_short_name,
-      common_repo_name
+      e_short_name
     )}`
   );
-
-  shell.cd(`${exp_dir}/${e_short_name}/${common_repo_name}`);
-  shell.cp("config.mk.sample", "config.mk");
-  shell.exec("make clean-infra; make clean; make -k all");
-  shell.cd("../../../");
 }
 
-function iiithexp_stage(e, exp_dir, common_repo_name, deployment_dest) {
+function exp_build(e, ld, exp_dir) {
+  const e_short_name = e["short-name"];
+  console.log(
+    chalk`{cyan BUILD} {yellow at} ${path.resolve(exp_dir, e_short_name)}`
+  );
+
+  /*
+     Including name and short-name to the lab descriptor
+     because these field are needed in the analytics.  There
+     is no other (easy) way to identify the experiment from the
+     list of experiments.
+  */
+
+  ld.exp_name = e.name;
+  ld.exp_short_name = e_short_name;
+
+  run(path.resolve(exp_dir, e_short_name), ld, { env: BuildEnvs.PRODUCTION });
+}
+
+function exp_stage(e, exp_dir, deployment_dest) {
   const e_short_name = toDirName(e["short-name"]);
 
   console.log(
@@ -332,7 +263,7 @@ function iiithexp_stage(e, exp_dir, common_repo_name, deployment_dest) {
   );
   shell.cp(
     "-rf",
-    `${exp_dir}/${e_short_name}/${common_repo_name}/build/*`,
+    `${exp_dir}/${e_short_name}/build/*`,
     `${deployment_dest}/stage/exp/${e_short_name}/`
   );
 }
@@ -349,27 +280,7 @@ function expList(data) {
   }
 }
 
-function iiith_exp_manage(lab_descriptor) {
-  const config = require("./config.json");
-  const exp_dir = config["exp_dir"];
-  const common_repo_name = config["common_repo_name"];
-  const deployment_dest = config["deployment_dest"];
-  const lab_dir_name = toDirName(lab_descriptor.lab);
-  const deployment_path = path.join(deployment_dest, lab_dir_name);
-  const experiments = expList(lab_descriptor);
-
-  experiments.forEach((e) => {
-    console.log("");
-    iiithexp_clone(e, exp_dir, common_repo_name);
-    iiithexp_build(e, exp_dir, common_repo_name);
-    iiithexp_stage(e, exp_dir, common_repo_name, deployment_path);
-    console.log("");
-  });
-}
-
-// --- iiit exp
-
-function golive(labpath) {
+function deploy(labpath) {
   const config = require("./config.json");
   const deployment_dest = config["deployment_dest"];
   const lab_descriptor = require(path.resolve(labpath, "lab-descriptor.json"));
@@ -396,71 +307,40 @@ function golive(labpath) {
 '${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
 }
 
-function init() {
-  console.log("initializing");
-}
-
-async function maybeProcessAll(labpath) {
-  generate(labpath);
-  deployExperiments(labpath);
-  stageLab(
-    `${labpath}/build/*`,
-    path.resolve("/var/www/html/stage", getLabName(labpath))
-  );
-  golive(labpath);
-}
-
+/*
+  main.js --release patch <path>
+  main.js --release minor <path>
+  main.js --release major <path>
+*/
 function labgen() {
-  const args = require("minimist")(process.argv.slice(2), {
-    boolean: ["init"],
-  });
+  const args = require("minimist")(process.argv.slice(2));
 
   const labpath = args._[0];
+  const release_type = args.release;
+  const newVersion = nextVersion(labpath, release_type);
+
   if (!fs.existsSync(labpath)) {
     console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
   } else {
-    if (args.init) {
-      init(args._);
-    } else {
-      const isValid = validator.validateLabDescriptor(
-        path.resolve(labpath, labDescriptorFn)
-      );
-      if (!isValid) {
-        return;
-      }
-
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-      rl.question("release type?  :: ", (release_type) => {
-        rl.close();
-        nextVersion(labpath, release_type)
-          .then((t) => {
-            maybeProcessAll(labpath)
-              .then(() => {
-                reportRes(labpath, t, "SUCCESS");
-              })
-              .catch((e) => {
-                console.log(e);
-                reportRes(labpath, t, "FAILURE");
-              });
-          })
-          .catch((e) => {
-            console.log(e);
-            reportRes(labpath, t, "FAILURE");
-          });
-      });
+    const isValid = validator.validateLabDescriptor(
+      path.resolve(labpath, labDescriptorFn)
+    );
+    if (!isValid) {
+      return;
     }
-  }
-}
 
-function reportRes(labpath, tag, res) {
-  ld = updateDescriptor(labpath, tag);
-  updateRecord(ld, res);
-  //pushlab(labpath);
-  if (res === "SUCCESS") {
-    release(labpath, tag);
+    generate(labpath);
+    publishExperiments(labpath);
+    stageLab(
+      `${labpath}/build/*`,
+      path.resolve("/var/www/html/stage", getLabName(labpath))
+    );
+    deploy(labpath);
+
+    ld = updateDescriptor(labpath, newVersion);
+    updateRecord(ld, "SUCCESS");
+    pushlab(labpath);
+    release(labpath, newVersion);
   }
 }
 
@@ -490,18 +370,18 @@ function LD(lp) {
 
 function pushlab(labpath) {
   const commitMsg = `Lab generated at ${moment()}`;
-  child_process.execSync(
+  shell.exec(
     `cd ${labpath};
-git add license.org lab-descriptor.json src/;
+git add license.org lab-descriptor.json;
 git commit -m "${commitMsg}";
 git push origin master`
   );
 }
 
 function release(labpath, tag_name) {
-  child_process.execSync(
-    `cd ${labpath}; 
-git tag -a ${tag_name} -m "version ${tag_name}"; 
+  shell.exec(
+    `cd ${labpath};
+git tag -a ${tag_name} -m "version ${tag_name}";
 git push origin ${tag_name}`
   );
   return tag_name;
@@ -573,13 +453,14 @@ function incrementTagNumber(tag, release_type) {
 }
 
 function nextVersion(labpath, release_type) {
-  const p = Git.Repository.open(labpath)
-    .then(function (repository) {
-      return Git.Tag.listMatch("v*.*.*", repository);
-    })
-    .then(latestTag)
-    .then((t) => incrementTagNumber(t, release_type));
-  return p;
+  let version = "v0.0.1";
+  shell.cd(path.resolve(labpath));
+  const res = shell.exec(`git describe --abbrev=0`);
+  if (res.code === 0) {
+    version = res.stdout;
+  }
+  shell.cd(__dirname);
+  return version;
 }
 
 labgen();

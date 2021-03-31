@@ -55,7 +55,6 @@
   
 * Generating Lab Pages
   
-  
 ** Create Lab Repository
 
    Create a new lab repository on [[https://github.com/virtual-labs][Github]] or clone and existing one.
@@ -70,41 +69,8 @@
    other information for lab and experiment deployment.  [[file:lab-descriptor.org][This]] document
    describes the structure of a lab descriptor file.
 
-   Run the following command to initialize a lab descriptor file that
-   contains all the required fields, without any values.  
-
-   #+NAME: labgen-init
-   #+BEGIN_SRC bash
-     npm run labgen -- init <path/to/lab/repo>
-   #+END_SRC
-
-   In the above command =<path/to/lab/repo>= should be replaced with
-   the actual path to the local lab repository mentioned in the first
-   step.
-
-*** Init Example
-
-   For example, if https://github.com/virtual-labs/myNewLab is your
-   repository and you clone it on your local system at location
-   =/home/myuser/virtual-labs/=, then you would do run the following
-   commands -
-
-   #+NAME: labgen-init-example
-   #+BEGIN_SRC bash
-     npm run labgen -- init /home/myuser/virtual-labs/myNewLab
-   #+END_SRC
    
-   or 
-
-   #+NAME: labgen-init-example-rel-path
-   #+BEGIN_SRC bash
-     npm run labgen -- init ~/virtual-labs/myNewLab
-   #+END_SRC
-
-   This will generate the file
-   =~/virtual-labs/myNewLab/lab-descriptor.json=.
-   
-** Complete and Verify Lab Descriptor   
+** Complete and Verify Lab Descriptor
 
    Fill all the values in the =<path/to/lab/repo>/lab-descriptor.json=
    file generated above and create a pull-request to get the
@@ -143,64 +109,73 @@
    
    #+NAME: labgen-generate
    #+BEGIN_SRC bash
-     npm run labgen -- <path/to/lab/repo>
+     npm run labgen -- --release minor <path/to/lab/repo>
    #+END_SRC
 
-* Updates
 
-** Reporting
+* Building an Experiment
 
-   The timestamp, verion number and status (success or failure) of the
-   run is updated to a google sheet.
+To build an individual experiment first clone the experiment and run
+the following:
 
-** Release management of Lab Sources
 
-   After a lab (including all its experiments) is deployed, a new tag
-   is created for the lab using the master branch.  The tag number
-   follows semantic versioning and the next version number is derived
-   from the previous version with the help of input provided by the
-   user regarding type of the release (major, minor or patch).  By
-   default a minor version is generated.
+#+BEGIN_SRC sh
+cd <path/to/experiment/repo>
+git clone https://github.com/virtual-labs/ph3-lab-mgmt/
+cd ph3-lab-mgmt
+npm install
+npm run build-exp ../
+#+END_SRC
 
-   The lab descriptor is updated with the current release number.
+Or, from with this repository:
 
-** Automated JSON Validation
+#+BEGIN_SRC sh
+npm run build-exp <path/to/exp/repo>
+#+END_SRC
 
-   The lab descriptor is validated using a [[file:labDescSchema.json][schema]].  If anything is
-   invalid in the lab descriptor, the error is displayed and process
-   aborts.
+The first method is useful when running the script from the github
+actions pipeline.
 
-** Deployment Process
+The experiment can be found in the =build= directory with the
+experiment repository location.
 
-   1. Stage all experiments
-   2. Stage Lab
-   3. Deploy Experiments
-   4. Deploy Lab
+* DOCS
 
-*** Staging
+|--------------------------+---------------------------------------------------------------------------|
+| DOCUMENT                 | DESCRIPTION                                                               |
+|--------------------------+---------------------------------------------------------------------------|
+| [[file:docs/lab-build-process.org][Lab Build Process]]        | This document describes the lab build process.                            |
+| [[file:docs/lab-descriptor.org][Lab Descriptor]]           | This document describes the structure and functions of the lab-descriptor |
+| [[file:docs/exp-build-process.org][Experiment Build Process]] | Document describing the experiment build process.                         |
+| [[file:docs/analytics.org][Analytics]]                | Lab and Experiment Analytics details.                                     |
+| [[docs/units.org][Units]]                    | Defines all types of  units in an experiment                              |
+| [[docs/plugins.org][Proposed Plugins]]         | Proposal for moving towards a plugin based architecture.                  |
+|--------------------------+---------------------------------------------------------------------------|
 
-    - /var/www/html/
-      - <lab-name>/
-	- stage/
-	  - all lab sources here.
-	  - exp/
-	    - all experiments here.
-	- contents of the stage/ directory are copied here after
-          staging is complete.
 
-    If anything fails, you need to start the process again.
-	
-** TODO 
+* TODO
 
-   - [-] move release type to pre run option.
-   - [-] log to file
-   - [X] remove lab name from path to experiment
-     - experiment is unit of development
-     - Current url pattern: https://de-iitr.vlabs.ac.in/digital-electronics-iitr/exp/truth-table-gates/
-     - New url pattern: https://de-iitr.vlabs.ac.in/exp/truth-table-gates/
-     - [X] +symlink for compatibility+
-     - [X] test on a lab that is not linked
-   - KT to Balamma
-     - [-] session 1 scheduled on <2020-08-31 Mon>.  Find the [[file:KT.org][minutes]]
-       here.
+- DOCS: 
+  + Lab Build Process
+    + Lab descriptor - DONE
+    + templates - TODO
+    + staging and deployment process - DONE
 
+  + Experiment build process
+    - experiment descriptor - DONE
+    - experiment model - DONE
+
+  + Analytics - DONE
+
+  + script usage - DONE
+
+- quiz - TODO
+
+- exp process integration and testing - DONE
+
+------------
+
+- identify modules - WIP
+- FAQ - WIP
+
+- label -> backend => build-process - DONE

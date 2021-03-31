@@ -1,25 +1,23 @@
-const sendPostMessage = (mutationList, ob) => {    
-    if (mutationList) {
-
-        console.log(mutationList.length);
-	    let height = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.body.clientHeight);
+const sendPostMessage = (mutationList, ob) => {
+    if (mutationList && mutationList.length > 0) {
+	    let height = document.scrollingElement.scrollHeight;
 	    window.parent.postMessage({
-		frameHeight: height
-	    }, '*');    	
+		    frameHeight: height
+	    }, '*');
     }
 }
 
 window.onresize = () => sendPostMessage();
 
-const config = { attributes: true, childList: true, subtree: false };
+const config = { attributes: true, childList: true, subtree: true };
 
 const observer = new MutationObserver(sendPostMessage);
 observer.observe(document.body, config);
 
 
 
-/* This is only needed when there is a nested iframe, and 
-will work only if this script is manualy inserted in the embedded iframe page. 
+/* This is only needed when there is a nested iframe, and
+will work only if this script is manualy inserted in the embedded iframe page.
 */
 window.onmessage = (e) => {
     if (e.data.hasOwnProperty("frameHeight")) {

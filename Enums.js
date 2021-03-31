@@ -11,6 +11,12 @@ const ContentTypes = {
   ASSESMENT: "assesment"
 };
 
+const BuildEnvs = {
+  PRODUCTION: 'production',
+  TESTING: 'testing',
+  LOCAL: 'local'
+};
+
 function validType(t, v) {
   return Object.values(t).includes(v);
 }
@@ -31,4 +37,12 @@ function validContentType(ct) {
   }
 }
 
-module.exports = {UnitTypes, ContentTypes, validType, validContentType, validUnitType};
+function validBuildEnv(e) {
+  if (validType(BuildEnvs, e)) {
+    return e;
+  } else {
+    throw new Error("Invalid build environment");
+  }
+}
+
+module.exports = {UnitTypes, ContentTypes, BuildEnvs, validType, validContentType, validUnitType, validBuildEnv};

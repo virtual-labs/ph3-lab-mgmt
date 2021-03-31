@@ -1,65 +1,68 @@
-const shell = require("shelljs");
 const path = require("path");
-const fs = require("fs");
-const { JSDOM } = require("jsdom");
+const Handlebars = require("handlebars");
+const shell = require("shelljs");
 
-const {buildPages} = require("./renderpage.js");
+const {Experiment} = require("./Experiment.js");
+const Config = require("./Config.js");
+const {BuildEnvs, validBuildEnv} = require("./Enums.js");
 
-function copySources(repo_root, build_root) {
-    
-    const repo_dir = path.join( repo_root, "experiment" );
-    const build_dir = path.join( build_root );
-    const round_template_dir = path.join( build_root, "round-template" );
-    const exp_content_dir = path.join( round_template_dir, "experiment" );
-    
-    shell.rm( "-rf", exp_content_dir );
-    try {
-	fs.accessSync( build_dir , fs.constants.W_OK);
-    }
-    catch (err) {
-	shell.mkdir( "-p", round_template_dir );
-    }
-    shell.cp( "-R", repo_dir,  round_template_dir );
-}
+function run (src, lab_data, build_options) {
 
-
-function copyPages(repo_root, build_root) {
-    
-    const repo_dir = path.join( repo_root, "experiment" );
-    const build_dir = path.join( build_root );
-  try {
-    shell.cp( "-R", "templates/assets", build_dir );
-    shell.cp( "-R", path.join(repo_dir, "images"), build_dir );
+  // if the experiment repo does not contain experiment descriptor we will add the default descriptor.
+  if (!shell.test("-f", Experiment.descriptorPath(src))){
+    shell.cp(path.resolve(Config.Experiment.default_descriptor), path.resolve(this.src, Experiment.descriptorPath(src)));
   }
-  catch(e) {
-    console.log(e.message);
-  }
+
+  const exp = new Experiment(src);
+  exp.clean();
+  exp.init(Handlebars);
+  exp.includeFeedback();
+  exp.build(lab_data, build_options);
 }
 
-
-function insertIframeResizer(repo_root, build_root) {
-    let sim_index = fs.readFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ));
-    let dom = new JSDOM(sim_index);
-    let iframeScript = dom.window.document.createElement("script");
-    iframeScript.src = "./iframeResize.js";
-  dom.window.document.body.appendChild(iframeScript);
-    fs.writeFileSync(path.join( build_root, "round-template/experiment/simulation/index.html" ), dom.serialize());
-    shell.cp(path.join( build_root, "assets/js/iframeResize.js" ),
-	     path.join( build_root, "round-template/experiment/simulation/"));
-}
-
-
-function buildExp(repo_root, build_root, data, prod, e) {
-    copySources(repo_root, build_root);
-    buildPages( repo_root, build_root, data, prod, e);
-    copyPages(repo_root, build_root);
-  insertIframeResizer(repo_root, build_root);
-}
-
-exports.buildExp = buildExp;
+module.exports.run = run;
+module.exports.build_experiment = run;
 
 if (require.main === module) {
-    const repo_root = "../";
-    const build_root = "../build";
-    buildExp(repo_root, build_root, {}, false);
+  const args = require("minimist")(process.argv.slice(2));
+
+  // for backwards compatibility if the env is not given assume it to
+  // be testing.
+  const build_options = {};
+
+  if(args.env) {
+    build_options.env = validBuildEnv(args.env);
+  }
+  else {
+    build_options.env = BuildEnvs.TESTING;
+  }
+  
+  // if the path is not provided assume "../" for backward
+  // compatability.
+
+  let src = "../";
+  
+  if(args._.length === 1) {
+    src = path.resolve(args._[0]);
+  }
+  
+  /*
+    We are making an assumption here that if you are running this
+    script from the command line then this is being used for testing
+    the individual experiment, and by convention when we are testing
+    individual experiment, we do not use any lab level information and
+    we do not include analytics.
+
+    So, while it is possible to give build_options.env as
+    'production', it does not make any sense and we should probably
+    remove it or change the build process to make it useful.
+
+    Anyways, for now, we will send an empty object as lab_data and
+    hope things work out.
+   */
+  const default_lab_data = {};
+  run(src, {}, build_options);
 }
+// node exp.v1.js --env=production ../
+// node exp.v1.js --env=testing ../
+// node exp.v1.js --env=local ../

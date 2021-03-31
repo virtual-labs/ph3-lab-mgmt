@@ -67,6 +67,8 @@
     border-right: 2px dotted #89a7c4;
     font-size: 1.2rem;
     font-weight: bold;
+    overflow-x: hidden;
+    box-sizing: content-box;
 }
 
 .vlabs-header a {
@@ -142,18 +144,19 @@ h3 {
     text-decoration: underline;
 }
 
+
+/* for ds experiments - video iframes */
+iframe {
+    width: 100%;
+    height: calc(100vw/3);
+}
+
+
 .simulation-container {
     position: relative;
     overflow: hidden;
     width: 100%;
     padding-top: 56.25%;
-}
-
-
-iframe {
-    width: 100%;
-    padding-right: 4rem;
-    height: 550px;  
 }
 
 .responsive-iframe {
@@ -166,8 +169,12 @@ iframe {
     height: 100%;
 }
 
-@media screen and (min-width: 768px) {
-    .navbar-toggler {
-	display: none;
-    }
+.visible {
+    width: max-content;
+}
+
+.hidden {
+    width: 0px;
+    border-width: 0px;
+    padding: 0px;
 }
