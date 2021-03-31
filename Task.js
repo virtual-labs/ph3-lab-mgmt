@@ -64,15 +64,6 @@ class Task extends Unit {
 
   getMenu(menu_data) {
     return menu_data
-      .filter((mi) => {
-
-        if ( mi.unit_type === UnitTypes.TASK || mi.unit_type === UnitTypes.AIM ){
-          return shell.test("-e", mi.sourcePath());
-        }
-        else {
-          return true;
-        }
-      })
       .map((mi) => {
         return mi.menuItemInfo(this.targetPath());
       });
@@ -180,8 +171,26 @@ class Task extends Unit {
         break;
 
       case ContentTypes.ASSESMENT:
-        page_data.isAssesment = true;
-        page_data.quiz_src = this.source;
+      	  page_data.isAssesment = true;
+      if(shell.test("-f", this.sourcePath())){
+        page_data.questions = require(this.sourcePath());
+        page_data.questions_str = JSON.stringify(page_data.questions);
+	page_data.isJsonVersion = true;
+      }
+      else {
+        const jsonpath = this.sourcePath();
+	const jspath = path.resolve(path.dirname(jsonpath), `${path.basename(jsonpath, "json")}js`);
+	
+	if(shell.test("-f", jspath)){
+          page_data.quiz_src = path.basename(jspath);
+	  page_data.isJsVersion = true;
+	}
+	else {
+	  console.log(`${jspath} is missing`);
+	  process.exit(-1);
+	}
+      }
+
         break;
     }
 

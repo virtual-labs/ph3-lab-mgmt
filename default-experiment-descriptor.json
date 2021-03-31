@@ -15,7 +15,7 @@
     },
     {
       "target": "pretest.html",
-      "source": "pretest.js",
+      "source": "pretest.json",
       "label": "Pretest",
       "unit-type": "task",
       "content-type": "assesment"
@@ -36,7 +36,7 @@
     },
     {
       "target": "posttest.html",
-      "source": "posttest.js",
+      "source": "posttest.json",
       "label": "Posttest",
       "unit-type": "task",
       "content-type": "assesment"
