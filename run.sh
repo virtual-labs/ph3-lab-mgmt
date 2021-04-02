@@ -8,4 +8,3 @@ git checkout --orphan gh-pages
 git reset
 git add build/* -f
 git mv build/* ./ -f
-git commit -m "https://virtual-labs.github.io/${{ github.repository }} click on the link to test your code."
