@@ -3,7 +3,7 @@ const fs = require("fs");
 const glob = require("glob");
 const path = require("path");
 const { JSDOM } = require("jsdom");
-const readline = require("readline");
+const child_process = require("child_process");
 const url = require("url");
 const chalk = require("chalk");
 const shell = require("shelljs");
@@ -370,7 +370,7 @@ function LD(lp) {
 
 function pushlab(labpath) {
   const commitMsg = `Lab generated at ${moment()}`;
-  shell.exec(
+  child_process.execSync(
     `cd ${labpath};
 git add license.org lab-descriptor.json;
 git commit -m "${commitMsg}";
@@ -379,7 +379,7 @@ git push origin master`
 }
 
 function release(labpath, tag_name) {
-  shell.exec(
+  child_process.execSync(
     `cd ${labpath};
 git tag -a ${tag_name} -m "version ${tag_name}";
 git push origin ${tag_name}`
