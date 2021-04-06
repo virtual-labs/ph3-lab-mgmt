@@ -460,7 +460,7 @@ function nextVersion(labpath, release_type) {
     version = res.stdout;
   }
   shell.cd(__dirname);
-  return version;
+  return incrementTagNumber(version, release_type);
 }
 
 labgen();
