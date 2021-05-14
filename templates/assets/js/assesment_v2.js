@@ -21,6 +21,31 @@ const populate_questions = () => {
     if (currentQuestion.difficulty == "hard")
       hardQuestions.push(currentQuestion);
   });
+  let dropdown_div = document.getElementById("dropdowncontainer");
+  if (easyQuestions.length) {
+    let dropdown = document.getElementById("dropdown");
+    let option = document.createElement("option");
+    option.text = "Easy";
+    option.value = "easy";
+    dropdown.add(option);
+    dropdown_div.style.display = "block";
+  }
+  if (mediumQuestions.length) {
+    let dropdown = document.getElementById("dropdown");
+    let option = document.createElement("option");
+    option.text = "Medium";
+    option.value = "medium";
+    dropdown.add(option);
+    dropdown_div.style.display = "block";
+  }
+  if (hardQuestions.length) {
+    let dropdown = document.getElementById("dropdown");
+    let option = document.createElement("option");
+    option.text = "Hard";
+    option.value = "hard";
+    dropdown.add(option);
+    dropdown_div.style.display = "block";
+  }
 };
 
 function showResults() {

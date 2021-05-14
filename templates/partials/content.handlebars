@@ -21,7 +21,13 @@
     {{/if}}
     {{#if isJsonVersion }}
       {{#if jsonVersion }}
-        <h1>{{jsonVersion}}</h1>
+        <div id="dropdowncontainer" style="display: none;">
+          <label for="customRange1" class="form-label">Choose question difficulty</label>
+          <select id="dropdown" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+            onchange="">
+            <option value="all">All</option>
+          </select>
+        </div>
         <div id="quiz" class="version{{jsonVersion}}">
       
       {{#each questions}}
