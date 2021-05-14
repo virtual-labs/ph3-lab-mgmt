@@ -11,16 +11,28 @@ const difficulty_dict = {
   hard: hardQuestions,
   all: myQuestions,
 };
+let difficulty = "all";
 
 const populate_questions = () => {
+  let num = 0;
   myQuestions.forEach((currentQuestion) => {
-    if (currentQuestion.difficulty == "easy")
+    if (currentQuestion.difficulty == "easy") {
+      currentQuestion.num = num;
+      num += 1;
       easyQuestions.push(currentQuestion);
-    if (currentQuestion.difficulty == "medium")
+    }
+    if (currentQuestion.difficulty == "medium") {
+      currentQuestion.num = num;
+      num += 1;
       mediumQuestions.push(currentQuestion);
-    if (currentQuestion.difficulty == "hard")
+    }
+    if (currentQuestion.difficulty == "hard") {
+      currentQuestion.num = num;
+      num += 1;
       hardQuestions.push(currentQuestion);
+    }
   });
+
   let dropdown_div = document.getElementById("dropdowncontainer");
   if (easyQuestions.length) {
     let dropdown = document.getElementById("dropdown");
@@ -48,17 +60,34 @@ const populate_questions = () => {
   }
 };
 
+function updateQuestions() {
+  difficulty = document.getElementById("dropdown").value;
+  const quiz = document.getElementById("quiz");
+  let questions = quiz.getElementsByTagName("div");
+  for (let i = 0; i < questions.length; i += 3) {
+    if (!questions[i].classList.contains(difficulty) && difficulty !== "all") {
+      questions[i].style.display = "none";
+      questions[i + 1].style.display = "none";
+      questions[i + 2].style.display = "none";
+    } else {
+      questions[i].style.display = "block";
+      questions[i + 1].style.display = "flex";
+      questions[i + 2].style.display = "block";
+    }
+  }
+}
+
 function showResults() {
   // gather answer containers from our quiz
   const answerContainers = quizContainer.querySelectorAll(".answers");
   answerContainers.forEach((e) => (e.style.color = "black"));
 
-  let difficulty = "all";
   // keep track of user's answers
   let numCorrect = 0;
   // for each question...
-  difficulty_dict[difficulty].forEach((currentQuestion, questionNumber) => {
+  difficulty_dict[difficulty].forEach((currentQuestion) => {
     // find selected answer
+    let questionNumber = currentQuestion.num;
     const answerContainer = answerContainers[questionNumber];
     const selector = `input[name=question${questionNumber}]:checked`;
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
