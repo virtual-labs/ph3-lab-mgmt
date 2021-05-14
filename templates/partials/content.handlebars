@@ -26,7 +26,7 @@
       
       {{#each questions}}
       
-        <div class="question">
+        <div class="question {{this.difficulty}}">
           {{{this.question}}}
         </div>
         
@@ -38,6 +38,7 @@
           </label>
             
           {{/each}}
+          <div id="explanation{{@index}}" style="display:none"></div>
       </div>
       {{/each}}
       
@@ -47,7 +48,7 @@
       
       {{#each questions}}
       
-        <div class="question">
+        <div>
           {{{this.question}}}
         </div>
         
