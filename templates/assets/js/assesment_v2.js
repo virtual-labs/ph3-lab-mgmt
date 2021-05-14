@@ -49,15 +49,17 @@ function showResults() {
       // color the answers red
       answerContainers[questionNumber].style.color = "red";
     }
-    let explanation = currentQuestion.explanations[userAnswer];
-    let explanation_div = document.getElementById(
-      "explanation" + questionNumber.toString()
-    );
-    if (explanation) {
-      explanation_div.innerHTML = "Explanation: " + explanation;
-      explanation_div.style.display = "block";
-    } else {
-      explanation_div.style.display = "none";
+    if (currentQuestion.explanations) {
+      let explanation = currentQuestion.explanations[userAnswer];
+      let explanation_div = document.getElementById(
+        "explanation" + questionNumber.toString()
+      );
+      if (explanation) {
+        explanation_div.innerHTML = "Explanation: " + explanation;
+        explanation_div.style.display = "block";
+      } else {
+        explanation_div.style.display = "none";
+      }
     }
   });
   // show number of correct answers out of total

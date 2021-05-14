@@ -50,36 +50,32 @@ class Task extends Unit {
     );
   }
 
-
   menuItemInfo(host_path) {
     return {
       label: this.label,
       unit_type: this.unit_type,
       isCurrentItem: false,
       lu: this.lu,
-      target: path.relative(path.dirname(host_path), this.targetPath())
+      target: path.relative(path.dirname(host_path), this.targetPath()),
     };
   }
 
-
   getMenu(menu_data) {
-    return menu_data
-      .map((mi) => {
-        return mi.menuItemInfo(this.targetPath());
-      });
+    return menu_data.map((mi) => {
+      return mi.menuItemInfo(this.targetPath());
+    });
   }
-
 
   setCurrent(menu) {
     menu.map((u) => {
       if (u.unit_type === UnitTypes.TASK || u.unit_type === UnitTypes.AIM) {
         u.isCurrentItem = this.target === u.target;
-      }
-      else {
-        u.isCurrentLU = (u.units? u.units.some((t) => {
+      } else {
+        u.isCurrentLU = u.units
+          ? u.units.some((t) => {
               return t.target === this.target;
             })
-          : false);
+          : false;
         u.units = u.units
           ? u.units.map((t) => {
               t.isCurrentItem = this.target === t.target;
@@ -93,27 +89,26 @@ class Task extends Unit {
   }
 
   targetPath() {
-    return path.resolve(path.join(
-      Config.build_path(this.exp_path),
-      this.basedir,
-      this.target
-    ));
+    return path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, this.target)
+    );
   }
 
   sourcePath() {
-    return path.resolve(path.join(
-      Config.build_path(this.exp_path),
-      this.basedir,
-      this.source
-    ));
+    return path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, this.source)
+    );
   }
 
   buildPage(exp_info, lab_data, options) {
-    let assets_path = path.relative(path.dirname(this.targetPath()), Config.build_path(this.exp_path));
-    assets_path = assets_path?assets_path:".";
+    let assets_path = path.relative(
+      path.dirname(this.targetPath()),
+      Config.build_path(this.exp_path)
+    );
+    assets_path = assets_path ? assets_path : ".";
 
     const page_data = {
-      production: (options.env === BuildEnvs.PRODUCTION),
+      production: options.env === BuildEnvs.PRODUCTION,
       testing: options.testing,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
@@ -130,7 +125,7 @@ class Task extends Unit {
       collegeName: lab_data.collegeName,
       baseUrl: lab_data.baseUrl,
       exp_name: lab_data.exp_name,
-      exp_short_name: lab_data.exp_short_name
+      exp_short_name: lab_data.exp_short_name,
     };
 
     switch (this.content_type) {
@@ -158,8 +153,10 @@ class Task extends Unit {
           .toString();
 
         let rp = path.join(
-          path.relative(path.dirname(this.sourcePath()),
-          Config.build_path(this.exp_path)),
+          path.relative(
+            path.dirname(this.sourcePath()),
+            Config.build_path(this.exp_path)
+          ),
           "assets/js/iframeResize.js"
         );
 
@@ -171,30 +168,30 @@ class Task extends Unit {
         break;
 
       case ContentTypes.ASSESMENT:
-      	  page_data.isAssesment = true;
-      if(shell.test("-f", this.sourcePath())){
-        page_data.questions = require(this.sourcePath());
-        if(typeof(page_data.questions[0] != 'object')){
-          let version = page_data.questions.shift()
-          if(version === 2)
-            page_data.jsonVersion = version
+        page_data.isAssesment = true;
+        if (shell.test("-f", this.sourcePath())) {
+          page_data.questions = require(this.sourcePath());
+          if (typeof page_data.questions[0] != "object") {
+            let version = page_data.questions.shift();
+            if (version === 2) page_data.jsonVersion = version;
+          }
+          page_data.questions_str = JSON.stringify(page_data.questions);
+          page_data.isJsonVersion = true;
+        } else {
+          const jsonpath = this.sourcePath();
+          const jspath = path.resolve(
+            path.dirname(jsonpath),
+            `${path.basename(jsonpath, "json")}js`
+          );
+
+          if (shell.test("-f", jspath)) {
+            page_data.quiz_src = path.basename(jspath);
+            page_data.isJsVersion = true;
+          } else {
+            console.log(`${jspath} is missing`);
+            process.exit(-1);
+          }
         }
-        page_data.questions_str = JSON.stringify(page_data.questions);
-        page_data.isJsonVersion = true;
-      }
-      else {
-        const jsonpath = this.sourcePath();
-	const jspath = path.resolve(path.dirname(jsonpath), `${path.basename(jsonpath, "json")}js`);
-	
-	if(shell.test("-f", jspath)){
-          page_data.quiz_src = path.basename(jspath);
-	  page_data.isJsVersion = true;
-	}
-	else {
-	  console.log(`${jspath} is missing`);
-	  process.exit(-1);
-	}
-      }
 
         break;
     }
@@ -208,12 +205,14 @@ class Task extends Unit {
     );
 
     try {
-      fs.writeFileSync(this.targetPath(), Handlebars.compile(page_template.toString())(page_data));
+      fs.writeFileSync(
+        this.targetPath(),
+        Handlebars.compile(page_template.toString())(page_data)
+      );
     } catch (e) {
       console.error(e.message);
     }
   }
-
 
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
