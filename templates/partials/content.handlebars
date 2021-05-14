@@ -20,28 +20,51 @@
       <div id="quiz"></div>
     {{/if}}
     {{#if isJsonVersion }}
-      <div id="quiz">
-    
-    {{#each questions}}
-    
-      <div class="question">
-        {{{this.question}}}
-      </div>
+      {{#if jsonVersion }}
+        <h1>{{jsonVersion}}</h1>
+        <div id="quiz" class="version{{jsonVersion}}">
       
-      <div class="answers">
-        {{#each this.answers}}
-	<label>
-	  <input type="radio" name="question{{@../index}}" value="{{@key}}">
-          {{@key}}: {{this}}
-        </label>
-          
-	{{/each}}
-      </div>
+      {{#each questions}}
       
+        <div class="question">
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+          <label>
+            <input type="radio" name="question{{@../index}}" value="{{@key}}">
+              {{@key}}: {{this}}
+          </label>
+            
+          {{/each}}
+      </div>
+      {{/each}}
+      
+      </div>
+    {{else}}
+    <div id="quiz">
+      
+      {{#each questions}}
+      
+        <div class="question">
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+    <label>
+      <input type="radio" name="question{{@../index}}" value="{{@key}}">
+            {{@key}}: {{this}}
+          </label>
+            
     {{/each}}
-    
-    </div>
-    
+        </div>
+        
+      {{/each}}
+      
+      </div>  
+    {{/if}}
     {{/if}}
       <button id="submit" class="btn btn-primary">Submit Quiz</button>
       <div id="results"></div>
@@ -56,6 +79,10 @@
   <script>
     const myQuestions = {{{questions_str}}};
   </script>
-  <script src="{{assets_path}}/assets/js/assesment.js"></script>  
+  {{#if isJsonVersion }}
+    <script src="{{assets_path}}/assets/js/assesment_v2.js"></script>  
+  {{else}}
+    <script src="{{assets_path}}/assets/js/assesment.js"></script>  
+  {{/if}}
   {{/if}}
 {{/if}}
