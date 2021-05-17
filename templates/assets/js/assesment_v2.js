@@ -2,59 +2,27 @@ const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
 
-const easyQuestions = [];
-const mediumQuestions = [];
-const hardQuestions = [];
-const difficulty_dict = {
-  easy: easyQuestions,
-  medium: mediumQuestions,
-  hard: hardQuestions,
-  all: myQuestions,
-};
+let difficulty_levels = [];
 let difficulty = "all";
-
+let questions = { all: myQuestions };
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
-    if (currentQuestion.difficulty == "easy") {
-      currentQuestion.num = num;
-      num += 1;
-      easyQuestions.push(currentQuestion);
+    if (difficulty_levels.indexOf(currentQuestion.difficulty) === -1) {
+      questions[currentQuestion.difficulty] = [];
+      difficulty_levels.push(currentQuestion.difficulty);
     }
-    if (currentQuestion.difficulty == "medium") {
-      currentQuestion.num = num;
-      num += 1;
-      mediumQuestions.push(currentQuestion);
-    }
-    if (currentQuestion.difficulty == "hard") {
-      currentQuestion.num = num;
-      num += 1;
-      hardQuestions.push(currentQuestion);
-    }
+    currentQuestion.num = num;
+    questions[currentQuestion.difficulty].push(currentQuestion);
+    num += 1;
   });
-
   let dropdown_div = document.getElementById("dropdowncontainer");
-  if (easyQuestions.length) {
+  for (i in difficulty_levels) {
+    let diff = difficulty_levels[i];
     let dropdown = document.getElementById("dropdown");
     let option = document.createElement("option");
-    option.text = "Easy";
-    option.value = "easy";
-    dropdown.add(option);
-    dropdown_div.style.display = "block";
-  }
-  if (mediumQuestions.length) {
-    let dropdown = document.getElementById("dropdown");
-    let option = document.createElement("option");
-    option.text = "Medium";
-    option.value = "medium";
-    dropdown.add(option);
-    dropdown_div.style.display = "block";
-  }
-  if (hardQuestions.length) {
-    let dropdown = document.getElementById("dropdown");
-    let option = document.createElement("option");
-    option.text = "Hard";
-    option.value = "hard";
+    option.text = diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase();
+    option.value = diff;
     dropdown.add(option);
     dropdown_div.style.display = "block";
   }
@@ -85,7 +53,7 @@ function showResults() {
   // keep track of user's answers
   let numCorrect = 0;
   // for each question...
-  difficulty_dict[difficulty].forEach((currentQuestion) => {
+  questions[difficulty].forEach((currentQuestion) => {
     // find selected answer
     let questionNumber = currentQuestion.num;
     const answerContainer = answerContainers[questionNumber];
@@ -117,7 +85,7 @@ function showResults() {
     }
   });
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${difficulty_dict[difficulty].length}`;
+  resultsContainer.innerHTML = `${numCorrect} out of ${questions[difficulty].length}`;
 }
 
 populate_questions();
