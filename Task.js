@@ -16,6 +16,7 @@ const {
   validType,
   validContentType,
 } = require("./Enums.js");
+const { NONAME } = require("dns");
 
 class Task extends Unit {
   constructor(
@@ -171,9 +172,10 @@ class Task extends Unit {
         page_data.isAssesment = true;
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());
-          if (typeof page_data.questions[0] != "object") {
-            let version = page_data.questions.shift();
-            if (version === 2) page_data.jsonVersion = version;
+          if (page_data.questions.version) {
+            if (page_data.questions.version == 2)
+              page_data.jsonVersion = page_data.questions.version;
+            page_data.questions = page_data.questions.questions;
           }
           page_data.questions_str = JSON.stringify(page_data.questions);
           page_data.isJsonVersion = true;
