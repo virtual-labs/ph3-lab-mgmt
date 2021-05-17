@@ -33,7 +33,10 @@ function updateQuestions() {
   const quiz = document.getElementById("quiz");
   let questions = quiz.getElementsByTagName("div");
   for (let i = 0; i < questions.length; i += 3) {
-    if (!questions[i].classList.contains(difficulty) && difficulty !== "all") {
+    if (
+      !questions[i].classList.contains(difficulty.split(" ").join("")) &&
+      difficulty !== "all"
+    ) {
       questions[i].style.display = "none";
       questions[i + 1].style.display = "none";
       questions[i + 2].style.display = "none";
