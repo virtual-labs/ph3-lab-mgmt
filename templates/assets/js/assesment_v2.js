@@ -2,23 +2,27 @@ const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
 
-let difficulty_levels = [];
+let difficulty_levels = ["beginner", "intermediate", "advanced"];
 let difficulty = "all";
 let questions = { all: myQuestions };
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
-    if (difficulty_levels.indexOf(currentQuestion.difficulty) === -1) {
-      questions[currentQuestion.difficulty] = [];
-      difficulty_levels.push(currentQuestion.difficulty);
+    if (difficulty_levels.indexOf(currentQuestion.difficulty) !== -1) {
+      currentQuestion.num = num;
+      if (!(currentQuestion.difficulty in questions)) {
+        questions[currentQuestion.difficulty] = [];
+      }
+      questions[currentQuestion.difficulty].push(currentQuestion);
+      num += 1;
     }
-    currentQuestion.num = num;
-    questions[currentQuestion.difficulty].push(currentQuestion);
-    num += 1;
   });
   let dropdown_div = document.getElementById("dropdowncontainer");
   for (i in difficulty_levels) {
     let diff = difficulty_levels[i];
+    if (!(diff in questions)) {
+      continue;
+    }
     let dropdown = document.getElementById("dropdown");
     let option = document.createElement("option");
     option.text = diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase();
