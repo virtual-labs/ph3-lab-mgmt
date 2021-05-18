@@ -38,13 +38,15 @@
         
         <div class="answers">
           {{#each this.answers}}
-          <label>
-            <input type="radio" name="question{{@../index}}" value="{{@key}}">
-              {{@key}}: {{this}}
-          </label>
-            
+          <div style="grid">
+            <label>
+              <input type="radio" name="question{{@../index}}" value="{{@key}}">
+                {{@key}}: {{this}}
+            </label>
+            <a href="#" id="explanation{{@../index}}{{@key}}" class="accordion">Explanation</a>
+          </div>
+          <p class="panel">Explanation</p>
           {{/each}}
-          <div id="explanation{{@index}}" style="display:none"></div>
       </div>
       {{/each}}
       

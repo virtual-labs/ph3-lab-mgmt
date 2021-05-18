@@ -5,6 +5,26 @@ const submitButton = document.getElementById("submit");
 let difficulty_levels = ["beginner", "intermediate", "advanced"];
 let difficulty = "all";
 let questions = { all: myQuestions };
+
+const addEventListener_explanations = () => {
+  let acc = document.getElementsByClassName("accordion");
+  for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+      acc[i].classList.toggle("active");
+
+      /* Toggle between hiding and showing the active panel */
+      let panel = acc[i].parentElement.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+};
+
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
@@ -73,21 +93,39 @@ function showResults() {
 
       // color the answers green
       //answerContainers[questionNumber].style.color = "lightgreen";
+      // Show all explanations
+      if (currentQuestion.explanations) {
+        for (let answer in currentQuestion.answers) {
+          let explanation = currentQuestion.explanations[answer];
+          let explanation_button = document.getElementById(
+            "explanation" + questionNumber.toString() + answer
+          );
+          if (explanation) {
+            explanation_button.parentElement.nextElementSibling.innerHTML =
+              "Explanation: " + explanation;
+            explanation_button.style.display = "inline-block";
+          } else {
+            explanation_button.style.display = "none";
+          }
+        }
+      }
     } else {
       // if answer is wrong or blank
       // color the answers red
       answerContainers[questionNumber].style.color = "red";
-    }
-    if (currentQuestion.explanations) {
-      let explanation = currentQuestion.explanations[userAnswer];
-      let explanation_div = document.getElementById(
-        "explanation" + questionNumber.toString()
-      );
-      if (explanation) {
-        explanation_div.innerHTML = "Explanation: " + explanation;
-        explanation_div.style.display = "block";
-      } else {
-        explanation_div.style.display = "none";
+      // Show only explanation for wrong answer
+      if (currentQuestion.explanations) {
+        let explanation = currentQuestion.explanations[userAnswer];
+        let explanation_button = document.getElementById(
+          "explanation" + questionNumber.toString() + userAnswer
+        );
+        if (explanation) {
+          explanation_button.parentElement.nextElementSibling.innerHTML =
+            "Explanation: " + explanation;
+          explanation_button.style.display = "inline-block";
+        } else {
+          explanation_button.style.display = "none";
+        }
       }
     }
   });
@@ -96,4 +134,5 @@ function showResults() {
 }
 
 populate_questions();
+addEventListener_explanations();
 submitButton.addEventListener("click", showResults);
