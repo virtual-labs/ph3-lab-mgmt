@@ -105,47 +105,28 @@ function showResults() {
   let numCorrect = 0;
   let toatNum = 0;
   // for each question...
-  difficulty.forEach((difficulty) => {
-    questions[difficulty].forEach((currentQuestion) => {
-      // find selected answer
-      let questionNumber = currentQuestion.num;
-      const answerContainer = answerContainers[questionNumber];
-      const selector = `input[name=question${questionNumber}]:checked`;
-      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-      // Add to total
-      toatNum++;
-      // if answer is correct
-      if (userAnswer === currentQuestion.correctAnswer) {
-        // add to the number of correct answers
-        numCorrect++;
+  myQuestions.forEach((currentQuestion) => {
+    // find selected answer
+    if (difficulty.indexOf(currentQuestion.difficulty) === -1) return;
+    let questionNumber = currentQuestion.num;
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+    // Add to total
+    toatNum++;
+    // if answer is correct
+    if (userAnswer === currentQuestion.correctAnswer) {
+      // add to the number of correct answers
+      numCorrect++;
 
-        // color the answers green
-        //answerContainers[questionNumber].style.color = "lightgreen";
-        // Show all explanations
-        if (currentQuestion.explanations) {
-          for (let answer in currentQuestion.answers) {
-            let explanation = currentQuestion.explanations[answer];
-            let explanation_button = document.getElementById(
-              "explanation" + questionNumber.toString() + answer
-            );
-            if (explanation) {
-              explanation_button.parentElement.nextElementSibling.innerHTML =
-                "Explanation: " + explanation;
-              explanation_button.style.display = "inline-block";
-            } else {
-              explanation_button.style.display = "none";
-            }
-          }
-        }
-      } else {
-        // if answer is wrong or blank
-        // color the answers red
-        answerContainers[questionNumber].style.color = "red";
-        // Show only explanation for wrong answer
-        if (currentQuestion.explanations) {
-          let explanation = currentQuestion.explanations[userAnswer];
+      // color the answers green
+      //answerContainers[questionNumber].style.color = "lightgreen";
+      // Show all explanations
+      if (currentQuestion.explanations) {
+        for (let answer in currentQuestion.answers) {
+          let explanation = currentQuestion.explanations[answer];
           let explanation_button = document.getElementById(
-            "explanation" + questionNumber.toString() + userAnswer
+            "explanation" + questionNumber.toString() + answer
           );
           if (explanation) {
             explanation_button.parentElement.nextElementSibling.innerHTML =
@@ -156,7 +137,25 @@ function showResults() {
           }
         }
       }
-    });
+    } else {
+      // if answer is wrong or blank
+      // color the answers red
+      answerContainers[questionNumber].style.color = "red";
+      // Show only explanation for wrong answer
+      if (currentQuestion.explanations && userAnswer) {
+        let explanation = currentQuestion.explanations[userAnswer];
+        let explanation_button = document.getElementById(
+          "explanation" + questionNumber.toString() + userAnswer
+        );
+        if (explanation) {
+          explanation_button.parentElement.nextElementSibling.innerHTML =
+            "Explanation: " + explanation;
+          explanation_button.style.display = "inline-block";
+        } else {
+          explanation_button.style.display = "none";
+        }
+      }
+    }
   });
   // show number of correct answers out of total
   resultsContainer.innerHTML = `${numCorrect} out of ${toatNum}`;
