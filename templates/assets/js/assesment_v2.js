@@ -46,13 +46,13 @@ const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
     if (difficulty_levels.indexOf(currentQuestion.difficulty) !== -1) {
-      currentQuestion.num = num;
       if (!(currentQuestion.difficulty in questions)) {
         questions[currentQuestion.difficulty] = [];
       }
       questions[currentQuestion.difficulty].push(currentQuestion);
-      num += 1;
     }
+    currentQuestion.num = num;
+    num += 1;
   });
 
   if (Object.keys(questions).length > 2) {
@@ -107,7 +107,11 @@ function showResults() {
   // for each question...
   myQuestions.forEach((currentQuestion) => {
     // find selected answer
-    if (difficulty.indexOf(currentQuestion.difficulty) === -1) return;
+    if (
+      difficulty.indexOf(currentQuestion.difficulty) === -1 &&
+      difficulty.length !== Object.keys(questions).length - 1
+    )
+      return;
     let questionNumber = currentQuestion.num;
     const answerContainer = answerContainers[questionNumber];
     const selector = `input[name=question${questionNumber}]:checked`;
