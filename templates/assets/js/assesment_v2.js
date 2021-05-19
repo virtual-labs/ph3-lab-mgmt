@@ -151,8 +151,7 @@ function showResults() {
           "explanation" + questionNumber.toString() + userAnswer
         );
         if (explanation) {
-          explanation_button.parentElement.nextElementSibling.innerHTML =
-            "Explanation: " + explanation;
+          explanation_button.parentElement.nextElementSibling.innerHTML = explanation;
           explanation_button.style.display = "inline-block";
         } else {
           explanation_button.style.display = "none";
