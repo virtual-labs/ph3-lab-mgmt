@@ -3,7 +3,7 @@ const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
 
 let difficulty_levels = ["beginner", "intermediate", "advanced"];
-let difficulty = "all";
+let difficulty = [];
 let questions = { all: myQuestions };
 
 const addEventListener_explanations = () => {
@@ -25,6 +25,23 @@ const addEventListener_explanations = () => {
   }
 };
 
+const addEventListener_checkbox = () => {
+  for (i in difficulty_levels) {
+    let diff = difficulty_levels[i];
+    let c_box = document.getElementById(diff);
+    c_box.addEventListener("change", function () {
+      if (c_box.checked) {
+        difficulty.push(diff);
+        console.log("Clicked " + diff);
+      } else {
+        difficulty.splice(difficulty.indexOf(diff), 1);
+        console.log("Unclicked " + diff);
+      }
+      updateQuestions();
+    });
+  }
+};
+
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
@@ -37,37 +54,44 @@ const populate_questions = () => {
       num += 1;
     }
   });
-  let dropdown_div = document.getElementById("dropdowncontainer");
-  for (i in difficulty_levels) {
-    let diff = difficulty_levels[i];
-    if (!(diff in questions)) {
-      continue;
+
+  if (Object.keys(questions).length > 2) {
+    document.getElementById("difficulty-label").style.display = "block";
+    for (i in difficulty_levels) {
+      let diff = difficulty_levels[i];
+      if (!(diff in questions)) {
+        continue;
+      }
+      difficulty.push(diff);
+      let checkbox = document.getElementById(diff);
+      checkbox.checked = true;
+      checkbox.parentElement.parentElement.style.display = "block";
     }
-    let dropdown = document.getElementById("dropdown");
-    let option = document.createElement("option");
-    option.text = diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase();
-    option.value = diff;
-    dropdown.add(option);
-    dropdown_div.style.display = "block";
   }
 };
 
+const checkDifficulties = (classlist) => {
+  if (difficulty.length === Object.keys(questions).length - 1) return true;
+  for (i in difficulty) {
+    if (classlist.contains(difficulty[i])) return true;
+  }
+  return false;
+};
+
 function updateQuestions() {
-  difficulty = document.getElementById("dropdown").value;
   const quiz = document.getElementById("quiz");
-  let questions = quiz.getElementsByTagName("div");
-  for (let i = 0; i < questions.length; i += 3) {
-    if (
-      !questions[i].classList.contains(difficulty.split(" ").join("")) &&
-      difficulty !== "all"
-    ) {
-      questions[i].style.display = "none";
-      questions[i + 1].style.display = "none";
-      questions[i + 2].style.display = "none";
+  let qquestions = quiz.getElementsByClassName("question");
+  for (let i = 0; i < qquestions.length; i += 1) {
+    if (!checkDifficulties(qquestions[i].classList)) {
+      qquestions[i].style.display = "none";
+      qquestions[i].nextElementSibling.style.display = "none";
+      console.log("Hidden ");
+      console.log(qquestions[i]);
     } else {
-      questions[i].style.display = "block";
-      questions[i + 1].style.display = "flex";
-      questions[i + 2].style.display = "block";
+      qquestions[i].style.display = "block";
+      qquestions[i].nextElementSibling.style.display = "flex";
+      console.log("Added ");
+      console.log(qquestions[i]);
     }
   }
 }
@@ -79,26 +103,49 @@ function showResults() {
 
   // keep track of user's answers
   let numCorrect = 0;
+  let toatNum = 0;
   // for each question...
-  questions[difficulty].forEach((currentQuestion) => {
-    // find selected answer
-    let questionNumber = currentQuestion.num;
-    const answerContainer = answerContainers[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-    // if answer is correct
-    if (userAnswer === currentQuestion.correctAnswer) {
-      // add to the number of correct answers
-      numCorrect++;
+  difficulty.forEach((difficulty) => {
+    questions[difficulty].forEach((currentQuestion) => {
+      // find selected answer
+      let questionNumber = currentQuestion.num;
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+      // Add to total
+      toatNum++;
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
 
-      // color the answers green
-      //answerContainers[questionNumber].style.color = "lightgreen";
-      // Show all explanations
-      if (currentQuestion.explanations) {
-        for (let answer in currentQuestion.answers) {
-          let explanation = currentQuestion.explanations[answer];
+        // color the answers green
+        //answerContainers[questionNumber].style.color = "lightgreen";
+        // Show all explanations
+        if (currentQuestion.explanations) {
+          for (let answer in currentQuestion.answers) {
+            let explanation = currentQuestion.explanations[answer];
+            let explanation_button = document.getElementById(
+              "explanation" + questionNumber.toString() + answer
+            );
+            if (explanation) {
+              explanation_button.parentElement.nextElementSibling.innerHTML =
+                "Explanation: " + explanation;
+              explanation_button.style.display = "inline-block";
+            } else {
+              explanation_button.style.display = "none";
+            }
+          }
+        }
+      } else {
+        // if answer is wrong or blank
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
+        // Show only explanation for wrong answer
+        if (currentQuestion.explanations) {
+          let explanation = currentQuestion.explanations[userAnswer];
           let explanation_button = document.getElementById(
-            "explanation" + questionNumber.toString() + answer
+            "explanation" + questionNumber.toString() + userAnswer
           );
           if (explanation) {
             explanation_button.parentElement.nextElementSibling.innerHTML =
@@ -109,30 +156,13 @@ function showResults() {
           }
         }
       }
-    } else {
-      // if answer is wrong or blank
-      // color the answers red
-      answerContainers[questionNumber].style.color = "red";
-      // Show only explanation for wrong answer
-      if (currentQuestion.explanations) {
-        let explanation = currentQuestion.explanations[userAnswer];
-        let explanation_button = document.getElementById(
-          "explanation" + questionNumber.toString() + userAnswer
-        );
-        if (explanation) {
-          explanation_button.parentElement.nextElementSibling.innerHTML =
-            "Explanation: " + explanation;
-          explanation_button.style.display = "inline-block";
-        } else {
-          explanation_button.style.display = "none";
-        }
-      }
-    }
+    });
   });
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${questions[difficulty].length}`;
+  resultsContainer.innerHTML = `${numCorrect} out of ${toatNum}`;
 }
 
 populate_questions();
 addEventListener_explanations();
+addEventListener_checkbox();
 submitButton.addEventListener("click", showResults);
