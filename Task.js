@@ -205,11 +205,6 @@ class Task extends Unit {
       )
     );
 
-    // To trim white spaces in between
-    Handlebars.registerHelper("trim", (diff) => {
-      return diff.split(" ").join("");
-    });
-
     try {
       fs.writeFileSync(
         this.targetPath(),
