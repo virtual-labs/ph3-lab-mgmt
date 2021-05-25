@@ -4,7 +4,7 @@ const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
 
-let difficulty_levels = ["beginner", "intermediate", "advanced"];
+let difficultyLevels = ["beginner", "intermediate", "advanced"];
 let difficulty = [];
 let questions = { all: myQuestions };
 
@@ -28,11 +28,11 @@ const addEventListener_explanations = () => {
 };
 
 const addEventListener_checkbox = () => {
-  for (let i in difficulty_levels) {
-    let diff = difficulty_levels[i];
-    let c_box = document.getElementById(diff);
-    c_box.addEventListener("change", function () {
-      if (c_box.checked) {
+  for (let i in difficultyLevels) {
+    let diff = difficultyLevels[i];
+    let cBox = document.getElementById(diff);
+    cBox.addEventListener("change", function () {
+      if (cBox.checked) {
         difficulty.push(diff);
         console.log("Clicked " + diff);
       } else {
@@ -47,7 +47,7 @@ const addEventListener_checkbox = () => {
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
-    if (difficulty_levels.indexOf(currentQuestion.difficulty) !== -1) {
+    if (difficultyLevels.indexOf(currentQuestion.difficulty) !== -1) {
       if (!(currentQuestion.difficulty in questions)) {
         questions[currentQuestion.difficulty] = [];
       }
@@ -59,8 +59,8 @@ const populate_questions = () => {
 
   if (Object.keys(questions).length > 2) {
     document.getElementById("difficulty-label").style.display = "block";
-    for (let i in difficulty_levels) {
-      let diff = difficulty_levels[i];
+    for (let i in difficultyLevels) {
+      let diff = difficultyLevels[i];
       if (!(diff in questions)) {
         continue;
       }
@@ -82,7 +82,7 @@ const checkDifficulties = (classlist) => {
 
 function updateQuestions() {
   const quiz = document.getElementById("quiz");
-  let qquestions = quiz.getElementsByClassName("question");
+  const qquestions = quiz.getElementsByClassName("question");
   for (let i = 0; i < qquestions.length; i += 1) {
     if (!checkDifficulties(qquestions[i].classList)) {
       qquestions[i].style.display = "none";
