@@ -107,12 +107,6 @@
   margin-bottom: 1rem;
 }
 
-.answers.grid {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  grid-gap: 5px;
-}
-
 .question {
   font-weight: 900;
 }
