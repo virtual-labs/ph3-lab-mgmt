@@ -131,14 +131,14 @@ function showResults() {
       if (currentQuestion.explanations) {
         for (let answer in currentQuestion.answers) {
           let explanation = currentQuestion.explanations[answer];
-          let explanation_button = document.getElementById(
+          let explanationButton = document.getElementById(
             "explanation" + questionNumber.toString() + answer
           );
           if (explanation) {
-            explanation_button.parentElement.nextElementSibling.innerHTML = explanation;
-            explanation_button.style.display = "inline-block";
+            explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+            explanationButton.style.display = "inline-block";
           } else {
-            explanation_button.style.display = "none";
+            explanationButton.style.display = "none";
           }
         }
       }
@@ -149,14 +149,14 @@ function showResults() {
       // Show only explanation for wrong answer
       if (currentQuestion.explanations && userAnswer) {
         let explanation = currentQuestion.explanations[userAnswer];
-        let explanation_button = document.getElementById(
+        let explanationButton = document.getElementById(
           "explanation" + questionNumber.toString() + userAnswer
         );
         if (explanation) {
-          explanation_button.parentElement.nextElementSibling.innerHTML = explanation;
-          explanation_button.style.display = "inline-block";
+          explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+          explanationButton.style.display = "inline-block";
         } else {
-          explanation_button.style.display = "none";
+          explanationButton.style.display = "none";
         }
       }
     }
