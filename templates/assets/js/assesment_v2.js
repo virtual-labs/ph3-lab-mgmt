@@ -1,3 +1,5 @@
+"use strict";
+
 const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
@@ -26,7 +28,7 @@ const addEventListener_explanations = () => {
 };
 
 const addEventListener_checkbox = () => {
-  for (i in difficulty_levels) {
+  for (let i in difficulty_levels) {
     let diff = difficulty_levels[i];
     let c_box = document.getElementById(diff);
     c_box.addEventListener("change", function () {
@@ -57,7 +59,7 @@ const populate_questions = () => {
 
   if (Object.keys(questions).length > 2) {
     document.getElementById("difficulty-label").style.display = "block";
-    for (i in difficulty_levels) {
+    for (let i in difficulty_levels) {
       let diff = difficulty_levels[i];
       if (!(diff in questions)) {
         continue;

@@ -171,8 +171,9 @@ class Task extends Unit {
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());
           if (page_data.questions.version) {
-            if (page_data.questions.version == 2)
+            if (page_data.questions.version == 2) {
               page_data.jsonVersion = page_data.questions.version;
+            }
             page_data.questions = page_data.questions.questions;
           }
           page_data.questions_str = JSON.stringify(page_data.questions);
