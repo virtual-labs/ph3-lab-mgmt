@@ -62,9 +62,7 @@ class Task extends Unit {
   }
 
   getMenu(menu_data) {
-    return menu_data.map((mi) => {
-      return mi.menuItemInfo(this.targetPath());
-    });
+    return menu_data.map((mi) => mi.menuItemInfo(this.targetPath()));
   }
 
   setCurrent(menu) {
