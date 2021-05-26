@@ -3,33 +3,32 @@
 const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
+const difficultyLevels = ["beginner", "intermediate", "advanced"];
 
-let difficultyLevels = ["beginner", "intermediate", "advanced"];
 let difficulty = [];
 let questions = { all: myQuestions };
 
 const addEventListener_explanations = () => {
-  let acc = document.getElementsByClassName("accordion");
-  for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
+  let accordions = document.getElementsByClassName("accordion");
+  Array.from(accordions).forEach((accordion) => {
+    accordion.addEventListener("click", function () {
       /* Toggle between adding and removing the "active" class,
     to highlight the button that controls the panel */
-      acc[i].classList.toggle("active");
+      accordion.classList.toggle("active");
 
       /* Toggle between hiding and showing the active panel */
-      let panel = acc[i].parentElement.nextElementSibling;
+      let panel = accordion.parentElement.nextElementSibling;
       if (panel.style.display === "block") {
         panel.style.display = "none";
       } else {
         panel.style.display = "block";
       }
     });
-  }
+  });
 };
 
 const addEventListener_checkbox = () => {
-  for (let i in difficultyLevels) {
-    let diff = difficultyLevels[i];
+  difficultyLevels.forEach((diff) => {
     let cBox = document.getElementById(diff);
     cBox.addEventListener("change", function () {
       if (cBox.checked) {
@@ -41,7 +40,7 @@ const addEventListener_checkbox = () => {
       }
       updateQuestions();
     });
-  }
+  });
 };
 
 const populate_questions = () => {
@@ -59,22 +58,21 @@ const populate_questions = () => {
 
   if (Object.keys(questions).length > 2) {
     document.getElementById("difficulty-label").style.display = "block";
-    for (let i in difficultyLevels) {
-      let diff = difficultyLevels[i];
+    difficultyLevels.forEach((diff) => {
       if (!(diff in questions)) {
-        continue;
+        return;
       }
       difficulty.push(diff);
       let checkbox = document.getElementById(diff);
       checkbox.checked = true;
       checkbox.parentElement.parentElement.style.display = "block";
-    }
+    });
   }
 };
 
 const checkDifficulties = (classlist) => {
   if (difficulty.length === Object.keys(questions).length - 1) return true;
-  for (i in difficulty) {
+  for (let i in difficulty) {
     if (classlist.contains(difficulty[i])) return true;
   }
   return false;
