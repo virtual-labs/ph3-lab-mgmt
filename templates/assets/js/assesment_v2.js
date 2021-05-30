@@ -57,7 +57,7 @@ const populate_questions = () => {
   });
 
   if (Object.keys(questions).length > 2) {
-    document.getElementById("difficulty-label").style.display = "block";
+    document.getElementById("difficulty-label").style.display = "flex";
     difficultyLevels.forEach((diff) => {
       if (!(diff in questions)) {
         return;
@@ -65,7 +65,7 @@ const populate_questions = () => {
       difficulty.push(diff);
       let checkbox = document.getElementById(diff);
       checkbox.checked = true;
-      checkbox.parentElement.parentElement.style.display = "block";
+      checkbox.parentElement.style.display = "flex";
     });
   }
 };
