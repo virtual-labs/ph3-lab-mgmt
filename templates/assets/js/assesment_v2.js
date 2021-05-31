@@ -100,8 +100,6 @@ function updateQuestions() {
 function showResults() {
   // gather answer containers from our quiz
   const answerContainers = quizContainer.querySelectorAll(".answers");
-  answerContainers.forEach((e) => (e.style.color = "black"));
-
   // keep track of user's answers
   let numCorrect = 0;
   let toatNum = 0;
@@ -121,6 +119,13 @@ function showResults() {
     toatNum++;
     // if answer is correct
     if (userAnswer === currentQuestion.correctAnswer) {
+      // Reset if previously red colored answers
+      answerContainers[questionNumber].childNodes.forEach((e) => {
+        if (e != undefined) {
+          if (e.style) e.style.color = "black";
+        }
+      });
+
       // add to the number of correct answers
       numCorrect++;
 
@@ -141,10 +146,12 @@ function showResults() {
           }
         }
       }
-    } else {
+    } else if (userAnswer) {
       // if answer is wrong or blank
       // color the answers red
-      answerContainers[questionNumber].style.color = "red";
+      document.getElementById(
+        "answer" + questionNumber.toString() + userAnswer
+      ).style.color = "red";
       // Show only explanation for wrong answer
       if (currentQuestion.explanations && userAnswer) {
         let explanation = currentQuestion.explanations[userAnswer];

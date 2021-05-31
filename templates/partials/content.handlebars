@@ -75,7 +75,7 @@
         
         <div class="answers">
           {{#each this.answers}}
-          <div>
+          <div id="answer{{@../index}}{{@key}}">
             <label>
               <input type="radio" name="question{{@../index}}" value="{{@key}}">
                 {{@key}}: {{this}}
