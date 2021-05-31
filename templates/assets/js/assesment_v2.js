@@ -28,8 +28,9 @@ const addEventListener_explanations = () => {
 };
 
 const addEventListener_checkbox = () => {
-  difficultyLevels.forEach((diff) => {
+  difficulty.forEach((diff) => {
     let cBox = document.getElementById(diff);
+    console.log(cBox);
     cBox.addEventListener("change", function () {
       if (cBox.checked) {
         difficulty.push(diff);
