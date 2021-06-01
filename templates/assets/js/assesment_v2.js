@@ -30,14 +30,11 @@ const addEventListener_explanations = () => {
 const addEventListener_checkbox = () => {
   difficulty.forEach((diff) => {
     let cBox = document.getElementById(diff);
-    console.log(cBox);
     cBox.addEventListener("change", function () {
       if (cBox.checked) {
         difficulty.push(diff);
-        console.log("Clicked " + diff);
       } else {
         difficulty.splice(difficulty.indexOf(diff), 1);
-        console.log("Unclicked " + diff);
       }
       updateQuestions();
     });
