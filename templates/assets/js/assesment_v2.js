@@ -47,12 +47,14 @@ const addEventListener_checkbox = () => {
 const populate_questions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
-    if (difficultyLevels.indexOf(currentQuestion.difficulty) !== -1) {
-      if (!(currentQuestion.difficulty in questions)) {
-        questions[currentQuestion.difficulty] = [];
-      }
-      questions[currentQuestion.difficulty].push(currentQuestion);
+    if (difficultyLevels.indexOf(currentQuestion.difficulty) === -1) {
+      currentQuestion.difficulty = "beginner";
     }
+    if (!(currentQuestion.difficulty in questions)) {
+      questions[currentQuestion.difficulty] = [];
+    }
+    questions[currentQuestion.difficulty].push(currentQuestion);
+
     currentQuestion.num = num;
     num += 1;
   });
@@ -76,7 +78,13 @@ const checkDifficulties = (classlist) => {
   for (let i in difficulty) {
     if (classlist.contains(difficulty[i])) return true;
   }
-  return false;
+  // If beginner is checked list the unlisted question as beginner
+  for (let i in difficultyLevels) {
+    if (classlist.contains(difficultyLevels[i])) return false;
+  }
+  if (difficulty.indexOf("beginner") > -1) {
+    return true;
+  }
 };
 
 function updateQuestions() {
@@ -86,13 +94,9 @@ function updateQuestions() {
     if (!checkDifficulties(qquestions[i].classList)) {
       qquestions[i].style.display = "none";
       qquestions[i].nextElementSibling.style.display = "none";
-      console.log("Hidden ");
-      console.log(qquestions[i]);
     } else {
       qquestions[i].style.display = "block";
       qquestions[i].nextElementSibling.style.display = "flex";
-      console.log("Added ");
-      console.log(qquestions[i]);
     }
   }
 }
