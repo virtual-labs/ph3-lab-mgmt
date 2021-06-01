@@ -78,7 +78,7 @@
           <div id="answer{{@../index}}{{@key}}">
             <label>
               <input type="radio" name="question{{@../index}}" value="{{@key}}">
-                {{@key}}: {{this}}
+              {{@key}}: {{{this}}}
             </label>
             <a href="#" id="explanation{{@../index}}{{@key}}" class="accordion" onclick="return false;">Explanation</a>
           </div>
@@ -101,7 +101,7 @@
           {{#each this.answers}}
     <label>
       <input type="radio" name="question{{@../index}}" value="{{@key}}">
-            {{@key}}: {{this}}
+            {{@key}}: {{{this}}}
           </label>
             
     {{/each}}
