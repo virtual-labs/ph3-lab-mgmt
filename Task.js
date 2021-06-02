@@ -171,6 +171,10 @@ class Task extends Unit {
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());
           if (page_data.questions.version) {
+            /**
+             * The below condition will only work if the version in the json is either 2 or 2.0, for any update in version
+             * it needs to be changed here accordingly
+             */
             if (page_data.questions.version == 2) {
               page_data.isJsonVersion2 = page_data.questions.version;
             }
