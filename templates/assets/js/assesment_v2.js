@@ -41,7 +41,7 @@ const addEventListener_checkbox = () => {
   });
 };
 
-const populate_questions = () => {
+const populateQuestions = () => {
   let num = 0;
   myQuestions.forEach((currentQuestion) => {
     if (difficultyLevels.indexOf(currentQuestion.difficulty) === -1) {
@@ -172,7 +172,7 @@ function showResults() {
   resultsContainer.innerHTML = `${numCorrect} out of ${toatNum}`;
 }
 
-populate_questions();
+populateQuestions();
 addEventListener_explanations();
 addEventListener_checkbox();
 submitButton.addEventListener("click", showResults);
