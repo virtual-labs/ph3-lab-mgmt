@@ -172,7 +172,7 @@ class Task extends Unit {
           page_data.questions = require(this.sourcePath());
           if (page_data.questions.version) {
             if (page_data.questions.version == 2) {
-              page_data.jsonVersion = page_data.questions.version;
+              page_data.isJsonVersion2 = page_data.questions.version;
             }
             page_data.questions = page_data.questions.questions;
           }

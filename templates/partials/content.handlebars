@@ -20,7 +20,7 @@
       <div id="quiz"></div>
     {{/if}}
     {{#if isJsonVersion }}
-      {{#if jsonVersion }}
+      {{#if isJsonVersion2 }}
         <div id="difficulty-container" class="row">
           <div id="difficulty-label" class="col-6 col-md-2" style="display:none">Choose difficulty: </div>
           <div class="form-check col-6 col-md-2" style="display:none">
@@ -43,7 +43,7 @@
           </div>
         </div>
         
-        <div id="quiz" class="version{{jsonVersion}}">
+        <div id="quiz" class="version{{isJsonVersion2}}">
       
       {{#each questions}}
       
@@ -103,7 +103,7 @@
   <script>
     const myQuestions = {{{questions_str}}};
   </script>
-  {{#if jsonVersion }}
+  {{#if isJsonVersion2 }}
     <script src="{{assets_path}}/assets/js/assesment_v2.js"></script>  
   {{else}}
     <script src="{{assets_path}}/assets/js/assesment.js"></script>  
