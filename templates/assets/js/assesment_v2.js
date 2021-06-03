@@ -67,6 +67,13 @@ const populateQuestions = () => {
       checkbox.checked = true;
       checkbox.parentElement.style.display = "flex";
     });
+  } else {
+    difficultyLevels.forEach((diff) => {
+      if (!(diff in questions)) {
+        return;
+      }
+      difficulty.push(diff);
+    });
   }
 };
 
