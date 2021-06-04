@@ -20,28 +20,74 @@
       <div id="quiz"></div>
     {{/if}}
     {{#if isJsonVersion }}
-      <div id="quiz">
-    
-    {{#each questions}}
-    
-      <div class="question">
-        {{{this.question}}}
-      </div>
+      {{#if isJsonVersion2 }}
+        <div id="difficulty-container" class="row">
+          <div id="difficulty-label" class="col-6 col-md-2" style="display:none">Choose difficulty: </div>
+          <div class="form-check col-6 col-md-2" style="display:none">
+            <input id="beginner"  type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Beginner</strong>
+            </label>
+          </div>
+          <div class="form-check col-6 col-md-2"  style="display:none">
+            <input id="intermediate" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Intermediate</strong>
+            </label>
+          </div>
+          <div class="form-check col-6 col-md-2" style="display:none">
+            <input id="advanced" type="checkbox" value=""  id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Advanced</strong>
+            </label>
+          </div>
+        </div>
+        
+        <div id="quiz" class="version{{isJsonVersion2}}">
       
-      <div class="answers">
-        {{#each this.answers}}
-	<label>
-	  <input type="radio" name="question{{@../index}}" value="{{@key}}">
-          {{@key}}: {{{this}}}
-        </label>
-          
-	{{/each}}
-      </div>
+      {{#each questions}}
       
+        <div class="question {{this.difficulty}}">
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+          <div id="answer{{@../index}}{{@key}}">
+            <label>
+              <input type="radio" name="question{{@../index}}" value="{{@key}}">
+              {{@key}}: {{{this}}}
+            </label>
+            <a href="#" id="explanation{{@../index}}{{@key}}" class="accordion" onclick="return false;">Explanation</a>
+          </div>
+          <p class="panel">Explanation</p>
+          {{/each}}
+      </div>
+      {{/each}}
+     </div>
+    {{else}}
+    <div id="quiz">
+      
+      {{#each questions}}
+      
+        <div>
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+    <label>
+      <input type="radio" name="question{{@../index}}" value="{{@key}}">
+            {{@key}}: {{{this}}}
+          </label>
+            
     {{/each}}
-    
-    </div>
-    
+        </div>
+        
+      {{/each}}
+      
+      </div>  
+    {{/if}}
     {{/if}}
       <button id="submit" class="btn btn-primary">Submit Quiz</button>
       <div id="results"></div>
@@ -56,6 +102,10 @@
   <script>
     const myQuestions = {{{questions_str}}};
   </script>
-  <script src="{{assets_path}}/assets/js/assesment.js"></script>  
+  {{#if isJsonVersion2 }}
+    <script src="{{assets_path}}/assets/js/assesment_v2.js"></script>  
+  {{else}}
+    <script src="{{assets_path}}/assets/js/assesment.js"></script>  
+  {{/if}}
   {{/if}}
 {{/if}}
