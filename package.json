@@ -17,7 +17,8 @@
     "moment": "^2.27.0",
     "prettier": "^2.0.5",
     "shelljs": "^0.8.4",
-    "simple-git": "^2.31.0"
+    "simple-git": "^2.31.0",
+    "yargs": "^17.0.1"
   },
   "description": "",
   "main": "main.js",
