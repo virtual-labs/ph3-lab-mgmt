@@ -1,4 +1,4 @@
 {
-    "posttest.json": "./schemas/quizv2Schema.json",
-    "pretest.json" : "./schemas/quizv2Schema.json"
+    "posttest.json": "./schemas/quizv2Schema.js",
+    "pretest.json" : "./schemas/quizv2Schema.js"
 }

@@ -1,6 +1,9 @@
 const Ajv = require("ajv");
 const path = require("path");
+const fs = require("fs");
 const schemaMap = require("./schema-map.json");
+
+const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 
 const argv = require("yargs")(process.argv.slice(2))
   .scriptName("validate")
@@ -9,57 +12,56 @@ const argv = require("yargs")(process.argv.slice(2))
     type: "array",
     desc: "One or more files for validation",
     demandOption: true,
-  }).check((argv) => {
-    if(argv.files.length === 0){
-        throw new Error('Empty Argument: Filenames cannot be empty');
+  })
+  .check((argv) => {
+    if (argv.files.length === 0) {
+      throw new Error("Empty Argument: Filenames cannot be empty");
     }
+    return true;
   })
   .option("schema-map", {
     type: "string",
     desc: "The schema map file",
-  }).alias({
-    help: 'h',
-    version: 'v',
-    files: 'f',
-    schemaMap: 's',
+  })
+  .alias({
+    help: "h",
+    version: "v",
+    files: "f",
+    "schema-map": "s",
   }).argv;
-console.log(argv);
 
 let validateSchema = (input = "1", schema = "1") => {
-  console.log("validating " + input + " against " + schema);
-  console.log("You got validated");
+  let validationSchema = require(schema);
+  let validate = ajv.compile(validationSchema);
+  let valid = validate(input);
+  valid
+    ? console.log("Validated", valid)
+    : console.log("Invalid", validate.errors);
 };
 
 module.exports.validateSchema = validateSchema;
 
-/**
- * node validation/validate.js <jsonpath> <schema path>
- */
-if (require.main === module) {
-  let json = "";
-  let schema = "";
-  console.log(process.argv.length);
-  switch (process.argv.length) {
-    case 2:
-      console.log("validating all");
-      validateSchema();
-      break;
-    case 3:
-      json = process.argv[2];
-      json = json.replace("/", "\\");
-      let n = json.lastIndexOf("\\");
-      let jsonKey = json.substring(n + 1);
-      console.log(json, n);
-      schema = schemaMap[jsonKey];
-      console.log(schema);
-      validateSchema(json, schema);
-      break;
-    case 4:
-      json = path.resolve(process.argv[2]);
-      schema = path.resolve(process.argv[3]);
-      validateSchema(json, schema);
-      break;
-    default:
-      console.log("Error");
+const validateArguments = () => {
+  try {
+    let filename = path.basename(argv.files[0]);
+    let filepath = path.resolve(argv.files[0]);
+    if (!fs.existsSync(filepath)) {
+      console.log(filepath);
+      throw new Error("File does not exist");
+    }
+    let schema = schemaMap[filename];
+    if (argv.s) {
+      schema = path.resolve(argv.s);
+    }
+    if (!schema) {
+      throw new Error("The schema for the file does not exist");
+    }
+    let json = require(filepath);
+    validateSchema(json, schema);
+  } catch (e) {
+    console.log(e.name + ": " + e.message);
+    return -1;
   }
-}
+};
+
+validateArguments();
