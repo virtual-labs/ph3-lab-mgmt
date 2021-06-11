@@ -1,11 +1,14 @@
 {{#if isSimulation}}
 <div class="vlabs-page-content pb-4 flex-grow-1 markdown-body">
+  <div class="text-center px-5">
+    {{{experiment_name}}}
+  </div>
 {{else}}
-<div class="vlabs-page-content px-4 pb-4 flex-grow-1 markdown-body">
-{{/if}}
+<div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
   <div class="text-center">
     {{{experiment_name}}}
   </div>
+{{/if}}
   {{#if isText}}
     {{{content}}}
   {{/if}}
