@@ -23,7 +23,7 @@ window.onmessage = (e) => {
     if (e.data.hasOwnProperty("frameHeight")) {
 	var iframeDiv = document.querySelector("iframe");
 	if (iframeDiv) {
-	    iframeDiv.style["padding-top"] = `${e.data.frameHeight}px`;
+	    // iframeDiv.style["padding-top"] = `${e.data.frameHeight}px`;
 	}
     }
 };
