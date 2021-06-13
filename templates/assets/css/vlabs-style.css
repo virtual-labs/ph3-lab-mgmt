@@ -63,7 +63,8 @@
 }
 
 .sidebar {
-  border-right: 2px dotted #89a7c4;
+  /* border-right: 2px dotted #89a7c4; */
+  border: thin solid #e8e8e8;
   font-size: 1.2rem;
   font-weight: bold;
   overflow-x: hidden;
@@ -171,11 +172,12 @@ iframe {
 }
 
 .visible {
-  width: max-content;
+  /* width: max-content; */
 }
 
 .hidden {
   width: 0px;
+  height: 0px;
   border-width: 0px;
   padding: 0px !important;
 }
