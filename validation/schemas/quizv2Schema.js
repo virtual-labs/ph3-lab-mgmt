@@ -1,7 +1,11 @@
 module.exports = {
   type: "object",
   properties: {
-    version: { type: "integer" },
+    version: {
+      type: "integer",
+      enum: [2],
+      errorMessage: "Version should be 2.0",
+    },
     questions: {
       type: "array",
       items: {
