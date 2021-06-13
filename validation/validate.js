@@ -1,12 +1,12 @@
 const Ajv = require("ajv");
-// const AjvErrors = require("ajv-errors");
+const AjvErrors = require("ajv-errors");
 
 const path = require("path");
 const fs = require("fs");
 const schemaMap = require("./schema-map.json");
 
-const ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-// AjvErrors(ajv);
+const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
+AjvErrors(ajv);
 
 const argv = require("yargs")(process.argv.slice(2))
   .scriptName("validate")
@@ -46,9 +46,13 @@ let validateSchema = (input = "1", schema = "1") => {
   let validationSchema = require(schema);
   let validate = ajv.compile(validationSchema);
   let valid = validate(input);
-  valid
-    ? console.log("Validated", valid)
-    : console.log("Invalid", validate.errors);
+  if (!valid) {
+    validate.errors.forEach((e) =>
+      console.log(e.instancePath + ": " + e.message)
+    );
+    throw new Error("Schema is Invalid");
+  }
+  console.log("Validated", valid);
 };
 
 module.exports.validateSchema = validateSchema;
@@ -72,6 +76,7 @@ const validateArguments = () => {
       let json = require(filepath);
       validateSchema(json, schema);
     } catch (e) {
+      console.log("Failed while validating " + argv.files[i]);
       console.log(e.name + ": " + e.message);
       return -1;
     }
