@@ -16,12 +16,21 @@ module.exports = {
           },
           answers: {
             type: "object",
+            minItems: 1,
+            errorMessage: {
+              minItems: "There have to be atleast one correct answer",
+            },
           },
           correctAnswer: {
             type: "string",
           },
           difficulty: {
             type: "string",
+            enum: ["beginner", "intermediate", "advanced"],
+            errorMessage: {
+              enum:
+                "Difficulty can only be: beginner, intermediate or advanced",
+            },
           },
           explanations: {
             type: "object",
@@ -29,6 +38,11 @@ module.exports = {
         },
         additionalProperties: false,
         required: ["question", "answers", "correctAnswer", "difficulty"],
+      },
+      minItems: 1,
+      errorMessage: {
+        minItems: "Questions cannot be empty",
+        type: "Please provide an array of questions",
       },
     },
   },
