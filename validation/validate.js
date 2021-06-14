@@ -47,9 +47,9 @@ let validateSchema = (input = "1", schema = "1") => {
   let validate = ajv.compile(validationSchema);
   let valid = validate(input);
   if (!valid) {
-    validate.errors.forEach((e) =>
-      console.log(e.instancePath + ": " + e.message)
-    );
+    validate.errors.forEach((e) => {
+      if (e.instancePath) console.log(e.instancePath + ": " + e.message + "\n");
+    });
     throw new Error("Schema is Invalid");
   }
   console.log("Validated", valid);
