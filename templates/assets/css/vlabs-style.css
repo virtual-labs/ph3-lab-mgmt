@@ -67,8 +67,19 @@
   border: thin solid #e8e8e8;
   font-size: 1.2rem;
   font-weight: bold;
-  overflow-x: hidden;
+  overflow: hidden;
   box-sizing: content-box;
+}
+
+@media (max-width: 991.9px){
+  .sidebar{
+    max-height: 600px;
+    transition: max-height 0.15s ease-in;
+    flex-wrap: nowrap;
+  }
+  .vlabs-logo{
+    height: 3rem;
+  }
 }
 
 .vlabs-header a {
@@ -177,9 +188,11 @@ iframe {
 
 .hidden {
   width: 0px;
-  height: 0px;
   border-width: 0px;
   padding: 0px !important;
+  max-height: 0;
+  transition: max-height 0.15s ease-out;
+  overflow: hidden;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */

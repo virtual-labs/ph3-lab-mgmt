@@ -12,8 +12,16 @@ function toggle() {
 
 $(window).resize(() => {
   const w = $(this).width();
-  if (w < 576) {
+  if (w < 992) {
     document.querySelector(".sidebar").classList.remove("visible");
     document.querySelector(".sidebar").classList.add("hidden");
+  }
+});
+
+$(document).ready(() => {
+  const w = $(this).width();
+  if (w > 992) {
+    document.querySelector(".sidebar").classList.remove("hidden");
+    document.querySelector(".sidebar").classList.add("visible");
   }
 });
