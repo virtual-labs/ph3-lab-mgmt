@@ -259,3 +259,8 @@ iframe {
   margin: 0.5em;
   transform: scale(1.5);
 }
+
+.fix-spacing > *{
+  padding-top: 0;
+  margin-top: 1em;
+}
