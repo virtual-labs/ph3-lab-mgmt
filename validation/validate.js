@@ -4,8 +4,14 @@ const AjvErrors = require("ajv-errors");
 const path = require("path");
 const fs = require("fs");
 const schemaMap = require("./schema-map.json");
+const qv1Schema = require("./schemas/qv1.json");
+const qv2Schema = require("./schemas/qv2.json");
 
-const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
+const ajv = new Ajv({
+  allErrors: true,
+  allowUnionTypes: true,
+  schemas: [qv1Schema, qv2Schema],
+}); // options can be passed, e.g. {allErrors: true}
 AjvErrors(ajv);
 
 const argv = require("yargs")(process.argv.slice(2))
@@ -23,6 +29,11 @@ const argv = require("yargs")(process.argv.slice(2))
     type: "boolean",
     desc: "Verify all jsons",
   })
+  .option("debug", {
+    type: "boolean",
+    desc: "Debug erros",
+  })
+
   .check((argv) => {
     console.log(argv);
     if (!argv.files && !argv.all) {
@@ -40,6 +51,7 @@ const argv = require("yargs")(process.argv.slice(2))
     files: "f",
     "schema-map": "s",
     all: "a",
+    debug: "d",
   }).argv;
 
 let validateSchema = (input = "1", schema = "1") => {
@@ -47,9 +59,17 @@ let validateSchema = (input = "1", schema = "1") => {
   let validate = ajv.compile(validationSchema);
   let valid = validate(input);
   if (!valid) {
-    validate.errors.forEach((e) => {
-      if (e.instancePath) console.log(e.instancePath + ": " + e.message + "\n");
-    });
+    if (argv.debug) {
+      console.log(validate.errors);
+    } else {
+      validate.errors.forEach((e) => {
+        if (e.instancePath) {
+          console.log(e.instancePath + ": " + e.message + "\n");
+        } else {
+          console.log("Json Error: " + e.message);
+        }
+      });
+    }
     throw new Error("Schema is Invalid");
   }
   console.log("Validated", valid);
@@ -78,6 +98,9 @@ const validateArguments = () => {
     } catch (e) {
       console.log("Failed while validating " + argv.files[i]);
       console.log(e.name + ": " + e.message);
+      if (argv.debug) {
+        console.log(e);
+      }
       return -1;
     }
   }
