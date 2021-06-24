@@ -63,11 +63,35 @@
 }
 
 .sidebar {
-  border-right: 2px dotted #89a7c4;
+  /* border-right: 2px dotted #89a7c4; */
+  border: thin solid #e8e8e8;
   font-size: 1.2rem;
   font-weight: bold;
-  overflow-x: hidden;
+  overflow: hidden;
   box-sizing: content-box;
+}
+
+@media (max-width: 991px){
+  .sidebar{
+    max-height: 6000px;
+    transition: max-height 1s ease-in;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+  }
+  .vlabs-logo{
+    height: 3rem;
+  }
+  .hidden {
+    max-height: 0;
+    transition: max-height 1s ease-out;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 992px){
+  .hidden {
+    display: none;
+  }
 }
 
 .vlabs-header a {
@@ -157,7 +181,7 @@ iframe {
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: 56.25%;
+  /* padding-top: 56.25%; */
 }
 
 .responsive-iframe {
@@ -168,16 +192,6 @@ iframe {
   right: 0;
   width: 100%;
   height: 100%;
-}
-
-.visible {
-  width: max-content;
-}
-
-.hidden {
-  width: 0px;
-  border-width: 0px;
-  padding: 0px;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
@@ -243,4 +257,9 @@ iframe {
 .form-check input[type="checkbox"] {
   margin: 0.5em;
   transform: scale(1.5);
+}
+
+.fix-spacing > *{
+  padding-top: 0;
+  margin-top: 1em;
 }
