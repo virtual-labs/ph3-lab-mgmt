@@ -1,0 +1,4 @@
+{
+  "posttest.json": "./schemas/quizSchema.js",
+  "pretest.json": "./schemas/quizSchema.js"
+}
