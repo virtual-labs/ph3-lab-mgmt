@@ -13,7 +13,7 @@
           },
           "answers": {
             "type": "object",
-            "minProperties": 1,
+            "minProperties": 2,
             "errorMessage": {
               "minProperties": "There have to be atleast one correct answer"
             }
