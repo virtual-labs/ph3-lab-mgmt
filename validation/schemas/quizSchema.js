@@ -11,11 +11,11 @@ module.exports = {
     properties: {
       version: {
         type: "integer",
-        enum: [2],
+        enum: [2.0],
         errorMessage: "Version should be 2.0",
       },
     },
-    if: { properties: { version: { const: 2 } }, required: ["version"] },
+    if: { properties: { version: { const: 2.0 } }, required: ["version"] },
     then: {
       required: ["questions"],
       properties: { questions: { $ref: "qv2.json#/properties/questions" } },

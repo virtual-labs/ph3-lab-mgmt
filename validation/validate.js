@@ -4,13 +4,16 @@ const AjvErrors = require("ajv-errors");
 const path = require("path");
 const fs = require("fs");
 const schemaMap = require("./schema-map.json");
-const qv1Schema = require("./schemas/qv1.json");
-const qv2Schema = require("./schemas/qv2.json");
+const schemaPaths = ["./schemas/qv1.json", "./schemas/qv2.json"];
+let schemas = [];
+schemaPaths.forEach((path) => {
+  schemas[schemas.length] = require(path);
+});
 
 const ajv = new Ajv({
   allErrors: true,
   allowUnionTypes: true,
-  schemas: [qv1Schema, qv2Schema],
+  schemas: schemas,
 }); // options can be passed, e.g. {allErrors: true}
 AjvErrors(ajv);
 
