@@ -71,8 +71,11 @@ class Experiment {
       menu: explu.units
     };
 
-    explu.build(exp_info, lab_data, options);
-    metapg.build(exp_info);
+    explu.build(exp_info, lab_data, { ...options, metaTarget: metapg.targetPath });
+	  if(options.env === 'testing')
+	  {
+		  metapg.build(exp_info);
+	  }
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should

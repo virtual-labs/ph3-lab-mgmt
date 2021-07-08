@@ -27,6 +27,9 @@ class MetaPage {
 		this.src = src;
 		this.basedir = basedir;
 		this.page = page;
+		this.targetPath = path.resolve(
+			path.join(Config.build_path(this.src), this.basedir, this.page + '.html')
+		);
 	};
 
 	getFiles(dirPath) {
@@ -42,13 +45,10 @@ class MetaPage {
 				)
 			);
 
-			const targetPath = path.resolve(
-				path.join(Config.build_path(this.src), this.basedir, this.page + '.html')
-			);
 			const page_data = {
 				experiment_name: exp_info.name,
 				units: exp_info.menu.map((component) => {
-					const obj = component.menuItemInfo(targetPath);
+					const obj = component.menuItemInfo(this.targetPath);
 					let isCurrentItem = false;
 
 					if(obj.label === "Aim")
@@ -63,7 +63,7 @@ class MetaPage {
 			};
 
 			fs.writeFileSync(
-				targetPath,
+				this.targetPath,
 				Handlebars.compile(page_template.toString())(page_data)
 			);
 

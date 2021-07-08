@@ -108,8 +108,9 @@ class Task extends Unit {
 
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
-      testing: options.testing,
+      testing: options.env === BuildEnvs.TESTING,
       local: options.local,
+      performance_report: path.join('.', path.basename(options.metaTarget)),
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
       isText: false,
@@ -126,6 +127,11 @@ class Task extends Unit {
       exp_name: lab_data.exp_name,
       exp_short_name: lab_data.exp_short_name,
     };
+
+	  if(path.dirname(this.targetPath()) !== path.dirname(options.metaTarget))
+	  {
+		  page_data.performance_report = path.join(path.relative(path.dirname(this.targetPath()), path.dirname(options.metaTarget)), path.basename(options.metaTarget));
+	  }
 
     switch (this.content_type) {
       case ContentTypes.TEXT:

@@ -33,7 +33,8 @@ function parseXMLSitemap(sitemapContent) {
 //};
 
 function parse(tabs) {
-	const pages = [], origin = window.location.origin, pathArray = window.location.pathname.split('/');
+	let pages = [];
+	origin = window.location.origin, pathArray = window.location.pathname.split('/');
 	let base_url = origin;
 	pathArray.forEach((part, ix) => {
 		if(ix !== pathArray.length - 1)
@@ -43,9 +44,11 @@ function parse(tabs) {
 	});
 
 	Object.keys(tabs).forEach((key, ix) => {
+		pages.push(base_url + '/' + tabs[key].id);
+		console.log(pages, base_url + '/' + tabs[key].id)
 		tabs[key].id = base_url + '/' + tabs[key].id;
-		pages.push(tabs[key].id);
 	});
 
+	console.log(pages)
 	return pages;
 };

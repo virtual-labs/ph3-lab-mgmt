@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	const pages = parse(tabs);
 	const apiKeys = { lighthouse: 'AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8', gsc: 'AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc' }
 
-	console.log(pages)
+	console.log(tabs, pages)
 	const subArrs = splitToChunks(pages, 5), reports = {};
 	const promises = subArrs.map(async (pages, i) => {
 		for(let i = 0; i < pages.length; i += 1)
@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 				gsc: {...gscRes}
 			};
 
-			console.log(reports[pages[i]])
 			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]);
 			tab.children[0].children[0].classList.add(colorScheme(mobPerfScore));
 
