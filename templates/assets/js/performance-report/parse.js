@@ -44,11 +44,9 @@ function parse(tabs) {
 	});
 
 	Object.keys(tabs).forEach((key, ix) => {
-		pages.push(base_url + '/' + tabs[key].id);
-		console.log(pages, base_url + '/' + tabs[key].id)
 		tabs[key].id = base_url + '/' + tabs[key].id;
+		pages.push(tabs[key].id);
 	});
 
-	console.log(pages)
 	return pages;
 };
