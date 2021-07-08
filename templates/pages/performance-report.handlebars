@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{> meta }}
+		{{> commons }}
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.6-b/css/style.min.css">
+		{{#each css_files}}
+			<link rel="stylesheet" href="{{this}}">
+		{{/each}}
+	</head>
+
+	<body> 
+		<div id="loader" class="loader">
+		</div>
+
+		<div class="columns is-mobile is-centered is-flex">
+			<div class="column has-text-centered">
+				<div class="title">Pagewise Performance Summary</div>
+			</div>
+		</div>
+
+		<div class="columns is-mobile is-centered">
+			<div class="column has-text-centered">
+				<div class="v-tabs" id="tabs">
+					<ul>
+						{{#each units}}
+							{{#unless this.units}} 
+								<li id="{{this.target}}" class="{{#if this.isCurrentItem}} is-active {{/if}}">
+									<a>
+										<span>{{this.label}}</span>
+									</a>
+								</li>
+							{{/unless}}
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns is-centered" id="lighthouse">
+			<div class="column has-text-centered lined" id="mobile">
+			</div>
+			<div class="column has-text-centered lined" id="desktop">
+			</div>
+		</div>
+
+		<div class="columns is-mobile is-centered" id="gsc">
+			<div class="column has-text-centered" id="gscRes">
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		{{#each js_files}}
+			<script src="{{this}}"></script>
+		{{/each}}
+	</body>
+</html>
