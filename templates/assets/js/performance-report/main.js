@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
 			LUs.forEach((lu, ix) => {
 				const luElem = document.getElementById(lu + 'SubTabs');
+				console.log(lu, luElem);
 				if(luElem.contains(tab))
 				{
 					if(lu in luColors) 
