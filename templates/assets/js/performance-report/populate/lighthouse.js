@@ -1,18 +1,3 @@
-function colorScheme(score) {
-	let color = 'green';
-	if(score < 50)
-	{
-		color = 'red';
-	}
-
-	else if(score < 90)
-	{
-		color = 'orange';
-	}
-
-	return color;
-};
-
 function genText(elem, metric, value) {
 	const textElem = document.createElement("div");
 	const text = document.createTextNode(metric + ': ' + String(value));

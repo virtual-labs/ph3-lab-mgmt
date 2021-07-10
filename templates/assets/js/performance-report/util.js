@@ -40,3 +40,18 @@ function genColumn(elem) {
 	return column;
 };
 
+function colorScheme(score) {
+	let color = 2;
+	if(score < 50)
+	{
+		color = 0;
+	}
+
+	else if(score < 90)
+	{
+		color = 1;
+	}
+
+	return color;
+};
+

@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 		gscPopulate(link, report['gsc']);
 	};
 
-	const tabs = document.getElementsByClassName('v-tabs');
-	let active = {};
-	const pages = parse(tabs);
+	const tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
+	let active = {}, luColors = {};
+	const [pages, LUs] = parse(tabs);
 	const apiKeys = { lighthouse: 'AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8', gsc: 'AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc' }
 
 	const subArrs = splitToChunks(pages, 5), reports = {};
@@ -69,8 +69,27 @@ document.addEventListener('DOMContentLoaded', async function() {
 				gsc: {...gscRes}
 			};
 
-			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]);
-			tab.children[0].children[0].classList.add(colorScheme(mobPerfScore));
+			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
+			LUs.forEach((lu, ix) => {
+				const luElem = document.getElementById(lu + 'SubTabs');
+				if(luElem.contains(tab))
+				{
+					if(!Object.keys(luColors).contains(lu)) 
+					{
+						luColors[lu] = currColor;
+						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+					}
+
+					else if(luColors[lu] > currColor)
+					{
+						document.getElementById(lu).children[0].children[0].classList.remove(colors[luColors[lu]]);
+						luColors[lu] = currColor;
+						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+					}
+				}
+			});
+
+			tab.children[0].children[0].classList.add(colors[currColor]);
 
 			if(tab.classList.contains('is-active'))
 			{

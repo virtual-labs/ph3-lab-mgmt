@@ -33,7 +33,7 @@ function parseXMLSitemap(sitemapContent) {
 //};
 
 function parse(tabs) {
-	let pages = [];
+	let pages = [], LUs = [];
 	origin = window.location.origin, pathArray = window.location.pathname.split('/');
 	let base_url = origin;
 	pathArray.forEach((part, ix) => {
@@ -56,9 +56,10 @@ function parse(tabs) {
 			else
 			{
 				subtabs.style.display = 'none';
+				LUs.push(tabList[tab].id);
 			}
 		});
 	});
 
-	return pages;
+	return [pages, LUs];
 };
