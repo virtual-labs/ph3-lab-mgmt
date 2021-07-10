@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 				const luElem = document.getElementById(lu + 'SubTabs');
 				if(luElem.contains(tab))
 				{
-					if(!Object.keys(luColors).contains(lu)) 
+					if(lu in luColors) 
 					{
 						luColors[lu] = currColor;
 						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 						luColors[lu] = currColor;
 						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
 					}
+					console.log('hi', lu)
 				}
 			});
 
