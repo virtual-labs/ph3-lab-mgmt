@@ -5,7 +5,7 @@
 		{{> commons }}
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.6-b/css/style.min.css">
 		{{#each css_files}}
-			<link rel="stylesheet" href="{{this}}">
+		<link rel="stylesheet" href="{{this}}">
 		{{/each}}
 	</head>
 
@@ -21,21 +21,39 @@
 
 		<div class="columns is-mobile is-centered">
 			<div class="column has-text-centered">
-				<div class="v-tabs" id="tabs">
+				<div class="v-tabs">
 					<ul>
 						{{#each units}}
-							{{#unless this.units}} 
-								<li id="{{this.target}}" class="{{#if this.isCurrentItem}} is-active {{/if}}">
-									<a>
-										<span>{{this.label}}</span>
-									</a>
-								</li>
-							{{/unless}}
+						<li {{#if this.units}} id="{{this.label}}" {{/if}} {{#unless this.units}} id="{{this.target}}" {{/unless}} {{#if this.isCurrentItem}} class="is-active" {{/if}}>
+							<a>
+								<span>{{this.label}}</span>
+							</a>
+						</li>
 						{{/each}}
 					</ul>
 				</div>
 			</div>
 		</div>
+
+		{{#each units}}
+		{{#if this.units}} 
+		<div class="columns is-mobile is-centered no-show" id="{{this.label}}SubTabs">
+			<div class="column has-text-centered">
+				<div class="v-tabs">
+					<ul>
+						{{#each this.units}}
+						<li id="{{this.target}}" {{#if this.isCurrentItem}} class="is-active" {{/if}}>
+							<a>
+								<span>{{this.label}}</span>
+							</a>
+						</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{{/if}}
+		{{/each}}
 
 		<div class="columns is-centered" id="lighthouse">
 			<div class="column has-text-centered lined" id="mobile">
@@ -51,7 +69,7 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		{{#each js_files}}
-			<script src="{{this}}"></script>
+		<script src="{{this}}"></script>
 		{{/each}}
 	</body>
 </html>

@@ -8,24 +8,44 @@ document.addEventListener('DOMContentLoaded', async function() {
 		document.getElementById('gscRes').innerHTML = '';
 	};
 
+	function isElement(element) {
+		return element instanceof Element || element instanceof HTMLDocument;
+	};
+
 	async function changeActive(elem) {
-		Object.keys(active).forEach((key, i) => {
-			active[key].classList.remove('is-active');
+		const siblingTabs = elem.parentNode.children, subtabs = document.getElementById(elem.id + 'SubTabs');
+		Object.keys(siblingTabs).forEach((key, i) => {
+			siblingTabs[key].classList.remove('is-active');
 		});
 
 		elem.classList.add('is-active');
-		active = { 0: elem };
-
-		if(!(elem.id in reports))
+		if(isElement(active) && !active.contains(elem))
 		{
-			document.getElementById('loader').style.display = 'block';
-			clear();
+			active.classList.add('no-show');
+			active.style.display = 'none';
+			active = {};
+		}
+
+		if(subtabs === null)
+		{
+			if(!(elem.id in reports))
+			{
+				document.getElementById('loader').style.display = 'block';
+				clear();
+			}
+
+			else
+			{
+				document.getElementById('loader').style.display = 'none';
+				populate(elem.id, reports[elem.id]);
+			}
 		}
 
 		else
 		{
-			document.getElementById('loader').style.display = 'none';
-			populate(elem.id, reports[elem.id]);
+			subtabs.classList.remove('no-show');
+			subtabs.style.display = 'block';
+			active = subtabs;
 		}
 	};
 
@@ -34,8 +54,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 		gscPopulate(link, report['gsc']);
 	};
 
-	const tabs = document.getElementById('tabs').children[0].children;
-	let active = document.getElementsByClassName('is-active');
+	const tabs = document.getElementsByClassName('v-tabs');
+	let active = {};
 	const pages = parse(tabs);
 	const apiKeys = { lighthouse: 'AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8', gsc: 'AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc' }
 
@@ -62,7 +82,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 	Promise.all(promises);
 
-	Object.keys(tabs).forEach((tab, ix) => {
-		tabs[tab].addEventListener("click", (event) => changeActive(event.currentTarget));
+	Object.keys(tabs).forEach((listIdx, ix) => {
+		const tabList = tabs[listIdx].children[0].children;
+		Object.keys(tabList).forEach((tab, ix) => {
+			tabList[tab].addEventListener("click", (event) => changeActive(event.currentTarget));
+		});
 	});
 });

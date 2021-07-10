@@ -40,3 +40,7 @@
 	border-width: 2px;
 	border-color: #bbb;
 }
+
+.no-show {
+	display: none;
+}

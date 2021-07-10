@@ -43,9 +43,21 @@ function parse(tabs) {
 		}
 	});
 
-	Object.keys(tabs).forEach((key, ix) => {
-		tabs[key].id = base_url + '/' + tabs[key].id;
-		pages.push(tabs[key].id);
+	Object.keys(tabs).forEach((listIdx, ix) => {
+		const tabList = tabs[listIdx].children[0].children;
+		Object.keys(tabList).forEach((tab, ix) => {
+			const subtabs = document.getElementById(tabList[tab].id + 'SubTabs');
+			if(subtabs === null)
+			{
+				tabList[tab].id = base_url + '/' + tabList[tab].id;
+				pages.push(tabList[tab].id);
+			}
+
+			else
+			{
+				subtabs.style.display = 'none';
+			}
+		});
 	});
 
 	return pages;
