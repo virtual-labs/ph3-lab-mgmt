@@ -67,7 +67,8 @@ function scoreDial(segment, score)
 	const radius = (options.size - options.lineWidth) / 2;
 	ctx.lineCap = 'round';
 	ctx.lineWidth = options.lineWidth;
-	const color = colorScheme(score);
+	const colors = ['red', 'orange', 'green'];
+	const color = colors[colorScheme(score)];
 
 	drawCircle(ctx, radius, '#efefef', 100 / 100);
 	drawCircle(ctx, radius, color, score / 100);
