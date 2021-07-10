@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 				const luElem = document.getElementById(lu + 'SubTabs');
 				if(luElem.contains(tab))
 				{
+					console.log('hihih', lu)
 					if(lu in luColors) 
 					{
 						luColors[lu] = currColor;

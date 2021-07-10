@@ -37,6 +37,28 @@ class MetaPage {
 		return files.map((file) => path.join(path.relative(Config.build_path(this.src), path.dirname(file)), path.basename(file)));
 	};
 
+	setCurr(component, flag=false) {
+		let obj = {...component};
+
+		if(!flag)
+		{
+			obj = component.menuItemInfo(this.targetPath);
+		}
+		let isCurrentItem = false;
+
+		if(obj.unit_type === "aim")
+		{
+			isCurrentItem = true;
+		}
+
+		else if(obj.unit_type === "lu")
+		{
+			obj.units = [...obj.units.map((subComponent) => this.setCurr(subComponent, true))];
+		}
+
+		return { ...obj, isCurrentItem: isCurrentItem };
+	};
+
 	build(exp_info) {
 		try {
 			const page_template = fs.readFileSync(
@@ -47,17 +69,7 @@ class MetaPage {
 
 			const page_data = {
 				experiment_name: exp_info.name,
-				units: exp_info.menu.map((component) => {
-					const obj = component.menuItemInfo(this.targetPath);
-					let isCurrentItem = false;
-
-					if(obj.label === "Aim")
-					{
-						isCurrentItem = true;
-					}
-
-					return { ...obj, isCurrentItem: isCurrentItem };
-				}),
+				units: exp_info.menu.map((component) => this.setCurr(component)),
 				css_files: this.getFiles(path.join(Config.build_path(this.src), "assets/css/", this.page)),
 				js_files: this.getFiles(path.join(Config.build_path(this.src), "assets/js/", this.page))
 			};
