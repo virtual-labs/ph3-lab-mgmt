@@ -74,11 +74,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 				const luElem = document.getElementById(lu + 'SubTabs');
 				if(luElem.contains(tab))
 				{
-					console.log('hihih', lu)
 					if(lu in luColors) 
 					{
 						luColors[lu] = currColor;
 						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+						console.log("hi", document.getElementById(lu).children[0].children[0])
 					}
 
 					else if(luColors[lu] > currColor)
@@ -86,8 +86,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 						document.getElementById(lu).children[0].children[0].classList.remove(colors[luColors[lu]]);
 						luColors[lu] = currColor;
 						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+						console.log("yoyoy", document.getElementById(lu).children[0].children[0])
 					}
-					console.log('hi', lu)
 				}
 			});
 
