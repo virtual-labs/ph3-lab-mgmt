@@ -1,10 +1,3 @@
-function genText(elem, metric, value) {
-	const textElem = document.createElement("div");
-	const text = document.createTextNode(metric + ': ' + String(value));
-	textElem.appendChild(text);
-	elem.appendChild(textElem);
-};
-
 function generateTableHead(table, title, keys) {
 	const thead = table.createTHead();
 	const titleRow = thead.insertRow();
@@ -101,8 +94,9 @@ function lighthousePopulate(link, data)
 		const segment = document.getElementById(device);
 		segment.innerHTML = '';
 
-		const titleCols = genCols(segment), linkCols = genCols(segment), dialsCols = genCols(segment);
-		const titleColumn = genColumn(titleCols);
+		const titleCols = genCols(segment), linkCols = genCols(segment), dialsCols = genCols(segment), metricCols = genCols(segment);
+		const titleColumn = genColumn(titleCols), metriColumns = [genColumn(metricCols), genColumn(metricCols)], half = Math.floor((Object.keys(data[device]).length - 2) / 2);
+		let ctr = 0;
 		genTitle(titleColumn, device[0].toUpperCase() + device.slice(1));
 
 		Object.keys(data[device]).reverse().forEach(function(metric, ind) {
@@ -127,9 +121,8 @@ function lighthousePopulate(link, data)
 
 			else
 			{
-				const metricCols = genCols(segment);
-				const column = genColumn(metricCols);
-				genText(column, metric, data[device][metric]);
+				genText(column[Math.floor(ctr / half)], metric, data[device][metric]);
+				ctr += 1;
 			}
 		});
 	});

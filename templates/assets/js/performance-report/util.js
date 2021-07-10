@@ -40,6 +40,14 @@ function genColumn(elem) {
 	return column;
 };
 
+function genText(elem, metric, value) {
+	const textElem = document.createElement("div");
+	textElem.classList.add('is-size-5');
+	const text = document.createTextNode(metric + ': ' + String(value));
+	textElem.appendChild(text);
+	elem.appendChild(textElem);
+};
+
 function colorScheme(score) {
 	let color = 2;
 	if(score < 50)

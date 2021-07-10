@@ -67,8 +67,15 @@ class MetaPage {
 				)
 			);
 
+			let assets_path = path.relative(
+				path.dirname(this.targetPath),
+				Config.build_path(this.src)
+			);
+			assets_path = assets_path ? assets_path : ".";
+
 			const page_data = {
 				experiment_name: exp_info.name,
+				assets_path: assets_path,
 				units: exp_info.menu.map((component) => this.setCurr(component)),
 				css_files: this.getFiles(path.join(Config.build_path(this.src), "assets/css/", this.page)),
 				js_files: this.getFiles(path.join(Config.build_path(this.src), "assets/js/", this.page))
