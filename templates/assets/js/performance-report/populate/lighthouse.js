@@ -96,7 +96,7 @@ function lighthousePopulate(link, data)
 		segment.innerHTML = '';
 
 		const titleCols = genCols(segment), linkCols = genCols(segment), dialsCols = genCols(segment), metricCols = genCols(segment);
-		const titleColumn = genColumn(titleCols), metriColumns = [genColumn(metricCols), genColumn(metricCols)], half = Math.floor((Object.keys(data[device]).length - 2) / 2);
+		const titleColumn = genColumn(titleCols), metricColumns = [genColumn(metricCols), genColumn(metricCols)], half = Math.floor((Object.keys(data[device]).length - 2) / 2);
 		let ctr = 0;
 		genTitle(titleColumn, device[0].toUpperCase() + device.slice(1));
 
@@ -122,7 +122,7 @@ function lighthousePopulate(link, data)
 
 			else
 			{
-				genText(column[Math.floor(ctr / half)], metric, data[device][metric]);
+				genText(metricColumns[Math.floor(ctr / half)], metric, data[device][metric]);
 				ctr += 1;
 			}
 		});
