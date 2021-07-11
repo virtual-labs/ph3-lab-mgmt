@@ -10,6 +10,19 @@
 	</head>
 
 	<body> 
+		<div>
+			<div class="columns is-mobile is-flex">
+				<div class="column is-flex is-align-items-stretch">
+					<a href="http://vlab.co.in" class="navbar-brand">
+						<img src="{{this.assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+					</a>
+					<div class="title is-2 center">
+						{{{this.experiment_name}}}
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div id="loader" class="loader">
 		</div>
 
@@ -17,6 +30,12 @@
 			<div class="column has-text-centered">
 				<div class="title">Pagewise Performance Summary</div>
 			</div>
+		</div>
+
+		<div class="legend is-size-4 is-flex is-justify-content-space-between">
+			<p class="red">Red: 0 - 50</p>
+			<p class="orange">Orange: 50 - 90</p>
+			<p class="green">Green: 90 - 100</p>
 		</div>
 
 		<div class="columns is-mobile is-centered">
@@ -64,6 +83,19 @@
 
 		<div class="columns is-mobile is-centered" id="gsc">
 			<div class="column has-text-centered" id="gscRes">
+				<div class="card is-fullwidth">
+					<header class="card-header card-toggle" id="card-toggle">
+						<a class="card-header-title" id="gscStatus"></a>
+						<!--<a class="card-header-icon">-->
+							<!--<i class="fa fa-angle-down"></i>-->
+						<!--</a>-->
+					</header>
+					<div class="card-content is-hidden">
+						<div class="content" id="gscIssues">
+							Hello
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

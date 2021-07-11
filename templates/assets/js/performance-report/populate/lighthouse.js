@@ -110,6 +110,7 @@ function lighthousePopulate(link, data)
 					const label = document.createElement("div");
 					const text = document.createTextNode(key[0].toUpperCase() + key.slice(1));
 					label.appendChild(text);
+					genToolTip(label, commonData.descriptions[key]);
 					column.appendChild(label);
 				});
 			}
@@ -122,7 +123,7 @@ function lighthousePopulate(link, data)
 
 			else
 			{
-				genText(metricColumns[Math.floor(ctr / half)], metric, data[device][metric]);
+				genText(metricColumns[Math.floor(ctr / half)], metric, data[device][metric], true);
 				ctr += 1;
 			}
 		});

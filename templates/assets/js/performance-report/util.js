@@ -40,11 +40,15 @@ function genColumn(elem) {
 	return column;
 };
 
-function genText(elem, metric, value) {
+function genText(elem, metric, value, flag) {
 	const textElem = document.createElement("div");
 	textElem.classList.add('is-size-5');
 	const text = document.createTextNode(metric + ': ' + String(value));
 	textElem.appendChild(text);
+	if(flag)
+	{
+		genToolTip(textElem, commonData.descriptions[metric]);
+	}
 	elem.appendChild(textElem);
 };
 
@@ -63,3 +67,10 @@ function colorScheme(score) {
 	return color;
 };
 
+function genToolTip(elem, text) {
+	elem.classList.add('tool-tip');
+	const desc = document.createElement("span");
+	desc.classList.add('tooltip-text');
+	desc.innerHTML = text;
+	elem.appendChild(desc);
+};

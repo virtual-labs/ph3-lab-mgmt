@@ -1,35 +1,22 @@
-function colorScheme(score) {
-	let color = 'green';
-	if(score < 50)
-	{
-		color = 'red';
-	}
-
-	else if(score < 90)
-	{
-		color = 'orange';
-	}
-
-	return color;
-};
-
-function genText(elem, metric, value) {
-	const textElem = document.createElement("div");
-	const text = document.createTextNode(metric + ': ' + String(value));
-	textElem.appendChild(text);
-	elem.appendChild(textElem);
-};
-
 function gscPopulate(link, data)
 {
-	const segment = document.getElementById('gscRes');
-	segment.innerHTML = '';
-	genText(segment, 'Mobile Friendliness Status', data['Status']);
+	const statusElem = document.getElementById('gscStatus');
+	statusElem.innerHTML = "Mobile Friendliness Status: " + data['Status'];
+
+	const issuesElem = document.getElementById('gscIssues');
+	issuesElem.innerHTML = data['Status'];
 
 	if(data['Issues'].length)
 	{
 		data['Issues'].forEach((issue, idx) => {
-			genText(segment, 'Issue ' + String(idx), issue);
+			genText(issuesElem, 'Issue ' + String(idx), issue);
 		});
 	}
+
+	const cardToggles = document.getElementsByClassName('card-toggle');
+	Object.keys(cardToggles).forEach((key, ind) => {
+		cardToggles[ind].addEventListener('click', e => {
+			e.currentTarget.parentNode.children[1].classList.toggle('is-hidden');
+		});
+	});
 };

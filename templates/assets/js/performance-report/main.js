@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 	function clear() {
 		document.getElementById('mobile').innerHTML = '';
 		document.getElementById('desktop').innerHTML = '';
-		document.getElementById('gscRes').innerHTML = '';
+		document.getElementById('gscStatus').innerHTML = '';
+		document.getElementById('gscIssues').innerHTML = '';
 	};
 
 	function isElement(element) {
@@ -46,6 +47,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 			subtabs.classList.remove('no-show');
 			subtabs.style.display = 'block';
 			active = subtabs;
+
+			const currTabs = document.getElementsByClassName('is-active');
+			Object.keys(currTabs).forEach((key, ind) => {
+				if(subtabs.contains(currTabs[key]))
+				{
+					changeActive(currTabs[key]);
+				}
+			});
 		}
 	};
 
@@ -57,13 +66,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 	const tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
 	let active = {}, luColors = {};
 	const [pages, LUs] = parse(tabs);
-	const apiKeys = { lighthouse: 'AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8', gsc: 'AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc' }
 
 	const subArrs = splitToChunks(pages, 5), reports = {};
 	const promises = subArrs.map(async (pages, i) => {
 		for(let i = 0; i < pages.length; i += 1)
 		{
-			const lighthouseRes = await lighthouseApi(pages[i], apiKeys['lighthouse']), gscRes = await gscApi(pages[i], apiKeys['gsc']);
+			const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
 			reports[pages[i]] = {
 				lighthouse: {...lighthouseRes},
 				gsc: {...gscRes}
