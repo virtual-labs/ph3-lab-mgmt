@@ -43,6 +43,7 @@ function parse(tabs) {
 		}
 	});
 
+	//base_url = "https://virtual-labs.github.io/temp-exp-bubble-sort-iiith";
 	Object.keys(tabs).forEach((listIdx, ix) => {
 		const tabList = tabs[listIdx].children[0].children;
 		Object.keys(tabList).forEach((tab, ix) => {
