@@ -9,7 +9,7 @@ function gscPopulate(link, data)
 	if(data['Issues'].length)
 	{
 		data['Issues'].forEach((issue, idx) => {
-			genText(issuesElem, 'Issue ' + String(idx), issue);
+			genText(issuesElem, 'Issue ' + String(idx), 'Issue ' + String(idx) + ': ' + issue);
 		});
 	}
 

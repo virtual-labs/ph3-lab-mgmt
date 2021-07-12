@@ -9,6 +9,41 @@ document.addEventListener('DOMContentLoaded', async function() {
 		document.getElementById('gscIssues').innerHTML = '';
 	};
 
+	function colorClear(elemIds) {
+		elemIds.forEach((elemId, ind) => {
+			const element = document.getElementById(elemId);
+			element.children[0].children[0].classList.remove(...colors);
+		});
+	};
+
+	function newReport() {
+		clear();
+		reports = {};
+		luColors = {};
+		colorClear(pages);
+		colorClear(LUs);
+		storage.clear();
+		document.getElementById('loader').style.display = 'block';
+		reportGen();
+	};
+
+	function expiryCheck(storage) {
+		let timeStamp = JSON.parse(storage.getItem('timeStamp')), duration = JSON.parse(storage.getItem('duration'));
+		if (timeStamp === null) {     
+			timeStamp = Date.now(), duration = 2 * 60 * 60 * 1000;
+			storage.setItem('timeStamp', JSON.stringify(timeStamp));
+			storage.setItem('duration', JSON.stringify(duration));
+		}
+
+		else if (Date.now() > timeStamp + duration) {
+			newReport();
+			return true;
+		}
+
+		document.getElementById("timeStamp").innerHTML = "Pagewise Performance Summary - " + String(new Date(timeStamp));
+		return false;
+	};
+
 	function isElement(element) {
 		return element instanceof Element || element instanceof HTMLDocument;
 	};
@@ -63,73 +98,86 @@ document.addEventListener('DOMContentLoaded', async function() {
 		gscPopulate(link, report['gsc']);
 	};
 
-	const sessionStorage = window.sessionStorage, tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
+	const storage = window.localStorage, tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
 	let active = {}, luColors = {};
 	const [pages, LUs] = parse(tabs);
 
-	const subArrs = splitToChunks(pages, 5), reports = {};
-	const promises = subArrs.map(async (pages, i) => {
-		for(let i = 0; i < pages.length; i += 1)
-		{
-			const report = JSON.parse(sessionStorage.getItem(pages[i]));
-			if(report !== null && Object.keys(report.gsc).length && Object.keys(report.lighthouse).length)
+	const subArrs = splitToChunks([...pages], 5);
+	let reports = {};
+
+	function reportGen() {
+		const promises = subArrs.map(async (pages, i) => {
+			for(let i = 0; i < pages.length; i += 1)
 			{
-				reports[pages[i]] = {...report};
-			}
+				const report = JSON.parse(storage.getItem(pages[i]));
 
-			else
-			{
-				const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
-				reports[pages[i]] = {
-					lighthouse: {...lighthouseRes},
-					gsc: {...gscRes}
-				};
-
-				sessionStorage.setItem(pages[i], JSON.stringify(reports[pages[i]]));
-			}
-
-			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
-			let parentLU = null;
-
-			LUs.forEach((lu, ix) => {
-				const luElem = document.getElementById(lu + 'SubTabs');
-				if(luElem.contains(tab))
+				if(expiryCheck(storage))
 				{
-					parentLU = document.getElementById(lu);
-					if(!(lu in luColors))
-					{
-						luColors[lu] = currColor;
-						parentLU.children[0].children[0].classList.add(colors[currColor]);
-					}
+					break;
+				}
 
-					else if(luColors[lu] > currColor)
+				if(report !== null && Object.keys(report.gsc).length && Object.keys(report.lighthouse).length)
+				{
+					reports[pages[i]] = {...report};
+				}
+
+				else
+				{
+					const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
+					reports[pages[i]] = {
+						lighthouse: {...lighthouseRes},
+						gsc: {...gscRes}
+					};
+
+					storage.setItem(pages[i], JSON.stringify(reports[pages[i]]));
+				}
+
+				const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
+				let parentLU = null;
+
+				LUs.forEach((lu, ix) => {
+					const luElem = document.getElementById(lu + 'SubTabs');
+					if(luElem.contains(tab))
 					{
-						parentLU.children[0].children[0].classList.remove(colors[luColors[lu]]);
-						luColors[lu] = currColor;
-						parentLU.children[0].children[0].classList.add(colors[currColor]);
+						parentLU = document.getElementById(lu);
+						if(!(lu in luColors))
+						{
+							luColors[lu] = currColor;
+							parentLU.children[0].children[0].classList.add(colors[currColor]);
+						}
+
+						else if(luColors[lu] > currColor)
+						{
+							parentLU.children[0].children[0].classList.remove(colors[luColors[lu]]);
+							luColors[lu] = currColor;
+							parentLU.children[0].children[0].classList.add(colors[currColor]);
+						}
+					}
+				});
+
+				tab.children[0].children[0].classList.add(colors[currColor]);
+
+				if(tab.classList.contains('is-active'))
+				{
+					if(parentLU === null || parentLU.classList.contains('is-active'))
+					{
+						document.getElementById('loader').style.display = 'none';
+						populate(pages[i], reports[pages[i]]);
 					}
 				}
-			});
-
-			tab.children[0].children[0].classList.add(colors[currColor]);
-
-			if(tab.classList.contains('is-active'))
-			{
-				if(parentLU === null || parentLU.classList.contains('is-active'))
-				{
-					document.getElementById('loader').style.display = 'none';
-					populate(pages[i], reports[pages[i]]);
-				}
 			}
-		}
-	});
+		});
 
-	Promise.all(promises);
+		Promise.all(promises);
+	};
 
+	reportGen();
 	Object.keys(tabs).forEach((listIdx, ix) => {
 		const tabList = tabs[listIdx].children[0].children;
 		Object.keys(tabList).forEach((tab, ix) => {
 			tabList[tab].addEventListener("click", (event) => changeActive(event.currentTarget));
 		});
 	});
+
+	document.getElementById('newReport').addEventListener("click", (event) => newReport());
 });

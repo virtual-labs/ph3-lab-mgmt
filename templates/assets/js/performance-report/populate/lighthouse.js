@@ -1,38 +1,3 @@
-function generateTableHead(table, title, keys) {
-	const thead = table.createTHead();
-	const titleRow = thead.insertRow();
-	const titleth = document.createElement("th");
-	titleth.colSpan = keys.length;
-	const titleText = document.createTextNode(title);
-	titleth.appendChild(titleText);
-	titleRow.appendChild(titleth);
-
-	const row = thead.insertRow();
-	keys.forEach(function(key, ind) {
-		const th = document.createElement("th");
-		const text = document.createTextNode(key);
-		th.appendChild(text);
-		row.appendChild(th);
-	});
-};
-
-function generateTable(table, data) {
-	Object.keys(data['mobile']).forEach(function(metric, ind) {
-		const row = table.insertRow();
-		let cell = row.insertCell();
-		let text = document.createTextNode(metric.charAt(0).toUpperCase() + metric.slice(1));
-		cell.appendChild(text);
-
-		cell = row.insertCell();
-		text = document.createTextNode(data['mobile'][metric]);
-		cell.appendChild(text);
-
-		cell = row.insertCell();
-		text = document.createTextNode(data['desktop'][metric]);
-		cell.appendChild(text);
-	});
-};
-
 function genLink(elem, link)
 {
 	const a = document.createElement('a');
@@ -96,8 +61,11 @@ function lighthousePopulate(link, data)
 		segment.innerHTML = '';
 
 		const titleCols = genCols(segment), linkCols = genCols(segment), dialsCols = genCols(segment), metricCols = genCols(segment);
-		const titleColumn = genColumn(titleCols), metricColumns = [genColumn(metricCols), genColumn(metricCols)], half = Math.floor((Object.keys(data[device]).length - 2) / 2);
-		let ctr = 0;
+		const titleColumn = genColumn(titleCols), metricColumn = genColumn(metricCols), half = Math.floor((Object.keys(data[device]).length - 2) / 2), table = document.createElement('table');
+		table.classList.add('table', 'is-bordered');
+		metricColumn.appendChild(table);
+
+		let ctr = 0, row = table.insertRow();
 		genTitle(titleColumn, device[0].toUpperCase() + device.slice(1));
 
 		Object.keys(data[device]).reverse().forEach(function(metric, ind) {
@@ -106,12 +74,7 @@ function lighthousePopulate(link, data)
 				Object.keys(data[device]['Scores']).forEach((key, ix) => {
 					const column = genColumn(dialsCols);
 					scoreDial(column, data[device]['Scores'][key]);
-
-					const label = document.createElement("div");
-					const text = document.createTextNode(key[0].toUpperCase() + key.slice(1));
-					label.appendChild(text);
-					genToolTip(label, commonData.descriptions[key]);
-					column.appendChild(label);
+					genText(column, key, key, true);
 				});
 			}
 
@@ -123,7 +86,20 @@ function lighthousePopulate(link, data)
 
 			else
 			{
-				genText(metricColumns[Math.floor(ctr / half)], metric, data[device][metric], true);
+				if(Object.keys(row.children).length === 4)
+				{
+					row = table.insertRow();
+				}
+
+				let cell = document.createElement("th");
+				let text = document.createTextNode(metric.charAt(0).toUpperCase() + metric.slice(1));
+				cell.appendChild(text);
+				row.appendChild(cell);
+
+				cell = row.insertCell();
+				text = document.createTextNode(data[device][metric]);
+				cell.appendChild(text);    
+
 				ctr += 1;
 			}
 		});

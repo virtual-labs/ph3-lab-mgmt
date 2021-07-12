@@ -11,14 +11,32 @@
 
 	<body> 
 		<div>
-			<div class="columns is-mobile is-flex">
-				<div class="column is-flex is-align-items-stretch">
+			<div class="columns is-mobile is-centered is-vcentered">
+				<div class="column is-4">
 					<a href="http://vlab.co.in" class="navbar-brand">
 						<img src="{{this.assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
 					</a>
-					<div class="title is-2 center">
+				</div>
+				<div class="column is-4 has-text-centered">
+					<div class="title is-2">
 						{{{this.experiment_name}}}
 					</div>
+				</div>
+				<div class="column is-4">
+					<table class="table is-bordered legend-table">
+						<tr>
+							<th>Red</th>
+							<td class="red">0 - 50</td>
+						</tr>
+						<tr>
+							<th>Orange</th>
+							<td class="orange">50 - 90</td>
+						</tr>
+						<tr>
+							<th>Green</th>
+							<td class="green">90 - 100</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -28,14 +46,9 @@
 
 		<div class="columns is-mobile is-centered is-flex">
 			<div class="column has-text-centered">
-				<div class="title">Pagewise Performance Summary</div>
+				<div class="title" id="timeStamp">Pagewise Performance Summary</div>
+				<button class="v-button" id="newReport">Generate New Report</button>
 			</div>
-		</div>
-
-		<div class="legend is-size-4 is-flex is-justify-content-space-between">
-			<p class="red">Red: 0 - 50</p>
-			<p class="orange">Orange: 50 - 90</p>
-			<p class="green">Green: 90 - 100</p>
 		</div>
 
 		<div class="columns is-mobile is-centered">
@@ -45,7 +58,7 @@
 						{{#each units}}
 						<li {{#if this.units}} id="{{this.label}}" {{/if}} {{#unless this.units}} id="{{this.target}}" {{/unless}} {{#if this.isCurrentItem}} class="is-active" {{/if}}>
 							<a>
-								<span>{{this.label}}</span>
+								<span class="is-size-5">{{this.label}}</span>
 							</a>
 						</li>
 						{{/each}}
@@ -63,7 +76,7 @@
 						{{#each this.units}}
 						<li id="{{this.target}}" {{#if this.isCurrentItem}} class="is-active" {{/if}}>
 							<a>
-								<span>{{this.label}}</span>
+								<span class="is-size-5">{{this.label}}</span>
 							</a>
 						</li>
 						{{/each}}

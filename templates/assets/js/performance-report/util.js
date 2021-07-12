@@ -40,16 +40,64 @@ function genColumn(elem) {
 	return column;
 };
 
-function genText(elem, metric, value, flag) {
+function genText(elem, metric, content, flag) {
 	const textElem = document.createElement("div");
 	textElem.classList.add('is-size-5');
-	const text = document.createTextNode(metric + ': ' + String(value));
+	const text = document.createTextNode(content[0].toUpperCase() + content.slice(1));
 	textElem.appendChild(text);
 	if(flag)
 	{
 		genToolTip(textElem, commonData.descriptions[metric]);
 	}
 	elem.appendChild(textElem);
+};
+
+
+function genToolTip(elem, text) {
+	elem.classList.add('tool-tip');
+	const desc = document.createElement("span");
+	desc.classList.add('tooltip-text');
+	desc.innerHTML = text;
+	elem.appendChild(desc);
+};
+
+function generateTableHead(table, title, keys) {
+	const thead = table.createTHead();
+	const titleRow = thead.insertRow();
+	const titleth = document.createElement("th");
+	titleth.colSpan = keys.length;
+	const titleText = document.createTextNode(title);
+	titleth.appendChild(titleText);
+	titleRow.appendChild(titleth);
+
+	const row = thead.insertRow();
+	keys.forEach(function(key, ind) {
+		const th = document.createElement("th");
+		const text = document.createTextNode(key);
+		th.appendChild(text);
+		row.appendChild(th);
+	});
+};
+
+function generateTable(data, maxCol) {
+	const table = document.createElement("table");
+	table.classList.add('table', 'is-bordered');
+
+	let row = table.insertRow();
+	Object.keys(data).forEach(function(metric, ind) {
+		if(Object.keys(row.children).length === maxCol)
+		{
+			row = table.insertRow();
+		}
+
+		let cell = row.insertCell();
+		let text = document.createTextNode(metric.charAt(0).toUpperCase() + metric.slice(1));
+		cell.appendChild(text);
+
+		cell = row.insertCell();
+		text = document.createTextNode(data[metric]);
+		cell.appendChild(text);
+	});
 };
 
 function colorScheme(score) {
@@ -65,12 +113,4 @@ function colorScheme(score) {
 	}
 
 	return color;
-};
-
-function genToolTip(elem, text) {
-	elem.classList.add('tool-tip');
-	const desc = document.createElement("span");
-	desc.classList.add('tooltip-text');
-	desc.innerHTML = text;
-	elem.appendChild(desc);
 };
