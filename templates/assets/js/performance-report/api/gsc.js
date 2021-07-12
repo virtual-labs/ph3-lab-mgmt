@@ -13,8 +13,6 @@ async function gscApi(link, apiKey) {
 			if (json.mobileFriendlyIssues) {
 				result['Issues'] = json['mobileFriendlyIssues'];
 			}
-
-			//pageData[val] = metrics;
 		})
 		.catch(error => {
 			console.log(link, error);

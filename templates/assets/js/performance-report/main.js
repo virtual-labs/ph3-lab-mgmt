@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 		gscPopulate(link, report['gsc']);
 	};
 
-	const tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
+	const sessionStorage = window.sessionStorage, tabs = document.getElementsByClassName('v-tabs'), colors = ['red', 'orange', 'green'];
 	let active = {}, luColors = {};
 	const [pages, LUs] = parse(tabs);
 
@@ -71,28 +71,42 @@ document.addEventListener('DOMContentLoaded', async function() {
 	const promises = subArrs.map(async (pages, i) => {
 		for(let i = 0; i < pages.length; i += 1)
 		{
-			const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
-			reports[pages[i]] = {
-				lighthouse: {...lighthouseRes},
-				gsc: {...gscRes}
-			};
+			const report = JSON.parse(sessionStorage.getItem(pages[i]));
+			if(report !== null && Object.keys(report.gsc).length && Object.keys(report.lighthouse).length)
+			{
+				reports[pages[i]] = {...report};
+			}
+
+			else
+			{
+				const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
+				reports[pages[i]] = {
+					lighthouse: {...lighthouseRes},
+					gsc: {...gscRes}
+				};
+
+				sessionStorage.setItem(pages[i], JSON.stringify(reports[pages[i]]));
+			}
 
 			const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
+			let parentLU = null;
+
 			LUs.forEach((lu, ix) => {
 				const luElem = document.getElementById(lu + 'SubTabs');
 				if(luElem.contains(tab))
 				{
+					parentLU = document.getElementById(lu);
 					if(!(lu in luColors))
 					{
 						luColors[lu] = currColor;
-						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+						parentLU.children[0].children[0].classList.add(colors[currColor]);
 					}
 
 					else if(luColors[lu] > currColor)
 					{
-						document.getElementById(lu).children[0].children[0].classList.remove(colors[luColors[lu]]);
+						parentLU.children[0].children[0].classList.remove(colors[luColors[lu]]);
 						luColors[lu] = currColor;
-						document.getElementById(lu).children[0].children[0].classList.add(colors[currColor]);
+						parentLU.children[0].children[0].classList.add(colors[currColor]);
 					}
 				}
 			});
@@ -101,8 +115,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 			if(tab.classList.contains('is-active'))
 			{
-				document.getElementById('loader').style.display = 'none';
-				populate(pages[i], reports[pages[i]]);
+				if(parentLU === null || parentLU.classList.contains('is-active'))
+				{
+					document.getElementById('loader').style.display = 'none';
+					populate(pages[i], reports[pages[i]]);
+				}
 			}
 		}
 	});
