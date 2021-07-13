@@ -56,7 +56,7 @@
 				<div class="v-tabs">
 					<ul>
 						{{#each units}}
-						<li {{#if this.units}} id="{{this.label}}" {{/if}} {{#unless this.units}} id="{{this.target}}" {{/unless}} {{#if this.isCurrentItem}} class="is-active" {{/if}}>
+						<li {{#if this.units}} data-url="{{this.label}}" {{/if}} {{#unless this.units}} data-url="{{this.target}}" {{/unless}} {{#if this.isCurrentItem}} class="is-active" {{/if}}>
 							<a>
 								<span class="is-size-5">{{this.label}}</span>
 							</a>
@@ -74,7 +74,7 @@
 				<div class="v-tabs">
 					<ul>
 						{{#each this.units}}
-						<li id="{{this.target}}" {{#if this.isCurrentItem}} class="is-active" {{/if}}>
+						<li data-url="{{this.target}}" {{#if this.isCurrentItem}} class="is-active" {{/if}}>
 							<a>
 								<span class="is-size-5">{{this.label}}</span>
 							</a>

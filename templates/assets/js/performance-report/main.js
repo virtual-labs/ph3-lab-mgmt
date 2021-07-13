@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 	function colorClear(elemIds) {
 		elemIds.forEach((elemId, ind) => {
-			const element = document.getElementById(elemId);
+			const element = document.querySelector(`[data-url='${elemId}']`);
 			element.children[0].children[0].classList.remove(...colors);
 		});
 	};
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	};
 
 	async function changeActive(elem) {
-		const siblingTabs = elem.parentNode.children, subtabs = document.getElementById(elem.id + 'SubTabs');
+		const siblingTabs = elem.parentNode.children, subtabs = document.getElementById(elem.getAttribute('data-url') + 'SubTabs');
 		Object.keys(siblingTabs).forEach((key, i) => {
 			siblingTabs[key].classList.remove('is-active');
 		});
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 		if(subtabs === null)
 		{
-			if(!(elem.id in reports))
+			if(!(elem.getAttribute('data-url') in reports))
 			{
 				document.getElementById('loader').style.display = 'block';
 				clear();
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 			else
 			{
 				document.getElementById('loader').style.display = 'none';
-				populate(elem.id, reports[elem.id]);
+				populate(elem.getAttribute('data-url'), reports[elem.getAttribute('data-url')]);
 			}
 		}
 
@@ -132,14 +132,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 					storage.setItem(pages[i], JSON.stringify(reports[pages[i]]));
 				}
 
-				const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.getElementById(pages[i]), currColor = colorScheme(mobPerfScore);
+				const mobPerfScore = reports[pages[i]]['lighthouse']['mobile']['Scores']['performance'], tab = document.querySelector(`[data-url='${pages[i]}']`), currColor = colorScheme(mobPerfScore);
 				let parentLU = null;
 
 				LUs.forEach((lu, ix) => {
 					const luElem = document.getElementById(lu + 'SubTabs');
 					if(luElem.contains(tab))
 					{
-						parentLU = document.getElementById(lu);
+						parentLU = document.querySelector(`[data-url='${lu}']`);
 						if(!(lu in luColors))
 						{
 							luColors[lu] = currColor;

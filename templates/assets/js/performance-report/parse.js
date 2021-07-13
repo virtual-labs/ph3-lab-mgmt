@@ -13,17 +13,17 @@ function parse(tabs) {
 	Object.keys(tabs).forEach((listIdx, ix) => {
 		const tabList = tabs[listIdx].children[0].children;
 		Object.keys(tabList).forEach((tab, ix) => {
-			const subtabs = document.getElementById(tabList[tab].id + 'SubTabs');
+			const subtabs = document.getElementById(tabList[tab].getAttribute('data-url') + 'SubTabs');
 			if(subtabs === null)
 			{
-				tabList[tab].id = base_url + '/' + tabList[tab].id;
-				pages.push(tabList[tab].id);
+				tabList[tab].setAttribute('data-url', base_url + '/' + tabList[tab].getAttribute('data-url'));
+				pages.push(tabList[tab].getAttribute('data-url'));
 			}
 
 			else
 			{
 				subtabs.style.display = 'none';
-				LUs.push(tabList[tab].id);
+				LUs.push(tabList[tab].getAttribute('data-url'));
 			}
 		});
 	});
