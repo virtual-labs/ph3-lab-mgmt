@@ -43,17 +43,17 @@ function genColumn(elem) {
 function genText(elem, metric, content, flag) {
 	const textElem = document.createElement("div");
 	textElem.classList.add('is-size-5');
-	const text = document.createTextNode(content[0].toUpperCase() + content.slice(1));
-	textElem.appendChild(text);
+	const text = content[0].toUpperCase() + content.slice(1);
+	textElem.innerHTML = text;
 
 	if(flag)
 	{
 		const infoIcon = document.createElement("i");
-		infoIcon.classList.add('fas', 'fa-info-circle');
+		infoIcon.classList.add('fa', 'fa-info-circle');
 		genToolTip(infoIcon, commonData.descriptions[metric]);
-		elem.appendChild(infoIcon);
+		textElem.innerHTML += " ";
+		textElem.appendChild(infoIcon);
 	}
-
 	elem.appendChild(textElem);
 };
 

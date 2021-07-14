@@ -3,6 +3,7 @@
 	<head>
 		{{> meta }}
 		{{> commons }}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.6-b/css/style.min.css">
 		{{#each css_files}}
 		<link rel="stylesheet" href="{{this}}">
@@ -37,16 +38,16 @@
 		</div>
 
 		<div class="columns is-mobile is-centered is-vcentered is-flex">
-			<div class="column has-text-centered is-2" id="timeStamp">
+			<div class="column has-text-centered is-3 is-size-4 time-stamp" id="timeStamp">
 			</div>
-			<div class="column has-text-centered is-8">
+			<div class="column has-text-centered is-6">
 				<button class="v-button" id="newReport">Refresh Report</button>
 			</div>
-			<div class="column has-text-centered is-2">
-				<ul class="legend">
-					<li class="legend-common legend-red">Critical</li>
-					<li class="legend-common legend-orange">Needs Work</li>
-					<li class="legend-common legend-green">Acceptable</li>
+			<div class="column has-text-centered is-3">
+				<ul class="legend is-flex if-flex-wrap is-justify-content-space-between">
+					<li class="legend-common legend-red is-size-5">Critical</li>
+					<li class="legend-common legend-orange is-size-5">Needs Work</li>
+					<li class="legend-common legend-green is-size-5">Acceptable</li>
 				</ul>
 			</div>
 		</div>

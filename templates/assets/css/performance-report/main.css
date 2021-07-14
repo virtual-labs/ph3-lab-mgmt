@@ -52,7 +52,8 @@
 
 .legend-common::before {
 	content: "• ";
-	font-size: 150%;
+	font-size: 200%;
+	vertical-align: middle;
 }
 
 .legend-red::before {
@@ -69,6 +70,7 @@
 
 .tool-tip {
 	position: relative;
+	cursor: pointer;
 }
 
 .tooltip-text {
@@ -90,4 +92,12 @@
 
 .tool-tip:hover .tooltip-text {
 	visibility: visible;
+}
+
+.link {
+	text-decoration: underline;
+}
+
+.time-stamp {
+	color: #2c99ce;
 }

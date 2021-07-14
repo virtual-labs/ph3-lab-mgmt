@@ -30,14 +30,15 @@ document.addEventListener('DOMContentLoaded', async function() {
 	function getDate(ts)
 	{
 		const date = new Date(ts), days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
-		let dateStrg = days[date.getDay()] + ", " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+		let dateStrg = days[date.getDay()] + ", " + date.getDate() + "/" + ('0' + String(date.getMonth())).slice(-2) + "/" + date.getFullYear() + " " + ('0' + String(date.getHours())).slice(-2) + ":" + ('0' + String(date.getMinutes())).slice(-2) + ":" + ('0' + String(date.getSeconds())).slice(-2);
 		return dateStrg;
 	};
 
 	function expiryCheck(storage) {
 		let timeStamp = JSON.parse(storage.getItem('timeStamp')), duration = JSON.parse(storage.getItem('duration'));
 		if (timeStamp === null) {     
-			timeStamp = Date.now(), duration = 2 * 60 * 60 * 1000;
+			timeStamp = Date.now();
+			duration = 2 * 60 * 60 * 1000;
 			storage.setItem('timeStamp', JSON.stringify(timeStamp));
 			storage.setItem('duration', JSON.stringify(duration));
 		}

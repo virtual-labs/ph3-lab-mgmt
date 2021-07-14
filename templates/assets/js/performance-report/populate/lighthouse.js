@@ -4,7 +4,7 @@ function genLink(elem, link)
 	a.textContent = 'Detailed Report';
 	a.href = link;
 	a.target = "_blank";
-	a.classList.add('is-size-4');
+	a.classList.add('is-size-4', 'link');
 	elem.appendChild(a);
 };
 
@@ -74,13 +74,14 @@ function lighthousePopulate(link, data)
 				Object.keys(data[device]['Scores']).forEach((key, ix) => {
 					const column = genColumn(dialsCols);
 					scoreDial(column, data[device]['Scores'][key]);
-					genText(column, key, key, true);
+					genText(column, key, commonData.scoreMap[key], true);
 				});
 			}
 
 			else if(metric === 'Detailed Report')
 			{
 				const column = genColumn(linkCols);
+				column.innerHTML = "<b>*</b>";
 				genLink(column, data[device]['Detailed Report']);
 			}
 
@@ -101,5 +102,7 @@ function lighthousePopulate(link, data)
 				ctr += 1;
 			}
 		});
+
+		genText(segment, commonData.disclaimer, commonData.disclaimer);
 	});
 };
