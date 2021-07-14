@@ -81,7 +81,7 @@ function lighthousePopulate(link, data)
 			else if(metric === 'Detailed Report')
 			{
 				const column = genColumn(linkCols);
-				column.innerHTML = "<b>*</b>";
+				column.innerHTML = "<sup><b>*</b></sup>";
 				genLink(column, data[device]['Detailed Report']);
 			}
 
@@ -94,15 +94,10 @@ function lighthousePopulate(link, data)
 
 				let cell = row.insertCell();
 				genText(cell, metric, metric, true);
-
 				cell = row.insertCell();
-				text = document.createTextNode(data[device][metric]);
-				cell.appendChild(text);    
-
+				genText(cell, data[device][metric], data[device][metric]);
 				ctr += 1;
 			}
 		});
-
-		genText(segment, commonData.disclaimer, commonData.disclaimer);
 	});
 };

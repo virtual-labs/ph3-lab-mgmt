@@ -20,6 +20,5 @@ const commonData = {
 		"Time To Interactive": "Time to interactive is the amount of time it takes for the page to become fully interactive. <a href='https://web.dev/interactive/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>.",
 		"Total Blocking Time": "Sum of all time periods between FCP and Time to Interactive, when task length exceeds 50ms, expressed in milliseconds. <a href='https://web.dev/lighthouse-total-blocking-time/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>.",
 		"Cumulative Layout Shift": "Cumulative Layout Shift measures the movement of visible elements within the viewport. <a href='https://web.dev/cls/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>."
-	},
-	"disclaimer": "<b>*</b>NOTE: The scores may slightly vary between the detailed report and the given summary. This occurs due to the use of different APIs for each where we make use of Page Speed Insights for the summary and Lighthouse for the detailed report. <a href='https://www.debugbear.com/blog/why-is-my-lighthouse-score-different-from-pagespeed-insights' target='_blank'>Learn more</a>."
+	}
 };
