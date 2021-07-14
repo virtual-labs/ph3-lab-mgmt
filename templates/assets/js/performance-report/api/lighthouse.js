@@ -25,9 +25,9 @@ async function lighthouseApi(link, apiKey) {
 
 				const lighthouse = json.lighthouseResult;
 				const metrics = {
-					'First Contentful Paint': lighthouse.audits['first-contentful-paint'].displayValue,
-					'Speed Index': lighthouse.audits['speed-index'].displayValue,
 					'Time To Interactive': lighthouse.audits['interactive'].displayValue,
+					'Speed Index': lighthouse.audits['speed-index'].displayValue,
+					'First Contentful Paint': lighthouse.audits['first-contentful-paint'].displayValue,
 					'Total Blocking Time': lighthouse.audits['total-blocking-time'].displayValue,
 					'Largest Contentful Paint': lighthouse.audits['largest-contentful-paint'].displayValue,
 					'Cumulative Layout Shift': lighthouse.audits['cumulative-layout-shift'].displayValue,

@@ -45,10 +45,15 @@ function genText(elem, metric, content, flag) {
 	textElem.classList.add('is-size-5');
 	const text = document.createTextNode(content[0].toUpperCase() + content.slice(1));
 	textElem.appendChild(text);
+
 	if(flag)
 	{
-		genToolTip(textElem, commonData.descriptions[metric]);
+		const infoIcon = document.createElement("i");
+		infoIcon.classList.add('fas', 'fa-info-circle');
+		genToolTip(infoIcon, commonData.descriptions[metric]);
+		elem.appendChild(infoIcon);
 	}
+
 	elem.appendChild(textElem);
 };
 

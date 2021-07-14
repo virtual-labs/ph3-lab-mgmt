@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 		reportGen();
 	};
 
+	function getDate(ts)
+	{
+		const date = new Date(ts), days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
+		let dateStrg = days[date.getDay()] + ", " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+		return dateStrg;
+	};
+
 	function expiryCheck(storage) {
 		let timeStamp = JSON.parse(storage.getItem('timeStamp')), duration = JSON.parse(storage.getItem('duration'));
 		if (timeStamp === null) {     
@@ -40,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 			return true;
 		}
 
-		document.getElementById("timeStamp").innerHTML = "Pagewise Performance Summary - " + String(new Date(timeStamp));
+		document.getElementById("timeStamp").innerHTML = getDate(timeStamp);
 		return false;
 	};
 

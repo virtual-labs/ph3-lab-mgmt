@@ -23,20 +23,6 @@
 					</div>
 				</div>
 				<div class="column is-4">
-					<table class="table is-bordered legend-table">
-						<tr>
-							<th>Red</th>
-							<td class="red">0 - 50</td>
-						</tr>
-						<tr>
-							<th>Orange</th>
-							<td class="orange">50 - 90</td>
-						</tr>
-						<tr>
-							<th>Green</th>
-							<td class="green">90 - 100</td>
-						</tr>
-					</table>
 				</div>
 			</div>
 		</div>
@@ -46,8 +32,22 @@
 
 		<div class="columns is-mobile is-centered is-flex">
 			<div class="column has-text-centered">
-				<div class="title" id="timeStamp">Pagewise Performance Summary</div>
-				<button class="v-button" id="newReport">Generate New Report</button>
+				<div class="title">Pagewise Performance Summary</div>
+			</div>
+		</div>
+
+		<div class="columns is-mobile is-centered is-vcentered is-flex">
+			<div class="column has-text-centered is-2" id="timeStamp">
+			</div>
+			<div class="column has-text-centered is-8">
+				<button class="v-button" id="newReport">Refresh Report</button>
+			</div>
+			<div class="column has-text-centered is-2">
+				<ul class="legend">
+					<li class="legend-common legend-red">Critical</li>
+					<li class="legend-common legend-orange">Needs Work</li>
+					<li class="legend-common legend-green">Acceptable</li>
+				</ul>
 			</div>
 		</div>
 

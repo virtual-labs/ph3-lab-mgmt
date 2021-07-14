@@ -91,10 +91,8 @@ function lighthousePopulate(link, data)
 					row = table.insertRow();
 				}
 
-				let cell = document.createElement("th");
-				let text = document.createTextNode(metric.charAt(0).toUpperCase() + metric.slice(1));
-				cell.appendChild(text);
-				row.appendChild(cell);
+				let cell = row.insertCell();
+				genText(cell, metric, metric, true);
 
 				cell = row.insertCell();
 				text = document.createTextNode(data[device][metric]);

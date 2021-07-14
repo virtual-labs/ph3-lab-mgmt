@@ -45,10 +45,26 @@
 	display: none;
 }
 
-.legend-table {
-	width: 50%;
-	position: relative;
-	left: 50%;
+.legend {
+	list-style: none;
+	display: inline;
+}
+
+.legend-common::before {
+	content: "• ";
+	font-size: 150%;
+}
+
+.legend-red::before {
+	color: red;
+}
+
+.legend-orange::before {
+	color: orange;
+}
+
+.legend-green::before {
+	color: green;
 }
 
 .tool-tip {
