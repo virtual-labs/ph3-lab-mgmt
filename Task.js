@@ -115,7 +115,7 @@ class Task extends Unit {
 	    meta: {
 		    experiment_short_name: lab_data.exp_short_name,
 		    college_name: lab_data.collegeName,
-		    learning_unit: this.lu,
+		    learning_unit: this.lu || exp_info.name,
 		    task_name: this.label,
 	    },
       isText: false,
@@ -132,11 +132,6 @@ class Task extends Unit {
       exp_name: lab_data.exp_name,
       exp_short_name: lab_data.exp_short_name,
     };
-
-	  if(this.lu === "")
-	  {
-		 page_data.meta.learning_unit = exp_info.name;
-	  }
 
     switch (this.content_type) {
       case ContentTypes.TEXT:
