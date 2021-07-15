@@ -3,6 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta content="" name="description"/>
 <meta content="" name="author"/>
+
+{{#each meta}}
+	<meta name="{{@key}}" content="{{this}}">
+{{/each}}
+
 <!-- For iPhone -->
 <meta name="msapplication-TileColor" content="#4076e0">
 <!-- Chrome, Firefox OS and Opera -->
