@@ -112,6 +112,12 @@ class Task extends Unit {
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
+	    meta: {
+		    experiment_short_name: lab_data.exp_short_name,
+		    college_name: lab_data.collegeName,
+		    learning_unit: this.lu || exp_info.name,
+		    task_name: this.label,
+	    },
       isText: false,
       isVideo: false,
       isSimulation: false,
