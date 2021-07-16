@@ -40,6 +40,7 @@ const Experiment = {
     ["commons", "commons"],
     ["header", "header"],
     ["breadcrumbs", "breadcrumbs"],
+    ["performance_breadcrumbs", "performance-breadcrumbs"],
     ["side_menu", "sidemenu"],
     ["content", "content"],
     ["footer", "footer"]
