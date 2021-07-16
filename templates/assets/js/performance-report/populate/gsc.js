@@ -1,15 +1,18 @@
 function gscPopulate(link, data)
 {
 	const statusElem = document.getElementById('gscStatus');
-	statusElem.innerHTML = "Mobile Friendliness Status: " + data['Status'];
+	statusElem.innerHTML = '';
+	genText(statusElem, "Mobile Friendliness Status: " + data['Status'], "Mobile Friendliness Status: " + data['Status'].replace(/_/g, " "));
 
 	const issuesElem = document.getElementById('gscIssues');
-	issuesElem.innerHTML = data['Status'];
-
+	issuesElem.innerHTML = '';
 	if(data['Issues'].length)
 	{
 		data['Issues'].forEach((issue, idx) => {
-			genText(issuesElem, 'Issue ' + String(idx), 'Issue ' + String(idx) + ': ' + issue);
+			const issueDiv = document.createElement("div");
+			genText(issueDiv, issue, issue);
+			issueDiv.classList.add('issue');
+			issuesElem.appendChild(issueDiv);
 		});
 	}
 
