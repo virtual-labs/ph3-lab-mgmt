@@ -150,6 +150,7 @@ experiment repository location.
 | [[file:docs/analytics.org][Analytics]]                | Lab and Experiment Analytics details.                                     |
 | [[docs/units.org][Units]]                    | Defines all types of  units in an experiment                              |
 | [[docs/plugins.org][Proposed Plugins]]         | Proposal for moving towards a plugin based architecture.                  |
+| [[docs/performance-tool.md][Performance Tool]]         | Describes the code base for the performance tool.                  |
 |--------------------------+---------------------------------------------------------------------------|
 
 

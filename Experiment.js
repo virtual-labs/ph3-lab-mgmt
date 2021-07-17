@@ -8,6 +8,7 @@ const Config = require("./Config.js");
 const {LearningUnit} = require("./LearningUnit.js");
 const {Task} = require("./Task.js");
 const {UnitTypes, ContentTypes, BuildEnvs} = require("./Enums.js");
+const {MetaPage} = require("./MetaPage.js");
 
 class Experiment {
   constructor(src) {
@@ -64,13 +65,17 @@ class Experiment {
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
     */
-    const explu = LearningUnit.fromRecord(this.descriptor, this.src);
+    const explu = LearningUnit.fromRecord(this.descriptor, this.src), metapg = new MetaPage(this.src, '.', 'performance-report');
     const exp_info = {
       name: this.name(),
       menu: explu.units
     };
 
-    explu.build(exp_info, lab_data, options);
+    explu.build(exp_info, lab_data, { ...options, metaTarget: metapg.targetPath });
+	  if(options.env === 'testing')
+	  {
+		  metapg.build(exp_info);
+	  }
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
