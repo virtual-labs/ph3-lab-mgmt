@@ -72,7 +72,7 @@ if (require.main === module) {
 
   if (match && match.groups) {
     default_lab_data.exp_short_name = match.groups.expName;
-    default_lab_data.collegeName = match.groups.devInstituteName;
+    default_lab_data.collegeName = match.groups.devInstituteName.toUpperCase();
     default_lab_data.phase = 'Testing';
     default_lab_data.lab = 'Virtual Lab';
     default_lab_data.broadArea = { name : 'Test'};
