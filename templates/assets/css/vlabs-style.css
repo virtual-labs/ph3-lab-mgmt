@@ -46,29 +46,36 @@
   height: 36px;
 }
 
-.sidebar a {
+.nav-menu a {
   color: #3e6389;
 }
 
-.sidebar .tasks a {
+.nav-menu .tasks a {
   color: #5c5c5c;
 }
 
-.sidebar a.current-item {
+.nav-menu a.current-item {
   color: #ff6600;
 }
 
-.sidebar .tasks {
+.nav-menu .tasks {
   font-size: 1rem;
+}
+
+.nav-menu{
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .sidebar {
   /* border-right: 2px dotted #89a7c4; */
   border: thin solid #e8e8e8;
-  font-size: 1.2rem;
-  font-weight: bold;
   overflow: hidden;
   box-sizing: content-box;
+}
+
+.popupmenu .vlabs-logo{
+  height: 2.5rem;
 }
 
 @media (max-width: 991px){
@@ -81,16 +88,11 @@
   .vlabs-logo{
     height: 3rem;
   }
-  .hidden {
-    max-height: 0;
-    transition: max-height 1s ease-out;
-    overflow: hidden;
-  }
 }
 
 @media (min-width: 992px){
-  .hidden {
-    display: none;
+  .vlabs-hidden {
+    display: none !important;
   }
 }
 
@@ -178,10 +180,14 @@ iframe {
 }
 
 .simulation-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  /* padding-top: 56.25%; */
+  padding: 0px;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
 }
 
 .responsive-iframe {
@@ -262,4 +268,35 @@ iframe {
 .fix-spacing > *{
   padding-top: 0;
   margin-top: 1em;
+}
+
+#toggle-menu-float-button{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 0.8em 1em;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  border-radius: 0.5em;
+  color: #fff;
+  border: 3px solid rgba(0, 174, 255, 0.274);
+}
+
+.toggle-menu-icon{
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  height: 30px;
+  width: 30px;
+}
+
+.btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: .25em .25em;
+  color: #000;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: 0;
+  border-radius: .25rem;
+  opacity: .5;
 }

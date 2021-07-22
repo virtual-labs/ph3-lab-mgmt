@@ -1,0 +1,48 @@
+<div class="modal fade popupmenu" id="popupMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <a href="http://vlab.co.in" class="navbar-brand">
+                        <img src="{{assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+                    </a>
+                </h5>
+                <button type="button" class="btn-close align-self-center" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body nav-menu">
+                {{#each units}}
+                    <div>
+                        <div class="d-flex justify-content-center">
+                        {{#unless this.units}} 
+                            <a href="{{this.target}}" class="p-2 {{#if isCurrentItem}} current-item {{/if}}">
+                            {{this.label}}
+                            </a>
+                        {{/unless}}
+                            
+                            {{#if this.units}}
+                            <a data-bs-toggle="collapse" href="#t-{{this.id}}" class="p-2 {{#if isCurrentItem}} current-item {{/if}}">
+                            {{this.label}}
+                            </a>
+                            <button class="btn btn-white" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#t-{{this.id}}"
+                                aria-controls="{{this.id}}"> 
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            {{/if }}
+                        </div>
+                        <div id="t-{{this.id}}"
+                            {{#if isCurrentLU }} class="show" {{/if}}
+                            {{#unless isCurrentLU }} class="collapse" {{/unless}}
+                            >
+                            <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                            {{#each this.units}}
+                                <a href="{{this.target}}" class="py-1 {{#if isCurrentItem}} current-item {{/if}}"> {{this.label}} </a>
+                            {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,25 +1,18 @@
 const sidebar = document.querySelector(".sidebar");
+var myModal = new bootstrap.Modal(document.getElementById('popupMenu'))
 const breakpointLg = 992;
 
 function toggle() {
-  if(sidebar.classList.contains("hidden")) {
-    sidebar.classList.remove("hidden");
-  }
-  else {
-    sidebar.classList.add("hidden");
-  }
-}
-
-$(window).resize(() => {
   const w = $(this).width();
   if (w < breakpointLg) {
-    sidebar.classList.add("hidden");
+    myModal.toggle();
   }
-});
-
-$(document).ready(() => {
-  const w = $(this).width();
-  if (w >= breakpointLg) {
-    sidebar.classList.remove("hidden");
+  else {
+    if(sidebar.classList.contains("vlabs-hidden") ) {
+      sidebar.classList.remove("vlabs-hidden");
+    }
+    else {
+      sidebar.classList.add("vlabs-hidden");
+    }
   }
-});
+}
