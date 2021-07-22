@@ -64,17 +64,23 @@ if (require.main === module) {
 
   const repo_path = shell.exec('git config --get remote.origin.url', {silent:true}).stdout;
   const repo_name = path.basename(repo_path, '.git');
+  console.log(`Repo path = $repo_path`);
+  console.log(`Repo name = $repo_name`);
 
   // Get the experiment name and developer institute name from the repo name of the
   //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
   const repo_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
   const match = repo_name.match(repo_name_regex);
 
-  default_lab_data.exp_short_name = match.groups.expName;
-  default_lab_data.collegeName = match.groups.devInstituteName;
-  default_lab_data.phase = 'Testing';
-  default_lab_data.lab = 'Virtual Lab';
-  default_lab_data.broadArea.name = 'Test';
+  if (match && match.groups) {
+    default_lab_data.exp_short_name = match.groups.expName;
+    default_lab_data.collegeName = match.groups.devInstituteName;
+    default_lab_data.phase = 'Testing';
+    default_lab_data.lab = 'Virtual Lab';
+    default_lab_data.broadArea.name = 'Test';
+  } else {
+    console.log('No match found');
+  }
 
   run(src, default_lab_data, build_options);
 }
