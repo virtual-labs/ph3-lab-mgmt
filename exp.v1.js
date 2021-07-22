@@ -61,7 +61,22 @@ if (require.main === module) {
     hope things work out.
    */
   const default_lab_data = {};
-  run(src, {}, build_options);
+
+  const repo_path = exec('git config --get remote.origin.url', {silent:true}).stdout;
+  const repo_name = path.basename(repo_path, '.git');
+
+  // Get the experiment name and developer institute name from the repo name of the
+  //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
+  const repo_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
+  const match = repo_name.match(repo_name_regex);
+
+  default_lab_data.exp_short_name = match.groups.expName;
+  default_lab_data.collegeName = match.groups.devInstituteName;
+  default_lab_data.phase = 'Testing';
+  default_lab_data.lab = 'Virtual Lab';
+  default_lab_data.broadArea.name = 'Test';
+
+  run(src, default_lab_data, build_options);
 }
 // node exp.v1.js --env=production ../
 // node exp.v1.js --env=testing ../
