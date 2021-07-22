@@ -108,6 +108,12 @@ class Task extends Unit {
     );
     assets_path = assets_path ? assets_path : ".";
 
+    // exp_info.name is an html tag. To get the experiment name from it,
+    //  we need to extract the text
+    const exp_info_name_text = convert(exp_info.name, {selectors: [
+      { selector: 'h1', options: { uppercase: false }},
+    ]});
+
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
       testing: options.env === BuildEnvs.TESTING,
@@ -117,7 +123,7 @@ class Task extends Unit {
 	    meta: {
 		    experiment_short_name: lab_data.exp_short_name,
 		    developer_institute: lab_data.collegeName,
-		    learning_unit: this.lu || convert(exp_info.name),
+		    learning_unit: this.lu || exp_info_name_text,
 		    task_name: this.label,
 	    },
       isText: false,
@@ -131,7 +137,7 @@ class Task extends Unit {
       phase: lab_data.phase,
       collegeName: lab_data.collegeName,
       baseUrl: lab_data.baseUrl,
-      exp_name: lab_data.exp_name || convert(exp_info.name),
+      exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
     };
 
