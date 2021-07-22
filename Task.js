@@ -129,7 +129,7 @@ class Task extends Unit {
       phase: lab_data.phase,
       collegeName: lab_data.collegeName,
       baseUrl: lab_data.baseUrl,
-      exp_name: lab_data.exp_name,
+      exp_name: lab_data.exp_name || exp_info.name,
       exp_short_name: lab_data.exp_short_name,
     };
 
