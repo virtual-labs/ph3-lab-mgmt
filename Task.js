@@ -9,6 +9,8 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const { Unit } = require("./Unit.js");
 
+const {convert} = require("html-to-text");
+
 const {
   UnitTypes,
   ContentTypes,
@@ -115,7 +117,7 @@ class Task extends Unit {
 	    meta: {
 		    experiment_short_name: lab_data.exp_short_name,
 		    developer_institute: lab_data.collegeName,
-		    learning_unit: this.lu || exp_info.name,
+		    learning_unit: this.lu || convert(exp_info.name),
 		    task_name: this.label,
 	    },
       isText: false,
@@ -129,7 +131,7 @@ class Task extends Unit {
       phase: lab_data.phase,
       collegeName: lab_data.collegeName,
       baseUrl: lab_data.baseUrl,
-      exp_name: lab_data.exp_name || exp_info.name,
+      exp_name: lab_data.exp_name || convert(exp_info.name),
       exp_short_name: lab_data.exp_short_name,
     };
 
