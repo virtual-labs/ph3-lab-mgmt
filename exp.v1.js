@@ -67,7 +67,7 @@ if (require.main === module) {
 
   // Get the experiment name and developer institute name from the repo name of the
   //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
-  const repo_name_regex = /[ex|tm]p-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
+  const repo_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
   const match = repo_name.match(repo_name_regex);
 
   default_lab_data.exp_short_name = match.groups.expName;
