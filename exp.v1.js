@@ -81,7 +81,7 @@ if (require.main === module) {
     default_lab_data.collegeName = match.groups.devInstituteName;
     default_lab_data.phase = 'Testing';
     default_lab_data.lab = 'Virtual Lab';
-    default_lab_data.broadArea.name = 'Test';
+    default_lab_data.broadArea = { name : 'Test'};
   } else {
     console.log('No match found');
   }
