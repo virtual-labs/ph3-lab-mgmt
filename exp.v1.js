@@ -64,8 +64,8 @@ if (require.main === module) {
 
   const repo_path = shell.exec('git config --get remote.origin.url', {silent:true}).stdout;
   const repo_name = path.basename(repo_path, '.git');
-  console.log(`Repo path = $repo_path`);
-  console.log(`Repo name = $repo_name`);
+  console.log('Repo path = ' + $repo_path);
+  console.log('Repo name = ' + $repo_name);
 
   // Get the experiment name and developer institute name from the repo name of the
   //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
