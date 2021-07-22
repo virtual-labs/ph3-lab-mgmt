@@ -62,7 +62,7 @@ if (require.main === module) {
    */
   const default_lab_data = {};
 
-  const repo_path = exec('git config --get remote.origin.url', {silent:true}).stdout;
+  const repo_path = shell.exec('git config --get remote.origin.url', {silent:true}).stdout;
   const repo_name = path.basename(repo_path, '.git');
 
   // Get the experiment name and developer institute name from the repo name of the
