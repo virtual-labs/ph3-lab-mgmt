@@ -62,16 +62,19 @@ if (require.main === module) {
    */
   const default_lab_data = {};
 
-  const repo_path = shell.exec('git config --get remote.origin.url', {silent:true}).stdout;
-  const repo_name = path.basename(repo_path, '.git');
-  console.log('Repo path = ' + repo_path);
-  console.log('Repo name = ' + repo_name);
-  console.log('Src = ' + path.resolve(src));
+  // const repo_path = shell.exec('git config --get remote.origin.url', {silent:true}).stdout;
+  // const repo_name = path.basename(repo_path, '.git');
+  // console.log('Repo path = ' + repo_path);
+  // console.log('Repo name = ' + repo_name);
+  // console.log('Src = ' + path.resolve(src));
+
+  const paths = path.resolve(src).split(path.sep);
+  const base = paths[paths.length - 1];
 
   // Get the experiment name and developer institute name from the repo name of the
   //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
-  const repo_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
-  const match = repo_name.match(repo_name_regex);
+  const path_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
+  const match = base.match(path_name_regex);
 
   if (match && match.groups) {
     default_lab_data.exp_short_name = match.groups.expName;
