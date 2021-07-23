@@ -17,8 +17,12 @@
   {{/if}}
   {{#if isSimulation}}
     <div class="simulation-container">
+      <button type="button" id="toggle-menu-float-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popupMenu">
+        <div class="toggle-menu-icon"></div>
+      </button>
+      
       <iframe class="responsive-iframe" id="fraDisabled" src="{{sim_src}}"
-	      frameborder="0" scrolling="no" onMyLoad="disableContextMenu();">
+	      frameborder="0" onMyLoad="disableContextMenu();">
       </iframe>
     </div>
   {{/if}}
