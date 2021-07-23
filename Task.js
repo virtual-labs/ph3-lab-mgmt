@@ -225,8 +225,22 @@ class Task extends Unit {
     }
   }
 
+
+  processPostPlugins(exp_info, lab_data, options) {
+    const pluginConfig = require("plugin-config.js");
+    const postBuildPlugins = pluginConfig.filter((p) => p.lifecycle==="post-build")
+    for(plugin in postBuildPlugins){
+      // Get the repos here
+      // Dist dir in plugin repo
+      // Copy them to assets folder as plugin-<pluginname>-dist
+      // Add app.js in the body. 
+      // TODO/Improvement: Process plugin only if corresponsing div exists
+    }
+  }
+
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
+    this.processPostPlugins();
   }
 }
 
