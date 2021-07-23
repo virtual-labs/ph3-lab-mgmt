@@ -9,7 +9,7 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const { Unit } = require("./Unit.js");
 
-const {convert} = require("html-to-text");
+const { convert } = require("html-to-text");
 
 const {
   UnitTypes,
@@ -19,6 +19,7 @@ const {
   validContentType,
 } = require("./Enums.js");
 const { NONAME } = require("dns");
+const { doc } = require("prettier");
 
 class Task extends Unit {
   constructor(
@@ -110,9 +111,9 @@ class Task extends Unit {
 
     // exp_info.name is an html tag. To get the experiment name from it,
     //  we need to extract the text
-    const exp_info_name_text = convert(exp_info.name, {selectors: [
-      { selector: 'h1', options: { uppercase: false }},
-    ]});
+    const exp_info_name_text = convert(exp_info.name, {
+      selectors: [{ selector: "h1", options: { uppercase: false } }],
+    });
 
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
@@ -120,12 +121,12 @@ class Task extends Unit {
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
-	    meta: {
-		    experiment_short_name: lab_data.exp_short_name,
-		    developer_institute: lab_data.collegeName,
-		    learning_unit: this.lu || exp_info_name_text,
-		    task_name: this.label,
-	    },
+      meta: {
+        "experiment-short-name": lab_data.exp_short_name,
+        "developer-institute": lab_data.collegeName,
+        "learning-unit": this.lu || exp_info_name_text,
+        "task-name": this.label,
+      },
       isText: false,
       isVideo: false,
       isSimulation: false,
@@ -143,15 +144,15 @@ class Task extends Unit {
 
     switch (this.content_type) {
       case ContentTypes.TEXT:
-        let mdContent = fs.readFileSync(this.sourcePath()).toString();
-        let htmlContent = marked(mdContent);
+        const mdContent = fs.readFileSync(this.sourcePath()).toString();
+        const htmlContent = marked(mdContent);
         page_data.content = htmlContent;
         page_data.isText = true;
         break;
 
       case ContentTypes.VIDEO:
-        let vidContent = fs.readFileSync(this.sourcePath()).toString();
-        let htmlvidContent = marked(vidContent);
+        const vidContent = fs.readFileSync(this.sourcePath()).toString();
+        const htmlvidContent = marked(vidContent);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
         break;
@@ -165,7 +166,7 @@ class Task extends Unit {
           .readFileSync(path.resolve(this.sourcePath()))
           .toString();
 
-        let rp = path.join(
+        const rp = path.join(
           path.relative(
             path.dirname(this.sourcePath()),
             Config.build_path(this.exp_path)
@@ -233,37 +234,43 @@ class Task extends Unit {
     }
   }
 
+  processPostBuildPlugins(exp_info, lab_data, options) {
 
-  processPostPlugins(exp_info, lab_data, options) {
-    const pluginConfig = require("plugin-config.js");
-    const postBuildPlugins = pluginConfig.filter((p) => p.lifecycle==="post-build")
-    for(plugin in postBuildPlugins){
-      let curPluginDiv = document.getElementById(plugin.id)
-      if(!curPluginDiv) continue;
-      switch(plugin.render){
-        case "inline":
-          let src = "<script src=\"" + plugin.src + "\" type=\"module\"></script>"
-          // Include in handlebar build or at end of body, below is a crude untested approach
-          let content = fs
-          .readFileSync(path.resolve(this.sourcePath()))
-          .toString();
-          content = content.replace(
-            "</body>",
-            src + "</body>"
-          );
-          fs.writeFileSync(path.resolve(this.sourcePath()), content);
-          // Question we probably need to do this step before Handlebar compile I suppose
-      // Get the repos here
-      // Dist dir in plugin repo
-      // Copy them to assets folder as plugin-<pluginname>-dist
-      // Add app.js in the body. 
+    const env = options.env || BuildEnvs.TESTING;
+    const pluginConfigFile = `./plugin-config.${env}.js`;
+    const pluginConfig = require(pluginConfigFile);
+
+    const postBuildPlugins = pluginConfig.filter(
+      (p) => p.lifecycle === "post-build"
+    );
+
+    const page = fs.readFileSync(path.resolve(this.targetPath()));
+    const dom = new JSDOM(page);
+    const { document } = dom.window;
+
+    postBuildPlugins.forEach((plugin) => {
+      // Render the Plugin UI component inside the parent
+      const pluginParent = document.getElementById(plugin.id);
+      if (pluginParent) {
+        // Write code to process a template file and add to the parent
       }
-    }
+
+      // add the js-modules at the bottom of the body
+      plugin.js_modules &&
+        plugin.js_modules.forEach((module) => {
+          const scriptNode = document.createElement("script");
+          scriptNode.type = "module";
+          scriptNode.src = module;
+
+          document.body.appendChild(scriptNode);
+        });
+    });
+    fs.writeFileSync(this.targetPath(), dom.serialize());
   }
 
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
-    this.processPostPlugins(exp_info, lab_data, options);
+    this.processPostBuildPlugins(exp_info, lab_data, options);
   }
 }
 

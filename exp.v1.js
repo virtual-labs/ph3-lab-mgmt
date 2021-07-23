@@ -17,6 +17,7 @@ function run (src, lab_data, build_options) {
   exp.clean();
   exp.init(Handlebars);
   exp.includeFeedback();
+  // exp.processPreBuildPlugins(lab_data, build_options);
   exp.build(lab_data, build_options);
 }
 

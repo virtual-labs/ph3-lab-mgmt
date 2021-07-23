@@ -1,14 +1,17 @@
-export default config = [
+const config = [
     {
         id: "plugin-bug-report",
         repo: "https://github.com/virtual-labs/svc-bug-report",
         src: "https://vjspranav.github.io/vleads-bug-report/client/app.js", // Changed probably soon
         lifecycle: "post-build",
-        render: "inline" // Other options maybe could be [handlebars, ...]
+        render: "inline", // Other options maybe could be [handlebars, ...]
+        js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"], // Changed probably soon
     },
     {
         id: "plugin-rating",
         repo: "https://github.com/virtual-labs/svc-rating",
         lifecycle: "post-build"
     },
-]
+];
+
+module.exports = config;
