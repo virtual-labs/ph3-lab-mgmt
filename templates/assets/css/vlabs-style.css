@@ -67,6 +67,14 @@
   font-weight: bold;
 }
 
+.nav-menu-body{
+  justify-content: center;
+}
+
+.sidebar .nav-menu-body{
+  justify-content: start;
+}
+
 .sidebar {
   /* border-right: 2px dotted #89a7c4; */
   border: thin solid #e8e8e8;

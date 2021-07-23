@@ -1,5 +1,5 @@
 const sidebar = document.querySelector(".sidebar");
-var myModal = new bootstrap.Modal(document.getElementById('popupMenu'))
+const myModal = new bootstrap.Modal(document.getElementById('popupMenu'))
 const breakpointLg = 992;
 
 function toggle() {
