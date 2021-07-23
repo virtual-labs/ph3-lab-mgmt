@@ -230,17 +230,32 @@ class Task extends Unit {
     const pluginConfig = require("plugin-config.js");
     const postBuildPlugins = pluginConfig.filter((p) => p.lifecycle==="post-build")
     for(plugin in postBuildPlugins){
+      let curPluginDiv = document.getElementById(plugin.id)
+      if(!curPluginDiv) continue;
+      switch(plugin.render){
+        case "inline":
+          let src = "<script src=\"" + plugin.src + "\" type=\"module\"></script>"
+          // Include in handlebar build or at end of body, below is a crude untested approach
+          let content = fs
+          .readFileSync(path.resolve(this.sourcePath()))
+          .toString();
+          content = content.replace(
+            "</body>",
+            src + "</body>"
+          );
+          fs.writeFileSync(path.resolve(this.sourcePath()), content);
+          // Question we probably need to do this step before Handlebar compile I suppose
       // Get the repos here
       // Dist dir in plugin repo
       // Copy them to assets folder as plugin-<pluginname>-dist
       // Add app.js in the body. 
-      // TODO/Improvement: Process plugin only if corresponsing div exists
+      }
     }
   }
 
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
-    this.processPostPlugins();
+    this.processPostPlugins(exp_info, lab_data, options);
   }
 }
 
