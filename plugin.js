@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
-const { UnitTypes, PluginScope } = require("./Enums.js");
+const { PluginScope } = require("./Enums.js");
 
 class Plugin {
 
