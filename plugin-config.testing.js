@@ -1,17 +1,25 @@
+const { PluginScope } = require("./Enums.js");
+
 const config = [
-    {
-        id: "plugin-bug-report",
-        repo: "https://github.com/virtual-labs/svc-bug-report",
-        src: "https://vjspranav.github.io/vleads-bug-report/client/app.js", // Changed probably soon
-        lifecycle: "post-build",
-        render: "inline", // Other options maybe could be [handlebars, ...]
-        js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"], // Changed probably soon
-    },
-    {
-        id: "plugin-rating",
-        repo: "https://github.com/virtual-labs/svc-rating",
-        lifecycle: "post-build"
-    },
+  {
+    id: "plugin-bug-report",
+    scope: PluginScope.PAGE,
+    js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
+  },
+  {
+    id: "plugin-rating",
+    scope: PluginScope.PAGE,
+  },
+  {
+    id: "plugin-performance",
+    scope: PluginScope.PAGE,
+    // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
+  },
+  {
+    id: "plugin-performance",
+    scope: PluginScope.EXPERIMENT,
+    // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
+  },
 ];
 
 module.exports = config;

@@ -6,6 +6,8 @@ const {Experiment} = require("./Experiment.js");
 const Config = require("./Config.js");
 const {BuildEnvs, validBuildEnv} = require("./Enums.js");
 
+const Plugin = require("./plugin");
+
 function run (src, lab_data, build_options) {
 
   // if the experiment repo does not contain experiment descriptor we will add the default descriptor.
@@ -17,7 +19,7 @@ function run (src, lab_data, build_options) {
   exp.clean();
   exp.init(Handlebars);
   exp.includeFeedback();
-  // exp.processPreBuildPlugins(lab_data, build_options);
+  // Plugin.processExpScopePlugins(exp, Handlebars, lab_data, build_options);
   exp.build(lab_data, build_options);
 }
 

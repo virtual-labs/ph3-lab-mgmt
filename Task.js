@@ -1,7 +1,6 @@
 const path = require("path");
 const fs = require("fs");
 const marked = require("marked");
-const { JSDOM } = require("jsdom");
 const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
@@ -17,9 +16,11 @@ const {
   BuildEnvs,
   validType,
   validContentType,
+  PluginScope,
 } = require("./Enums.js");
 const { NONAME } = require("dns");
 const { doc } = require("prettier");
+const { Plugin } = require("./plugin");
 
 class Task extends Unit {
   constructor(
@@ -212,7 +213,6 @@ class Task extends Unit {
             process.exit(-1);
           }
         }
-
         break;
     }
 
@@ -234,43 +234,9 @@ class Task extends Unit {
     }
   }
 
-  processPostBuildPlugins(exp_info, lab_data, options) {
-
-    const env = options.env || BuildEnvs.TESTING;
-    const pluginConfigFile = `./plugin-config.${env}.js`;
-    const pluginConfig = require(pluginConfigFile);
-
-    const postBuildPlugins = pluginConfig.filter(
-      (p) => p.lifecycle === "post-build"
-    );
-
-    const page = fs.readFileSync(path.resolve(this.targetPath()));
-    const dom = new JSDOM(page);
-    const { document } = dom.window;
-
-    postBuildPlugins.forEach((plugin) => {
-      // Render the Plugin UI component inside the parent
-      const pluginParent = document.getElementById(plugin.id);
-      if (pluginParent) {
-        // Write code to process a template file and add to the parent
-      }
-
-      // add the js-modules at the bottom of the body
-      plugin.js_modules &&
-        plugin.js_modules.forEach((module) => {
-          const scriptNode = document.createElement("script");
-          scriptNode.type = "module";
-          scriptNode.src = module;
-
-          document.body.appendChild(scriptNode);
-        });
-    });
-    fs.writeFileSync(this.targetPath(), dom.serialize());
-  }
-
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
-    this.processPostBuildPlugins(exp_info, lab_data, options);
+    Plugin.processPageScopePlugins(this, options);
   }
 }
 

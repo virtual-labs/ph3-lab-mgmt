@@ -7,7 +7,7 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const { LearningUnit } = require("./LearningUnit.js");
 const { Task } = require("./Task.js");
-const { UnitTypes, ContentTypes, BuildEnvs } = require("./Enums.js");
+const { UnitTypes, ContentTypes, BuildEnvs, PluginScope } = require("./Enums.js");
 
 class Experiment {
   constructor(src) {
@@ -109,36 +109,6 @@ class Experiment {
     this.descriptor.units.push(feedbackLU);
   }
 
-  processPreBuildPlugins(lab_data, options) {
-    const env = options.env || BuildEnvs.TESTING;
-    const pluginConfigFile = `./plugin-config.${env}.js`;
-    const pluginConfig = require(pluginConfigFile);
-
-    const preBuildPlugins = pluginConfig.filter(
-      (p) => p.lifecycle === "pre-build"
-    );
-
-    preBuildPlugins.forEach((plugin) => {
-      // Render the Plugin UI component inside the parent
-
-      this.descriptor.units.push({
-        "unit-type": "plugin",
-        label: plugin.label,
-        template: plugin.template.path,
-        target: plugin.output,
-      });
-      // add the js-modules at the bottom of the body
-      plugin.js_modules &&
-        plugin.js_modules.forEach((module) => {
-          const scriptNode = document.createElement("script");
-          scriptNode.type = "module";
-          scriptNode.src = module;
-
-          document.body.appendChild(scriptNode);
-        });
-    });
-    fs.writeFileSync(this.targetPath(), dom.serialize());
-  }
 }
 
 module.exports = { Experiment };
