@@ -2,7 +2,6 @@ const UnitTypes = {
   LU: "lu",
   TASK: "task",
   AIM: "aim",
-  PLUGIN: "plugin",
 };
 
 const ContentTypes = {

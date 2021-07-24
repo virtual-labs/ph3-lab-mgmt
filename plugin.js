@@ -2,12 +2,8 @@ const path = require("path");
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
 const { UnitTypes, PluginScope } = require("./Enums.js");
-const { Unit } = require("./Unit.js");
 
-class Plugin extends Unit {
-  constructor() {
-    super(UnitTypes.PLUGIN, "Plugin", "", "");
-  }
+class Plugin {
 
   static getConfigFileName(options_env) {
     const env = options_env || BuildEnvs.TESTING;
@@ -15,7 +11,7 @@ class Plugin extends Unit {
     return pluginConfigFile;
   }
 
-  static processExpScopePlugins(hb, lab_data, options) {
+  static processExpScopePlugins(exp, hb, lab_data, options) {
     const env = options.env || BuildEnvs.TESTING;
     const pluginConfigFile = `./plugin-config.${env}.js`;
     const pluginConfig = require(pluginConfigFile);
@@ -25,25 +21,23 @@ class Plugin extends Unit {
     );
 
     expScopePlugins.forEach((plugin) => {
-      // Render the Plugin UI component inside the parent
+      // Clone the repo at some safe place
 
-      this.descriptor.units.push({
-        "unit-type": "plugin",
-        label: plugin.label,
-        template: plugin.template.path,
-        target: plugin.output,
-      });
-      // add the js-modules at the bottom of the body
-      plugin.js_modules &&
-        plugin.js_modules.forEach((module) => {
-          const scriptNode = document.createElement("script");
-          scriptNode.type = "module";
-          scriptNode.src = module;
+      // register the partials with the hb
+      // Read the template as string from the partial location
+    //   const partial = fs.readFileSync(plugin.partial.filename);
+      //   hb.registerPartial(plugin.id, partial);
 
-          document.body.appendChild(scriptNode);
-        });
+      // Build the result component from the template
+
+    //   const page_template = fs.readFileSync(plugin.target.template);
+    //   const page_data = { ...plugin.page_data, ...lab_data};
+    //   fs.writeFileSync(
+    //     targetPath(),
+    //     hb.compile(page_template.toString())(page_data)
+    //   );
+
     });
-    fs.writeFileSync(this.targetPath(), dom.serialize());
   }
 
   static processPageScopePlugins(page, options) {

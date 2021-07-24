@@ -18,6 +18,7 @@ const config = [
   {
     id: "plugin-performance",
     scope: PluginScope.EXPERIMENT,
+    repo: "",
     // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
   },
 ];
