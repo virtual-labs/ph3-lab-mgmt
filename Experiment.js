@@ -8,6 +8,7 @@ const Config = require("./Config.js");
 const { LearningUnit } = require("./LearningUnit.js");
 const { Task } = require("./Task.js");
 const { UnitTypes, ContentTypes, BuildEnvs, PluginScope } = require("./Enums.js");
+const { Plugin } = require("./plugin");
 
 class Experiment {
   constructor(src) {
@@ -70,7 +71,7 @@ class Experiment {
     return marked(name_file.toString());
   }
 
-  build(lab_data, options) {
+  build(Handlebars, lab_data, options) {
     /*
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
@@ -79,8 +80,10 @@ class Experiment {
     const exp_info = {
       name: this.name(),
       menu: explu.units,
+      src: this.src
     };
 
+    Plugin.processExpScopePlugins(exp_info, Handlebars, lab_data, options);
     explu.build(exp_info, lab_data, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory

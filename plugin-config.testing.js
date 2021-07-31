@@ -18,8 +18,12 @@ const config = [
   {
     id: "plugin-performance",
     scope: PluginScope.EXPERIMENT,
-    repo: "",
-    // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
+    repo: "https://github.com/SRDewan/SEO-Tool.git",
+    dirName: "SEO-Tool",
+    template: "handlebars/performance-report.handlebars",
+    jsDir: "js",
+    cssDir: "css",
+    target: "performance-report.html",
   },
 ];
 
