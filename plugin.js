@@ -70,6 +70,7 @@ class Plugin {
     );
 
     shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
+    let plugins = [];
     expScopePlugins.forEach((plugin) => {
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
@@ -99,10 +100,14 @@ class Plugin {
 			    path.join(Config.build_path(exp_info.src), plugin.target),
 			    hb.compile(page_template.toString())(page_data)
 		    );
+
+		    plugins.push({ target: plugin.target, label: plugin.label });
 	    } catch (e) {
 		    console.error(e.message);
 	    };
     });
+
+	return plugins;
   }
 
   static processPageScopePlugins(page, options) {

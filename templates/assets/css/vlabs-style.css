@@ -308,3 +308,8 @@ iframe {
   border-radius: .25rem;
   opacity: .5;
 }
+
+.tools {
+	top: 50%;
+	transform: translate(0%, 25%);
+}

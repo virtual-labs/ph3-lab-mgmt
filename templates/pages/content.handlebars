@@ -34,7 +34,12 @@
       {{> header }}
       <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
         <div class="row d-flex justify-content-between">
-          <div class="flex-column">{{> breadcrumbs }}</div>
+          <div class="flex-column">
+		  {{> breadcrumbs }}
+		  {{#if testing}}
+		  {{> tools }}
+		  {{/if}}
+	  </div>
           <div class="flex-column">
             <div id="plugin-bug-report"></div>
             <div id="plugin-rating"></div>

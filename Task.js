@@ -119,6 +119,7 @@ class Task extends Unit {
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
       testing: options.env === BuildEnvs.TESTING,
+      plugins: exp_info.plugins,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,

@@ -24,6 +24,7 @@ const config = [
     jsDir: "js",
     cssDir: "css",
     target: "performance-report.html",
+    label: "Performance Tool"
   },
 ];
 
