@@ -84,7 +84,7 @@ class Plugin {
 
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
-		    const page_template = fs.readFileSync(path.join(pluginPath, plugin.template));
+		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
 			    path.join(Config.build_path(exp_info.src), 'plugins', plugin.dirName),
