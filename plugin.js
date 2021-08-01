@@ -69,6 +69,7 @@ class Plugin {
       (p) => p.scope === PluginScope.EXPERIMENT
     );
 
+    shell.exec('mkdir plugins');
     expScopePlugins.forEach((plugin) => {
 	    // Clone the repo at some safe place
 	    const repoPath = path.resolve('plugins');
@@ -118,6 +119,8 @@ class Plugin {
 		    console.error(e.message);
 	    };
     });
+
+    shell.exec('rm -rf plugins');
   }
 
   static processPageScopePlugins(page, options) {
