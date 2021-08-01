@@ -30,21 +30,21 @@ function getFiles(dirPath, targetPath) {
 };
 
 function setCurr(component, targetPath, flag=false) {
-	let obj = {...component};
-	flag = true;
+	let obj = {...component}, isCurrentItem = false;
+
+	if(obj.unit_type === "aim")
+	{
+		flag = true;
+		isCurrentItem = true;
+	}
 
 	if(!flag)
 	{
 		obj = component.menuItemInfo(targetPath);
-	}
-	let isCurrentItem = false;
-
-	if(obj.unit_type === "aim")
-	{
-		isCurrentItem = true;
+		console.log(obj)
 	}
 
-	else if(obj.unit_type === "lu")
+	if(obj.unit_type === "lu")
 	{
 		obj.units = [...obj.units.map((subComponent) => setCurr(subComponent, targetPath, true))];
 	}
@@ -73,7 +73,6 @@ class Plugin {
     expScopePlugins.forEach((plugin) => {
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
-		    shell.exec('ls -R \'' + pluginPath + '\'');
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
