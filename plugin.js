@@ -69,28 +69,10 @@ class Plugin {
       (p) => p.scope === PluginScope.EXPERIMENT
     );
 
-    shell.exec('mkdir plugins');
+    shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
     expScopePlugins.forEach((plugin) => {
-	    // Clone the repo at some safe place
-	    const repoPath = path.resolve('plugins');
-	    shell.cd(repoPath);
-
-	    if(!fs.existsSync(plugin.dirName))
-	    {
-		    console.log('hi')
-		    shell.exec('git clone ' + plugin.repo);
-		    shell.exec('ls -R');
-	    }
-
-	    shell.cd('..');
-	    shell.exec('cp -ur \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
-	    shell.exec('ls -R');
-	    shell.exec('pwd');
-
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
-		    console.log(pluginPath);
-		    shell.exec('ls \'' + pluginPath + '\'');
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
@@ -121,8 +103,6 @@ class Plugin {
 		    console.error(e.message);
 	    };
     });
-
-    shell.exec('rm -rf plugins');
   }
 
   static processPageScopePlugins(page, options) {

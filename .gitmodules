@@ -1,0 +1,3 @@
+[submodule "plugins/SEO-Tool"]
+	path = plugins/SEO-Tool
+	url = https://github.com/SRDewan/SEO-Tool.git

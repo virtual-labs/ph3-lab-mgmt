@@ -18,7 +18,7 @@ const config = [
   {
     id: "plugin-performance",
     scope: PluginScope.EXPERIMENT,
-    repo: "https://github.com/SRDewan/SEO-Tool.git",
+    //repo: "https://github.com/SRDewan/SEO-Tool.git",
     dirName: "SEO-Tool",
     template: "handlebars/performance-report.handlebars",
     jsDir: "js",
