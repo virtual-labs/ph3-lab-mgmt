@@ -46,7 +46,7 @@ function setCurr(component, targetPath, flag=false) {
 
 	else if(obj.unit_type === "lu")
 	{
-		obj.units = [...obj.units.map((subComponent) => setCurr(subComponent, true))];
+		obj.units = [...obj.units.map((subComponent) => setCurr(subComponent, targetPath, true))];
 	}
 
 	return { ...obj, isCurrentItem: isCurrentItem };
@@ -77,7 +77,7 @@ class Plugin {
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
-			    path.join(Config.build_path(exp_info.src), 'plugins', plugin.dirName),
+			    path.join(Config.build_path(exp_info.src), plugin.target),
 			    Config.build_path(exp_info.src)
 		    );
 		    assets_path = assets_path ? assets_path : ".";
