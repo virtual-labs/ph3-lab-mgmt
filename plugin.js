@@ -41,6 +41,7 @@ function setCurr(component, targetPath, flag=false) {
 	if(!flag)
 	{
 		obj = component.menuItemInfo(targetPath);
+		console.log(obj);
 	}
 
 	if(obj.unit_type === "lu")
@@ -83,7 +84,7 @@ class Plugin {
 		    const page_data = {
 			    experiment_name: exp_info.name,
 			    assets_path: assets_path,
-			    units: exp_info.menu.map((component) => setCurr(component, Config.build_path(exp_info.src))),
+			    units: exp_info.menu.map((component) => setCurr(component, path.join(Config.build_path(exp_info.src), plugin.target))),
 			    css_files: getFiles(
 				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.dirName, plugin.cssDir), 
 				    Config.build_path(exp_info.src)
