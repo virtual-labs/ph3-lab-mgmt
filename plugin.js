@@ -73,7 +73,7 @@ class Plugin {
     expScopePlugins.forEach((plugin) => {
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
-		    shell.exec('ls -R' + pluginPath);
+		    shell.exec('ls -R \'' + pluginPath + '\'');
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
