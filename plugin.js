@@ -41,7 +41,6 @@ function setCurr(component, targetPath, flag=false) {
 	if(!flag)
 	{
 		obj = component.menuItemInfo(targetPath);
-		console.log(obj)
 	}
 
 	if(obj.unit_type === "lu")
@@ -76,7 +75,7 @@ class Plugin {
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
-			    path.join(Config.build_path(exp_info.src), plugin.target),
+			    path.dirname(path.join(Config.build_path(exp_info.src), plugin.target)),
 			    Config.build_path(exp_info.src)
 		    );
 		    assets_path = assets_path ? assets_path : ".";
