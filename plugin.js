@@ -77,7 +77,9 @@ class Plugin {
 
 	    if(!fs.existsSync(plugin.dirName))
 	    {
+		    console.log('hi')
 		    shell.exec('git clone ' + plugin.repo);
+		    shell.exec('ls -R');
 	    }
 
 	    shell.cd('..');
