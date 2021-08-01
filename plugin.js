@@ -71,7 +71,7 @@ class Plugin {
 
     expScopePlugins.forEach((plugin) => {
 	    // Clone the repo at some safe place
-	    const repoPath = path.resolve('./plugins');
+	    const repoPath = path.resolve('plugins');
 	    shell.cd(repoPath);
 
 	    if(!fs.existsSync(plugin.dirName))
@@ -81,9 +81,13 @@ class Plugin {
 
 	    shell.cd('..');
 	    shell.exec('cp -ur \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
+	    shell.exec('ls -R');
+	    shell.exec('pwd');
 
 	    try {
 		    const pluginPath = path.resolve('plugins', plugin.dirName);
+		    console.log(pluginPath);
+		    shell.exec('ls \'' + pluginPath + '\'');
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
