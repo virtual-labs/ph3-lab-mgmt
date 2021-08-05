@@ -73,7 +73,7 @@ class Plugin {
     let plugins = [];
     expScopePlugins.forEach((plugin) => {
 	    try {
-		    const pluginPath = path.resolve('plugins', plugin.dirName);
+		    const pluginPath = path.resolve('plugins', plugin.id);
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
 		    let assets_path = path.relative(
@@ -81,17 +81,19 @@ class Plugin {
 			    Config.build_path(exp_info.src)
 		    );
 		    assets_path = assets_path ? assets_path : ".";
+		    const cssDir = plugin.cssDir || "css";
+		    const jsDir = plugin.jsDir || "js";
 
 		    const page_data = {
 			    experiment_name: exp_info.name,
 			    assets_path: assets_path,
 			    units: exp_info.menu.map((component) => setCurr(component, path.join(Config.build_path(exp_info.src), plugin.target))),
 			    css_files: getFiles(
-				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.dirName, plugin.cssDir), 
+				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.id, cssDir), 
 				    Config.build_path(exp_info.src)
 			    ),
 			    js_files: getFiles(
-				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.dirName, plugin.jsDir), 
+				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.id, jsDir), 
 				    Config.build_path(exp_info.src)
 			    ),
 		    };

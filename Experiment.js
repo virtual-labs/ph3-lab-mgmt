@@ -71,7 +71,7 @@ class Experiment {
     return marked(name_file.toString());
   }
 
-  build(Handlebars, lab_data, options) {
+  build(hb, lab_data, options) {
     /*
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
@@ -80,10 +80,10 @@ class Experiment {
     const exp_info = {
       name: this.name(),
       menu: explu.units,
-      src: this.src
+      src: this.src,
     };
 
-    exp_info.plugins = Plugin.processExpScopePlugins(exp_info, Handlebars, lab_data, options);
+    exp_info.plugins = Plugin.processExpScopePlugins(exp_info, hb, lab_data, options);
     explu.build(exp_info, lab_data, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory
