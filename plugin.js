@@ -29,16 +29,16 @@ function getFiles(dirPath, targetPath) {
 	return files.map((file) => path.join(path.relative(targetPath, path.dirname(file)), path.basename(file)));
 };
 
-function setCurr(component, targetPath, flag=false) {
+function setCurr(component, targetPath, subTaskFlag=false) {
 	let obj = {...component}, isCurrentItem = false;
 
 	if(obj.unit_type === "aim")
 	{
-		flag = true;
+		subTaskFlag = true;
 		isCurrentItem = true;
 	}
 
-	if(!flag)
+	if(!subTaskFlag)
 	{
 		obj = component.menuItemInfo(targetPath);
 	}
