@@ -1,22 +1,18 @@
-async function gscApi(link, apiKey) {
-	const api = 'https://searchconsole.googleapis.com/v1/urlTestingTools/mobileFriendlyTest:run', parameters = { key: apiKey }, url = setUpQuery(link, api, parameters), result = {};
+async function gscApi(link, api) {
+	const parameters = { key: api.key }, url = setUpQuery(link, api.url, parameters), result = {};
 
-	await axios.post(url, {
+	const response = await axios.post(url, {
 		"url": link,
 		"requestScreenshot": false
-	})
-		.then(response => {
-			const json = response.data;
-			result['Status'] = json['mobileFriendliness'];
-			result['Issues'] = [];
+	});
 
-			if (json.mobileFriendlyIssues) {
-				result['Issues'] = json['mobileFriendlyIssues'];
-			}
-		})
-		.catch(error => {
-			console.log(link, error);
-		});
+	const json = response.data;
+	result['Status'] = json['mobileFriendliness'];
+	result['Issues'] = [];
+
+	if (json.mobileFriendlyIssues) {
+		result['Issues'] = json['mobileFriendlyIssues'];
+	}
 
 	return {...result};
 };

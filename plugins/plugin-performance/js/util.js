@@ -26,7 +26,7 @@ function setUpQuery(link, api, parameters) {
 	return query;
 };
 
-function genCols(elem) {
+function genColumnsContainer(elem) {
 	const cols = document.createElement("div");
 	cols.classList.add('columns', 'is-centered');
 	elem.appendChild(cols);
@@ -40,13 +40,13 @@ function genColumn(elem) {
 	return column;
 };
 
-function genText(elem, metric, content, flag) {
+function genText(elem, metric, content, toolTipFlag) {
 	const textElem = document.createElement("div");
 	textElem.classList.add('is-size-5');
 	const text = content[0].toUpperCase() + content.slice(1);
 	textElem.innerHTML = text;
 
-	if(flag)
+	if(toolTipFlag)
 	{
 		const infoIcon = document.createElement("i");
 		infoIcon.classList.add('fa', 'fa-info-circle');
@@ -67,15 +67,21 @@ function genToolTip(elem, text) {
 };
 
 function colorScheme(score) {
-	let color = 2;
+	const colors = {
+		"red": 0,
+		"orange": 1,
+		"green": 2,
+	};
+	let color = colors.green;
+
 	if(score < 50)
 	{
-		color = 0;
+		color = colors.red;
 	}
 
 	else if(score < 90)
 	{
-		color = 1;
+		color = colors.orange;
 	}
 
 	return color;

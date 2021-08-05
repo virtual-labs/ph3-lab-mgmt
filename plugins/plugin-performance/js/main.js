@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	};
 
 	function colorClear(elemIds) {
-		elemIds.forEach((elemId, ind) => {
+		elemIds.forEach((elemId) => {
 			const element = document.querySelector(`[data-url='${elemId}']`);
 			element.children[0].children[0].classList.remove(...colors);
 		});
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	function getDate(ts)
 	{
 		const date = new Date(ts), days = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"];
-		let dateStrg = days[date.getDay()] + ", " + date.getDate() + "/" + ('0' + String(date.getMonth())).slice(-2) + "/" + date.getFullYear() + " " + ('0' + String(date.getHours())).slice(-2) + ":" + ('0' + String(date.getMinutes())).slice(-2) + ":" + ('0' + String(date.getSeconds())).slice(-2);
+		const dateStrg = `${days[date.getDay()]}, ${date.getDate()}/${('0' + String(date.getMonth())).slice(-2)}/${date.getFullYear()} ${('0' + String(date.getHours())).slice(-2)}:${('0' + String(date.getMinutes())).slice(-2)}:${('0' + String(date.getSeconds())).slice(-2)}`;
 		return dateStrg;
 	};
 
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 				else
 				{
-					const lighthouseRes = await lighthouseApi(pages[i], commonData.apiKeys['lighthouse']), gscRes = await gscApi(pages[i], commonData.apiKeys['gsc']);
+					const lighthouseRes = await lighthouseApi(pages[i], commonData.api['lighthouse']), gscRes = await gscApi(pages[i], commonData.api['gsc']);
 					reports[pages[i]] = {
 						lighthouse: {...lighthouseRes},
 						gsc: {...gscRes}
@@ -148,17 +148,18 @@ document.addEventListener('DOMContentLoaded', async function() {
 					if(luElem.contains(tab))
 					{
 						parentLU = document.querySelector(`[data-url='${lu}']`);
+						const parentTabText = parentLU.children[0].children[0];
 						if(!(lu in luColors))
 						{
 							luColors[lu] = currColor;
-							parentLU.children[0].children[0].classList.add(colors[currColor]);
+							parentTabText.classList.add(colors[currColor]);
 						}
 
 						else if(luColors[lu] > currColor)
 						{
-							parentLU.children[0].children[0].classList.remove(colors[luColors[lu]]);
+							parentTabText.classList.remove(colors[luColors[lu]]);
 							luColors[lu] = currColor;
-							parentLU.children[0].children[0].classList.add(colors[currColor]);
+							parentTabText.classList.add(colors[currColor]);
 						}
 					}
 				});

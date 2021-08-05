@@ -1,7 +1,13 @@
 const commonData = {
-	"apiKeys": {
-		"lighthouse": "AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8",
-		"gsc": "AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc"
+	"api": {
+		"lighthouse": {
+			"url": "https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
+			"key": "AIzaSyAVkdhwABn964MsgQmYvLF7MQsASFNSEQ8",
+		},
+		"gsc": {
+			"url": "https://searchconsole.googleapis.com/v1/urlTestingTools/mobileFriendlyTest:run",
+			"key": "AIzaSyBJ5sSM3HpctL3mQyxibLr6ceYQHlPL7oc",
+		},
 	},
 	"scoreMap": {
 		"performance": "Performance",
@@ -19,6 +25,6 @@ const commonData = {
 		"Largest Contentful Paint": "Largest Contentful Paint marks the time at which the largest text or image is painted. <a href='https://web.dev/lighthouse-largest-contentful-paint/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>",
 		"Time To Interactive": "Time to interactive is the amount of time it takes for the page to become fully interactive. <a href='https://web.dev/interactive/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>.",
 		"Total Blocking Time": "Sum of all time periods between FCP and Time to Interactive, when task length exceeds 50ms, expressed in milliseconds. <a href='https://web.dev/lighthouse-total-blocking-time/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>.",
-		"Cumulative Layout Shift": "Cumulative Layout Shift measures the movement of visible elements within the viewport. <a href='https://web.dev/cls/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>."
-	}
+		"Cumulative Layout Shift": "Cumulative Layout Shift measures the movement of visible elements within the viewport. <a href='https://web.dev/cls/?utm_source=lighthouse&utm_medium=lr' target='_blank'>Learn more</a>.",
+	},
 };

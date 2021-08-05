@@ -60,7 +60,7 @@ function lighthousePopulate(link, data)
 		const segment = document.getElementById(device);
 		segment.innerHTML = '';
 
-		const titleCols = genCols(segment), linkCols = genCols(segment), dialsCols = genCols(segment), metricCols = genCols(segment);
+		const titleCols = genColumnsContainer(segment), linkCols = genColumnsContainer(segment), dialsCols = genColumnsContainer(segment), metricCols = genColumnsContainer(segment);
 		const titleColumn = genColumn(titleCols), metricColumn = genColumn(metricCols), half = Math.floor((Object.keys(data[device]).length - 2) / 2), table = document.createElement('table');
 		table.classList.add('table', 'is-bordered');
 		metricColumn.appendChild(table);

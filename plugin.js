@@ -41,7 +41,6 @@ function setCurr(component, targetPath, flag=false) {
 	if(!flag)
 	{
 		obj = component.menuItemInfo(targetPath);
-		console.log(obj);
 	}
 
 	if(obj.unit_type === "lu")
