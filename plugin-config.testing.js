@@ -16,9 +16,9 @@ const config = [
     // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
   },
   {
-    id: "plugin-performance",
+    id: "tool-performance",
     scope: PluginScope.EXPERIMENT,
-    //repo: "https://github.com/SRDewan/SEO-Tool.git",
+    repo: "https://github.com/virtual-labs/tool-performance",
     template: "handlebars/performance-report.handlebars",
     target: "performance-report.html",
     label: "Performance Tool"

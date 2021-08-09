@@ -68,10 +68,18 @@ class Plugin {
       (p) => p.scope === PluginScope.EXPERIMENT
     );
 
-    shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
+    //shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
     let plugins = [];
     expScopePlugins.forEach((plugin) => {
 	    try {
+		    if(!fs.existsSync(path.join('plugins', plugin.id)))
+		    {
+			    shell.cd('plugins');
+			    shell.exec('git clone ' + plugin.repo);
+			    shell.cd('..');
+		    }
+		    shell.exec('cp -ur \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
+
 		    const pluginPath = path.resolve('plugins', plugin.id);
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
@@ -108,6 +116,7 @@ class Plugin {
 	    };
     });
 
+	shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
 	return plugins;
   }
 
