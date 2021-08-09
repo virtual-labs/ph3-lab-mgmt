@@ -6,29 +6,6 @@ const { JSDOM } = require("jsdom");
 const Config = require("./Config.js");
 const { PluginScope } = require("./Enums.js");
 
-//function getAllFiles(dirPath, arrayOfFiles) {
-	//const files = fs.readdirSync(dirPath);
-	//arrayOfFiles = arrayOfFiles || [];
-
-	//files.forEach(function(file) {
-		//if (fs.statSync(dirPath + "/" + file).isDirectory())
-		//{
-			//arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
-		//}
-		//else
-		//{
-			//arrayOfFiles.push(path.join(dirPath, "/", file));
-		//}
-	//});
-
-	//return arrayOfFiles;
-//};
-
-//function getFiles(dirPath, targetPath) {
-	//let files = getAllFiles(dirPath);
-	//return files.map((file) => path.join(path.relative(targetPath, path.dirname(file)), path.basename(file)));
-//};
-
 function setCurr(component, targetPath, subTaskFlag=false) {
 	let obj = {...component}, isCurrentItem = false;
 
