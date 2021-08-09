@@ -70,6 +70,7 @@ class Plugin {
 
     //shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
     let plugins = [];
+    shell.exec('mkdir plugins');
     expScopePlugins.forEach((plugin) => {
 	    try {
 		    if(!fs.existsSync(path.join('plugins', plugin.id)))
@@ -117,6 +118,7 @@ class Plugin {
     });
 
 	shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
+	  shell.exec('rm -rf plugins');
 	return plugins;
   }
 
