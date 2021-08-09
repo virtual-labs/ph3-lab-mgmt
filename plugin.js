@@ -6,28 +6,28 @@ const { JSDOM } = require("jsdom");
 const Config = require("./Config.js");
 const { PluginScope } = require("./Enums.js");
 
-function getAllFiles(dirPath, arrayOfFiles) {
-	const files = fs.readdirSync(dirPath);
-	arrayOfFiles = arrayOfFiles || [];
+//function getAllFiles(dirPath, arrayOfFiles) {
+	//const files = fs.readdirSync(dirPath);
+	//arrayOfFiles = arrayOfFiles || [];
 
-	files.forEach(function(file) {
-		if (fs.statSync(dirPath + "/" + file).isDirectory())
-		{
-			arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
-		}
-		else
-		{
-			arrayOfFiles.push(path.join(dirPath, "/", file));
-		}
-	});
+	//files.forEach(function(file) {
+		//if (fs.statSync(dirPath + "/" + file).isDirectory())
+		//{
+			//arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
+		//}
+		//else
+		//{
+			//arrayOfFiles.push(path.join(dirPath, "/", file));
+		//}
+	//});
 
-	return arrayOfFiles;
-};
+	//return arrayOfFiles;
+//};
 
-function getFiles(dirPath, targetPath) {
-	let files = getAllFiles(dirPath);
-	return files.map((file) => path.join(path.relative(targetPath, path.dirname(file)), path.basename(file)));
-};
+//function getFiles(dirPath, targetPath) {
+	//let files = getAllFiles(dirPath);
+	//return files.map((file) => path.join(path.relative(targetPath, path.dirname(file)), path.basename(file)));
+//};
 
 function setCurr(component, targetPath, subTaskFlag=false) {
 	let obj = {...component}, isCurrentItem = false;
@@ -89,21 +89,15 @@ class Plugin {
 			    Config.build_path(exp_info.src)
 		    );
 		    assets_path = assets_path ? assets_path : ".";
-		    const cssDir = plugin.cssDir || "css";
-		    const jsDir = plugin.jsDir || "js";
+		    const cssModule = plugin.cssModule || "css/main.css";
+		    const jsModule = plugin.jsModule || "js/main.js";
 
 		    const page_data = {
 			    experiment_name: exp_info.name,
 			    assets_path: assets_path,
 			    units: exp_info.menu.map((component) => setCurr(component, path.join(Config.build_path(exp_info.src), plugin.target))),
-			    css_files: getFiles(
-				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.id, cssDir), 
-				    Config.build_path(exp_info.src)
-			    ),
-			    js_files: getFiles(
-				    path.join(Config.build_path(exp_info.src), 'plugins', plugin.id, jsDir), 
-				    Config.build_path(exp_info.src)
-			    ),
+			    cssModule: path.join('plugins', plugin.id, cssModule),
+			    jsModule: path.join('plugins', plugin.id, jsModule),
 		    };
 
 		    fs.writeFileSync(
