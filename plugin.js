@@ -68,7 +68,6 @@ class Plugin {
       (p) => p.scope === PluginScope.EXPERIMENT
     );
 
-    //shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
     let plugins = [];
     shell.exec('mkdir plugins');
     expScopePlugins.forEach((plugin) => {
@@ -77,6 +76,7 @@ class Plugin {
 		    {
 			    shell.cd('plugins');
 			    shell.exec('git clone ' + plugin.repo);
+			    shell.exec(`rm -rf ${path.join(plugin.id, '.git')}`);
 			    shell.cd('..');
 		    }
 		    shell.exec('cp -ur \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
@@ -118,7 +118,7 @@ class Plugin {
     });
 
 	shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
-	  shell.exec('rm -rf plugins');
+	shell.exec('rm -rf plugins');
 	return plugins;
   }
 
