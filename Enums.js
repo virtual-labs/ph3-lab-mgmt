@@ -1,20 +1,32 @@
 const UnitTypes = {
   LU: "lu",
   TASK: "task",
-  AIM: "aim"
+  AIM: "aim",
 };
 
 const ContentTypes = {
   TEXT: "text",
   VIDEO: "video",
   SIMULATION: "simulation",
-  ASSESMENT: "assesment"
+  ASSESMENT: "assesment",
 };
 
 const BuildEnvs = {
   PRODUCTION: 'production',
   TESTING: 'testing',
   LOCAL: 'local'
+};
+
+const PluginScope = {
+  EXPERIMENT: 'experiment',
+  PAGE: 'page',
+};
+
+const PluginConfig = {
+	Default: {
+		JS_MODULE: 'js/main.js',
+		CSS_MODULE: 'css/main.css',
+	},
 };
 
 function validType(t, v) {
@@ -45,4 +57,4 @@ function validBuildEnv(e) {
   }
 }
 
-module.exports = {UnitTypes, ContentTypes, BuildEnvs, validType, validContentType, validUnitType, validBuildEnv};
+module.exports = {UnitTypes, ContentTypes, BuildEnvs, PluginScope, PluginConfig, validType, validContentType, validUnitType, validBuildEnv};

@@ -1,7 +1,6 @@
 const path = require("path");
 const fs = require("fs");
 const marked = require("marked");
-const { JSDOM } = require("jsdom");
 const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
@@ -9,7 +8,7 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const { Unit } = require("./Unit.js");
 
-const {convert} = require("html-to-text");
+const { convert } = require("html-to-text");
 
 const {
   UnitTypes,
@@ -17,8 +16,10 @@ const {
   BuildEnvs,
   validType,
   validContentType,
+  PluginScope,
 } = require("./Enums.js");
 const { NONAME } = require("dns");
+const { Plugin } = require("./plugin");
 
 class Task extends Unit {
   constructor(
@@ -110,22 +111,23 @@ class Task extends Unit {
 
     // exp_info.name is an html tag. To get the experiment name from it,
     //  we need to extract the text
-    const exp_info_name_text = convert(exp_info.name, {selectors: [
-      { selector: 'h1', options: { uppercase: false }},
-    ]});
+    const exp_info_name_text = convert(exp_info.name, {
+      selectors: [{ selector: "h1", options: { uppercase: false } }],
+    });
 
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
       testing: options.env === BuildEnvs.TESTING,
+      plugins: exp_info.plugins,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
-	    meta: {
-		    experiment_short_name: lab_data.exp_short_name,
-		    developer_institute: lab_data.collegeName,
-		    learning_unit: this.lu || exp_info_name_text,
-		    task_name: this.label,
-	    },
+      meta: {
+        "experiment-short-name": lab_data.exp_short_name,
+        "developer-institute": lab_data.collegeName,
+        "learning-unit": this.lu || exp_info_name_text,
+        "task-name": this.label,
+      },
       isText: false,
       isVideo: false,
       isSimulation: false,
@@ -143,15 +145,15 @@ class Task extends Unit {
 
     switch (this.content_type) {
       case ContentTypes.TEXT:
-        let mdContent = fs.readFileSync(this.sourcePath()).toString();
-        let htmlContent = marked(mdContent);
+        const mdContent = fs.readFileSync(this.sourcePath()).toString();
+        const htmlContent = marked(mdContent);
         page_data.content = htmlContent;
         page_data.isText = true;
         break;
 
       case ContentTypes.VIDEO:
-        let vidContent = fs.readFileSync(this.sourcePath()).toString();
-        let htmlvidContent = marked(vidContent);
+        const vidContent = fs.readFileSync(this.sourcePath()).toString();
+        const htmlvidContent = marked(vidContent);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
         break;
@@ -165,7 +167,7 @@ class Task extends Unit {
           .readFileSync(path.resolve(this.sourcePath()))
           .toString();
 
-        let rp = path.join(
+        const rp = path.join(
           path.relative(
             path.dirname(this.sourcePath()),
             Config.build_path(this.exp_path)
@@ -211,7 +213,6 @@ class Task extends Unit {
             process.exit(-1);
           }
         }
-
         break;
     }
 
@@ -235,6 +236,7 @@ class Task extends Unit {
 
   build(exp_info, lab_data, options) {
     this.buildPage(exp_info, lab_data, options);
+    Plugin.processPageScopePlugins(this, options);
   }
 }
 
