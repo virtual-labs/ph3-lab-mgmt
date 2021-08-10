@@ -1,7 +1,6 @@
 const path = require("path");
 const fs = require("fs");
 const marked = require("marked");
-// const { JSDOM } = require("jsdom");
 const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");

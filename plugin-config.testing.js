@@ -11,11 +11,6 @@ const config = [
     scope: PluginScope.PAGE,
   },
   {
-    id: "plugin-performance",
-    scope: PluginScope.PAGE,
-    // js_modules: ["https://vjspranav.github.io/vleads-bug-report/client/app.js"],
-  },
-  {
     id: "tool-performance",
     scope: PluginScope.EXPERIMENT,
     repo: "https://github.com/virtual-labs/tool-performance",

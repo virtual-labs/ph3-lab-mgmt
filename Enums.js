@@ -22,6 +22,13 @@ const PluginScope = {
   PAGE: 'page',
 };
 
+const PluginConfig = {
+	Default: {
+		JS_MODULE: 'js/main.js',
+		CSS_MODULE: 'css/main.css',
+	},
+};
+
 function validType(t, v) {
   return Object.values(t).includes(v);
 }
@@ -50,4 +57,4 @@ function validBuildEnv(e) {
   }
 }
 
-module.exports = {UnitTypes, ContentTypes, BuildEnvs, PluginScope, validType, validContentType, validUnitType, validBuildEnv};
+module.exports = {UnitTypes, ContentTypes, BuildEnvs, PluginScope, PluginConfig, validType, validContentType, validUnitType, validBuildEnv};

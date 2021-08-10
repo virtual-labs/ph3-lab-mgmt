@@ -26,7 +26,8 @@
     "labgen": "node main.js",
     "validate-lab-descriptor": "node validateDescriptor.js",
     "build-ds-exp": "node exp.js --env=testing ../",
-    "build-exp": "node exp.js --env=testing ../"
+    "build-exp": "node exp.js --env=testing ../",
+    "clean": "rm -rf plugins"
   },
   "keywords": [],
   "author": "",

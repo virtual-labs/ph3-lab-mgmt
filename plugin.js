@@ -4,7 +4,7 @@ const shell = require("shelljs");
 const { JSDOM } = require("jsdom");
 
 const Config = require("./Config.js");
-const { PluginScope } = require("./Enums.js");
+const { PluginConfig, PluginScope } = require("./Enums.js");
 
 function setCurr(component, targetPath, subTaskFlag=false) {
 	let obj = {...component}, isCurrentItem = false;
@@ -37,27 +37,34 @@ class Plugin {
   }
 
   static processExpScopePlugins(exp_info, hb, lab_data, options) {
-    const env = options.env || BuildEnvs.TESTING;
-    const pluginConfigFile = `./plugin-config.${env}.js`;
-    const pluginConfig = require(pluginConfigFile);
+    const pluginConfig = require(Plugin.getConfigFileName(options.env));
 
     const expScopePlugins = pluginConfig.filter(
       (p) => p.scope === PluginScope.EXPERIMENT
     );
 
     let plugins = [];
-    shell.exec('mkdir plugins');
+    if(!fs.existsSync('plugins'))
+    {
+	    shell.exec('mkdir plugins');
+    }
+
     expScopePlugins.forEach((plugin) => {
 	    try {
-		    if(!fs.existsSync(path.join('plugins', plugin.id)))
+		    shell.cd('plugins');
+		    if(!fs.existsSync(plugin.id))
 		    {
-			    shell.cd('plugins');
-			    shell.exec('git clone ' + plugin.repo);
-			    shell.exec(`rm -rf ${path.join(plugin.id, '.git')}`);
+			    shell.exec(`git clone --depth=1 ${plugin.repo}`);
+		    }
+
+		    else
+		    {
+			    shell.cd(`${plugin.id}`);
+			    shell.exec(`git pull`);
 			    shell.cd('..');
 		    }
-		    shell.exec('cp -ur \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
 
+		    shell.cd('..');
 		    const pluginPath = path.resolve('plugins', plugin.id);
 		    const page_template = fs.readFileSync(path.resolve(pluginPath, plugin.template));
 
@@ -66,8 +73,8 @@ class Plugin {
 			    Config.build_path(exp_info.src)
 		    );
 		    assets_path = assets_path ? assets_path : ".";
-		    const cssModule = plugin.cssModule || "css/main.css";
-		    const jsModule = plugin.jsModule || "js/main.js";
+		    const cssModule = plugin.cssModule || PluginConfig.Default.CSS_MODULE;
+		    const jsModule = plugin.jsModule || PluginConfig.Default.JS_MODULE;
 
 		    const page_data = {
 			    experiment_name: exp_info.name,
@@ -88,8 +95,7 @@ class Plugin {
 	    };
     });
 
-	shell.exec('cp -r \'' + path.resolve('./plugins') + '\' \'' + Config.build_path(exp_info.src) + '\'');
-	shell.exec('rm -rf plugins');
+	shell.exec(`rsync -av "${path.resolve('./plugins')}" "${Config.build_path(exp_info.src)}" --exclude=.git`);
 	return plugins;
   }
 

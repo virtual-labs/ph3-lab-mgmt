@@ -19,7 +19,6 @@ const {
   PluginScope,
 } = require("./Enums.js");
 const { NONAME } = require("dns");
-const { doc } = require("prettier");
 const { Plugin } = require("./plugin");
 
 class Task extends Unit {
