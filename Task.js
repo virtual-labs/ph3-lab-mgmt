@@ -133,6 +133,8 @@ class Task extends Unit {
       isSimulation: false,
       isAssesment: false,
       assets_path: assets_path,
+      lab_data: lab_data,
+      exp_info: exp_info,
       lab: lab_data.lab,
       broadArea: lab_data.broadArea,
       deployLab: lab_data.deployLab,

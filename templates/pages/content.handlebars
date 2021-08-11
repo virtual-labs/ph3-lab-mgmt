@@ -19,8 +19,12 @@
       font-weight: 800;
       }
     </style>
+    
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+    {{!-- {{#each}} --}}
+      {{log this.meta}}    
+    {{!-- {{/each}} --}}
     {{> analytics_body }}
   
     {{#if isSimulation}}
@@ -42,7 +46,12 @@
 	  </div>
           <div class="flex-column">
             <div id="plugin-bug-report"></div>
-            <div id="plugin-rating"></div>
+            <bug-report
+              college="IIITH"
+              labname="{{ lab }}"
+              expname="bubblesort"
+              phase="2"
+            ></bug-report>
           </div>
         </div>
         <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
@@ -53,7 +62,9 @@
       </div>
       {{> footer }}
     {{/if}}
-
+      <script>
+        console.log({{exp_info}})
+      </script>
       <script src="{{assets_path}}/assets/js/toggleSidebar.js"></script>
       
   </body>
