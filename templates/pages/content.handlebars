@@ -22,9 +22,6 @@
     
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
-    {{!-- {{#each}} --}}
-      {{log this.meta}}    
-    {{!-- {{/each}} --}}
     {{> analytics_body }}
   
     {{#if isSimulation}}
@@ -47,10 +44,10 @@
           <div class="flex-column">
             <div id="plugin-bug-report"></div>
             <bug-report
-              college="IIITH"
+              college="{{ collegeName }}"
               labname="{{ lab }}"
-              expname="bubblesort"
-              phase="2"
+              expname="{{ exp_name }}"
+              phase="{{ phase }}"
             ></bug-report>
           </div>
         </div>
