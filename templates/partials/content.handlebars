@@ -1,7 +1,14 @@
-<div class="vlabs-page-content px-4 pb-4 flex-grow-1 markdown-body">
-  <div class="text-center">
+{{#if isSimulation}}
+<div class="vlabs-page-content pb-4 flex-grow-1 markdown-body">
+  <div class="text-center px-5 fix-spacing">
     {{{experiment_name}}}
   </div>
+{{else}}
+<div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
+  <div class="text-center fix-spacing">
+    {{{experiment_name}}}
+  </div>
+{{/if}}
   {{#if isText}}
     {{{content}}}
   {{/if}}
@@ -10,8 +17,12 @@
   {{/if}}
   {{#if isSimulation}}
     <div class="simulation-container">
+      <button type="button" id="toggle-menu-float-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popupMenu">
+        <div class="toggle-menu-icon"></div>
+      </button>
+      
       <iframe class="responsive-iframe" id="fraDisabled" src="{{sim_src}}"
-	      frameborder="0" scrolling="no" onMyLoad="disableContextMenu();">
+	      frameborder="0" onMyLoad="disableContextMenu();">
       </iframe>
     </div>
   {{/if}}

@@ -17,7 +17,7 @@ function run (src, lab_data, build_options) {
   exp.clean();
   exp.init(Handlebars);
   exp.includeFeedback();
-  exp.build(lab_data, build_options);
+  exp.build(Handlebars, lab_data, build_options);
 }
 
 module.exports.run = run;
@@ -61,7 +61,26 @@ if (require.main === module) {
     hope things work out.
    */
   const default_lab_data = {};
-  run(src, {}, build_options);
+
+  const paths = path.resolve(src).split(path.sep);
+  const base = paths[paths.length - 1];
+
+  // Get the experiment name and developer institute name from the repo name of the
+  //  format exp-<expName>-<devInstituteName> e.g. exp-geometry-optimization-molecules-iiith
+  const path_name_regex = /exp-(?<expName>[\w-]+)-(?<devInstituteName>\w+)$/i;
+  const match = base.match(path_name_regex);
+
+  if (match && match.groups) {
+    default_lab_data.exp_short_name = match.groups.expName;
+    default_lab_data.collegeName = match.groups.devInstituteName.toUpperCase();
+    default_lab_data.phase = 'Testing';
+    default_lab_data.lab = 'Virtual Lab';
+    default_lab_data.broadArea = { name : 'Test'};
+  } else {
+    console.log('No match found');
+  }
+
+  run(src, default_lab_data, build_options);
 }
 // node exp.v1.js --env=production ../
 // node exp.v1.js --env=testing ../

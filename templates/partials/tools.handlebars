@@ -1,0 +1,11 @@
+<div class="row py-4 px-4 breadcrumbs">
+	<div class="title is-4 tools">Tools</div>
+	<span class="mx-2">
+		<i aria-hidden="true" class="fa fa-angle-right"></i>
+	</span>
+	{{#each plugins}}
+	<a href="{{this.target}}" target="_blank">
+		<button class="v-button">{{this.label}}</button>
+	</a>
+	{{/each}}
+</div>

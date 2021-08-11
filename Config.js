@@ -17,7 +17,9 @@ const Lab = {
     ["breadcrumbs", "lab-breadcrumbs"],
     ["side_menu", "sidemenu"],
     ["content", "content"],
-    ["footer", "footer"]
+    ["footer", "footer"],
+    ["popup_menu", "popupmenu"],
+    ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
     {
@@ -40,9 +42,12 @@ const Experiment = {
     ["commons", "commons"],
     ["header", "header"],
     ["breadcrumbs", "breadcrumbs"],
+    ["tools", "tools"],
     ["side_menu", "sidemenu"],
     ["content", "content"],
-    ["footer", "footer"]
+    ["footer", "footer"],
+    ["popup_menu", "popupmenu"],
+    ["nav_menu_items", "nav-menu-items"],
   ],
   optional_pages: [
     "Observations",
