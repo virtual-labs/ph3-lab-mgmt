@@ -13,7 +13,7 @@ const config = [
   {
     id: "tool-performance",
     scope: PluginScope.EXPERIMENT,
-    repo: "https://github.com/virtual-labs/tool-performance",
+    repo: "https://github.com/virtual-labs/tool-performance.git",
     template: "handlebars/performance-report.handlebars",
     target: "performance-report.html",
     label: "Performance Tool"
