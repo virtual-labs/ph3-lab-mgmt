@@ -46,23 +46,23 @@
   height: 36px;
 }
 
-.nav-menu a {
+.nav-menu a, .simulation-header .dropdown .nav-menu a{
   color: #3e6389;
 }
 
-.nav-menu .tasks a {
+.nav-menu .tasks a, .simulation-header .dropdown .nav-menu .tasks a{
   color: #5c5c5c;
 }
 
-.nav-menu a.current-item {
+.nav-menu a.current-item, .simulation-header .dropdown .nav-menu a.current-item{
   color: #ff6600;
 }
 
-.nav-menu .tasks {
+.nav-menu .tasks, .simulation-header .dropdown .nav-menu .tasks{
   font-size: 1rem;
 }
 
-.nav-menu{
+.nav-menu, .simulation-header .dropdown .nav-menu{
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -77,7 +77,7 @@
 
 .sidebar {
   /* border-right: 2px dotted #89a7c4; */
-  border: thin solid #e8e8e8;
+  border-right: thin solid #e8e8e8;
   overflow: hidden;
   box-sizing: content-box;
 }
@@ -96,11 +96,18 @@
   .vlabs-logo{
     height: 3rem;
   }
+
+  .simulation-header{
+    display: none !important;
+  }
 }
 
 @media (min-width: 992px){
   .vlabs-hidden {
     display: none !important;
+  }
+  #toggle-menu-float-button{
+    display: none;
   }
 }
 
@@ -191,21 +198,17 @@ iframe {
   padding: 0px;
   height: 100vh;
   width: 100vw;
-  overflow: auto;
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
   background: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
 .responsive-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  flex: 1;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
@@ -280,8 +283,8 @@ iframe {
 
 #toggle-menu-float-button{
   position: absolute;
-  top: 10px;
-  left: 10px;
+  bottom: 20px;
+  right: 20px;
   z-index: 1;
   padding: 0.8em 1em;
   background: rgba(255, 255, 255, 0.9);
@@ -289,6 +292,7 @@ iframe {
   border-radius: 0.5em;
   color: #fff;
   border: 3px solid rgba(0, 174, 255, 0.274);
+  transform: scale(0.9);
 }
 
 .toggle-menu-icon{
@@ -312,4 +316,55 @@ iframe {
 .tools {
 	top: 50%;
 	transform: translate(0%, 25%);
+}
+
+.simulation-header .navbar-brand .vlabs-logo{
+  height: 3rem;
+}
+
+.simulation-header h1, .simulation-header h2 {
+  border: none;
+  font-size: 1.5rem;
+  padding: 0;
+  flex: 1;
+  text-align: end;
+  padding-right: 30px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+}
+
+.simulation-header .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.simulation-header .dropdown .backdrop {
+  position: absolute;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.2);
+  height: 100vh;
+}
+
+.simulation-header .dropdown .nav-menu {
+  width: fit-content;
+  background-color: #fff;
+  margin-top: 8px;
+  padding: 10px;
+  box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.2);
+  font-family: "Open Sans", sans-serif;
+  max-height: 80%;
+  overflow: auto;
+}
+
+.simulation-header .dropdown .nav-menu-body {
+  justify-content: flex-start;
+}
+
+.simulation-header .dropdown .vlabs-hidden {
+  display: none;
 }
