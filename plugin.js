@@ -54,7 +54,7 @@ class Plugin {
 		    shell.cd('plugins');
 		    if(!fs.existsSync(plugin.id))
 		    {
-			    shell.exec(`git clone --depth=1 ${plugin.repo}`);
+			    shell.exec(`git clone --depth=1 ${plugin.repo} -b dev`);
 		    }
 
 		    else
