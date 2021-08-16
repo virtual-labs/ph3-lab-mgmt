@@ -44,10 +44,13 @@
           <div class="flex-column">
             <div id="plugin-bug-report"></div>
             <bug-report
-              college="{{ collegeName }}"
+              developer-institute="{{ collegeName }}"
+              context-info="Virtual Labs"
+              page-type="{{ content_type }}"
               labname="{{ lab }}"
               expname="{{ exp_name }}"
               phase="{{ phase }}"
+              id="bug-report"
             ></bug-report>
           </div>
         </div>
@@ -63,6 +66,22 @@
         console.log({{exp_info}})
       </script>
       <script src="{{assets_path}}/assets/js/toggleSidebar.js"></script>
-      
+      <script>
+      // pure javascript
+      let object;
+      let httpRequest = new XMLHttpRequest(); // asynchronous request
+      httpRequest.open("GET", "./assets/json/questions.json", true);
+      httpRequest.send();
+      httpRequest.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          // when the request has completed
+          object = JSON.parse(this.response);
+          console.log(object);
+          document
+            .getElementsByTagName("bug-report")[0]
+            .setAttribute("checkbox-json", JSON.stringify(object));
+        }
+      });
+    </script>
   </body>
 </html>

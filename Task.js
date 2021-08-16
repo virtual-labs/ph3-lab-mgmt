@@ -151,6 +151,7 @@ class Task extends Unit {
         const htmlContent = marked(mdContent);
         page_data.content = htmlContent;
         page_data.isText = true;
+        page_data.content_type = "CONTENT";
         break;
 
       case ContentTypes.VIDEO:
@@ -158,11 +159,13 @@ class Task extends Unit {
         const htmlvidContent = marked(vidContent);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
+        page_data.content_type = "CONTENT";
         break;
 
       case ContentTypes.SIMULATION:
         page_data.isSimulation = true;
         page_data.sim_src = this.source;
+        page_data.content_type = "SIMULATION";
 
         // Inject IframeResizer
         let content = fs
@@ -186,6 +189,8 @@ class Task extends Unit {
 
       case ContentTypes.ASSESMENT:
         page_data.isAssesment = true;
+        page_data.content_type = "ASSESSMENT";
+
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());
           if (page_data.questions.version) {
