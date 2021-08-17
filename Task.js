@@ -114,11 +114,12 @@ class Task extends Unit {
     const exp_info_name_text = convert(exp_info.name, {
       selectors: [{ selector: "h1", options: { uppercase: false } }],
     });
-
+    const page_plugins = Plugin.preProcessPageScopePlugins(options);
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
       testing: options.env === BuildEnvs.TESTING,
       plugins: exp_info.plugins,
+      page_plugins: page_plugins,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
@@ -144,7 +145,6 @@ class Task extends Unit {
       exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
     };
-
     switch (this.content_type) {
       case ContentTypes.TEXT:
         const mdContent = fs.readFileSync(this.sourcePath()).toString();

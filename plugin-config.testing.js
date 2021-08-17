@@ -1,4 +1,5 @@
 const { PluginScope } = require("./Enums.js");
+const bug_options = require("./assets_plugins/json/bug-report-questions.js");
 
 const config = [
   {
@@ -7,6 +8,9 @@ const config = [
     js_modules: [
       "https://vjspranav.github.io/vleads-bug-report/client/src/bug-report.js",
     ],
+    attributes: {
+      bug_options: JSON.stringify(bug_options),
+    },
   },
   {
     id: "plugin-rating",
