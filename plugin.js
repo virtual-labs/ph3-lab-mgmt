@@ -112,7 +112,7 @@ class Plugin {
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
     const pluginConfig = require(pluginConfigFile);
     const plugins = {};
-    const pageScopePlugins = pluginConfig
+    pluginConfig
       .filter((p) => p.scope === PluginScope.PAGE)
       .forEach((element) => {
         plugins[element.id] = element;

@@ -145,13 +145,23 @@ class Task extends Unit {
       exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
     };
+    // Context Info for Bug report
+    page_data.bugreport_context_info = JSON.stringify({
+      organisation: "Virtual Labs",
+      developer_institute: lab_data.collegeName,
+      expname: page_data.exp_name,
+      labname: lab_data.lab,
+      phase: lab_data.phase,
+    });
+
+    // console.log(page_data.bugreport_context_info);
+    page_data.content_type = this.content_type;
     switch (this.content_type) {
       case ContentTypes.TEXT:
         const mdContent = fs.readFileSync(this.sourcePath()).toString();
         const htmlContent = marked(mdContent);
         page_data.content = htmlContent;
         page_data.isText = true;
-        page_data.content_type = "CONTENT";
         break;
 
       case ContentTypes.VIDEO:
@@ -159,13 +169,11 @@ class Task extends Unit {
         const htmlvidContent = marked(vidContent);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
-        page_data.content_type = "CONTENT";
         break;
 
       case ContentTypes.SIMULATION:
         page_data.isSimulation = true;
         page_data.sim_src = this.source;
-        page_data.content_type = "SIMULATION";
 
         // Inject IframeResizer
         let content = fs
@@ -189,7 +197,6 @@ class Task extends Unit {
 
       case ContentTypes.ASSESMENT:
         page_data.isAssesment = true;
-        page_data.content_type = "ASSESSMENT";
 
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());

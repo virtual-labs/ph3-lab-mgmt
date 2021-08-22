@@ -1,12 +1,19 @@
-const bug_options = {
-  CONTENT: ["Incorrect Content", "Insufficient Content"],
-  ASSESSMENT: ["Incorrect Options", "Incorrect Answer", "Incorrect Question"],
-  SIMULATION: [
+const { ContentTypes } = require("../../Enums");
+
+const issues = {
+  [ContentTypes.TEXT]: ["Incorrect Content", "Insufficient Content"],
+  [ContentTypes.VIDEO]: ["Incorrect Content", "Insufficient Content"],
+  [ContentTypes.ASSESMENT]: [
+    "Incorrect Options",
+    "Incorrect Answer",
+    "Incorrect Question",
+  ],
+  [ContentTypes.SIMULATION]: [
     "Simulation Not Working",
     "Incorrect Results/Observations",
     "Insufficient/Incorrect Instructions",
   ],
-  OTHERS: ["Page Not Loading", "Content Not Visible", "Incorrect content"],
+  DEFAULT: ["Page Not Loading", "Content Not Visible", "Incorrect content"],
 };
 
-module.exports = bug_options;
+module.exports = issues;

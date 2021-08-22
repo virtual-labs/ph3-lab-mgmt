@@ -44,14 +44,11 @@
           <div class="flex-column">
             <div id="plugin-bug-report"></div>
             <bug-report
-              developer-institute="{{ collegeName }}"
-              context-info="Virtual Labs"
-              page-type="{{ content_type }}"
-              labname="{{ lab }}"
-              expname="{{ exp_name }}"
-              phase="{{ phase }}"
               id="bug-report"
-              checkbox-json="{{ page_plugins.plugin-bug-report.attributes.bug_options }}"
+              title="[BUG REPORT] Virtual Labs {{ exp_name }}"
+              page-type="{{ content_type }}"
+              context-info="{{ bugreport_context_info }}"
+              checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
             ></bug-report>
           </div>
         </div>
