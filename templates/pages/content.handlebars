@@ -60,7 +60,11 @@
       </div>
       {{> footer }}
     {{/if}}
-
+    <script>
+      document.getElementById('bug-report').addEventListener('submitted', (e)=>{
+          alert(event.detail.message)
+      })
+    </script>
     <script src="{{assets_path}}/assets/js/toggleSidebar.js"></script>
   </body>
 </html>
