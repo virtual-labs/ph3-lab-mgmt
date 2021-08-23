@@ -75,8 +75,9 @@
     background-color: "white";
 }
 
+/*The unicode \25BE is for ▾ (Dropdown arrow) */
 .collapsible:after {
-    content: '\25BE';
+    content: "\25BE";
     color: "grey";
     font-weight: bold;
     float: right;
