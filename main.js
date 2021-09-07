@@ -89,6 +89,12 @@ function genComponentHtml(fn, data) {
 }
 
 function prepareStructure(labpath) {
+  
+  shell.cp(
+    "-r",
+    path.resolve("license.org"),
+    path.resolve(labpath)
+  );
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
@@ -372,7 +378,7 @@ function pushlab(labpath) {
   const commitMsg = `Lab generated at ${moment()}`;
   child_process.execSync(
     `cd ${labpath};
-git add license.org lab-descriptor.json;
+git add license.org lab-descriptor.json build;
 git commit -m "${commitMsg}";
 git push origin master`
   );
