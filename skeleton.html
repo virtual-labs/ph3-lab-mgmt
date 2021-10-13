@@ -231,13 +231,20 @@
       window.addEventListener("DOMContentLoaded", (event) => {
         const setActiveItem = (id) => {
           const menu = document.getElementById(id);
+          let marked = false;
           Array.from(menu.children)
             .filter(
               (mi) => Array.from(mi.children)[0].href === window.location.href
             )
-            .forEach((mi) =>
-              Array.from(mi.children)[0].classList.add("current-item")
+            .forEach((mi) => {
+              Array.from(mi.children)[0].classList.add("current-item");
+              marked = true;
+            });
+          if (!marked) {
+            Array.from(Array.from(menu.children)[0].children)[0].classList.add(
+              "current-item"
             );
+          }
         };
         setActiveItem("popupMenuItems");
         setActiveItem("menu");
