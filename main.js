@@ -68,6 +68,7 @@ function addLabName(dom, labname) {
 }
 
 function addSideBar(dom, sidebar) {
+  dom.window.document.querySelector(".popupMenuItems").innerHTML = sidebar;
   dom.window.document.querySelector(".sidebar").innerHTML = sidebar;
   return dom;
 }
@@ -79,7 +80,6 @@ function addContent(dom, ctnt) {
   return dom;
 }
 
-
 function genComponentHtml(fn, data) {
   const template = fs.readFileSync(fn, "utf-8");
   const base = path.parse(fn).name;
@@ -89,12 +89,7 @@ function genComponentHtml(fn, data) {
 }
 
 function prepareStructure(labpath) {
-  
-  shell.cp(
-    "-r",
-    path.resolve("license.org"),
-    path.resolve(labpath)
-  );
+  shell.cp("-r", path.resolve("license.org"), path.resolve(labpath));
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
@@ -183,11 +178,8 @@ function generate(labpath) {
         .forEach((fn) => genComponentHtml(fn, data));
     }
   }
-
   generateLab(config.pages, labpath, template_file, component_files);
 }
-
-
 
 /*
   Publish: clone -> build -> stage

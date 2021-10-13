@@ -1,5 +1,9 @@
+html {
+  overflow-y: auto;
+}
+
 .vlabs-page {
-  min-height: 100vh;
+  height: 100vh;
   overflow-x: hidden;
 }
 
@@ -46,32 +50,37 @@
   height: 36px;
 }
 
-.nav-menu a, .simulation-header .dropdown .nav-menu a{
+.nav-menu a,
+.simulation-header .dropdown .nav-menu a {
   color: #3e6389;
 }
 
-.nav-menu .tasks a, .simulation-header .dropdown .nav-menu .tasks a{
+.nav-menu .tasks a,
+.simulation-header .dropdown .nav-menu .tasks a {
   color: #5c5c5c;
 }
 
-.nav-menu a.current-item, .simulation-header .dropdown .nav-menu a.current-item{
+.nav-menu a.current-item,
+.simulation-header .dropdown .nav-menu a.current-item {
   color: #ff6600;
 }
 
-.nav-menu .tasks, .simulation-header .dropdown .nav-menu .tasks{
+.nav-menu .tasks,
+.simulation-header .dropdown .nav-menu .tasks {
   font-size: 1rem;
 }
 
-.nav-menu, .simulation-header .dropdown .nav-menu{
+.nav-menu,
+.simulation-header .dropdown .nav-menu {
   font-size: 1.2rem;
   font-weight: bold;
 }
 
-.nav-menu-body{
+.nav-menu-body {
   justify-content: center;
 }
 
-.sidebar .nav-menu-body{
+.sidebar .nav-menu-body {
   justify-content: start;
 }
 
@@ -82,31 +91,31 @@
   box-sizing: content-box;
 }
 
-.popupmenu .vlabs-logo{
+.popupmenu .vlabs-logo {
   height: 2.5rem;
 }
 
-@media (max-width: 991px){
-  .sidebar{
+@media (max-width: 991px) {
+  .sidebar {
     max-height: 6000px;
     transition: max-height 1s ease-in;
     flex-wrap: nowrap;
     overflow-y: auto;
   }
-  .vlabs-logo{
+  .vlabs-logo {
     height: 3rem;
   }
 
-  .simulation-header{
+  .simulation-header {
     display: none !important;
   }
 }
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .vlabs-hidden {
     display: none !important;
   }
-  #toggle-menu-float-button{
+  #toggle-menu-float-button {
     display: none;
   }
 }
@@ -276,12 +285,12 @@ iframe {
   transform: scale(1.5);
 }
 
-.fix-spacing > *{
+.fix-spacing > * {
   padding-top: 0;
   margin-top: 1em;
 }
 
-#toggle-menu-float-button{
+#toggle-menu-float-button {
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -295,7 +304,7 @@ iframe {
   transform: scale(0.9);
 }
 
-.toggle-menu-icon{
+.toggle-menu-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   height: 30px;
   width: 30px;
@@ -305,24 +314,27 @@ iframe {
   box-sizing: content-box;
   width: 1em;
   height: 1em;
-  padding: .25em .25em;
+  padding: 0.25em 0.25em;
   color: #000;
-  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  background: transparent
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+    center/1em auto no-repeat;
   border: 0;
-  border-radius: .25rem;
-  opacity: .5;
+  border-radius: 0.25rem;
+  opacity: 0.5;
 }
 
 .tools {
-	top: 50%;
-	transform: translate(0%, 25%);
+  top: 50%;
+  transform: translate(0%, 25%);
 }
 
-.simulation-header .navbar-brand .vlabs-logo{
+.simulation-header .navbar-brand .vlabs-logo {
   height: 3rem;
 }
 
-.simulation-header h1, .simulation-header h2 {
+.simulation-header h1,
+.simulation-header h2 {
   border: none;
   font-size: 1.5rem;
   padding: 0;
@@ -345,7 +357,7 @@ iframe {
 .simulation-header .dropdown .backdrop {
   position: absolute;
   width: 100vw;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   height: 100vh;
 }
 
@@ -354,7 +366,7 @@ iframe {
   background-color: #fff;
   margin-top: 8px;
   padding: 10px;
-  box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 14px 0px rgba(0, 0, 0, 0.2);
   font-family: "Open Sans", sans-serif;
   max-height: 80%;
   overflow: auto;
@@ -368,6 +380,6 @@ iframe {
   display: none;
 }
 
-.expand-1{
-  flex:1;
+.expand-1 {
+  flex: 1;
 }
