@@ -12,16 +12,20 @@
       </a>
     </div>
     
-    <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex align-items-center">
+    <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex">
       <ul class="navbar-nav ml-auto text-center d-flex flex-md-row">
         <li class="nav-item px-2 m-1">
-          <a href="https://vlab.co.in">HOME</a>
-        </li>
-        <li class="nav-item px-2 m-1">
-          <a href="https://vlab.co.in/participating-institutes">PARTNERS</a>
-        </li>
-        <li class="nav-item px-2 m-1">
-          <a href="https://vlab.co.in/contact-us">CONTACT</a>
+          <bug-report 
+              id="bug-report"
+              title="[BUG REPORT] Virtual Labs {{ exp_name }}"
+              page-type="{{ content_type }}"
+              context-info="{{ bugreport_context_info }}"
+              checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
+              style="position: absolute; right: 0; top: 25%"
+              button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em;padding: 0.6em 1.2em;"
+              position="override"
+              custom_button_class="v-button"
+          ></bug-report>
         </li>
       </ul>
     </div>

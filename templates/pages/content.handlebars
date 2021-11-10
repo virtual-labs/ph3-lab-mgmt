@@ -41,23 +41,11 @@
 		  {{> tools }}
 		  {{/if}}
 	  </div>
-          <div class="flex-column">
-            <div id="plugin-bug-report"></div>
-            <bug-report
-              id="bug-report"
-              title="[BUG REPORT] Virtual Labs {{ exp_name }}"
-              page-type="{{ content_type }}"
-              context-info="{{ bugreport_context_info }}"
-              checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
-              position="bottom right"
-            ></bug-report>
-          </div>
-        </div>
-        <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
-          {{> popup_menu }}
-          {{> side_menu }}
-          {{> content }}
-        </div>
+      <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
+        {{> popup_menu }}
+        {{> side_menu }}
+        {{> content }}
+      </div>
       </div>
       {{> footer }}
     {{/if}}
