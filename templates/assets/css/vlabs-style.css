@@ -118,6 +118,9 @@ html {
   #toggle-menu-float-button {
     display: none;
   }
+  .bug-report-mobile {
+    display: none;
+  }
 }
 
 .vlabs-header a {

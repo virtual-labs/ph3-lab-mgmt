@@ -20,6 +20,7 @@ const Lab = {
     ["footer", "footer"],
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
+    ["bug_report_mobile", "bug-report-mobile"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
@@ -49,6 +50,7 @@ const Experiment = {
     ["footer", "footer"],
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
+    ["bug_report_mobile", "bug-report-mobile"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   optional_pages: [
