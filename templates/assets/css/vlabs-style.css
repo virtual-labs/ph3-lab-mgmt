@@ -296,7 +296,7 @@ iframe {
 #toggle-menu-float-button {
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   z-index: 1;
   padding: 0.8em 1em;
   background: rgba(255, 255, 255, 0.9);
