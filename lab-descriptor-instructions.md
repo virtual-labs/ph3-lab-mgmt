@@ -20,11 +20,13 @@
 			- Design Engineering
 			- Aerospace Engineering
 
-Lab Name: Should be same in the JSON file, GitHub repo name, and in /var/www/html/
+Lab Name: Should be same in the JSON file, GitHub repo name, and in /var/www/html/. This name acts as the lab identifier and hence must be unique across all labs and cannot be changed once given.
 
-Phase: Should be the number that the lab belongs to Phase 3 or so
+Lab Display Name: This name will be displayed on the Lab web pages as the Lab name. This must be unique across all the labs but it can be changed later as long as another unique name is chosen.
+
+Phase: Should be the number of the phase that the lab belongs to, e.g. Phase 3 or Phase 4
 	
-Deploy: This should be true if we are hosting a lab and exp or only a lab. If we want to host the only exp then it should be false
+Deploy Lab: This should be true if we are hosting a lab along with experiments or only a lab but no experiments. If we want to host only experiments without rehosting the lab then it should be false. This may be useful in cases where the lab developer makes a fix in the lab and only wants to rehost the lab without rehosting all the experiments with it or in cases where the lab developer has changed something on an experiment and the complete lab need not be rehosted.
 	
 College Name(Institute Name): Update from the R0 file (which is given in the request for hosting issue)
 

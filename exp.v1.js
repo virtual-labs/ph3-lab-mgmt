@@ -75,6 +75,7 @@ if (require.main === module) {
     default_lab_data.collegeName = match.groups.devInstituteName.toUpperCase();
     default_lab_data.phase = 'Testing';
     default_lab_data.lab = 'Virtual Lab';
+    default_lab_data.lab_display_name = 'Virtual Lab Display Name';
     default_lab_data.broadArea = { name : 'Test'};
   } else {
     console.log('No match found');
