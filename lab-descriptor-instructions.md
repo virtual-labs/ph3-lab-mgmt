@@ -26,7 +26,7 @@ Lab Display Name: This name will be displayed on the Lab web pages as the Lab na
 
 Phase: Should be the number of the phase that the lab belongs to, e.g. Phase 3 or Phase 4
 	
-Deploy: This should be true if we are hosting a lab along with experiments or only a lab but no experiments. If we want to host only experiments without rehosting the lab then it should be false. This may be useful in cases where the lab developer makes a fix in the lab and only wants to rehost the lab without rehosting all the experiments with it or in cases where the lab developer has changed something on an experiment and the complete lab need not be rehosted.
+Deploy Lab: This should be true if we are hosting a lab along with experiments or only a lab but no experiments. If we want to host only experiments without rehosting the lab then it should be false. This may be useful in cases where the lab developer makes a fix in the lab and only wants to rehost the lab without rehosting all the experiments with it or in cases where the lab developer has changed something on an experiment and the complete lab need not be rehosted.
 	
 College Name(Institute Name): Update from the R0 file (which is given in the request for hosting issue)
 
