@@ -383,8 +383,7 @@ git push origin master`
 function release(labpath, tag_name) {
   child_process.execSync(
     `cd ${labpath};
-git tag -a ${tag_name} -m "version ${tag_name}";
-git push origin ${tag_name}`
+git status`
   );
   return tag_name;
 }
