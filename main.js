@@ -337,8 +337,8 @@ function labgen() {
 
     ld = updateDescriptor(labpath, newVersion);
     updateRecord(ld, "SUCCESS");
-    pushlab(labpath);
-    release(labpath, newVersion);
+  /*  pushlab(labpath);
+    release(labpath, newVersion);*/
   }
 }
 
