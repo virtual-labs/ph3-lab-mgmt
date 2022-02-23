@@ -368,6 +368,7 @@ function LD(lp) {
   return require(path.resolve(lp, "lab-descriptor.json"));
 }
 
+/*
 function pushlab(labpath) {
   const commitMsg = `Lab generated at ${moment()}`;
   child_process.execSync(
@@ -377,6 +378,7 @@ git commit -m "${commitMsg}";
 git push origin master`
   );
 }
+*/
 
 function release(labpath, tag_name) {
   child_process.execSync(
