@@ -334,14 +334,15 @@ function labgen() {
       path.resolve("/var/www/html/stage", getLabName(labpath))
     );
     deploy(labpath);
-/*
+
     ld = updateDescriptor(labpath, newVersion);
-    updateRecord(ld, "SUCCESS");
+    /* updateRecord(ld, "SUCCESS");
+    */
     pushlab(labpath);
     release(labpath, newVersion);
   }
 }
-*/
+
 function updateDescriptor(labpath, t) {
   ld = LD(labpath);
   ld.version = t;
