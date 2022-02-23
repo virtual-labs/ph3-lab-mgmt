@@ -350,6 +350,7 @@ function updateDescriptor(labpath, t) {
   return ld;
 }
 
+/*
 function updateRecord(lab_descriptor, exec_status) {
   const rec = {
     date: moment().format("DD MMMM YYYY"),
@@ -361,7 +362,7 @@ function updateRecord(lab_descriptor, exec_status) {
   };
   gs.appendExecutionResult(rec);
 }
-
+*/
 function LD(lp) {
   return require(path.resolve(lp, "lab-descriptor.json"));
 }
