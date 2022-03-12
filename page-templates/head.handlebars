@@ -1,6 +1,11 @@
 <!--Google Tag Manager-->
+
     var dataLayer = [{
+        {{#if escapeCharOnFlag }}
         'labName': '{{lab}}',
+        {{else}}
+        'labName': '{{{lab}}}',
+        {{/if}}
         'discipline': '{{broadArea.name}}',
         'college': '{{collegeName}}',
         'phase': '{{phase}}',
