@@ -383,3 +383,24 @@ iframe {
 .expand-1 {
   flex: 1;
 }
+
+/* Add Button style from virtual styles */
+.v-button {
+  border: none;
+  color: #ffffff;
+  background-color: #288ec8;
+  text-align: center;
+  font-size: 1.05rem;
+  border-radius: 1em;
+  padding: 0.6em 1.2em;
+  cursor: pointer;
+}
+
+.v-button:hover {
+  background-color: #a9a9a9;
+}
+
+.v-button:disabled {
+  background-color: #a9a9a9;
+  cursor: not-allowed;
+}
