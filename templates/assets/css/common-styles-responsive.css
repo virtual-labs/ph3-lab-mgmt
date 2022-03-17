@@ -13,7 +13,7 @@
     width: 14%; 
 }
 
-.legend { list-style: none; }
+.legend { list-style: circle; }
 .legend li { padding-bottom : 1.5vw; width: 20vw; }
 .legend span { border: 0.1vw solid black; float: left; border-radius: 50%;}
 .legend .grey { background-color: grey; }
