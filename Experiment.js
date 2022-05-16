@@ -3,12 +3,15 @@ const fs = require("fs");
 const marked = require("marked");
 const process = require("process");
 const shell = require("shelljs");
+const { convert } = require("html-to-text");
 
 const Config = require("./Config.js");
 const { LearningUnit } = require("./LearningUnit.js");
 const { Task } = require("./Task.js");
 const { UnitTypes, ContentTypes, BuildEnvs, PluginScope } = require("./Enums.js");
 const { Plugin } = require("./plugin");
+
+
 
 class Experiment {
   constructor(src) {
@@ -68,7 +71,14 @@ class Experiment {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-    return marked(name_file.toString());
+
+    const exp_name = marked(name_file.toString());
+
+    const exp_info_name_text = convert(exp_name, {
+      selectors: [{ selector: "h1", options: { uppercase: false } }],
+    });
+
+    return exp_name.substring(0, 4) + "title=\"" + exp_info_name_text+"\" " + exp_name.substring(4);
   }
 
   build(hb, lab_data, options) {
