@@ -28,7 +28,7 @@
     "build-ds-exp": "node exp.js --env=testing ../",
     "build-exp": "node exp.js --env=testing ../",
     "clean": "rm -rf plugins",
-    "lint" : "npx eslint -c ./.eslintrc.js ../experiment"
+    "lint": "npx eslint -c ./.eslintrc.js ../experiment"
   },
   "keywords": [],
   "author": "",
