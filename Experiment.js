@@ -83,8 +83,9 @@ class Experiment {
       src: this.src,
     };
 
-    exp_info.plugins = Plugin.processExpScopePlugins(exp_info, hb, lab_data, options);
+    // exp_info.plugins = Plugin.processExpScopePlugins(exp_info, hb, lab_data, options);
     explu.build(exp_info, lab_data, options);
+    Plugin.processPostBuildPlugins(exp_info, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should

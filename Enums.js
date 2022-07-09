@@ -20,6 +20,7 @@ const BuildEnvs = {
 const PluginScope = {
   EXPERIMENT: 'experiment',
   PAGE: 'page',
+  POSTBUILD: 'postbuild',
 };
 
 const PluginConfig = {

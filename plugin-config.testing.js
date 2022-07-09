@@ -18,6 +18,12 @@ const config = [
     target: "performance-report.html",
     label: "Performance Tool"
   },
+  {
+    id: "build-validation",
+    scope: PluginScope.POSTBUILD,
+    repo: "https://github.com/virtual-labs/build-validation",
+    command: "npm i"
+  }
 ];
 
 module.exports = config;
