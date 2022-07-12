@@ -22,7 +22,7 @@ const config = [
     id: "build-validation",
     scope: PluginScope.POSTBUILD,
     repo: "https://github.com/virtual-labs/build-validation",
-    command: "npm i"
+    command: "npm i && node link_validation.js",
   }
 ];
 

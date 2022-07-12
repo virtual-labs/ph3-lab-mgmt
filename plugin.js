@@ -157,9 +157,6 @@ class Plugin {
 		    if(!fs.existsSync(plugin.id))
 		    {
 			    shell.exec(`git clone --depth=1 ${plugin.repo}`);
-			    shell.cd(`${plugin.id}`);
-				shell.exec(`npm install`);
-				shell.cd('..');
 		    }
 
 		    else
@@ -170,8 +167,7 @@ class Plugin {
 		    }
 			
 			shell.cd(`${plugin.id}`);
-			// shell.exec(plugin.command);
-			shell.exec("node link_validation.js");
+			shell.exec(plugin.command);
 		    shell.cd('..');
 			shell.cd('..');
 	    } catch (e) {
