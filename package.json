@@ -28,7 +28,8 @@
     "validate-lab-descriptor": "node validateDescriptor.js",
     "build-ds-exp": "node exp.js --env=testing ../",
     "build-exp": "node exp.js --env=testing ../",
-    "clean": "rm -rf plugins"
+    "clean": "rm -rf plugins",
+    "lint": "npx eslint -c ./.eslintrc.js ../experiment"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +37,8 @@
   "devDependencies": {
     "@babel/cli": "^7.12.16",
     "@babel/core": "^7.12.16",
-    "@babel/plugin-proposal-class-properties": "^7.12.13"
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "eslint": "^8.18.0",
+    "eslint-plugin-only-warn": "^1.0.3"
   }
 }

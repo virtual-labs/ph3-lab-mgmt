@@ -137,6 +137,7 @@ class Task extends Unit {
       lab_data: lab_data,
       exp_info: exp_info,
       lab: lab_data.lab,
+      lab_display_name: lab_data.lab_display_name,
       broadArea: lab_data.broadArea,
       deployLab: lab_data.deployLab,
       phase: lab_data.phase,
