@@ -6,7 +6,7 @@ const config = [
     id: "plugin-bug-report",
     scope: PluginScope.PAGE,
     js_modules: [
-      "https://vjspranav.github.io/vleads-bug-report/client/src/bug-report.js",
+      "https://virtual-labs.github.io/svc-bug-report/client/src/bug-report.js",
     ],
     attributes: {
       issues: JSON.stringify(issues),

@@ -4,3 +4,4 @@ expbuilds
 exprepos
 .vscode/*
 plugins/
+dist/
