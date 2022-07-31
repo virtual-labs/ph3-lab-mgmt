@@ -114,11 +114,12 @@ class Task extends Unit {
     const exp_info_name_text = convert(exp_info.name, {
       selectors: [{ selector: "h1", options: { uppercase: false } }],
     });
-
+    const page_plugins = Plugin.preProcessPageScopePlugins(options);
     const page_data = {
       production: options.env === BuildEnvs.PRODUCTION,
       testing: options.env === BuildEnvs.TESTING,
       plugins: exp_info.plugins,
+      page_plugins: page_plugins,
       local: options.local,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
@@ -133,6 +134,8 @@ class Task extends Unit {
       isSimulation: false,
       isAssesment: false,
       assets_path: assets_path,
+      lab_data: lab_data,
+      exp_info: exp_info,
       lab: lab_data.lab,
       lab_display_name: lab_data.lab_display_name,
       broadArea: lab_data.broadArea,
@@ -143,7 +146,17 @@ class Task extends Unit {
       exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
     };
+    // Context Info for Bug report
+    page_data.bugreport_context_info = JSON.stringify({
+      organisation: "Virtual Labs",
+      developer_institute: lab_data.collegeName,
+      expname: page_data.exp_name,
+      labname: lab_data.lab,
+      phase: lab_data.phase,
+    });
 
+    // console.log(page_data.bugreport_context_info);
+    page_data.content_type = this.content_type;
     switch (this.content_type) {
       case ContentTypes.TEXT:
         const mdContent = fs.readFileSync(this.sourcePath()).toString();
@@ -185,6 +198,7 @@ class Task extends Unit {
 
       case ContentTypes.ASSESMENT:
         page_data.isAssesment = true;
+
         if (shell.test("-f", this.sourcePath())) {
           page_data.questions = require(this.sourcePath());
           if (page_data.questions.version) {

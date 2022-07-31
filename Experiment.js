@@ -7,7 +7,12 @@ const shell = require("shelljs");
 const Config = require("./Config.js");
 const { LearningUnit } = require("./LearningUnit.js");
 const { Task } = require("./Task.js");
-const { UnitTypes, ContentTypes, BuildEnvs, PluginScope } = require("./Enums.js");
+const {
+  UnitTypes,
+  ContentTypes,
+  BuildEnvs,
+  PluginScope,
+} = require("./Enums.js");
 const { Plugin } = require("./plugin");
 
 class Experiment {
@@ -83,7 +88,13 @@ class Experiment {
       src: this.src,
     };
 
-    exp_info.plugins = Plugin.processExpScopePlugins(exp_info, hb, lab_data, options);
+    exp_info.plugins = Plugin.processExpScopePlugins(
+      exp_info,
+      hb,
+      lab_data,
+      options
+    );
+
     explu.build(exp_info, lab_data, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory
@@ -111,7 +122,6 @@ class Experiment {
 
     this.descriptor.units.push(feedbackLU);
   }
-
 }
 
 module.exports = { Experiment };

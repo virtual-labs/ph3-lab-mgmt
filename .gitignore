@@ -3,3 +3,5 @@ page-components
 expbuilds
 exprepos
 .vscode/*
+plugins/
+dist/
