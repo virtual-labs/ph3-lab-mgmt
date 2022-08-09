@@ -6,6 +6,7 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (e)=>{
             event: "vl-bug-report",
             "bug-type": e.detail.issues  
         })
+        alert("Bug Reported successfully");
     }else{
         alert(e.detail.message)
     }
