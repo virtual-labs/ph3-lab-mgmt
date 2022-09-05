@@ -76,6 +76,11 @@ class Experiment {
     return marked(name_file.toString());
   }
 
+  prebuild() {
+    const bp = Config.build_path(this.src);
+    shell.exec(`npx eslint -c ./.eslintrc.js ../experiment > ${bp}/eslint.log`);
+  }
+
   build(hb, lab_data, options) {
     /*
     here we are assuming that the descriptor contains a simgle object
@@ -96,6 +101,8 @@ class Experiment {
     );
 
     explu.build(exp_info, lab_data, options);
+    // post build
+    Plugin.processPostBuildPlugins(exp_info, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
