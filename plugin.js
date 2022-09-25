@@ -190,7 +190,7 @@ class Plugin {
           }
   
         shell.cd(`${plugin.id}`);
-        shell.exec(plugin.command);
+        shell.exec(`${plugin.command} ${exp_info.bp}`);
           shell.cd('..');
         shell.cd('..');
         } catch (e) {
