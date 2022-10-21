@@ -1,8 +1,8 @@
 const { ContentTypes } = require("../../Enums");
 
 const issues = {
-  [ContentTypes.TEXT]: ["Incorrect Content", "Insufficient Content"],
-  [ContentTypes.VIDEO]: ["Incorrect Content", "Insufficient Content"],
+  [ContentTypes.TEXT]: ["Insufficient Content"],
+  [ContentTypes.VIDEO]: ["Insufficient Content"],
   [ContentTypes.ASSESMENT]: [
     "Incorrect Options",
     "Incorrect Answer",
@@ -13,7 +13,7 @@ const issues = {
     "Incorrect Results/Observations",
     "Insufficient/Incorrect Instructions",
   ],
-  DEFAULT: ["Page Not Loading", "Content Not Visible", "Incorrect content"],
+  DEFAULT: ["Page Not Loading", "Content Not Visible", "Incorrect Content"],
 };
 
 module.exports = issues;
