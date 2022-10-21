@@ -23,20 +23,6 @@ const config = [
     template: "handlebars/performance-report.handlebars",
     target: "performance-report.html",
     label: "Performance Tool",
-  },
-  {
-    id: "build-validation",
-    scope: PluginScope.EXPERIMENT,
-    repo: "https://github.com/virtual-labs/build-validation",
-    template: "handlebars/validator-report.handlebars",
-    target: "validator-report.html",
-    label: "Validator",
-  },
-  {
-    id: "build-validation",
-    scope: PluginScope.POSTBUILD,
-    repo: "https://github.com/virtual-labs/build-validation",
-    command: "npm i && node js/link_validation.js",
   }
 ];
 

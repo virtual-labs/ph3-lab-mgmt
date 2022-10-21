@@ -12,7 +12,6 @@ const Lab = {
   partials: [
     ["analytics_head", "lab-analytics-head"],
     ["analytics_body", "lab-analytics-body"],
-    ["validation_body", "lab-validation-body"],
     ["commons", "commons"],
     ["header", "header"],
     ["breadcrumbs", "lab-breadcrumbs"],
@@ -41,7 +40,6 @@ const Experiment = {
   partials: [
     ["analytics_head", "analytics-head"],
     ["analytics_body", "analytics-body"],
-    ["validation_body", "validation-body"],
     ["meta", "meta"],
     ["commons", "commons"],
     ["header", "header"],

@@ -163,41 +163,6 @@ class Plugin {
     fs.writeFileSync(page.targetPath(), dom.serialize());
   }
 
-  static processPostBuildPlugins(exp_info, options){
-    const pluginConfig = require(Plugin.getConfigFileName(options.env));
-  
-      const postBuildScopePlugins = pluginConfig.filter(
-        (p) => p.scope === PluginScope.POSTBUILD
-      );
-      if(!fs.existsSync('plugins'))
-      {
-        shell.exec('mkdir plugins');
-      }
-  
-      postBuildScopePlugins.forEach((plugin) => {
-        try {
-          shell.cd('plugins');
-          if(!fs.existsSync(plugin.id))
-          {
-            shell.exec(`git clone --depth=1 ${plugin.repo}`);
-          }
-  
-          else
-          {
-            shell.cd(`${plugin.id}`);
-            shell.exec(`git pull`);
-            shell.cd('..');
-          }
-  
-        shell.cd(`${plugin.id}`);
-        shell.exec(`${plugin.command} ${exp_info.bp}`);
-          shell.cd('..');
-        shell.cd('..');
-        } catch (e) {
-          console.error(e.message);
-        };
-      });
-    }
 
 }
 
