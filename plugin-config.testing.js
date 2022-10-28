@@ -23,7 +23,7 @@ const config = [
     template: "handlebars/performance-report.handlebars",
     target: "performance-report.html",
     label: "Performance Tool",
-  },
+  }
 ];
 
 module.exports = config;

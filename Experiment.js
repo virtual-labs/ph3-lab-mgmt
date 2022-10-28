@@ -31,6 +31,10 @@ class Experiment {
     return path.resolve(src, `${Config.Experiment.descriptor_name}.json`);
   }
 
+  static contributorsPath(src) {
+    return path.resolve(`${src}/experiment`, 'contributors.md');
+  }
+
   clean() {
     const bp = path.resolve(this.src, Config.Experiment.build_dir);
     if (shell.test("-d", bp)) {
@@ -85,7 +89,7 @@ class Experiment {
     const exp_info = {
       name: this.name(),
       menu: explu.units,
-      src: this.src,
+      src: this.src
     };
 
     exp_info.plugins = Plugin.processExpScopePlugins(
@@ -121,6 +125,18 @@ class Experiment {
     };
 
     this.descriptor.units.push(feedbackLU);
+  }
+
+  includeContributors() {
+    const contributors = {
+      "unit-type": "task",
+      label: "Contributors",
+      "content-type": "text",
+      source: "contributors.md",
+      target: "contributors.html",
+    };
+
+    this.descriptor.units.push(contributors);
   }
 }
 

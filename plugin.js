@@ -162,6 +162,8 @@ class Plugin {
     });
     fs.writeFileSync(page.targetPath(), dom.serialize());
   }
+
+
 }
 
 module.exports = { Plugin };

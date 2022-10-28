@@ -2,20 +2,33 @@ const path = require("path");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
 
-const {Experiment} = require("./Experiment.js");
+const { Experiment } = require("./Experiment.js");
 const Config = require("./Config.js");
-const {BuildEnvs, validBuildEnv} = require("./Enums.js");
+const { BuildEnvs, validBuildEnv } = require("./Enums.js");
 
-function run (src, lab_data, build_options) {
-
+function run(src, lab_data, build_options) {
   // if the experiment repo does not contain experiment descriptor we will add the default descriptor.
-  if (!shell.test("-f", Experiment.descriptorPath(src))){
-    shell.cp(path.resolve(Config.Experiment.default_descriptor), path.resolve(this.src, Experiment.descriptorPath(src)));
+  if (!shell.test("-f", Experiment.descriptorPath(src))) {
+    shell.cp(
+      path.resolve(Config.Experiment.default_descriptor),
+      path.resolve(this.src, Experiment.descriptorPath(src))
+    );
   }
 
   const exp = new Experiment(src);
   exp.clean();
   exp.init(Handlebars);
+  // if the experiment repo contains contributors.md file we will add its lu to the descriptor.
+  if (shell.test("-f", Experiment.contributorsPath(src))) {
+    if(shell.head({'-n': 1}, Experiment.contributorsPath(src)).includes('EMPTY'))
+    {
+      console.log('Contributors.md file is empty, please add contributors to the file.');
+    }
+    else
+    {
+      exp.includeContributors();
+    }
+  }
   exp.includeFeedback();
   exp.build(Handlebars, lab_data, build_options);
 }
@@ -30,22 +43,21 @@ if (require.main === module) {
   // be testing.
   const build_options = {};
 
-  if(args.env) {
+  if (args.env) {
     build_options.env = validBuildEnv(args.env);
-  }
-  else {
+  } else {
     build_options.env = BuildEnvs.TESTING;
   }
-  
+
   // if the path is not provided assume "../" for backward
   // compatability.
 
   let src = "../";
-  
-  if(args._.length === 1) {
+
+  if (args._.length === 1) {
     src = path.resolve(args._[0]);
   }
-  
+
   /*
     We are making an assumption here that if you are running this
     script from the command line then this is being used for testing
@@ -73,12 +85,12 @@ if (require.main === module) {
   if (match && match.groups) {
     default_lab_data.exp_short_name = match.groups.expName;
     default_lab_data.collegeName = match.groups.devInstituteName.toUpperCase();
-    default_lab_data.phase = 'Testing';
-    default_lab_data.lab = 'Virtual Lab';
-    default_lab_data.lab_display_name = 'Virtual Lab Display Name';
-    default_lab_data.broadArea = { name : 'Test'};
+    default_lab_data.phase = "Testing";
+    default_lab_data.lab = "Virtual Lab";
+    default_lab_data.lab_display_name = "Virtual Lab Display Name";
+    default_lab_data.broadArea = { name: "Test" };
   } else {
-    console.log('No match found');
+    console.log("No match found");
   }
 
   run(src, default_lab_data, build_options);
