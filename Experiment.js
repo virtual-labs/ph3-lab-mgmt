@@ -89,8 +89,7 @@ class Experiment {
     const exp_info = {
       name: this.name(),
       menu: explu.units,
-      src: this.src,
-      bp : Config.build_path(this.src) + "/",
+      src: this.src
     };
 
     exp_info.plugins = Plugin.processExpScopePlugins(
@@ -129,7 +128,7 @@ class Experiment {
   }
 
   includeContributors() {
-    const contributorsLU = {
+    const contributors = {
       "unit-type": "task",
       label: "Contributors",
       "content-type": "text",
@@ -137,7 +136,7 @@ class Experiment {
       target: "contributors.html",
     };
 
-    this.descriptor.units.push(contributorsLU);
+    this.descriptor.units.push(contributors);
   }
 }
 
