@@ -1,6 +1,5 @@
 const path = require("path");
 const fs = require("fs");
-const marked = require("marked");
 const {renderMarkdown} = require("./renderMarkdown");
 const process = require("process");
 const Handlebars = require("handlebars");
@@ -168,7 +167,7 @@ class Task extends Unit {
 
       case ContentTypes.VIDEO:
         const vidContent = fs.readFileSync(this.sourcePath()).toString();
-        const htmlvidContent = marked(vidContent);
+        const htmlvidContent = renderMarkdown(vidContent);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
         break;
