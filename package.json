@@ -10,7 +10,7 @@
     "fs-extra": "^9.0.0",
     "glob": "7.1.6",
     "googleapis": "^67.0.0",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "html-to-text": "^8.0.0",
     "jsdom": "16.2.1",
     "katex": "^0.16.3",
