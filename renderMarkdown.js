@@ -166,7 +166,13 @@ function renderMarkdown(md) {
   console.log("Rendering Markdown" + (LaTeXinMD ? " with LaTeX" : ""));
   if (LaTeXinMD) {
     const preProcessedMd = preProcessMd(md);
-    return marked(preProcessedMd, { renderer: renderer });
+    try {
+      return marked(preProcessedMd, { renderer });
+    } catch (e) {
+      console.log("Error rendering Markdown with LaTeX");
+      console.log(e);
+      return marked(md);
+    }
   } else {
     return marked(md);
   }
