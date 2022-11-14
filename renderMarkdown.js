@@ -37,7 +37,7 @@ function handleDoubleDollarMaths(md) {
       if (j < md.length) {
         // console.log('found $$');
         const expr = md.substring(i, j + 2);
-        const math = "`" + expr + "`";
+        const math = "\n```\n" + expr + "\n```\n";
         if (math) {
           md = md.substring(0, i) + math + md.substring(j + 2);
 
@@ -71,7 +71,7 @@ function overlap(match1, match2) {
 }
 
 function handleSingleDollarMaths(md) {
-  const regex = / \$[^\$]+\$ |^\$[^\$]+\$ |^\$[^\$]+\$$| \$[^\$]+\$$/gm;
+  const regex = / \$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$$| \$[^\$]+\$$/gm;
   const regex2 = /([`])(?:(?=(\\?))\2.)*?\1/g;
 
   const matches = [...md.matchAll(regex)];
@@ -122,8 +122,14 @@ function preProcessMd(md) {
 }
 
 function mathsExpression(expr) {
-  // remove start and end whitespace
-  expr = expr.trim();
+  // trim expr till both sides start with $
+  while (expr[0] !== "$" && expr.length > 0) {
+    expr = expr.substring(1);
+  }
+  while (expr[expr.length - 1] !== "$" && expr.length > 0) {
+    expr = expr.substring(0, expr.length - 1);
+  }
+
   if (expr.match(/^\$\$[\s\S]*\$\$$/)) {
     expr = expr.substr(2, expr.length - 4);
     return katex.renderToString(expr, { displayMode: true });
