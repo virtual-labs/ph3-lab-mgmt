@@ -71,7 +71,7 @@ function overlap(match1, match2) {
 }
 
 function handleSingleDollarMaths(md) {
-  const regex = / \$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$$| \$[^\$]+\$$/gm;
+  const regex = /[^a-zA-Z\d]\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$$|[^a-zA-Z\d]\$[^\$]+\$$/gm;
   const regex2 = /([`])(?:(?=(\\?))\2.)*?\1/g;
 
   const matches = [...md.matchAll(regex)];
