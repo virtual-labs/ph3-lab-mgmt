@@ -2,7 +2,7 @@
   "unit-type": "lu",
   "label": "",
   "basedir": ".",
-  "LaTeXinMD": true,
+  "LaTeXinMD": false,
   "units": [
     {
       "unit-type": "aim"
