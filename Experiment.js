@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const marked = require("marked");
+const {renderMarkdown} = require("./renderMarkdown");
 const process = require("process");
 const shell = require("shelljs");
 
@@ -77,7 +77,7 @@ class Experiment {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-    return marked(name_file.toString());
+    return renderMarkdown(name_file.toString());
   }
 
   build(hb, lab_data, options) {
