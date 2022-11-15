@@ -15,17 +15,19 @@ experiment.
 The side menu provides the following features:
 
 ** Links to all the pages in the experiment
-The side menu provies links to all the pages in the experiment. The side menu also has a contributors page where the names and contact infor of SME's and the developers of the experiment is captured. 
+The side menu provies links to all the pages in the experiment. The default pages currently supported are - 
+1. Aim (aim.md)
+2. Theory (theory.md)
+3. Pretest (pretest.json) - [Instructions](https://github.com/virtual-labs/ph3-exp-template/blob/main/experiment/README.md) to populate this file 
+4. Procedure (procedure.md)
+5. Simulation ( simulation directory) 
+6. Posttest (posttest.json) - [Instructions](https://github.com/virtual-labs/ph3-exp-template/blob/main/experiment/README.md) to populate this file  
+7. Contributors (contributors.md) - Captures the the names and contact information of SME's and the developers of the experiment. If required the developer    may change the presentation template and also add a Credit section to this file. 
+8. References/Further Reading (references.md)
+9. Feedback ( It is populated by our script and does not need any inputs from the developer) 
 
-The following steps list the process to be followed to add this information. 
+This menu can be customized by making changes to the experiment-descriptor.json as detailed [here](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/docs/exp-build-process.org#experiment-descriptor). 
 
-Step 1 : Go to the experiment directory, in the respective experiment repository.    
-
-Step 2 : Add the file contributors.md  in the experiment directory.  This file can be found here.  
-
-Step 3 : Remove the first line in the contributors.md. Fill in the required content as per the template provided. If required you may change the presentation template. If needed, you can also add a Credit section to this file. 
-
-Step 4 : Push the changes to the testing branch. You will be able to see the Contributors option on the Side Menu panel (left)  on the repository's github hosted page. 
 
 ** Highlights the link to the current page
 To facilitate tracking the current page, the side menu highlights the
