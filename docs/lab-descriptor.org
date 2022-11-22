@@ -113,6 +113,7 @@
             "link": ""
         },
 	"lab": "",
+	"lab_display_name": "",
         "deployLab": ,
 	"phase": ,
 	"collegeName": "",
@@ -143,6 +144,7 @@
             "link": "http://vlab.co.in/broad-area-civil-engineering"
         },
         "lab": "Fluid Machinery",
+	"lab_display_name": "Fluid Machinery",
 	"deployLab":true,
         "phase": 3,
         "collegeName": "NITS",
