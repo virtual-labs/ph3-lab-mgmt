@@ -39,3 +39,20 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (e)=>{
         })
     }
 })
+
+document.getElementById('rating-submit').addEventListener('vl-rating-submit', (e)=>{
+  const learningUnit = document.head.querySelector('meta[name="learning-unit"]').content;
+        const task = document.head.querySelector('meta[name="task-name"]').content;
+        dataLayer.push({
+            event: "vl-rating-submit",
+            "rating": e.detail.rating,
+            "learning-unit": learningUnit ? learningUnit : "", 
+            "task-name": task ? task : ""
+        })        
+        Toast.fire({
+          icon: 'success',
+          iconColor: "white",
+          background:"#a5dc86",
+          title: 'Rating Submitted Succesfully',
+        })
+})

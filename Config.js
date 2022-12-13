@@ -21,6 +21,7 @@ const Lab = {
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
+    ["vl_rating_display", "vl-rating-display"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
@@ -52,6 +53,7 @@ const Experiment = {
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
     ["nav_menu_items", "nav-menu-items"],
+    ["vl_rating_display", "vl-rating-display"],
   ],
   optional_pages: [
     "Observations",

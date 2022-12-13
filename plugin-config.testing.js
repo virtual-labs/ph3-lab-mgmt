@@ -1,6 +1,7 @@
 const { PluginScope } = require("./Enums.js");
 const issues = require("./assets_plugins/json/bug-report-questions.js");
 
+
 const config = [
   {
     id: "plugin-bug-report",
@@ -15,6 +16,13 @@ const config = [
   {
     id: "plugin-rating",
     scope: PluginScope.PAGE,
+    js_modules:[
+      "http://127.0.0.1:5500/rating-display.js",
+      "http://127.0.0.1:5500/rating.js",
+      "http://127.0.0.1:5500/rating-submit.js",
+    ],
+    attributes: {},
+    
   },
   {
     id: "tool-performance",
