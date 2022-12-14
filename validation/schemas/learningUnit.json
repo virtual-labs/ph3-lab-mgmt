@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://virtual.labs/schemas/learningUnit.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "unit-type": {
+        "type": "string",
+        "enum": ["aim", "task", "lu"],
+        "errorMessage": {
+          "enum": "The unit-type should be one of the following: aim, task, lu"
+        }
+      }
+    },
+    "required": ["unit-type"],
+    "errorMessage": {
+      "required": {
+        "unit-type": "The unit-type is required"
+      }
+    },
+    "if": {
+      "properties": { "unit-type": { "const": "lu" } }
+    },
+    "then": {
+      "required": ["basedir", "units"],
+      "properties": {
+        "basedir": {
+          "type": "string"
+        },
+        "units": {
+          "$ref": "learningUnit.json#/"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "errorMessage": {
+        "required": {
+          "basedir": "The basedir is required",
+          "units": "The units are required"
+        }
+      }
+    },
+    "else": {
+      "if": {
+        "properties": { "unit-type": { "const": "task" } }
+      },
+      "then": {
+        "required": ["content-type", "label", "source", "target"],
+        "properties": {
+          "content-type": {
+            "type": "string",
+            "enum": ["text", "assesment", "simulation", "video"]
+          },
+          "label": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "errorMessage": {
+          "required": {
+            "content-type": "The content-type is required",
+            "label": "The label is required",
+            "source": "The source is required",
+            "target": "The target is required"
+          }
+        }
+      }
+    }
+  },
+  "minItems": 1,
+  "errorMessage": {
+    "minItems": "The experiment should have at least one unit"
+  }
+}

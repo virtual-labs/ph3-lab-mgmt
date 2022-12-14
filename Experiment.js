@@ -83,6 +83,7 @@ class Experiment {
   prebuild() {
     const bp = Config.build_path(this.src);
     shell.exec(`npx eslint -c ./.eslintrc.js ../experiment > ${bp}/eslint.log`);
+    shell.exec(`node ./validation/validate.js -f ../experiment-descriptor.json > ${bp}/validate.log`);
   }
 
   build(hb, lab_data, options) {
