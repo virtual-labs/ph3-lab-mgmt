@@ -120,6 +120,7 @@ html {
   }
 }
 
+
 @media (min-width: 992px) {
   .vlabs-hidden {
     display: none !important;
@@ -130,7 +131,11 @@ html {
   .bug-report-mobile {
     display: none;
   }
+  .vl-rating-submit-mobile{
+    display: none;
+  }
 }
+
 
 .vlabs-header a {
   margin: 0 1rem;
