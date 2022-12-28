@@ -113,7 +113,7 @@ function dataPreprocess(datafile) {
   if (data.experiments) {
     data.experiments = data.experiments.map((e) => {
       const exp_url = generateLink(data.baseUrl, e["short-name"]);
-      return { name: e.name, link: exp_url.toString() };
+      return { name: e.name, short_name : e["short-name"], link: exp_url.toString() };
     });
     return data;
   } else {
@@ -127,7 +127,7 @@ function dataPreprocess(datafile) {
               e["short-name"],
               (index_fn = "index.html")
             );
-            return { name: e.name, link: exp_url.toString() };
+            return { name: e.name,short_name : e["short-name"], link: exp_url.toString() };
           }),
         };
       });
