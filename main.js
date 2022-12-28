@@ -25,11 +25,16 @@ function stageLab(src, destPath) {
   shell.exec(`rsync -a ${src} '${destPath}'`);
 }
 
-function buildPage(template_file, component_files, content_file) {
+function buildPage(template_file, component_files, content_file, modules) {
   const main_template = fs.readFileSync(template_file, "utf-8");
   const components = loadComponents(component_files);
   const content = fs.readFileSync(`page-components/${content_file}`, "utf-8");
-  const res_html = populateTemplate(main_template, components, content);
+  const res_html = populateTemplate(
+    main_template,
+    components,
+    content,
+    modules
+  );
   return res_html;
 }
 
@@ -40,12 +45,14 @@ function loadComponents(component_files) {
   return components;
 }
 
-function populateTemplate(template, components, content) {
+function populateTemplate(template, components, content, modules) {
   let dom = new JSDOM(`${template}`);
   let res = addAnalytics(dom, components[0]);
   res = addLabName(res, components[1]);
   res = addBroadAreaName(res, components[2]);
   res = addSideBar(res, components[3]);
+  console.log("49---------------------\n", modules);
+  res = addModules(res, modules);
   res = addContent(res, content);
   return res.serialize();
 }
@@ -62,6 +69,16 @@ function addBroadAreaName(dom, broadareaName) {
   return dom;
 }
 
+function addModules(dom, modules) {
+  if (modules !== undefined) {
+    const scriptTags = modules.map((module) => {
+      return `<script type='module' src="${module}"></script>`;
+    });
+    dom.window.document.querySelector("head").innerHTML += scriptTags.join("");
+    console.log("72---------------------\n", scriptTags);
+  }
+  return dom;
+}
 function addLabName(dom, labname) {
   dom.window.document.querySelector(".lab-name").innerHTML = labname;
   return dom;
@@ -102,7 +119,12 @@ function generateLab(pages, labpath, template_file, component_files) {
   shell.exec(`cd ${labpath}; git checkout master; git pull origin master`);
   prepareStructure(labpath);
   pages.forEach((p) => {
-    const res_html = buildPage(template_file, component_files, p.src);
+    const res_html = buildPage(
+      template_file,
+      component_files,
+      p.src,
+      p.modules
+    );
     fs.writeFileSync(`${labpath}/build/${p.target}`, res_html, "utf-8");
   });
 }
@@ -113,7 +135,11 @@ function dataPreprocess(datafile) {
   if (data.experiments) {
     data.experiments = data.experiments.map((e) => {
       const exp_url = generateLink(data.baseUrl, e["short-name"]);
-      return { name: e.name, short_name : e["short-name"], link: exp_url.toString() };
+      return {
+        name: e.name,
+        short_name: e["short-name"],
+        link: exp_url.toString(),
+      };
     });
     return data;
   } else {
@@ -127,7 +153,11 @@ function dataPreprocess(datafile) {
               e["short-name"],
               (index_fn = "index.html")
             );
-            return { name: e.name,short_name : e["short-name"], link: exp_url.toString() };
+            return {
+              name: e.name,
+              short_name: e["short-name"],
+              link: exp_url.toString(),
+            };
           }),
         };
       });

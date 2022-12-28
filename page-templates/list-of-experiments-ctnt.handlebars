@@ -2,9 +2,22 @@
 	<ol>
 		{{#each experiments }}
 		<li>
-			<a href={{ this.link }}>
+			<div class="list-of-experiments-container">	
+			
+				<a href={{ this.link }}>
 				{{ this.name }}
-			</a>
+				</a>
+			
+			<div class="list-of-experiments-display-rating">		
+			<rating-display
+    			experimentName={{this.name}}
+    			spreadsheetID=1azCik_ei7pR8cePq8l6ELEPt-iOyrl9QChTx8zdulEc
+				sheetName="Rating-Experiments"
+				columnName="Experiment Short Name"
+				columnValue={{this.short_name}}
+    		></rating-display>
+			</div>
+			</div>
 		</li>
 		{{/each}}				
 	</ol>
