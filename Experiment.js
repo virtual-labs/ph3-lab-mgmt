@@ -77,7 +77,13 @@ class Experiment {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-    return renderMarkdown(name_file.toString());
+     return renderMarkdown(name_file.toString());
+  }
+
+  prebuild() {
+    const bp = Config.build_path(this.src);
+    shell.exec(`npx eslint -c ./.eslintrc.js ../experiment > ${bp}/eslint.log`);
+    shell.exec(`node ./validation/validate.js -f ../experiment-descriptor.json > ${bp}/validate.log`);
   }
 
   build(hb, lab_data, options) {
@@ -89,7 +95,8 @@ class Experiment {
     const exp_info = {
       name: this.name(),
       menu: explu.units,
-      src: this.src
+      src: this.src,
+      bp : Config.build_path(this.src) + "/",
     };
 
     exp_info.plugins = Plugin.processExpScopePlugins(
@@ -100,6 +107,8 @@ class Experiment {
     );
 
     explu.build(exp_info, lab_data, options);
+    // post build
+    Plugin.processPostBuildPlugins(exp_info, options);
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
@@ -135,7 +144,6 @@ class Experiment {
       source: "contributors.md",
       target: "contributors.html",
     };
-
     this.descriptor.units.push(contributors);
   }
 }

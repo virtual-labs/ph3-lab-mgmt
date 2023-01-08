@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://virtual.labs/schemas/qv2.json",
+  "type": "object",
+  "properties": {
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answers": {
+            "type": "object",
+            "minProperties": 2,
+            "errorMessage": {
+              "minProperties": "There have to be atleast one correct answer"
+            }
+          },
+          "correctAnswer": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": ["beginner", "intermediate", "advanced"],
+            "errorMessage": {
+              "enum": "Difficulty can only be: beginner, intermediate or advanced"
+            }
+          },
+          "explanations": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["question", "answers", "correctAnswer", "difficulty"]
+      },
+      "minItems": 1,
+      "errorMessage": {
+        "minItems": "Questions cannot be empty",
+        "type": "Please provide an array of questions"
+      }
+    }
+  }
+}

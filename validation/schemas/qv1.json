@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://virtual.labs/schemas/qv1.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string"
+      },
+      "answers": {
+        "type": "object",
+        "minProperties": 2,
+        "errorMessage": {
+          "minProperties": "There have to be atleast one correct answer"
+        }
+      },
+      "correctAnswer": {
+        "type": "string"
+      }
+    },
+    "required": ["question", "answers", "correctAnswer"]
+  },
+  "minItems": 1
+}

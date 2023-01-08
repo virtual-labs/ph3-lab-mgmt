@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "@types/shelljs": "^0.8.8",
-    "ajv": "^6.12.6",
+    "ajv": "^8.6.0",
+    "ajv-errors": "^3.0.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "figures": "^3.2.0",
@@ -20,13 +21,15 @@
     "prettier": "^2.0.5",
     "rsync": "^0.6.1",
     "shelljs": "^0.8.4",
-    "simple-git": "^2.31.0"
+    "simple-git": "^2.31.0",
+    "yargs": "^17.0.1"
   },
   "description": "",
   "main": "main.js",
   "scripts": {
     "labgen": "node main.js",
     "validate-lab-descriptor": "node validateDescriptor.js",
+    "validate-schema": "node validation/validate.js",
     "build-ds-exp": "node exp.js --env=testing ../",
     "build-exp": "node exp.js --env=testing ../",
     "clean": "rm -rf plugins",
