@@ -62,14 +62,7 @@ class Plugin {
     expScopePlugins.forEach((plugin) => {
       try {
         shell.cd("plugins");
-        if (!fs.existsSync(plugin.id)) {
-          shell.exec(`git clone --depth=1 ${plugin.repo}`);
-        } else {
-          shell.cd(`${plugin.id}`);
-          shell.exec(`git pull`);
-          shell.cd("..");
-        }
-
+        prepareRepo(plugin);
         shell.cd("..");
         const pluginPath = path.resolve("plugins", plugin.id);
         const page_template = fs.readFileSync(
