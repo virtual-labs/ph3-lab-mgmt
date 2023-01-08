@@ -20,7 +20,9 @@
   | *baseUrl*              |                | =URL=             | A URL has =host= and =url-path=.  baseUrl           |
   |                        |                |                   | contains the =host= part of the lab.                |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
-  | *lab*                  |                | =String=          | Lab name as displayed on lab pages.                 |
+  | *lab*                  |                | =String=          | Lab name used in google analytics.                  |
+  |------------------------+----------------+-------------------+-----------------------------------------------------|
+  | *lab_display_name*     |                | =String=          | Lab name as displayed on lab pages.                 |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
   | *deployLab*            |                | =Boolean=         | Should the lab be deployed?                         |
   |------------------------+----------------+-------------------+-----------------------------------------------------|
@@ -111,6 +113,7 @@
             "link": ""
         },
 	"lab": "",
+	"lab_display_name": "",
         "deployLab": ,
 	"phase": ,
 	"collegeName": "",
@@ -141,6 +144,7 @@
             "link": "http://vlab.co.in/broad-area-civil-engineering"
         },
         "lab": "Fluid Machinery",
+	"lab_display_name": "Fluid Machinery",
 	"deployLab":true,
         "phase": 3,
         "collegeName": "NITS",

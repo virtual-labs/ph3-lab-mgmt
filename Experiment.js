@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const marked = require("marked");
+const {renderMarkdown} = require("./renderMarkdown");
 const process = require("process");
 const shell = require("shelljs");
 
@@ -77,7 +77,7 @@ class Experiment {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-    return marked(name_file.toString());
+     return renderMarkdown(name_file.toString());
   }
 
   prebuild() {
@@ -137,15 +137,14 @@ class Experiment {
   }
 
   includeContributors() {
-    const contributorsLU = {
+    const contributors = {
       "unit-type": "task",
       label: "Contributors",
       "content-type": "text",
       source: "contributors.md",
       target: "contributors.html",
     };
-
-    this.descriptor.units.push(contributorsLU);
+    this.descriptor.units.push(contributors);
   }
 }
 
