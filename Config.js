@@ -22,7 +22,7 @@ const Lab = {
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
     ["rating_submit_mobile", "rating-submit-mobile"],
-    ["vl_rating_display", "vl-rating-display"],
+    ["rating_display", "rating-display"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
@@ -55,7 +55,7 @@ const Experiment = {
     ["bug_report_mobile", "bug-report-mobile"],
     ["rating_submit_mobile", "rating-submit-mobile"],
     ["nav_menu_items", "nav-menu-items"],
-    ["vl_rating_display", "vl-rating-display"],
+    ["rating_display", "rating-display"],
   ],
   optional_pages: [
     "Observations",

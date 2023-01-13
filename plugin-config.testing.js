@@ -17,9 +17,9 @@ const config = [
     id: "plugin-rating",
     scope: PluginScope.PAGE,
     js_modules:[
-      "http://127.0.0.1:5500/rating-display.js",
-      "http://127.0.0.1:5500/rating.js",
-      "http://127.0.0.1:5500/rating-submit.js",
+      "https://virtual-labs.github.io/svc-rating/rating-display.js",
+      "https://virtual-labs.github.io/svc-rating/rating.js",
+      "https://virtual-labs.github.io/svc-rating/rating-submit.js",
     ],
     attributes: {},
     
