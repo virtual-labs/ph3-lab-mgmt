@@ -80,12 +80,6 @@ class Experiment {
      return renderMarkdown(name_file.toString());
   }
 
-  prebuild() {
-    const bp = Config.build_path(this.src);
-    shell.exec(`npx eslint -c ./.eslintrc.js ../experiment > ${bp}/eslint.log`);
-    shell.exec(`node ./validation/validate.js -f ../experiment-descriptor.json > ${bp}/validate.log`);
-  }
-
   build(hb, lab_data, options) {
     /*
     here we are assuming that the descriptor contains a simgle object
