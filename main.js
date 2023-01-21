@@ -6,7 +6,7 @@ const path = require("path");
 
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
-function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, src, build_options) {
+function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, isPlugin , src, build_options) {
   const bp = Config.build_path(src);
   if (isClean) {
     clean();
@@ -44,6 +44,11 @@ function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, src, build_op
     console.log("No match found");
   }
 
+  if(isPlugin){
+    build_options.plugins = true;
+  }else{
+    build_options.plugins = false;
+  }
   run(src, default_lab_data, build_options);
 
   if (isDeploy) {

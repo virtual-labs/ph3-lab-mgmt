@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const {renderMarkdown} = require("./renderMarkdown");
+const { renderMarkdown } = require("./renderMarkdown");
 const process = require("process");
 const shell = require("shelljs");
 
@@ -77,7 +77,7 @@ class Experiment {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-     return renderMarkdown(name_file.toString());
+    return renderMarkdown(name_file.toString());
   }
 
   build(hb, lab_data, options) {
@@ -90,19 +90,22 @@ class Experiment {
       name: this.name(),
       menu: explu.units,
       src: this.src,
-      bp : Config.build_path(this.src) + "/",
+      bp: Config.build_path(this.src) + "/",
     };
 
-    exp_info.plugins = Plugin.processExpScopePlugins(
-      exp_info,
-      hb,
-      lab_data,
-      options
-    );
-
+    if (options.isPlugin) {
+      exp_info.plugins = Plugin.processExpScopePlugins(
+        exp_info,
+        hb,
+        lab_data,
+        options
+      );
+    }
     explu.build(exp_info, lab_data, options);
     // post build
-    Plugin.processPostBuildPlugins(exp_info, options);
+    if (options.isPlugin) {
+      Plugin.processPostBuildPlugins(exp_info, options);
+    }
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
