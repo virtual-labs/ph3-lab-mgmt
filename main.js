@@ -2,26 +2,38 @@ const fs = require("fs");
 const shell = require("shelljs");
 const { run } = require("./exp.js");
 const minimist = require("minimist");
+const { BuildEnvs, validBuildEnv } = require("./Enums.js");
+const Config = require("./Config.js");
 const path = require("path");
 
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
-function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, isPlugin , src, build_options) {
-  const bp = Config.build_path(src);
+function build(
+  isClean,
+  isValidate,
+  isESLINT,
+  isExpDesc,
+  isDeploy,
+  isPlugin,
+  src,
+  build_options
+) {
   if (isClean) {
     clean();
   }
 
-  if (isValidate) {
-    validate(isESLINT, isExpDesc, bp);
-  }
+  build_options.isValidate = isValidate;
+  build_options.isESLINT = isESLINT;
+  build_options.isExpDesc = isExpDesc;
 
+  
   // Create build folder
-  if (!fs.existsSync(bp)) {
-    fs.mkdirSync(bp);
-  }
+  // shell.mkdir(path.resolve(src, Config.Experiment.build_dir));
+  // if (!fs.existsSync(bp)) {
+  //   fs.mkdirSync(bp);
+  // }
 
-  // run 
+  // run
 
   const default_lab_data = {};
 
@@ -44,9 +56,9 @@ function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, isPlugin , sr
     console.log("No match found");
   }
 
-  if(isPlugin){
+  if (isPlugin) {
     build_options.plugins = true;
-  }else{
+  } else {
     build_options.plugins = false;
   }
   run(src, default_lab_data, build_options);
@@ -59,27 +71,32 @@ function build(isClean, isValidate, isESLINT, isExpDesc, isDeploy, isPlugin , sr
 // Validate
 // 1.eslint
 // 2. exp desc
-function validate(isESLINT, isExpDesc, buildPath) {
+function validate(isESLINT, isExpDesc) {
   if (isESLINT) {
     shell.exec(
-      `npx eslint -c ./.eslintrc.js ../experiment > ${buildPath}/eslint.log`
+      `npx eslint -c ./.eslintrc.js ../experiment > ../eslint.log`
     );
-    console.log(`ESLINT log file: ${buildPath}/eslint.log`);
+    console.log(`ESLINT log file: ../eslint.log`);
   }
   if (isExpDesc) {
     shell.exec(
-      `node ./validation/validate.js -f ../experiment-descriptor.json > ${buildPath}/validate.log`
+      `node ./validation/validate.js -f ../experiment-descriptor.json > ../validate.log`
     );
-    console.log(`Experiment Descriptor log file: ${buildPath}/validate.log`);
+    console.log(`Experiment Descriptor log file: ../validate.log`);
   }
 }
 
 // Clean
 function clean() {
-  fs.rmdirSync("../build", { recursive: true });
-  fs.rmdirSync("./plugins", { recursive: true });
-  fs.rmdirSync("./node_modules", { recursive: true });
-  fs.rmdirSync("./package-lock.json", { recursive: true });
+  // Check if build exists
+  if (fs.existsSync("../build")) {
+    fs.rmdirSync("../build", { recursive: true });
+  }
+  if (fs.existsSync("./plugins")) {
+    fs.rmdirSync("./plugins", { recursive: true });
+  }
+  // fs.rmdirSync("./node_modules", { recursive: true });
+  // fs.rmdirSync("./package-lock.json", { recursive: true });
 }
 
 // Deploy Locally
@@ -87,33 +104,52 @@ function deployLocal() {
   // Check if build exists
   if (fs.existsSync("../build")) {
     // Deploy
-    shell.exec(`npx http-server ../build -o -p 0`);
+    shell.exec(`npx http-server -p 8080 ../build -o /index.html`);
   } else {
     // Throw error
     console.error("Build does not exist, build first");
   }
 }
 
-function main()
-{
-    const args = minimist(process.argv.slice(2));
+function main() {
+  const args = minimist(process.argv.slice(2));
 
-    // for backwards compatibility if the env is not given assume it to
-    // be testing.
-    const build_options = {};
-  
-    if (args.env) {
-      build_options.env = validBuildEnv(args.env);
-    } else {
-      build_options.env = BuildEnvs.TESTING;
-    }
-  
-    // if the path is not provided assume "../" for backward
-    // compatability.
-  
-    let src = "../";
-  
-    if (args._.length === 1) {
-      src = path.resolve(args._[0]);
-    }
+  // for backwards compatibility if the env is not given assume it to
+  // be testing.
+  const build_options = {};
+
+  if (args.env) {
+    build_options.env = validBuildEnv(args.env);
+  } else {
+    build_options.env = BuildEnvs.TESTING;
+  }
+
+  // if the path is not provided assume "../" for backward
+  // compatability.
+
+  let src = "../";
+
+  if (args._.length === 1) {
+    src = path.resolve(args._[0]);
+  }
+
+  let isClean = args.clean || false;
+  let isValidate = args.validate || false;
+  let isESLINT = args.eslint || false;
+  let isExpDesc = args.expdesc || false;
+  let isDeploy = args.deploy || false;
+  let isPlugin = args.disablePlugin ? false : true;
+
+  build(
+    isClean,
+    isValidate,
+    isESLINT,
+    isExpDesc,
+    isDeploy,
+    isPlugin,
+    src,
+    build_options
+  );
 }
+
+main();

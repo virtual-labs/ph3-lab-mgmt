@@ -16,8 +16,11 @@ function run(src, lab_data, build_options) {
   }
 
   const exp = new Experiment(src);
-  exp.clean();
   exp.init(Handlebars);
+  // Validation
+  if(build_options.isValidate)
+    exp.validate(build_options);
+
   // if the experiment repo contains contributors.md file we will add its lu to the descriptor.
   if (shell.test("-f", Experiment.contributorsPath(src))) {
     if(shell.head({'-n': 1}, Experiment.contributorsPath(src)).includes('EMPTY'))

@@ -35,13 +35,6 @@ class Experiment {
     return path.resolve(`${src}/experiment`, 'contributors.md');
   }
 
-  clean() {
-    const bp = path.resolve(this.src, Config.Experiment.build_dir);
-    if (shell.test("-d", bp)) {
-      shell.rm("-rf", bp);
-    }
-  }
-
   static registerPartials(hb) {
     Config.Experiment.partials.forEach(([name, file]) => {
       const partial_content = fs.readFileSync(
@@ -73,6 +66,20 @@ class Experiment {
     }
   }
 
+  validate(build_options) {
+    const buildPath = Config.build_path(this.src);
+    if (build_options.isESLINT) {
+      shell.exec(
+        `npx eslint -c ./.eslintrc.js ../experiment > ${buildPath}/eslint.log`
+      );
+    }
+    if (build_options.isExpDesc) {
+      shell.exec(
+        `node ./validation/validate.js -f ../experiment-descriptor.json > ${buildPath}/validate.log`
+      );
+    }
+  }
+
   name() {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
@@ -93,7 +100,7 @@ class Experiment {
       bp: Config.build_path(this.src) + "/",
     };
 
-    if (options.isPlugin) {
+    if (options.plugins) {
       exp_info.plugins = Plugin.processExpScopePlugins(
         exp_info,
         hb,
@@ -103,7 +110,7 @@ class Experiment {
     }
     explu.build(exp_info, lab_data, options);
     // post build
-    if (options.isPlugin) {
+    if (options.plugins) {
       Plugin.processPostBuildPlugins(exp_info, options);
     }
     /*
