@@ -48,7 +48,12 @@ class Plugin {
   }
 
   static processExpScopePlugins(exp_info, hb, lab_data, options) {
-    const pluginConfig = require(Plugin.getConfigFileName(options.env));
+    let pluginConfig = require(Plugin.getConfigFileName(options.env));
+
+    if(!options.isValidate)
+    {
+      pluginConfig = pluginConfig.filter((p) => p.id !== "build-validation");
+    }
 
     const expScopePlugins = pluginConfig.filter(
       (p) => p.scope === PluginScope.EXPERIMENT
@@ -167,7 +172,12 @@ class Plugin {
   }
 
   static processPostBuildPlugins(exp_info, options) {
-    const pluginConfig = require(Plugin.getConfigFileName(options.env));
+    let pluginConfig = require(Plugin.getConfigFileName(options.env));
+
+    if(!options.isValidate)
+    {
+      pluginConfig = pluginConfig.filter((p) => p.id !== "build-validation");
+    }
 
     const postBuildScopePlugins = pluginConfig.filter(
       (p) => p.scope === PluginScope.POSTBUILD
