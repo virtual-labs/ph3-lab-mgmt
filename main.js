@@ -163,9 +163,11 @@ function main() {
 
     case "clean":
       clean(src);
+      break;
 
     case "deploy":
       deployLocal(src);
+      break;
 
     default:
       break;
