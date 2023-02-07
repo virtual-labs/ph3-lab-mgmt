@@ -13,8 +13,7 @@ if (args._.length === 1) {
 }
 
 let descriptorPath = path.resolve(
-  src,
-  `${Config.Experiment.descriptor_name}.json`
+  src,Config.Experiment.descriptor_name
 );
 
 if (!shell.test("-f", descriptorPath)) {

@@ -10,7 +10,6 @@ const path = require("path");
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 function build(
   isClean,
-  isValidate,
   isESLINT,
   isExpDesc,
   isDeploy,
@@ -22,11 +21,10 @@ function build(
     clean();
   }
 
-  build_options.isValidate = isValidate;
+  build_options.isValidate = isESLINT || isExpDesc;
   build_options.isESLINT = isESLINT;
   build_options.isExpDesc = isExpDesc;
 
-  
   // Create build folder
   // shell.mkdir(path.resolve(src, Config.Experiment.build_dir));
   // if (!fs.existsSync(bp)) {
@@ -71,40 +69,40 @@ function build(
 // Validate
 // 1.eslint
 // 2. exp desc
-function validate(isESLINT, isExpDesc) {
+function validate(isESLINT, isExpDesc, src) {
+  const ep = path.resolve(src, Config.Experiment.exp_dir);
+  const descriptorPath = path.resolve(src, Config.Experiment.descriptor_name);
   if (isESLINT) {
-    shell.exec(
-      `npx eslint -c ./.eslintrc.js ../experiment > ../eslint.log`
-    );
-    console.log(`ESLINT log file: ../eslint.log`);
+    console.log("Running ESLINT");
+    shell.exec(`npx eslint -c ./.eslintrc.js ${ep}`);
   }
   if (isExpDesc) {
+    console.log("Running Experiment Descriptor Validation");
     shell.exec(
-      `node ./validation/validate.js -f ../experiment-descriptor.json > ../validate.log`
+      `node ./validation/validate.js -f ${descriptorPath}`
     );
-    console.log(`Experiment Descriptor log file: ../validate.log`);
   }
 }
 
 // Clean
-function clean() {
+function clean(src) {
   // Check if build exists
-  if (fs.existsSync("../build")) {
-    fs.rmdirSync("../build", { recursive: true });
+  const bp = path.resolve(src, Config.Experiment.build_dir);
+  if (fs.existsSync(bp)) {
+    fs.rmdirSync(bp, { recursive: true });
   }
   if (fs.existsSync("./plugins")) {
     fs.rmdirSync("./plugins", { recursive: true });
   }
-  // fs.rmdirSync("./node_modules", { recursive: true });
-  // fs.rmdirSync("./package-lock.json", { recursive: true });
 }
 
 // Deploy Locally
-function deployLocal() {
+function deployLocal(src) {
   // Check if build exists
-  if (fs.existsSync("../build")) {
+  const bp = path.resolve(src, Config.Experiment.build_dir);
+  if (fs.existsSync(bp)) {
     // Deploy
-    shell.exec(`npx http-server -p 8080 ../build -o /index.html`);
+    shell.exec(`npx http-server -p 8080 ${bp} -o /index.html`);
   } else {
     // Throw error
     console.error("Build does not exist, build first");
@@ -128,28 +126,69 @@ function main() {
   // compatability.
 
   let src = "../";
-
-  if (args._.length === 1) {
-    src = path.resolve(args._[0]);
+  let option = "";
+  if (args._.length === 2) {
+    option = args._[0];
+    src = path.resolve(args._[1]);
+  } else if (args._.length === 1) {
+    option = args._[0];
+  } else {
+    console.log("Invalid arguments");
+    return;
   }
 
-  let isClean = args.clean || false;
-  let isValidate = args.validate || false;
-  let isESLINT = args.eslint || false;
-  let isExpDesc = args.expdesc || false;
-  let isDeploy = args.deploy || false;
-  let isPlugin = args.disablePlugin ? false : true;
+  switch (option) {
+    case "build":
+      let isClean = args.clean || false;
+      let isESLINT = args.validateEslint || false;
+      let isExpDesc = args.validateExpdesc || false;
+      let isDeploy = args.deploy || false;
+      let isPlugin = args.disablePlugin ? false : true;
+      build(
+        isClean,
+        isESLINT,
+        isExpDesc,
+        isDeploy,
+        isPlugin,
+        src,
+        build_options
+      );
+      break;
 
-  build(
-    isClean,
-    isValidate,
-    isESLINT,
-    isExpDesc,
-    isDeploy,
-    isPlugin,
-    src,
-    build_options
-  );
+    case "validate":
+      let isESLINTValidate = args.eslint || false;
+      let isExpDescValidate = args.expdesc || false;
+      validate(isESLINTValidate, isExpDescValidate,src);
+      break;
+
+    case "clean":
+      clean(src);
+
+    case "deploy":
+      deployLocal(src);
+
+    default:
+      break;
+  }
+
+  
 }
 
 main();
+
+// Build - validate
+// node main.js build --validateEslint --validateExpdesc ../
+// Clean Build - validate
+// node main.js build --clean --validateEslint --validateExpdesc ../
+// Build and deploy locally
+// node main.js build --validateEslint --validateExpdesc --deploy ../
+// Build without plugin
+// node main.js build --validateEslint --validateExpdesc --disablePlugin ../
+// Build without validation
+// node main.js build  ../
+// Validate
+// node main.js validate --eslint --expdesc ../
+// Clean
+// node main.js clean ../
+// Deploy
+// node main.js deploy ../

@@ -30,11 +30,14 @@
   "scripts": {
     "labgen": "node labGen.js",
     "validate-lab-descriptor": "node validateDescriptor.js",
-    "validate-schema": "node validation/validate.js",
-    "build-ds-exp": "node exp.js --env=testing ../",
-    "build-exp": "node exp.js --env=testing ../",
-    "clean": "rm -rf plugins",
-    "lint": "npx eslint -c ./.eslintrc.js ../experiment"
+    "build-exp": "node main.js build --validateEslint --validateExpdesc ../",
+    "clean-build-exp": "node main.js build --clean --validateEslint --validateExpdesc ../",
+    "build-exp-deploy": "node main.js build --validateEslint --validateExpdesc --deploy ../",
+    "build-exp-noplugin": "node main.js build --validateEslint --validateExpdesc --disablePlugin ../",
+    "build-exp-novalidate": "node main.js build  ../",
+    "clean": "node main.js clean ../",
+    "validate": "node main.js validate --eslint --expdesc ../",
+    "deploy": "node main.js deploy ../"
   },
   "keywords": [],
   "author": "",

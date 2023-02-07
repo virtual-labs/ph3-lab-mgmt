@@ -28,7 +28,7 @@ class Experiment {
   );
 
   static descriptorPath(src) {
-    return path.resolve(src, `${Config.Experiment.descriptor_name}.json`);
+    return path.resolve(src, Config.Experiment.descriptor_name);
   }
 
   static contributorsPath(src) {
