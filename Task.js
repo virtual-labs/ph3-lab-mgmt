@@ -233,6 +233,7 @@ class Task extends Unit {
 
     const page_template = fs.readFileSync(
       path.resolve(
+        __dirname,
         Config.Experiment.ui_template_name,
         "pages",
         "content.handlebars"

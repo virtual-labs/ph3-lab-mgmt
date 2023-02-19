@@ -21,9 +21,10 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-  static ui_template_path = path.resolve(Config.Experiment.ui_template_name);
+  static ui_template_path = path.resolve(__dirname,Config.Experiment.ui_template_name);
 
   static static_content_path = path.resolve(
+    __dirname,
     Config.Experiment.static_content_dir
   );
 
@@ -68,14 +69,15 @@ class Experiment {
 
   validate(build_options) {
     const buildPath = Config.build_path(this.src);
+    const expPath = path.resolve(this.src, Config.Experiment.exp_dir);
     if (build_options.isESLINT) {
       shell.exec(
-        `npx eslint -c ./.eslintrc.js ../experiment > ${buildPath}/eslint.log`
+        `npx eslint -c ${__dirname}/.eslintrc.js ${expPath} > ${buildPath}/eslint.log`
       );
     }
     if (build_options.isExpDesc) {
       shell.exec(
-        `node ./validation/validate.js -f ../experiment-descriptor.json > ${buildPath}/validate.log`
+        `node ${__dirname}/validation/validate.js -f ${this.descriptor} > ${buildPath}/validate.log`
       );
     }
   }

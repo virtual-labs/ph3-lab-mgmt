@@ -1,6 +1,9 @@
 {
-  "name": "labgen",
+  "name": "@virtual-labs/buildexp",
   "version": "1.0.0",
+  "bin": {
+    "buildexp": "main.js"
+  },
   "dependencies": {
     "@types/shelljs": "^0.8.8",
     "ajv": "^8.6.0",
@@ -23,9 +26,14 @@
     "rsync": "^0.6.1",
     "shelljs": "^0.8.4",
     "simple-git": "^2.31.0",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    "@babel/cli": "^7.12.16",
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "eslint": "^8.18.0",
+    "eslint-plugin-only-warn": "^1.0.3"
   },
-  "description": "",
+  "description": "* Introduction",
   "main": "main.js",
   "scripts": {
     "labgen": "node labGen.js",
@@ -42,11 +50,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.12.16",
-    "@babel/core": "^7.12.16",
-    "@babel/plugin-proposal-class-properties": "^7.12.13",
-    "eslint": "^8.18.0",
-    "eslint-plugin-only-warn": "^1.0.3"
-  }
+  "devDependencies": {},
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtual-labs/ph3-lab-mgmt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/virtual-labs/ph3-lab-mgmt/issues"
+  },
+  "homepage": "https://github.com/virtual-labs/ph3-lab-mgmt#readme"
 }

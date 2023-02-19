@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require("fs");
 const shell = require("shelljs");
 const { run } = require("./exp.js");
@@ -18,7 +19,7 @@ function build(
   build_options
 ) {
   if (isClean) {
-    clean();
+    clean(src);
   }
 
   build_options.isValidate = isESLINT || isExpDesc;
@@ -125,12 +126,12 @@ function main() {
   // if the path is not provided assume "../" for backward
   // compatability.
 
-  let src = "../";
+  let src = ".";
   let option = "";
   if (args._.length === 2) {
-    option = args._[0];
-    src = path.resolve(args._[1]);
-  } else if (args._.length === 1) {
+    src = args._[1];
+  }
+  else if (args._.length === 1) {
     option = args._[0];
   } else {
     console.log("Invalid arguments");
