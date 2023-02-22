@@ -7,6 +7,7 @@ const args = require("minimist")(process.argv.slice(2));
 let src = "../";
 
 let LaTeXinMD = false;
+let expressions = [];
 
 if (args._.length === 1) {
   src = path.resolve(args._[0]);
@@ -24,101 +25,150 @@ if (!shell.test("-f", descriptorPath)) {
   LaTeXinMD = descriptor.LaTeXinMD || false;
 }
 
-const renderer = new marked.Renderer();
-
-function handleDoubleDollarMaths(md) {
-  for (let i = 0; i < md.length; i++) {
+const tokenizeDoubleDollar = (md) => {
+  // Find all $$ by for loop
+  const matches = [];
+  for (let i = 0; i < md.length - 1; i++) {
     if (md[i] === "$" && md[i + 1] === "$") {
-      let j = i + 2;
-      // console.log('found $$');
-      while (j < md.length && !(md[j] === "$" && md[j + 1] === "$")) {
-        j++;
-      }
-      if (j < md.length) {
-        // console.log('found $$');
-        const expr = md.substring(i, j + 2);
-        const math = "\n```\n" + expr + "\n```\n";
-        if (math) {
-          md = md.substring(0, i) + math + md.substring(j + 2);
-
-          i += math.length - 1;
-        }
-      }
+      let info = {
+        start: i,
+        end: i + 1,
+        type: "doubleDollar",
+      };
+      matches.push(info);
+      i++;
     }
   }
+  return matches;
+};
 
-  return md;
-}
-
-// check if two regex matches overlap
-function overlap(match1, match2) {
-  const start1 = match1.index;
-  const end1 = start1 + match1[0].length;
-  const start2 = match2.index;
-  const end2 = start2 + match2[0].length;
-
-  // console.log(start1, end1, start2, end2);
-
-  // ensure both sets are independent
-  if (start1 < start2 && end1 < start2) {
-    return false;
-  }
-  if (start2 < start1 && end2 < start1) {
-    return false;
-  }
-
-  return true;
-}
-
-function handleSingleDollarMaths(md) {
-  const regex = /[^a-zA-Z\d]\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$[^a-zA-Z\d]|^\$[^\$]+\$$|[^a-zA-Z\d]\$[^\$]+\$$/gm;
-  const regex2 = /([`])(?:(?=(\\?))\2.)*?\1/g;
-
-  const matches = [...md.matchAll(regex)];
-  const matches2 = [...md.matchAll(regex2)];
-
-  const actualMatches = [];
-
-  if (matches) {
-    for (let i = 0; i < matches.length; i++) {
-      const match = matches[i];
-      let isOverlapping = false;
-      for (let j = 0; j < matches2.length; j++) {
-        const match2 = matches2[j];
-        if (overlap(match, match2)) {
-          isOverlapping = true;
-          break;
-        }
+const tokenizeSingleDollar = (md) => {
+  // Find all $ by for loop
+  const matches = [];
+  for (let i = 0; i < md.length; i++) {
+    if (md[i] === "$") {
+      if (i > 0 && md[i - 1] === "$") {
+        continue;
       }
-      if (!isOverlapping) {
-        actualMatches.push(match);
+      if (i < md.length - 1 && md[i + 1] === "$") {
+        continue;
       }
+
+      let info = {
+        start: i,
+        end: i,
+        type: "singleDollar",
+      };
+
+      matches.push(info);
     }
   }
+  return matches;
+};
 
-  let replacements = 0;
+const handleDoubleDollar = (matches, md) => {
+  let num_matches = matches.length;
+  num_matches = num_matches % 2 === 0 ? num_matches : num_matches - 1;
 
-  for (let i = 0; i < actualMatches.length; i++) {
-    const match = actualMatches[i];
-    const start = match.index + replacements * 4;
-    const end = start + match[0].length;
-    md =
-      md.substring(0, start) +
-      " `" +
-      md.substring(start, end) +
-      "` " +
-      md.substring(end);
-    replacements++;
+  // replace everything between $$...$$ with {{LATEX-EXPRESSSION}}
+  let offset = 0;
+  for (let i = 0; i < num_matches-1; i++) {
+    let j = i + 1;
+    let match1 = matches[i];
+    let match2 = matches[j];
+
+    let start1 = match1.start + offset;
+    let end1 = match1.end + offset;
+    let start2 = match2.start + offset;
+    let end2 = match2.end + offset;
+
+    let latex = md.substring(start1, end2+1);
+    let expression = `{{LATEX-EXPRESSSION-${expressions.length}}}`;
+    expressions.push(katexRender(latex, true));
+    md = md.substring(0, start1) + expression + md.substring(end2 + 1);
+
+    offset += expression.length - latex.length;
+    i++;
   }
-
   return md;
-}
+};
+
+const checkForNewline = (md, pos1, pos2) => {
+  for(let i = pos1; i < pos2; i++) {
+    if(md[i] === '\n') {
+      return true;
+    }
+  }
+  return false;
+};
+
+const handleSingleDollar = (matches, md) => {
+  let num_matches = matches.length;
+  // num_matches = num_matches % 2 === 0 ? num_matches : num_matches - 1;
+
+  let offset = 0;
+  for (let i = 0; i < num_matches-1; i++) {
+    let j = i + 1;
+    // console.log(i,j);
+    if(checkForNewline(md, matches[i].start+offset, matches[j].start+offset)) {
+      continue;
+    };
+
+    let match1 = matches[i];
+    let match2 = matches[j];
+
+    let start1 = match1.start + offset;
+    let end1 = match1.end + offset;   
+    let start2 = match2.start + offset;
+    let end2 = match2.end + offset;
+
+    let latex = md.substring(start1, end2+1);
+    let expression = `{{LATEX-EXPRESSSION-${expressions.length}}}`;
+    expressions.push(katexRender(latex, false));
+    md = md.substring(0, start1) + expression + md.substring(end2 + 1);
+
+    offset += expression.length - latex.length;
+    i++;
+  }
+  return md;
+};
 
 function preProcessMd(md) {
-  md = handleDoubleDollarMaths(md);
-  md = handleSingleDollarMaths(md);
-  // md = md.replace(/\$(.*?)\$/g, '`$$$1$$`');
-  return md;
+  const matchesDD = tokenizeDoubleDollar(md);
+  const renderedDD = handleDoubleDollar(matchesDD, md);
+  const matchesSD = tokenizeSingleDollar(renderedDD);
+  const renderedSD = handleSingleDollar(matchesSD, renderedDD);
+  return renderedSD;
+}
+
+function katexRender(texString, displayMode) {
+  let html = "";
+
+  // remove all $ from texString start and end
+  while (texString[0] === "$") {
+    texString = texString.substring(1);
+  }
+  while (texString[texString.length - 1] === "$") {
+    texString = texString.substring(0, texString.length - 1);
+  }
+
+
+  try {
+    html = katex.renderToString(texString, { displayMode: displayMode });
+  } catch (e) {
+    if (e instanceof katex.ParseError) {
+      // KaTeX can't parse the expression
+      html = ("Error in LaTeX '" + texString + "': " + e.message)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+        // wrap in <strong> to make it more visible
+        html = "<strong>" + html + "</strong>";
+    } else {
+      throw e; // other error
+    }
+  }
+  return html;
 }
 
 function mathsExpression(expr) {
@@ -132,47 +182,29 @@ function mathsExpression(expr) {
 
   if (expr.match(/^\$\$[\s\S]*\$\$$/)) {
     expr = expr.substr(2, expr.length - 4);
-    return katex.renderToString(expr, { displayMode: true });
+    return katexRender(expr, true);
   } else if (expr.match(/^\$[\s\S]*\$$/)) {
     expr = expr.substr(1, expr.length - 2);
-    return katex.renderToString(expr, { displayMode: false });
+    return katexRender(expr, false);
   }
 }
 
-const rendererCode = renderer.code;
-renderer.code = function (code, lang, escaped) {
-  if (!lang) {
-    const math = mathsExpression(code);
-    if (math) {
-      return math;
-    }
-  }
-
-  return rendererCode(code, lang, escaped);
-};
-
-const rendererCodespan = renderer.codespan;
-renderer.codespan = function (text) {
-  const math = mathsExpression(text);
-
-  if (math) {
-    return math;
-  }
-
-  return rendererCodespan(text);
-};
+function replaceCodeBlocks(html) {
+  html = html.replace(/{{LATEX-EXPRESSSION-\d+}}/g, function(match) {
+    const index = parseInt(match.match(/\d+/)[0]);
+    return expressions[index];
+  });
+  return html;
+}
 
 function renderMarkdown(md) {
   console.log("Rendering Markdown" + (LaTeXinMD ? " with LaTeX" : ""));
   if (LaTeXinMD) {
+    expressions = [];
     const preProcessedMd = preProcessMd(md);
-    try {
-      return marked(preProcessedMd, { renderer });
-    } catch (e) {
-      console.log("Error rendering Markdown with LaTeX");
-      console.log(e);
-      return marked(md);
-    }
+    let html = marked(preProcessedMd);
+    html = replaceCodeBlocks(html);
+    return html;
   } else {
     return marked(md);
   }
