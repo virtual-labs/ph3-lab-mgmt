@@ -30,13 +30,17 @@ class Task extends Unit {
     basedir,
     source,
     target,
-    lu
+    js_path,
+    css_path,
+    lu,
   ) {
     super(unit_type, label, exp_path, basedir);
     this.lu = lu;
     this.content_type = validContentType(content_type);
     this.source = source;
     this.target = target;
+    this.js_path = js_path || "";
+    this.css_path = css_path || "";
   }
 
   static unit_type = UnitTypes.TASK;
@@ -50,6 +54,8 @@ class Task extends Unit {
       t["basedir"],
       t["source"],
       t["target"],
+      t["js_path"],
+      t["css_path"],
       lu
     );
   }
@@ -102,6 +108,20 @@ class Task extends Unit {
     );
   }
 
+  jsPath() {
+    const absolute_path = path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, this.js_path)
+    );
+    return path.relative(path.dirname(this.targetPath()), absolute_path);
+  }
+
+  cssPath() {
+    const absolute_path = path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, this.css_path)
+    );
+    return path.relative(path.dirname(this.targetPath()), absolute_path);
+  }
+
   buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(
       path.dirname(this.targetPath()),
@@ -134,6 +154,8 @@ class Task extends Unit {
       isSimulation: false,
       isAssesment: false,
       assets_path: assets_path,
+      js_path: this.jsPath(),
+      css_path: this.cssPath(),
       lab_data: lab_data,
       exp_info: exp_info,
       lab: lab_data.lab,
