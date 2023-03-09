@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const {renderMarkdown} = require("./renderMarkdown");
+const { renderJSON, renderMarkdown } = require("./renderer.js");
 const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
@@ -30,17 +30,17 @@ class Task extends Unit {
     basedir,
     source,
     target,
-    js_path,
-    css_path,
-    lu,
+    js_modules,
+    css_modules,
+    lu
   ) {
     super(unit_type, label, exp_path, basedir);
     this.lu = lu;
     this.content_type = validContentType(content_type);
     this.source = source;
     this.target = target;
-    this.js_path = js_path || "";
-    this.css_path = css_path || "";
+    this.js_modules = js_modules || [];
+    this.css_modules = css_modules || [];
   }
 
   static unit_type = UnitTypes.TASK;
@@ -54,8 +54,8 @@ class Task extends Unit {
       t["basedir"],
       t["source"],
       t["target"],
-      t["js_path"],
-      t["css_path"],
+      t["js_modules"],
+      t["css_modules"],
       lu
     );
   }
@@ -108,18 +108,49 @@ class Task extends Unit {
     );
   }
 
+  isURL(source) {
+    try {
+      new URL(source);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   jsPath() {
-    const absolute_path = path.resolve(
-      path.join(Config.build_path(this.exp_path), this.basedir, this.js_path)
-    );
-    return path.relative(path.dirname(this.targetPath()), absolute_path);
+    let final_paths = [];
+    for (let js_path of this.js_modules) {
+      if (this.isURL(js_path)) {
+        final_paths.push(js_path);
+        continue;
+      }
+
+      const absolute_path = path.resolve(
+        path.join(Config.build_path(this.exp_path), this.basedir, js_path)
+      );
+      final_paths.push(
+        path.relative(path.dirname(this.targetPath()), absolute_path)
+      );
+    }
+    return final_paths;
   }
 
   cssPath() {
-    const absolute_path = path.resolve(
-      path.join(Config.build_path(this.exp_path), this.basedir, this.css_path)
-    );
-    return path.relative(path.dirname(this.targetPath()), absolute_path);
+    let final_paths = [];
+    for (let css_path of this.css_modules) {
+      if (this.isURL(css_path)) {
+        final_paths.push(css_path);
+        continue;
+      }
+
+      const absolute_path = path.resolve(
+        path.join(Config.build_path(this.exp_path), this.basedir, css_path)
+      );
+      final_paths.push(
+        path.relative(path.dirname(this.targetPath()), absolute_path)
+      );
+    }
+    return final_paths;
   }
 
   buildPage(exp_info, lab_data, options) {
@@ -154,8 +185,8 @@ class Task extends Unit {
       isSimulation: false,
       isAssesment: false,
       assets_path: assets_path,
-      js_path: this.jsPath(),
-      css_path: this.cssPath(),
+      js_modules: this.jsPath(),
+      css_modules: this.cssPath(),
       lab_data: lab_data,
       exp_info: exp_info,
       lab: lab_data.lab,
@@ -222,18 +253,19 @@ class Task extends Unit {
         page_data.isAssesment = true;
 
         if (shell.test("-f", this.sourcePath())) {
-          page_data.questions = require(this.sourcePath());
-          if (page_data.questions.version) {
+          let JSONdata = require(this.sourcePath());
+          JSONdata = renderJSON(JSON.stringify(JSONdata));
+          if (JSONdata.version) {
             /**
              * The below condition will only work if the version in the json is either 2 or 2.0, for any update in version
              * it needs to be changed here accordingly
              */
-            if (page_data.questions.version == 2) {
-              page_data.isJsonVersion2 = page_data.questions.version;
+            if (JSONdata.version == 2) {
+              page_data.isJsonVersion2 = JSONdata.version;
             }
-            page_data.questions = page_data.questions.questions;
+            page_data.questions = JSON.parse(JSONdata).questions;
           }
-          page_data.questions_str = JSON.stringify(page_data.questions);
+          page_data.questions_str = JSONdata;
           page_data.isJsonVersion = true;
         } else {
           const jsonpath = this.sourcePath();

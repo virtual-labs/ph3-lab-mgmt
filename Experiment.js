@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const { renderMarkdown } = require("./renderMarkdown");
+const { renderMarkdown } = require("./renderer.js");
 const process = require("process");
 const shell = require("shelljs");
 

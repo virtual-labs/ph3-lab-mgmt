@@ -25,17 +25,17 @@ const config = [
     label: "Performance Tool",
   },
   {
-    id: "build-validation",
+    id: "tool-validation",
     scope: PluginScope.EXPERIMENT,
-    repo: "https://github.com/virtual-labs/build-validation",
+    repo: "https://github.com/virtual-labs/tool-validation",
     template: "handlebars/validator-report.handlebars",
     target: "validator-report.html",
-    label: "Validator",
+    label: "Validation Tool",
   },
   {
-    id: "build-validation",
+    id: "tool-validation",
     scope: PluginScope.POSTBUILD,
-    repo: "https://github.com/virtual-labs/build-validation",
+    repo: "https://github.com/virtual-labs/tool-validation",
     command: "npm i && node js/link_validation.js",
   }
 ];

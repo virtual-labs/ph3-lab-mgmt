@@ -19,9 +19,9 @@
       font-weight: 800;
       }
     </style>
-    {{#if css_path}}
-    <link rel="stylesheet" href="{{css_path}}">
-    {{/if}}
+    {{#each css_modules}}
+    <link rel="stylesheet" href="{{this}}">
+    {{/each}}
     
   </head>
   <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
@@ -57,8 +57,9 @@
     {{/if}}
     <script src="{{assets_path}}/assets/js/toggleSidebar.js"></script>
     <script src="{{assets_path}}/assets/js/event-handler.js"></script>
-    {{#if js_path}}
-    <script src="{{js_path}}"></script>
-    {{/if}}
+
+    {{#each js_modules}}
+    <script src="{{this}}"></script>
+    {{/each}}
   </body>
 </html>

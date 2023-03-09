@@ -1,0 +1,56 @@
+{
+    "name": "vlabs-buildexp",
+    "version": "2.7.5",
+    "bin": {
+      "buildexp": "main.js"
+    },
+    "dependencies": {
+      "@types/shelljs": "^0.8.8",
+      "ajv": "^8.6.0",
+      "ajv-errors": "^3.0.0",
+      "boxen": "^4.2.0",
+      "chalk": "^4.1.0",
+      "figures": "^3.2.0",
+      "fs-extra": "^9.0.0",
+      "glob": "7.1.6",
+      "googleapis": "^67.0.0",
+      "handlebars": "^4.7.6",
+      "html-to-text": "^8.0.0",
+      "http-server": "^14.1.1",
+      "jsdom": "^16.4.0",
+      "katex": "^0.16.3",
+      "marked": "^2.0.0",
+      "minimist": "^1.2.5",
+      "moment": "^2.27.0",
+      "prettier": "^2.0.5",
+      "rsync": "^0.6.1",
+      "shelljs": "^0.8.4",
+      "simple-git": "^2.31.0",
+      "yargs": "^17.0.1",
+      "@babel/cli": "^7.12.16",
+      "@babel/core": "^7.12.16",
+      "@babel/plugin-proposal-class-properties": "^7.12.13",
+      "eslint": "^8.18.0",
+      "eslint-plugin-only-warn": "^1.0.3"
+    },
+    "description": "* Introduction",
+    "main": "main.js",
+    "scripts": {
+      "labgen": "node labGen.js",
+      "validate-lab-descriptor": "node validateDescriptor.js",
+      "build-exp": "node main.js build --validateEslint --validateExpdesc ../",
+      "clean-build-exp": "node main.js build --clean --validateEslint --validateExpdesc ../",
+      "build-exp-deploy": "node main.js build --validateEslint --validateExpdesc --deploy ../",
+      "build-exp-noplugin": "node main.js build --validateEslint --validateExpdesc --disablePlugin ../",
+      "build-exp-novalidate": "node main.js build  ../",
+      "clean": "node main.js clean ../",
+      "validate": "node main.js validate --eslint --expdesc ../",
+      "deploy": "node main.js deploy ../"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {}
+  }
+  
+  
