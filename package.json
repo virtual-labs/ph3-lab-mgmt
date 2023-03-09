@@ -22,7 +22,7 @@
     "rsync": "^0.6.1",
     "shelljs": "^0.8.4",
     "simple-git": "^2.31.0",
-    "yargs": "^17.0.1"
+    "yargs": "^17.7.0"
   },
   "description": "",
   "main": "main.js",
