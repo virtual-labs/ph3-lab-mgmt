@@ -52,7 +52,7 @@ class Plugin {
 
     if(!options.isValidate)
     {
-      pluginConfig = pluginConfig.filter((p) => p.id !== "build-validation");
+      pluginConfig = pluginConfig.filter((p) => p.id !== "tool-validation");
     }
 
     const expScopePlugins = pluginConfig.filter(
@@ -176,7 +176,7 @@ class Plugin {
 
     if(!options.isValidate)
     {
-      pluginConfig = pluginConfig.filter((p) => p.id !== "build-validation");
+      pluginConfig = pluginConfig.filter((p) => p.id !== "tool-validation");
     }
 
     const postBuildScopePlugins = pluginConfig.filter(

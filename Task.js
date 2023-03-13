@@ -113,46 +113,35 @@ class Task extends Unit {
       new URL(source);
       return true;
     } catch (e) {
+      console.log(`${source} is not a valid URL`);
       return false;
     }
   }
 
-  jsPath() {
+  finalPath(modules){
     let final_paths = [];
-    for (let js_path of this.js_modules) {
-      if (this.isURL(js_path)) {
-        final_paths.push(js_path);
+    for (let module of modules) {
+      if(this.isURL(module)){
+        final_paths.push(module);
         continue;
       }
 
       const absolute_path = path.resolve(
-        path.join(Config.build_path(this.exp_path), this.basedir, js_path)
+        path.join(Config.build_path(this.exp_path), this.basedir, module)
       );
-      final_paths.push(
-        path.relative(path.dirname(this.targetPath()), absolute_path)
-      );
-    }
-    return final_paths;
-  }
-
-  cssPath() {
-    let final_paths = [];
-    for (let css_path of this.css_modules) {
-      if (this.isURL(css_path)) {
-        final_paths.push(css_path);
-        continue;
+      // check if the file exists
+      if(fs.existsSync(absolute_path)){
+        final_paths.push(
+          path.relative(path.dirname(this.targetPath()), absolute_path)
+        );
       }
-
-      const absolute_path = path.resolve(
-        path.join(Config.build_path(this.exp_path), this.basedir, css_path)
-      );
-      final_paths.push(
-        path.relative(path.dirname(this.targetPath()), absolute_path)
-      );
+      else{
+        console.log(`${absolute_path} does not exist`)
+      }
     }
     return final_paths;
   }
-
+  
   buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(
       path.dirname(this.targetPath()),
@@ -185,8 +174,8 @@ class Task extends Unit {
       isSimulation: false,
       isAssesment: false,
       assets_path: assets_path,
-      js_modules: this.jsPath(),
-      css_modules: this.cssPath(),
+      js_modules: this.finalPath(this.js_modules),
+      css_modules: this.finalPath(this.css_modules),
       lab_data: lab_data,
       exp_info: exp_info,
       lab: lab_data.lab,

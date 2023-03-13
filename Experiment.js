@@ -56,17 +56,17 @@ class Experiment {
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
       shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
       
-      // Copy the Katex CSS and fonts to the build directory in katex_assets
-      shell.mkdir(path.resolve(bp, "katex_assets"));
+      // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
+      shell.mkdir(path.resolve(bp, "assets","katex_assets"));
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "katex.min.css"),
-        path.resolve(bp, "katex_assets")
+        path.resolve(bp, "assets","katex_assets")
       );
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "fonts"),
-        path.resolve(bp, "katex_assets")
+        path.resolve(bp, "assets","katex_assets")
       );
 
       
