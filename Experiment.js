@@ -102,6 +102,9 @@ class Experiment {
           const assesmentPath = path.resolve(expPath, unit.source);
           if (fs.existsSync(assesmentPath)){
             shell.exec(
+              `echo =${unit.source} >> ${buildPath}/assesment.log`
+            );
+            shell.exec(
               `node ${__dirname}/validation/validate.js -f ${assesmentPath} >> ${buildPath}/assesment.log`
             );
           }else{
