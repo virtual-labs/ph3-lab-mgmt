@@ -75,13 +75,25 @@ function validate(isESLINT, isExpDesc, src) {
   const descriptorPath = path.resolve(src, Config.Experiment.descriptor_name);
   if (isESLINT) {
     console.log("Running ESLINT");
-    shell.exec(`npx eslint -c ./.eslintrc.js ${ep}`);
+    shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`);
   }
   if (isExpDesc) {
     console.log("Running Experiment Descriptor Validation");
     shell.exec(
-      `node ./validation/validate.js -f ${descriptorPath}`
+      `node ${__dirname}/validation/validate.js -f ${descriptorPath}`
     );
+    // read from descriptorPath
+    // loop through the units and validate the content
+    const descriptor = require(descriptorPath);
+    descriptor.units.forEach((unit) => {
+      // if content type is assessment, then validate the assessment
+      if (unit["content-type"] === "assesment") {
+        const assesmentPath = path.resolve(ep, unit.source);
+        shell.exec(
+          `node ${__dirname}/validation/validate.js -f ${assesmentPath}`
+        );
+      }
+    });
   }
 }
 
@@ -159,7 +171,7 @@ function main() {
     case "validate":
       let isESLINTValidate = args.eslint || false;
       let isExpDescValidate = args.expdesc || false;
-      validate(isESLINTValidate, isExpDescValidate,src);
+      validate(isESLINTValidate, isExpDescValidate, src);
       break;
 
     case "clean":
@@ -174,7 +186,7 @@ function main() {
       break;
   }
 
-  
+
 }
 
 main();

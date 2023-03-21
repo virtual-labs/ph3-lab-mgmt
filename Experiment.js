@@ -21,7 +21,7 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-  static ui_template_path = path.resolve(__dirname,Config.Experiment.ui_template_name);
+  static ui_template_path = path.resolve(__dirname, Config.Experiment.ui_template_name);
 
   static static_content_path = path.resolve(
     __dirname,
@@ -55,21 +55,21 @@ class Experiment {
       shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
       shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
-      
+
       // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
-      shell.mkdir(path.resolve(bp, "assets","katex_assets"));
+      shell.mkdir(path.resolve(bp, "assets", "katex_assets"));
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "katex.min.css"),
-        path.resolve(bp, "assets","katex_assets")
+        path.resolve(bp, "assets", "katex_assets")
       );
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "fonts"),
-        path.resolve(bp, "assets","katex_assets")
+        path.resolve(bp, "assets", "katex_assets")
       );
 
-      
+
       shell.cp(
         "-R",
         path.resolve(Experiment.static_content_path, "feedback.md"),
@@ -91,12 +91,26 @@ class Experiment {
       );
     }
     if (build_options.isExpDesc) {
+      const descriptor = require(Experiment.descriptorPath(this.src));
       shell.exec(
-        `node ${__dirname}/validation/validate.js -f ${this.descriptor} > ${buildPath}/validate.log`
+        `node ${__dirname}/validation/validate.js -f ${descriptor} >> ${buildPath}/validate.log`
       );
+      // loop through the units and validate the content
+      descriptor.units.forEach((unit) => {
+        // if content type is assessment, then validate the assessment
+        if (unit["content-type"] === "assesment") {
+          const assesmentPath = path.resolve(expPath, unit.source);
+          if (fs.existsSync(assesmentPath)){
+            shell.exec(
+              `node ${__dirname}/validation/validate.js -f ${assesmentPath} >> ${buildPath}/assesment.log`
+            );
+          }else{
+            console.error(`Assesment file ${assesmentPath} does not exist`);
+          }
+        }
+      });
     }
   }
-
   name() {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
