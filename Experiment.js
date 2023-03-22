@@ -15,6 +15,22 @@ const {
 } = require("./Enums.js");
 const { Plugin } = require("./plugin");
 
+function getAssesmentPath(src, units) {
+  let assesmentPath = [];
+  units.forEach((unit) => {
+    if (unit["unit-type"] === "lu") {
+      const nextSrc = path.resolve(src, unit.basedir);
+      let paths = getAssesmentPath(nextSrc, unit.units);
+      assesmentPath.push(...paths);
+    }
+    if (unit["content-type"] === "assesment") {
+      const quiz = path.resolve(src, unit.source);
+      assesmentPath.push(quiz);
+    }
+  });
+  return assesmentPath;
+}
+
 class Experiment {
   constructor(src) {
     this.src = src;
@@ -96,20 +112,20 @@ class Experiment {
         `node ${__dirname}/validation/validate.js -f ${descriptor} >> ${buildPath}/validate.log`
       );
       // loop through the units and validate the content
-      descriptor.units.forEach((unit) => {
-        // if content type is assessment, then validate the assessment
-        if (unit["content-type"] === "assesment") {
-          const assesmentPath = path.resolve(expPath, unit.source);
-          if (fs.existsSync(assesmentPath)){
-            shell.exec(
-              `echo =${unit.source} >> ${buildPath}/assesment.log`
-            );
-            shell.exec(
-              `node ${__dirname}/validation/validate.js -f ${assesmentPath} >> ${buildPath}/assesment.log`
-            );
-          }else{
-            console.error(`Assesment file ${assesmentPath} does not exist`);
-          }
+      const assesmentPath = getAssesmentPath(expPath, descriptor.units);
+      console.log(assesmentPath);
+      assesmentPath.forEach((file) => {
+        if (fs.existsSync(file)) {
+          // trim ep from file
+          const fileName = file.replace(expPath, "");
+          shell.exec(
+            `echo =${fileName} >> ${buildPath}/assesment.log`
+          );
+          shell.exec(
+            `node ${__dirname}/validation/validate.js -f ${file} -c assesment >> ${buildPath}/assesment.log`
+          );
+        } else {
+          console.error(`Assesment file ${path} does not exist`);
         }
       });
     }

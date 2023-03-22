@@ -9,6 +9,23 @@ const path = require("path");
 
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
+
+function getAssesmentPath(src,units){
+  let assesmentPath = [];
+  units.forEach((unit) => {
+    if(unit["unit-type"] === "lu"){
+      const nextSrc = path.resolve(src, unit.basedir);
+      let paths = getAssesmentPath(nextSrc,unit.units);
+      assesmentPath.push(...paths);
+    }
+    if(unit["content-type"] === "assesment"){
+      const quiz = path.resolve(src, unit.source);
+      assesmentPath.push(quiz);
+    }
+  });
+  return assesmentPath;
+}
+
 function build(
   isClean,
   isESLINT,
@@ -85,13 +102,20 @@ function validate(isESLINT, isExpDesc, src) {
     // read from descriptorPath
     // loop through the units and validate the content
     const descriptor = require(descriptorPath);
-    descriptor.units.forEach((unit) => {
-      // if content type is assessment, then validate the assessment
-      if (unit["content-type"] === "assesment") {
-        const assesmentPath = path.resolve(ep, unit.source);
+    const assesmentPath = getAssesmentPath(ep,descriptor.units);
+    console.log(assesmentPath);
+    assesmentPath.forEach((file) => {
+      if (fs.existsSync(file)){
+        // trim ep from file
+        const fileName = file.replace(ep,"");
         shell.exec(
-          `node ${__dirname}/validation/validate.js -f ${assesmentPath}`
+          `echo =${fileName}`
         );
+        shell.exec(
+          `node ${__dirname}/validation/validate.js -f ${file} -c assesment`
+        );
+      }else{
+        console.error(`Assesment file ${path} does not exist`);
       }
     });
   }
