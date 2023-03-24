@@ -35,8 +35,8 @@
 		    "repo": {"type": "string", "format": "uri"},
 		    "tag": {
 			"type": "string",
-			"minlength": 6,
-			"maxlength": 6,
+			"minLength": 6,
+			"maxLength": 6,
 			"pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
 		    },
 		    "deploy": {"type": "boolean"}
@@ -64,8 +64,8 @@
 				"repo": {"type": "string", "format": "uri"},
 				"tag": {
 				    "type": "string",
-				    "minlength": 6,
-				    "maxlength": 6,
+				    "minLength": 6,
+				    "maxLength": 6,
 				    "pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
 				},
 				"deploy": {"type": "boolean"}
