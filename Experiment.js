@@ -107,13 +107,14 @@ class Experiment {
       );
     }
     if (build_options.isExpDesc) {
-      const descriptor = require(Experiment.descriptorPath(this.src));
+      const descriptorPath = Experiment.descriptorPath(this.src);
+      const descriptor = require(descriptorPath);
+      console.log(descriptor);
       shell.exec(
-        `node ${__dirname}/validation/validate.js -f ${descriptor} >> ${buildPath}/validate.log`
+        `node ${__dirname}/validation/validate.js -f ${descriptorPath} >> ${buildPath}/validate.log`
       );
       // loop through the units and validate the content
       const assesmentPath = getAssesmentPath(expPath, descriptor.units);
-      console.log(assesmentPath);
       assesmentPath.forEach((file) => {
         if (fs.existsSync(file)) {
           // trim ep from file
