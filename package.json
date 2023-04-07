@@ -1,6 +1,6 @@
 {
-  "name": "@virtual-labs/buildexp",
-  "version": "1.0.1",
+  "name": "vlabs-buildexp",
+  "version": "2.7.15",
   "bin": {
     "buildexp": "main.js"
   },
@@ -50,16 +50,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
-  "directories": {
-    "doc": "docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/virtual-labs/ph3-lab-mgmt.git"
-  },
-  "bugs": {
-    "url": "https://github.com/virtual-labs/ph3-lab-mgmt/issues"
-  },
-  "homepage": "https://github.com/virtual-labs/ph3-lab-mgmt#readme"
+  "devDependencies": {}
 }

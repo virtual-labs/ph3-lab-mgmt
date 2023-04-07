@@ -126,10 +126,10 @@ function clean(src) {
   // Check if build exists
   const bp = path.resolve(src, Config.Experiment.build_dir);
   if (fs.existsSync(bp)) {
-    fs.rmdirSync(bp, { recursive: true });
+    fs.rmSync(bp, { recursive: true });
   }
   if (fs.existsSync("./plugins")) {
-    fs.rmdirSync("./plugins", { recursive: true });
+    fs.rmSync("./plugins", { recursive: true });
   }
 }
 

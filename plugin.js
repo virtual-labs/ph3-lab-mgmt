@@ -108,11 +108,14 @@ class Plugin {
       }
     });
 
-    shell.exec(
-      `rsync -av "${path.resolve("./plugins")}" "${Config.build_path(
-        exp_info.src
-      )}" --exclude=.git`
-    );
+    // shell.exec(
+    //   `rsync -av "${path.resolve("./plugins")}" "${Config.build_path(
+    //     exp_info.src
+    //   )}" --exclude=.git`
+    // );
+    shell.cp("-r", path.resolve("./plugins"), Config.build_path(exp_info.src));
+    // remove .git folder from all folders in plugins
+    shell.rm("-rf", path.resolve("./plugins", "**", ".git"));
     return plugins;
   }
 
