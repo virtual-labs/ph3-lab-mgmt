@@ -28,6 +28,7 @@ const config = [
     id: "tool-validation",
     scope: PluginScope.EXPERIMENT,
     repo: "https://github.com/virtual-labs/tool-validation",
+    tag: "v1.0.0",
     template: "handlebars/validator-report.handlebars",
     target: "validator-report.html",
     label: "Validation Tool",
@@ -36,6 +37,7 @@ const config = [
     id: "tool-validation",
     scope: PluginScope.POSTBUILD,
     repo: "https://github.com/virtual-labs/tool-validation",
+    tag: "v1.0.0",
     command: "npm i && node js/link_validation.js",
   }
 ];

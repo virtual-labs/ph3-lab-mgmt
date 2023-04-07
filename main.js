@@ -6,7 +6,7 @@ const minimist = require("minimist");
 const { BuildEnvs, validBuildEnv } = require("./Enums.js");
 const Config = require("./Config.js");
 const path = require("path");
-
+const log = require("./Logger");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
@@ -36,6 +36,7 @@ function build(
   build_options
 ) {
   if (isClean) {
+    log.debug("Cleaning build folder");
     clean(src);
   }
 
@@ -80,6 +81,7 @@ function build(
   run(src, default_lab_data, build_options);
 
   if (isDeploy) {
+    console.log("Deploying locally");
     deployLocal();
   }
 }
@@ -91,45 +93,64 @@ function validate(isESLINT, isExpDesc, src) {
   const ep = path.resolve(src, Config.Experiment.exp_dir);
   const descriptorPath = path.resolve(src, Config.Experiment.descriptor_name);
   if (isESLINT) {
-    console.log("Running ESLINT");
-    shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`);
+    try{
+      log.debug("Validating with eslint");
+      shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`);
+    } catch (e) {
+      log.error("Error validating with eslint", e);
+    }
   }
   if (isExpDesc) {
     console.log("Running Experiment Descriptor Validation");
-    shell.exec(
-      `node ${__dirname}/validation/validate.js -f ${descriptorPath}`
-    );
+    try{
+      log.debug("Validating experiment descriptor");
+      shell.exec(
+        `node ${__dirname}/validation/validate.js -f ${descriptorPath}`
+      );
+    } catch (e) {
+      log.error("Error validating experiment descriptor", e);
+    }
     // read from descriptorPath
     // loop through the units and validate the content
-    const descriptor = require(descriptorPath);
-    const assesmentPath = getAssesmentPath(ep,descriptor.units);
-    console.log(assesmentPath);
-    assesmentPath.forEach((file) => {
-      if (fs.existsSync(file)){
-        // trim ep from file
-        const fileName = file.replace(ep,"");
-        shell.exec(
-          `echo =${fileName}`
-        );
-        shell.exec(
-          `node ${__dirname}/validation/validate.js -f ${file} -c assesment`
-        );
-      }else{
-        console.error(`Assesment file ${path} does not exist`);
-      }
-    });
+    try{
+      log.debug("Validating Assesment files");
+      const descriptor = require(descriptorPath);
+      const assesmentPath = getAssesmentPath(ep,descriptor.units);
+      console.log(assesmentPath);
+      assesmentPath.forEach((file) => {
+        if (fs.existsSync(file)){
+          // trim ep from file
+          const fileName = file.replace(ep,"");
+          shell.exec(
+            `echo =${fileName}`
+          );
+          shell.exec(
+            `node ${__dirname}/validation/validate.js -f ${file} -c assesment`
+          );
+        }else{
+          console.error(`Assesment file ${path} does not exist`);
+        }
+      });
+    } catch (e) {
+      log.error("Error validating Assesment files", e);
+    }
   }
 }
 
 // Clean
 function clean(src) {
   // Check if build exists
+  try{
   const bp = path.resolve(src, Config.Experiment.build_dir);
   if (fs.existsSync(bp)) {
     fs.rmSync(bp, { recursive: true });
   }
   if (fs.existsSync("./plugins")) {
     fs.rmSync("./plugins", { recursive: true });
+  }
+  log.debug("Cleaned build folder");
+  } catch (e) {
+    log.error("Error cleaning build folder", e);
   }
 }
 
@@ -139,10 +160,15 @@ function deployLocal(src) {
   const bp = path.resolve(src, Config.Experiment.build_dir);
   if (fs.existsSync(bp)) {
     // Deploy
-    shell.exec(`npx http-server -p 8080 ${bp} -o /index.html`);
+    try {
+      log.debug("Deploying locally");
+      shell.exec(`npx http-server -p 0 ${bp} -o /index.html`);
+    } catch (e) {
+      log.error("Error deploying locally", e);
+    }
   } else {
     // Throw error
-    console.error("Build does not exist, build first");
+    log.error("Build does not exist, build first");
   }
 }
 
@@ -166,11 +192,12 @@ function main() {
   let option = "";
   if (args._.length === 2) {
     src = args._[1];
+    option = args._[0];
   }
   else if (args._.length === 1) {
     option = args._[0];
   } else {
-    console.log("Invalid arguments");
+    log.error("Invalid Arguments");
     return;
   }
 
@@ -181,6 +208,12 @@ function main() {
       let isExpDesc = args.validateExpdesc || false;
       let isDeploy = args.deploy || false;
       let isPlugin = args.disablePlugin ? false : true;
+      log.info("Calling build with options: ");
+      log.info(`isClean: ${isClean}`);
+      log.info(`isESLINT: ${isESLINT}`);
+      log.info(`isExpDesc: ${isExpDesc}`);
+      log.info(`isDeploy: ${isDeploy}`);
+      log.info(`isPlugin: ${isPlugin}`);
       build(
         isClean,
         isESLINT,
@@ -190,23 +223,32 @@ function main() {
         src,
         build_options
       );
+      log.info("Build Complete");
       break;
 
     case "validate":
       let isESLINTValidate = args.eslint || false;
       let isExpDescValidate = args.expdesc || false;
+      log.info("Calling validate with options: ");
+      log.info(`isESLINT: ${isESLINTValidate}`);
+      log.info(`isExpDesc: ${isExpDescValidate}`);
       validate(isESLINTValidate, isExpDescValidate, src);
       break;
 
     case "clean":
+      log.info("Calling clean");
       clean(src);
+      log.info("Clean Complete");
       break;
 
     case "deploy":
+      log.info("Calling deploy");
       deployLocal(src);
+      log.info("Deploy Complete");
       break;
 
     default:
+      log.error("Invalid Arguments");
       break;
   }
 

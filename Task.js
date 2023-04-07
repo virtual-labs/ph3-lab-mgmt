@@ -21,6 +21,8 @@ const {
 const { NONAME } = require("dns");
 const { Plugin } = require("./plugin");
 
+const log = require("./Logger");
+
 class Task extends Unit {
   constructor(
     unit_type,
@@ -113,7 +115,7 @@ class Task extends Unit {
       new URL(source);
       return true;
     } catch (e) {
-      console.log(`${source} is not a valid URL`);
+      log.debug(`${source} is not a valid URL`);
       return false;
     }
   }
@@ -122,6 +124,7 @@ class Task extends Unit {
     let final_paths = [];
     for (let module of modules) {
       if(this.isURL(module)){
+        log.debug(`${module} is a valid URL`);
         final_paths.push(module);
         continue;
       }
@@ -131,12 +134,13 @@ class Task extends Unit {
       );
       // check if the file exists
       if(fs.existsSync(absolute_path)){
+        log.debug(`${absolute_path} is found successfully`)
         final_paths.push(
           path.relative(path.dirname(this.targetPath()), absolute_path)
         );
       }
       else{
-        console.log(`${absolute_path} does not exist`)
+        log.error(`${absolute_path} does not exist`)
       }
     }
     return final_paths;
@@ -267,7 +271,7 @@ class Task extends Unit {
             page_data.quiz_src = path.basename(jspath);
             page_data.isJsVersion = true;
           } else {
-            console.log(`${jspath} is missing`);
+            log.error(`${jsonpath} is missing`);
             process.exit(-1);
           }
         }
@@ -289,13 +293,15 @@ class Task extends Unit {
         Handlebars.compile(page_template.toString())(page_data)
       );
     } catch (e) {
-      console.error(e.message);
+      log.error(e);
     }
   }
 
   build(exp_info, lab_data, options) {
+    log.debug(`Building TASK ${this.label}...`);
     this.buildPage(exp_info, lab_data, options);
     Plugin.processPageScopePlugins(this, options);
+    log.debug(`Finished building TASK ${this.label}`);
   }
 }
 

@@ -14,6 +14,7 @@ const {
   PluginScope,
 } = require("./Enums.js");
 const { Plugin } = require("./plugin");
+const log = require("./Logger");
 
 function getAssesmentPath(src, units) {
   let assesmentPath = [];
@@ -37,7 +38,10 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-  static ui_template_path = path.resolve(__dirname, Config.Experiment.ui_template_name);
+  static ui_template_path = path.resolve(
+    __dirname,
+    Config.Experiment.ui_template_name
+  );
 
   static static_content_path = path.resolve(
     __dirname,
@@ -49,7 +53,7 @@ class Experiment {
   }
 
   static contributorsPath(src) {
-    return path.resolve(`${src}/experiment`, 'contributors.md');
+    return path.resolve(`${src}/experiment`, "contributors.md");
   }
 
   static registerPartials(hb) {
@@ -67,12 +71,14 @@ class Experiment {
 
   init(hb) {
     try {
+      log.debug("Initializing experiment");
       const bp = Config.build_path(this.src);
       shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
       shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
 
       // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
+      log.debug("Moving Katex assets");
       shell.mkdir(path.resolve(bp, "assets", "katex_assets"));
       shell.cp(
         "-R",
@@ -85,50 +91,62 @@ class Experiment {
         path.resolve(bp, "assets", "katex_assets")
       );
 
-
+      log.debug("Moving feedback file");
       shell.cp(
         "-R",
         path.resolve(Experiment.static_content_path, "feedback.md"),
         bp
       );
+
+      log.debug("Linking with Handlebars");
       Experiment.registerPartials(hb);
     } catch (e) {
-      console.error(e);
+      log.error("Error initializing experiment", e);
+      log.error("Exiting Build Process");
       process.exit();
     }
   }
 
   validate(build_options) {
+    log.debug("Validating experiment");
     const buildPath = Config.build_path(this.src);
     const expPath = path.resolve(this.src, Config.Experiment.exp_dir);
     if (build_options.isESLINT) {
-      shell.exec(
-        `npx eslint -c ${__dirname}/.eslintrc.js ${expPath} > ${buildPath}/eslint.log`
-      );
+      try {
+        log.debug("Validating with eslint");
+        shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${expPath} > ${buildPath}/eslint.log`);
+      } catch (e) {
+        log.error("Error validating with eslint", e);
+      }
     }
     if (build_options.isExpDesc) {
       const descriptorPath = Experiment.descriptorPath(this.src);
       const descriptor = require(descriptorPath);
-      console.log(descriptor);
-      shell.exec(
-        `node ${__dirname}/validation/validate.js -f ${descriptorPath} >> ${buildPath}/validate.log`
-      );
+      try {
+      log.debug("Validating experiment descriptor");
+      shell.exec(`node ${__dirname}/validation/validate.js -f ${descriptorPath} >> ${buildPath}/validate.log`);
+      } catch (e) {
+        log.error("Error validating experiment descriptor", e);
+      }
       // loop through the units and validate the content
+      try {
+      log.debug("Validating Assesment files");
       const assesmentPath = getAssesmentPath(expPath, descriptor.units);
       assesmentPath.forEach((file) => {
         if (fs.existsSync(file)) {
           // trim ep from file
           const fileName = file.replace(expPath, "");
-          shell.exec(
-            `echo =${fileName} >> ${buildPath}/assesment.log`
-          );
+          shell.exec(`echo =${fileName} >> ${buildPath}/assesment.log`);
           shell.exec(
             `node ${__dirname}/validation/validate.js -f ${file} -c assesment >> ${buildPath}/assesment.log`
           );
         } else {
-          console.error(`Assesment file ${path} does not exist`);
+          log.error(`Assesment file ${path} does not exist`);
         }
       });
+      } catch (e) {
+        log.error("Error validating Assesment files", e);
+      }
     }
   }
   name() {
@@ -143,12 +161,13 @@ class Experiment {
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
     */
-    const explu = LearningUnit.fromRecord(this.descriptor, this.src);
-    const exp_info = {
-      name: this.name(),
-      menu: explu.units,
-      src: this.src,
-      bp: Config.build_path(this.src) + "/",
+   log.debug(`Building experiment`);
+   const explu = LearningUnit.fromRecord(this.descriptor, this.src);
+   const exp_info = {
+     name: this.name(),
+     menu: explu.units,
+     src: this.src,
+     bp: Config.build_path(this.src) + "/",
     };
 
     if (options.plugins) {

@@ -5,6 +5,7 @@ const { JSDOM } = require("jsdom");
 
 const Config = require("./Config.js");
 const { PluginConfig, PluginScope } = require("./Enums.js");
+const log = require("./Logger");
 
 function setCurr(component, targetPath, subTaskFlag = false) {
   let obj = { ...component },
@@ -31,11 +32,19 @@ function setCurr(component, targetPath, subTaskFlag = false) {
 }
 
 function prepareRepo(repoInfo) {
+  log.debug(`Preparing repo ${repoInfo.id}`);
   if (!fs.existsSync(repoInfo.id)) {
-    shell.exec(`git clone --depth=1 ${repoInfo.repo}`);
+    if (repoInfo.tag)
+    {
+      shell.exec(`git clone --depth=1  ${repoInfo.repo} --branch ${repoInfo.tag}`,{ silent: true });
+    }
+    else 
+    {
+      shell.exec(`git clone --depth=1 ${repoInfo.repo}`,{ silent: true });
+    }
   } else {
     shell.cd(`${repoInfo.id}`);
-    shell.exec(`git pull`);
+    shell.exec(`git pull`,{ silent: true });
     shell.cd("..");
   }
 }
@@ -48,6 +57,7 @@ class Plugin {
   }
 
   static processExpScopePlugins(exp_info, hb, lab_data, options) {
+    log.debug("Processing experiment scope plugins");
     let pluginConfig = require(Plugin.getConfigFileName(options.env));
 
     if(!options.isValidate)
@@ -103,8 +113,10 @@ class Plugin {
         );
 
         plugins.push({ target: plugin.target, label: plugin.label });
+        log.debug(`Plugin ${plugin.id} processed`);
       } catch (e) {
-        console.error(e.message);
+        log.error(`Error while processing plugin ${plugin.id}`);
+        log.error(e);
       }
     });
 
@@ -133,6 +145,7 @@ class Plugin {
     return plugins;
   }
   static processPageScopePlugins(page, options) {
+    log.debug(`Processing page scope plugins`);
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
     const pluginConfig = require(pluginConfigFile);
 
@@ -147,6 +160,7 @@ class Plugin {
     pageScopePlugins.forEach((plugin) => {
       // Render the Plugin UI component inside the parent
       const pluginParent = document.getElementById(plugin.id);
+      log.debug(`Processing plugin ${plugin.id}`);
       if (pluginParent) {
         // Write code to process a template file and add to the parent
       }
@@ -170,11 +184,13 @@ class Plugin {
 
           document.body.appendChild(scriptNode);
         });
+      log.debug(`Plugin ${plugin.id} processed`);
     });
     fs.writeFileSync(page.targetPath(), dom.serialize());
   }
 
   static processPostBuildPlugins(exp_info, options) {
+    log.debug("Processing post build plugins");
     let pluginConfig = require(Plugin.getConfigFileName(options.env));
 
     if(!options.isValidate)
@@ -191,14 +207,22 @@ class Plugin {
 
     postBuildScopePlugins.forEach((plugin) => {
       try {
+        log.debug(`Processing plugin ${plugin.id}`);
         shell.cd("plugins");
         prepareRepo(plugin);
         shell.cd(`${plugin.id}`);
-        shell.exec(`${plugin.command} ${exp_info.bp}`);
+        try{
+          shell.exec(`${plugin.command} ${exp_info.bp}`,{ silent: true });
+        } catch(e) {
+          log.error(`Error while executing command ${plugin.command}`);
+          log.error(e);
+        }
         shell.cd("..");
         shell.cd("..");
+        log.debug(`Plugin ${plugin.id} processed`);
       } catch (e) {
-        console.error(e.message);
+        log.error(`Error while processing plugin ${plugin.id}`);
+        log.error(e);
       }
     });
   }

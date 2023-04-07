@@ -4,6 +4,9 @@ const Config = require("./Config.js");
 const path = require("path");
 const shell = require("shelljs");
 const args = require("minimist")(process.argv.slice(2));
+const log = require("./Logger");
+
+
 let src = "../";
 
 let LaTeXinMD = false;
@@ -201,7 +204,7 @@ function replaceCodeBlocks(html) {
 }
 
 function renderMarkdown(md) {
-  console.debug("Rendering Markdown" + (LaTeXinMD ? " with LaTeX" : ""));
+  log.debug("Rendering Markdown" + (LaTeXinMD ? " with LaTeX" : ""));
   if (LaTeXinMD) {
     expressions = [];
     const preProcessedMd = preProcessData(md);
@@ -214,7 +217,7 @@ function renderMarkdown(md) {
 }
 
 function renderJSON(json) {
-  console.debug("Rendering JSON");
+  log.debug("Rendering JSON");
   json = JSON.parse(json);
 
   // check for versioning
