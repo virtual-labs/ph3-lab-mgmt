@@ -1,4 +1,5 @@
 const winston = require("winston");
+const path = require("path");
 
 const { format } = winston;
 const { combine, timestamp, label, printf, colorize } = format;
@@ -7,7 +8,13 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} [${label}] ${level}: ${message}`;
 });
 
-const log = winston.createLogger({
+let getLabel = function (callingModule) {
+    // get relative file path from this file
+    let relativePath = path.relative(__dirname, callingModule.filename);
+    return relativePath;
+};
+
+const log = (callingModule) => {return winston.createLogger({
     level: "debug",
     format: combine(
         colorize(
@@ -15,7 +22,7 @@ const log = winston.createLogger({
                 all: true
             }
         ),
-        label({ label: "ph3-lab-mgmt" }),
+        label({ label: getLabel(callingModule) }),
         timestamp(),
         myFormat
     ),
@@ -24,6 +31,6 @@ const log = winston.createLogger({
         new winston.transports.File({ filename: "build-error.log", level: "error" }),
         new winston.transports.File({ filename: "build-combined.log" })
     ]
-});
+});}
 
 module.exports = log;

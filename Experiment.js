@@ -14,7 +14,7 @@ const {
   PluginScope,
 } = require("./Enums.js");
 const { Plugin } = require("./plugin");
-const log = require("./Logger");
+const log = require("./Logger")(module);
 
 function getAssesmentPath(src, units) {
   let assesmentPath = [];
