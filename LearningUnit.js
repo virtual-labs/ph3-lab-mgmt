@@ -10,7 +10,7 @@ const {Task} = require("./Task.js");
 const {Aim} = require("./Aim.js");
 
 const {UnitTypes, ContentTypes, validType, validContentType} = require("./Enums.js");
-const log = require("./Logger")(module);
+const log = require("./Logger");
 
 class LearningUnit extends Unit {
   constructor(

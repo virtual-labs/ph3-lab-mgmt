@@ -21,7 +21,7 @@ const {
 const { NONAME } = require("dns");
 const { Plugin } = require("./plugin");
 
-const log = require("./Logger")(module);
+const log = require("./Logger");
 
 class Task extends Unit {
   constructor(

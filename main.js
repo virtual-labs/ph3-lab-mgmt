@@ -6,7 +6,7 @@ const minimist = require("minimist");
 const { BuildEnvs, validBuildEnv } = require("./Enums.js");
 const Config = require("./Config.js");
 const path = require("path");
-const log = require("./Logger")(module);
+const log = require("./Logger");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 

@@ -5,7 +5,7 @@ const { JSDOM } = require("jsdom");
 
 const Config = require("./Config.js");
 const { PluginConfig, PluginScope } = require("./Enums.js");
-const log = require("./Logger")(module);
+const log = require("./Logger");
 
 function setCurr(component, targetPath, subTaskFlag = false) {
   let obj = { ...component },

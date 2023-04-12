@@ -5,7 +5,7 @@ const shell = require("shelljs");
 const { Experiment } = require("./Experiment.js");
 const Config = require("./Config.js");
 const { BuildEnvs, validBuildEnv } = require("./Enums.js");
-const log = require("./Logger")(module);
+const log = require("./Logger");
 
 function run(src, lab_data, build_options) {
   log.debug(`Running build process at ${src}`);

@@ -1,36 +1,87 @@
 const winston = require("winston");
 const path = require("path");
+var PROJECT_ROOT = __dirname
 
 const { format } = winston;
-const { combine, timestamp, label, printf, colorize } = format;
+const { combine, timestamp, printf, colorize } = format;
 
-const myFormat = printf(({ level, message, label, timestamp }) => {
-    return `${timestamp} [${label}] ${level}: ${message}`;
+const myFormat = printf(({ level, message, timestamp }) => {
+    return `${timestamp} ${level}: ${message}`;
 });
 
-let getLabel = function (callingModule) {
-    // get relative file path from this file
-    let relativePath = path.relative(__dirname, callingModule.filename);
-    return relativePath;
-};
-
-const log = (callingModule) => {return winston.createLogger({
+const log = new winston.createLogger({
     level: "debug",
     format: combine(
-        colorize(
-            {
-                all: true
-            }
-        ),
-        label({ label: getLabel(callingModule) }),
         timestamp(),
         myFormat
     ),
     transports: [
-        new winston.transports.Console({ level: "info" }),
-        new winston.transports.File({ filename: "build-error.log", level: "error" }),
-        new winston.transports.File({ filename: "build-combined.log" })
-    ]
-});}
+        new winston.transports.Console({ level: "info", format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true }),
+        new winston.transports.File({ filename: "build-error.log", level: "error", handleExceptions: true }),
+        new winston.transports.File({ filename: "build-combined.log", handleExceptions: true })
+    ],
+    exitOnError: false
+});
 
-module.exports = log;
+log.stream = {
+  write: function (message) {
+    log.info(message)
+  }
+}
+// A custom log interface that wraps winston, making it easy to instrument
+// code and still possible to replace winston in the future.
+module.exports.debug = module.exports.log = function () {
+  log.debug.apply(log, formatLogArguments(arguments))
+}
+module.exports.info = function () {
+  log.info.apply(log, formatLogArguments(arguments))
+}
+module.exports.warn = function () {
+  log.warn.apply(log, formatLogArguments(arguments))
+}
+module.exports.error = function () {
+  log.error.apply(log, formatLogArguments(arguments))
+}
+module.exports.stream = log.stream
+/**
+ * Attempts to add file and line number info to the given log arguments.
+ */
+function formatLogArguments (args) {
+  args = Array.prototype.slice.call(args)
+  var stackInfo = getStackInfo(1)
+  if (stackInfo) {
+    // get file path relative to project root
+    var calleeStr = '[' + stackInfo.relativePath + ':' + stackInfo.line + ":" + stackInfo.pos + ']'
+    if (typeof (args[0]) === 'string') {
+      args[0] = calleeStr + ' ' + args[0]
+    } else {
+      args.unshift(calleeStr)
+    }
+  }
+  return args
+}
+/**
+ * Parses and returns info about the call stack at the given index.
+ */
+function getStackInfo (stackIndex) {
+  // get call stack, and analyze it
+  // get all file, method, and line numbers
+  var stacklist = (new Error()).stack.split('\n').slice(3)
+  // stack trace format:
+  // http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+  // do not remove the regex expresses to outside of this method (due to a BUG in node.js)
+  var stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/gi
+  var stackReg2 = /at\s+()(.*):(\d*):(\d*)/gi
+  var s = stacklist[stackIndex] || stacklist[0]
+  var sp = stackReg.exec(s) || stackReg2.exec(s)
+  if (sp && sp.length === 5) {
+    return {
+      method: sp[1],
+      relativePath: path.relative(PROJECT_ROOT, sp[2]),
+      line: sp[3],
+      pos: sp[4],
+      file: path.basename(sp[2]),
+      stack: stacklist.join('\n')
+    }
+  }
+}
