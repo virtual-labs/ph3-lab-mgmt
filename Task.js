@@ -247,14 +247,15 @@ class Task extends Unit {
 
         if (shell.test("-f", this.sourcePath())) {
           let JSONdata = require(this.sourcePath());
+          let version = JSONdata.version;
           JSONdata = renderJSON(JSON.stringify(JSONdata));
-          if (JSONdata.version) {
+          if (version) {
             /**
              * The below condition will only work if the version in the json is either 2 or 2.0, for any update in version
              * it needs to be changed here accordingly
              */
-            if (JSONdata.version == 2) {
-              page_data.isJsonVersion2 = JSONdata.version;
+            if (version == 2) {
+              page_data.isJsonVersion2 = true;
             }
             page_data.questions = JSON.parse(JSONdata).questions;
           }
