@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const shell = require("shelljs");
+const { BuildEnvs, validBuildEnv } = require("./Enums.js");
 const { run } = require("./exp.js");
 const minimist = require("minimist");
-const { BuildEnvs, validBuildEnv } = require("./Enums.js");
 const Config = require("./Config.js");
 const path = require("path");
 const log = require("./Logger");
