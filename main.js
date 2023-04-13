@@ -2,7 +2,7 @@
 const fs = require("fs");
 const shell = require("shelljs");
 const { BuildEnvs, validBuildEnv } = require("./Enums.js");
-const { run } = require("./exp.js");
+const { run } = require("./Exp.js");
 const minimist = require("minimist");
 const Config = require("./Config.js");
 const path = require("path");
