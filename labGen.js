@@ -13,7 +13,7 @@ const simpleGit = require("simple-git");
 const validator = require("./validateDescriptor.js");
 const gs = require("./googlesheet.js");
 const labDescriptorFn = "lab-descriptor.json";
-const { run } = require("./exp.js");
+const { run } = require("./expGen.js");
 const config = require("./config.json");
 const { BuildEnvs } = require("./Enums.js");
 
