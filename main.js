@@ -186,14 +186,14 @@ function main() {
 
   // if the path is not provided assume "../" for backward
   // compatability.
-
   let src = ".";
-  let option = "";
-  if (args._.length === 2) {
-    src = args._[1];
-    option = args._[0];
+  if(args.src)
+  {
+    src = args.src;
   }
-  else if (args._.length === 1) {
+  
+  let option = "";
+  if (args._.length === 1) {
     option = args._[0];
   } else {
     log.error("Invalid Arguments");
