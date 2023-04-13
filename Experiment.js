@@ -16,20 +16,20 @@ const {
 const { Plugin } = require("./plugin");
 const log = require("./Logger");
 
-function getAssesmentPath(src, units) {
-  let assesmentPath = [];
+function getAssessmentPath(src, units) {
+  let assessmentPath = [];
   units.forEach((unit) => {
     if (unit["unit-type"] === "lu") {
       const nextSrc = path.resolve(src, unit.basedir);
-      let paths = getAssesmentPath(nextSrc, unit.units);
-      assesmentPath.push(...paths);
+      let paths = getAssessmentPath(nextSrc, unit.units);
+      assessmentPath.push(...paths);
     }
-    if (unit["content-type"] === "assesment") {
+    if (unit["content-type"] === "assesment" || unit["content-type"] === "assessment") {
       const quiz = path.resolve(src, unit.source);
-      assesmentPath.push(quiz);
+      assessmentPath.push(quiz);
     }
   });
-  return assesmentPath;
+  return assessmentPath;
 }
 
 class Experiment {
@@ -130,22 +130,22 @@ class Experiment {
       }
       // loop through the units and validate the content
       try {
-      log.debug("Validating Assesment files");
-      const assesmentPath = getAssesmentPath(expPath, descriptor.units);
-      assesmentPath.forEach((file) => {
+      log.debug("Validating Assessment files");
+      const assessmentPath = getAssessmentPath(expPath, descriptor.units);
+      assessmentPath.forEach((file) => {
         if (fs.existsSync(file)) {
           // trim ep from file
           const fileName = file.replace(expPath, "");
           shell.exec(`echo =${fileName} >> ${buildPath}/assesment.log`);
           shell.exec(
-            `node ${__dirname}/validation/validate.js -f ${file} -c assesment >> ${buildPath}/assesment.log`
+            `node ${__dirname}/validation/validate.js -f ${file} -c assessment >> ${buildPath}/assesment.log`
           );
         } else {
-          log.error(`Assesment file ${path} does not exist`);
+          log.error(`Assessment file ${path} does not exist`);
         }
       });
       } catch (e) {
-        log.error("Error validating Assesment files", e);
+        log.error("Error validating Assessment files", e);
       }
     }
   }

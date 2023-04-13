@@ -176,7 +176,7 @@ class Task extends Unit {
       isText: false,
       isVideo: false,
       isSimulation: false,
-      isAssesment: false,
+      isAssessment: false,
       assets_path: assets_path,
       js_modules: this.finalPath(this.js_modules),
       css_modules: this.finalPath(this.css_modules),
@@ -242,8 +242,9 @@ class Task extends Unit {
         fs.writeFileSync(path.resolve(this.sourcePath()), content);
         break;
 
+      case ContentTypes.ASSESSMENT:
       case ContentTypes.ASSESMENT:
-        page_data.isAssesment = true;
+        page_data.isAssessment = true;
 
         if (shell.test("-f", this.sourcePath())) {
           let JSONdata = require(this.sourcePath());
@@ -259,7 +260,7 @@ class Task extends Unit {
             }
             page_data.questions = JSON.parse(JSONdata).questions;
           }
-          page_data.questions_str = JSONdata;
+          page_data.questions_str = JSON.stringify(JSON.parse(JSONdata).questions);
           page_data.isJsonVersion = true;
         } else {
           const jsonpath = this.sourcePath();

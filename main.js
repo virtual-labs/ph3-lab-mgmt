@@ -10,20 +10,20 @@ const log = require("./Logger");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
-function getAssesmentPath(src,units){
-  let assesmentPath = [];
+function getAssessmentPath(src,units){
+  let assessmentPath = [];
   units.forEach((unit) => {
     if(unit["unit-type"] === "lu"){
       const nextSrc = path.resolve(src, unit.basedir);
-      let paths = getAssesmentPath(nextSrc,unit.units);
-      assesmentPath.push(...paths);
+      let paths = getAssessmentPath(nextSrc,unit.units);
+      assessmentPath.push(...paths);
     }
-    if(unit["content-type"] === "assesment"){
+    if(unit["content-type"] === "assesment" || unit["content-type"] === "assessment"){
       const quiz = path.resolve(src, unit.source);
-      assesmentPath.push(quiz);
+      assessmentPath.push(quiz);
     }
   });
-  return assesmentPath;
+  return assessmentPath;
 }
 
 function build(
@@ -113,11 +113,10 @@ function validate(isESLINT, isExpDesc, src) {
     // read from descriptorPath
     // loop through the units and validate the content
     try{
-      log.debug("Validating Assesment files");
+      log.debug("Validating Assessment files");
       const descriptor = require(descriptorPath);
-      const assesmentPath = getAssesmentPath(ep,descriptor.units);
-      console.log(assesmentPath);
-      assesmentPath.forEach((file) => {
+      const assessmentPath = getAssessmentPath(ep,descriptor.units);
+      assessmentPath.forEach((file) => {
         if (fs.existsSync(file)){
           // trim ep from file
           const fileName = file.replace(ep,"");
@@ -125,14 +124,14 @@ function validate(isESLINT, isExpDesc, src) {
             `echo =${fileName}`
           );
           shell.exec(
-            `node ${__dirname}/validation/validate.js -f ${file} -c assesment`
+            `node ${__dirname}/validation/validate.js -f ${file} -c assessment`
           );
         }else{
-          console.error(`Assesment file ${path} does not exist`);
+          console.error(`Assessment file ${path} does not exist`);
         }
       });
     } catch (e) {
-      log.error("Error validating Assesment files", e);
+      log.error("Error validating Assessment files", e);
     }
   }
 }
