@@ -207,12 +207,17 @@ function main() {
       let isExpDesc = args.validateExpdesc || false;
       let isDeploy = args.deploy || false;
       let isPlugin = args.disablePlugin ? false : true;
+      let isDebug = args.debug || false;
       log.info("Calling build with options: ");
       log.info(`isClean: ${isClean}`);
       log.info(`isESLINT: ${isESLINT}`);
       log.info(`isExpDesc: ${isExpDesc}`);
       log.info(`isDeploy: ${isDeploy}`);
       log.info(`isPlugin: ${isPlugin}`);
+      log.info(`isDebug: ${isDebug}`);
+      if(isDebug){
+        log.addDebug();
+      }
       build(
         isClean,
         isESLINT,

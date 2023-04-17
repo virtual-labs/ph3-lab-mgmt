@@ -326,18 +326,21 @@ function labgen() {
     if (!isValid) {
       return;
     }
-
+    // 1
     generate(labpath);
+    // 2
     publishExperiments(labpath);
     stageLab(
       `${labpath}/build/*`,
       path.resolve("/var/www/html/stage", getLabName(labpath))
     );
     deploy(labpath);
-
+    // 3
     ld = updateDescriptor(labpath, newVersion);
     updateRecord(ld, "SUCCESS");
+    // 4
     pushlab(labpath);
+    // 5
     release(labpath, newVersion);
   }
 }

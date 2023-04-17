@@ -30,6 +30,11 @@ log.stream = {
 }
 // A custom log interface that wraps winston, making it easy to instrument
 // code and still possible to replace winston in the future.
+
+module.exports.addDebug = function () {
+  log.add(new winston.transports.Console({level: "debug",format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true}))
+}
+
 module.exports.debug = module.exports.log = function () {
   log.debug.apply(log, formatLogArguments(arguments))
 }
