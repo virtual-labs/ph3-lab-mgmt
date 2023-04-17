@@ -17,12 +17,12 @@ const { run } = require("./expGen.js");
 const config = require("./config.json");
 const { BuildEnvs } = require("./Enums.js");
 
-shell.config.silent = true;
+// shell.config.silent = true;
 
 function stageLab(src, destPath) {
-  console.log(`STAGE LAB to ${destPath}\n`);
-  shell.exec(`mkdir -p '${destPath}'`);
-  shell.exec(`rsync -a ${src} '${destPath}'`);
+  shell.mkdir("-p",destPath);
+  // shell.exec(`rsync -a ${src} '${destPath}'`);
+  shell.cp("-r", src, destPath);
 }
 
 function buildPage(template_file, component_files, content_file) {
@@ -99,7 +99,10 @@ function prepareStructure(labpath) {
 }
 
 function generateLab(pages, labpath, template_file, component_files) {
-  shell.exec(`cd ${labpath}; git checkout master; git pull origin master`);
+  shell.cd(labpath);
+  shell.exec("git checkout master");
+  shell.exec("git pull origin master");
+  shell.cd(__dirname);
   prepareStructure(labpath);
   pages.forEach((p) => {
     const res_html = buildPage(template_file, component_files, p.src);
@@ -213,7 +216,7 @@ function getLabName(labpath) {
 function exp_clone(e, exp_dir) {
   console.log(chalk`{cyan CLONE} {yellow from} ${e.repo}`);
   const e_short_name = e["short-name"];
-  shell.mkdir("-p", path.resolve(exp_dir));
+  shell.mkdir("-p",path.resolve(exp_dir));
   shell.rm("-rf", path.resolve(exp_dir, e_short_name));
   shell.exec(
     `git clone -b ${e.tag} --depth 1 ${e.repo} ${path.resolve(
@@ -255,10 +258,7 @@ function exp_stage(e, exp_dir, deployment_dest) {
   );
 
   shell.rm("-rf", `${deployment_dest}/stage/exp/${e_short_name}/`);
-  shell.mkdir(
-    "-p",
-    path.resolve(deployment_dest, "stage", "exp", e_short_name)
-  );
+  shell.mkdir("-p", path.resolve(deployment_dest, "stage", "exp", e_short_name));
   shell.cp(
     "-rf",
     `${exp_dir}/${e_short_name}/build/*`,
@@ -296,13 +296,19 @@ function deploy(labpath) {
       )}`
     );
     shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
-    shell.exec(`rsync -arv --exclude .git \
-'${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
+//     shell.exec(`rsync -arv --exclude .git \
+// '${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
+// alternative
+shell.rm('-rf', path.resolve(deployment_path, 'exp', e["short-name"], "**", ".git/"));
+shell.cp('-rf', `${deployment_path}/stage/exp/${e["short-name"]}/*`, `${deployment_path}/exp/${e["short-name"]}`)
   });
 
   console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
-  shell.exec(`rsync -arv --exclude .git \
-'${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
+//   shell.exec(`rsync -arv --exclude .git \
+// '${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
+// alternative
+shell.rm('-rf', path.resolve(deployment_dest,'stage/', lab_dir_name, "*", "**", ".git/"));
+shell.cp('-rf',path.resolve(deployment_dest,'stage/', lab_dir_name, "*"), path.resolve(deployment_dest, lab_dir_name));
 }
 
 /*
@@ -313,7 +319,10 @@ function deploy(labpath) {
 function labgen() {
   const args = require("minimist")(process.argv.slice(2));
 
-  const labpath = args._[0];
+  let labpath = args._[0];
+  // convert to absolute path
+  labpath = path.resolve(labpath);
+
   const release_type = args.release;
   const newVersion = nextVersion(labpath, release_type);
 
@@ -330,14 +339,16 @@ function labgen() {
     generate(labpath);
     // 2
     publishExperiments(labpath);
+
     stageLab(
       `${labpath}/build/*`,
       path.resolve("/var/www/html/stage", getLabName(labpath))
     );
+
     deploy(labpath);
     // 3
     ld = updateDescriptor(labpath, newVersion);
-    updateRecord(ld, "SUCCESS");
+    // updateRecord(ld, "SUCCESS");
     // 4
     pushlab(labpath);
     // 5
@@ -371,20 +382,18 @@ function LD(lp) {
 
 function pushlab(labpath) {
   const commitMsg = `Lab generated at ${moment()}`;
-  child_process.execSync(
-    `cd ${labpath};
-git add license.org lab-descriptor.json build;
-git commit -m "${commitMsg}";
-git push origin master`
-  );
+  shell.cd(labpath);
+  shell.exec(`git add license.org lab-descriptor.json build`);
+  shell.exec(`git commit -m "${commitMsg}"`);
+  shell.exec(`git push origin master`);
+  shell.cd(__dirname);
 }
 
 function release(labpath, tag_name) {
-  child_process.execSync(
-    `cd ${labpath};
-git tag -a ${tag_name} -m "version ${tag_name}";
-git push origin ${tag_name}`
-  );
+  shell.cd(labpath);
+  shell.exec(`git tag -a ${tag_name} -m "version ${tag_name}"`);
+  shell.exec(`git push origin ${tag_name}`);
+  shell.cd(__dirname);
   return tag_name;
 }
 
@@ -455,7 +464,7 @@ function incrementTagNumber(tag, release_type) {
 
 function nextVersion(labpath, release_type) {
   let version = "v0.0.1";
-  shell.cd(path.resolve(labpath));
+  shell.cd(labpath);
   const res = shell.exec(`git describe --abbrev=0`);
   if (res.code === 0) {
     version = res.stdout;

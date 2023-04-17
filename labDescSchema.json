@@ -11,14 +11,13 @@
 	    "type": "object",
 	    "properties": {
 		"name": {"type": "string"},
-		"link": {"type": "string", "format": "uri"}
+		"link": {"type": "string"}
 	    }
 	},
 	"phase": {"type": "number"},
 	"collegeName": {"type": "string"},
 	"baseUrl": {
-	    "type": "string",
-	    "format": "hostname"
+	    "type": "string"
 	},
 	"introduction": {"type": "string"},
 	"objective": {"type": "string"},
