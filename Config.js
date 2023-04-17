@@ -62,6 +62,7 @@ const Experiment = {
   ]
 };
 
+let debug_mode = false;
 
 /*
 Experiment build path
@@ -76,3 +77,4 @@ function build_path(src) {
 module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
+module.exports.debug_mode = debug_mode;

@@ -200,6 +200,8 @@ function main() {
     return;
   }
 
+  Config.debug_mode = args.debug || false;
+
   switch (option) {
     case "build":
       let isClean = args.clean || false;
