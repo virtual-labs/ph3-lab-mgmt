@@ -125,9 +125,9 @@ class Plugin {
     //     exp_info.src
     //   )}" --exclude=.git`
     // );
-    // remove .git folder from all folders in plugins
-    shell.rm("-rf", path.resolve("./plugins", "**", ".git/"));
     shell.cp("-r", path.resolve("./plugins"), Config.build_path(exp_info.src));
+    // remove .git folder from all folders in plugins
+    shell.rm("-rf", path.resolve("./plugins", "**", ".git"));
     return plugins;
   }
 
