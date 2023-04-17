@@ -4,10 +4,18 @@ var PROJECT_ROOT = __dirname
 
 const { format } = winston;
 const { combine, timestamp, printf, colorize } = format;
+const Config = require("./Config.js"); 
 
 const myFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} ${level}: ${message}`;
 });
+
+const getConsoleLevel = () => {
+  if(Config.debug_mode) {
+    return "debug";
+  }
+  return "info";
+}
 
 const log = new winston.createLogger({
     level: "debug",
@@ -16,7 +24,7 @@ const log = new winston.createLogger({
         myFormat
     ),
     transports: [
-        new winston.transports.Console({ level: "info", format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true }),
+        new winston.transports.Console({ level: getConsoleLevel(), format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true }),
         new winston.transports.File({ filename: "build-error.log", level: "error", handleExceptions: true }),
         new winston.transports.File({ filename: "build-combined.log", handleExceptions: true })
     ],
