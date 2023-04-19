@@ -26,7 +26,8 @@ function generateLab(labpath) {
   const template_file = "skeleton.html";
   const component_files = config.commonComponents;
 
-  const fns = glob.sync("page-templates/*.handlebars");
+  const handlebars_path = path.resolve(__dirname, "page-templates");
+  const fns = glob.sync(`${handlebars_path}/*.handlebars`);
   if (
     data.experiments === undefined &&
     data["experiment-sections"] !== undefined

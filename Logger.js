@@ -17,8 +17,8 @@ const log = new winston.createLogger({
     ),
     transports: [
         new winston.transports.Console({ level: "info", format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true }),
-        new winston.transports.File({ filename: "build-error.log", level: "error", handleExceptions: true }),
-        new winston.transports.File({ filename: "build-combined.log", handleExceptions: true })
+        new winston.transports.File({ filename: path.resolve(PROJECT_ROOT,"build-error.log"), level: "error", handleExceptions: true }),
+        new winston.transports.File({ filename: path.resolve(PROJECT_ROOT,"build-combined.log"), handleExceptions: true })
     ],
     exitOnError: false
 });
