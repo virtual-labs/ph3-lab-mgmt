@@ -7,6 +7,7 @@ const minimist = require("minimist");
 const Config = require("./Config.js");
 const path = require("path");
 const log = require("./Logger");
+const {buildLab} = require("./lab_build/LabGen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
@@ -251,12 +252,17 @@ function main() {
       log.info("Deploy Complete");
       break;
 
+    case "buildLab":
+      let release = args.release || "minor";
+      log.info("Calling buildLab");
+      buildLab(src, release);
+      log.info("BuildLab Complete");
+      break;
+
     default:
       log.error("Invalid Arguments");
       break;
   }
-
-
 }
 
 main();

@@ -1,6 +1,9 @@
 // This file contains the functions to build the html page from the template and the page components
 const Handlebars = require("handlebars");
 const { JSDOM } = require("jsdom");
+const fs = require("fs");
+const path = require("path");
+const log = require("../Logger.js");
 
 function loadComponents(component_files) {
   const components = component_files.map((fn) =>
@@ -38,6 +41,7 @@ function addContent(dom, ctnt) {
 }
 
 function populateTemplate(template, components, content) {
+  log.debug("Loading Components");
   let dom = new JSDOM(`${template}`);
   let res = addAnalytics(dom, components[0]);
   res = addLabName(res, components[1]);
@@ -56,9 +60,15 @@ function buildPage(template_file, component_files, content_file) {
 }
 
 function renderTemplate(fn, data) {
+  log.debug(`Rendering template ${fn}`);
   const template = fs.readFileSync(fn, "utf-8");
   const base = path.parse(fn).name;
 
   html = Handlebars.compile(template)(data);
   fs.writeFileSync(`page-components/${base}.html`, html, "utf-8");
 }
+
+module.exports = {
+  buildPage,
+  renderTemplate,
+};

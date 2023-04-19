@@ -1,6 +1,13 @@
 const path = require("path");
 const gs = require("../googlesheet.js");
 const fs = require("fs");
+const shell = require("shelljs");
+const prettier = require("prettier");
+const { buildPage } = require("./Template.js");
+const moment = require("moment");
+const log = require("../Logger.js");
+
+shell.config.silent = true;
 
 function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
@@ -24,25 +31,23 @@ function getLabName(lab_descriptor_path) {
   return toDirName(lab_descriptor.lab);
 }
 
-
 function updateLabVersion(lab_descriptor_path, newVersion) {
+  log.debug(`Updating lab version to ${newVersion}`);
   const lab_descriptor = getLabDescriptor(lab_descriptor_path);
   lab_descriptor.version = newVersion;
-  const updated_lab_descriptor = prettier.format(JSON.stringify(lab_descriptor), {
-    parser: "json",
-  });
-  fs.writeFileSync(
-    lab_descriptor_path,
-    updated_lab_descriptor,
-    "utf-8"
+  const updated_lab_descriptor = prettier.format(
+    JSON.stringify(lab_descriptor),
+    {
+      parser: "json",
+    }
   );
+  fs.writeFileSync(lab_descriptor_path, updated_lab_descriptor, "utf-8");
 }
-
 
 function stageLab(src, destPath) {
   shell.mkdir("-p", destPath);
   // shell.exec(`rsync -a ${src} '${destPath}'`);
-  shell.cp("-a", src, destPath);
+  shell.cp("-r", src, destPath);
 }
 
 function pushLab(labpath) {
@@ -63,16 +68,18 @@ function releaseLab(labpath, tag_name) {
 }
 
 function prepareStructure(labpath) {
+  log.debug(`Preparing lab structure`);
   shell.cp("-r", path.resolve("license.org"), path.resolve(labpath));
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
-    path.resolve("templates/assets/*"),
+    path.resolve("../templates/assets/*"),
     path.resolve(labpath, "build")
   );
 }
 
 function buildLabPages(pages, labpath, template_file, component_files) {
+  log.debug(`Building lab pages`);
   shell.cd(labpath);
   shell.exec("git checkout master");
   shell.exec("git pull origin master");
@@ -85,6 +92,7 @@ function buildLabPages(pages, labpath, template_file, component_files) {
 }
 
 function processLabDescriptor(descriptor_path) {
+  log.debug(`Processing lab descriptor`);
   const lab_descriptor = JSON.parse(fs.readFileSync(descriptor_path));
 
   if (lab_descriptor.experiments) {
@@ -116,6 +124,7 @@ function processLabDescriptor(descriptor_path) {
 }
 
 function updateRecord(lab_descriptor, exec_status) {
+  log.debug(`Updating record in Google Sheet`);
   const rec = {
     date: moment().format("DD MMMM YYYY"),
     time: moment().format("hh:mm:ss"),
@@ -128,6 +137,7 @@ function updateRecord(lab_descriptor, exec_status) {
 }
 
 module.exports = {
+  toDirName,
   getLabName,
   updateLabVersion,
   stageLab,

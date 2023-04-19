@@ -3,11 +3,12 @@ const path = require("path");
 const fs = require("fs");
 const glob = require("glob");
 const { nextVersion } = require("./Tags");
-const { loadExperiments } = require("./ExpUtils");
+const { loadExperiments, expList } = require("./ExpUtils");
 const validator = require("../validateDescriptor.js");
 const config = require("./labConfig.json");
-const chalk = require("chalk");
+const log = require("../Logger.js");
 const {
+  toDirName,
   getLabName,
   updateLabVersion,
   stageLab,
@@ -16,6 +17,7 @@ const {
   buildLabPages,
   processLabDescriptor,
 } = require("./LabUtils");
+const { renderTemplate } = require("./Template.js");
 
 shell.config.silent = true;
 
@@ -52,7 +54,7 @@ function generateLab(labpath) {
 }
 
 function deployLab(labpath) {
-  const config = require("./config.json");
+  const config = require("./labConfig.json");
   const deployment_dest = config["deployment_dest"];
   const lab_descriptor = require(path.resolve(labpath, "lab-descriptor.json"));
   const lab_dir_name = toDirName(lab_descriptor.lab);
@@ -61,13 +63,7 @@ function deployLab(labpath) {
   const elist = expList(require(path.resolve(labpath, "lab-descriptor.json")));
 
   elist.forEach((e) => {
-    console.log(
-      chalk`{bold DEPLOY} {yellow to} ${path.resolve(
-        deployment_path,
-        "exp",
-        e["short-name"]
-      )}`
-    );
+    log.debug(`Deploying experiment ${e["short-name"]} to ${path.resolve(deployment_path, "exp", e["short-name"])}`);
     shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
     //     shell.exec(`rsync -arv --exclude .git \
     // '${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
@@ -77,13 +73,14 @@ function deployLab(labpath) {
       path.resolve(deployment_path, "exp", e["short-name"], "**", ".git/")
     );
     shell.cp(
-      "-av",
+      "-r",
       `${deployment_path}/stage/exp/${e["short-name"]}/*`,
       `${deployment_path}/exp/${e["short-name"]}`
     );
   });
 
-  console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
+  // console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
+  log.debug(`Deploying lab ${lab_dir_name} to ${deployment_dest}/${lab_dir_name}`);
   //   shell.exec(`rsync -arv --exclude .git \
   // '${deployment_dest}/stage/${lab_dir_name}/'* '${deployment_dest}/${lab_dir_name}'`);
   // alternative
@@ -92,28 +89,24 @@ function deployLab(labpath) {
     path.resolve(deployment_dest, "stage/", lab_dir_name, "*", "**", ".git/")
   );
   shell.cp(
-    "-av",
+    "-r",
     path.resolve(deployment_dest, "stage/", lab_dir_name, "*"),
     path.resolve(deployment_dest, lab_dir_name)
   );
 }
 
-function main() {
-  // Parse arguments
-  const args = require("minimist")(process.argv.slice(2));
-  let labpath = args._[0];
+function buildLab(labpath, release_type) {
   // convert to absolute path
   labpath = path.resolve(labpath);
-  console.log(chalk`{bold Lab Path} ${labpath}`);
-  const release_type = args.release;
-
-  // Get next version number
-  const newVersion = nextVersion(labpath, release_type);
+  // console.log(chalk`{bold Lab Path} ${labpath}`);
+  log.info(`Building lab at ${labpath}`);
+  log.info(`Release: ${release_type}`);
 
   // Generate lab
   // Check if labpath is valid
   if (!fs.existsSync(labpath)) {
-    console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
+    // console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
+    log.error(`Invalid Lab Path '${labpath}'`);
   } else {
     
     const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
@@ -123,24 +116,36 @@ function main() {
       return;
     }
     // 1 : Build all lab pages by rendering templates and loading components
+    log.info("Generating lab pages");
     generateLab(labpath);
     // 2 : Load all experiments in the lab (Clone, build, and stage)
+    log.info("Loading all experiments");
     loadExperiments(labpath);
     // 3 : Stage the lab
+    log.info("Staging lab");
     stageLab(
       `${labpath}/build/*`,
       path.resolve("/var/www/html/stage", getLabName(lab_descriptor_path))
     );
     // 4 : Move all staged experiments to the deployment directory (/var/www/html/)
+    log.info("Deploying lab");
     deployLab(labpath);
     // 5 : Update lab version in lab-descriptor.json
+    // Get next version number
+    const newVersion = nextVersion(labpath, release_type);
     updateLabVersion(lab_descriptor_path, newVersion);
     // updateRecord(ld, "SUCCESS");
     // 6 : Push lab to github repo
+    log.info("Pushing lab to github");
     pushLab(labpath);
     // 7 : Create a new release on github for the lab
+    log.info(`Releasing Version ${newVersion}`);
     releaseLab(labpath, newVersion);
+
+    log.info("Lab build complete");
   }
 }
 
-main();
+module.exports = {
+  buildLab,
+};

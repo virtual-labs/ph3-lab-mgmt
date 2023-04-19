@@ -80,14 +80,15 @@ class Experiment {
       // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
       log.debug("Moving Katex assets");
       shell.mkdir(path.resolve(bp, "assets", "katex_assets"));
+      const katex_assets_path = path.resolve(__dirname, "node_modules", "katex", "dist");
       shell.cp(
         "-R",
-        path.resolve("node_modules", "katex", "dist", "katex.min.css"),
+        path.resolve(katex_assets_path, "katex.min.css"),
         path.resolve(bp, "assets", "katex_assets")
       );
       shell.cp(
         "-R",
-        path.resolve("node_modules", "katex", "dist", "fonts"),
+        path.resolve(katex_assets_path, "fonts"),
         path.resolve(bp, "assets", "katex_assets")
       );
 
