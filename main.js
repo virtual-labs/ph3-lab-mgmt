@@ -196,6 +196,7 @@ function main() {
   let isDebug = args.debug || false;
   if(isDebug){
     log.addDebug();
+    log.info("Debug mode enabled");
   } else {
     log.addInfo();
   }
@@ -221,7 +222,6 @@ function main() {
       log.info(`isExpDesc: ${isExpDesc}`);
       log.info(`isDeploy: ${isDeploy}`);
       log.info(`isPlugin: ${isPlugin}`);
-      log.info(`isDebug: ${isDebug}`);
       build(
         isClean,
         isESLINT,
