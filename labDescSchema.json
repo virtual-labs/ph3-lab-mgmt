@@ -11,13 +11,14 @@
 	    "type": "object",
 	    "properties": {
 		"name": {"type": "string"},
-		"link": {"type": "string"}
+		"link": {"type": "string", "format": "uri"}
 	    }
 	},
 	"phase": {"type": "number"},
 	"collegeName": {"type": "string"},
 	"baseUrl": {
-	    "type": "string"
+	    "type": "string",
+	    "format": "hostname"
 	},
 	"introduction": {"type": "string"},
 	"objective": {"type": "string"},
@@ -34,8 +35,8 @@
 		    "repo": {"type": "string", "format": "uri"},
 		    "tag": {
 			"type": "string",
-			"minlength": 6,
-			"maxlength": 6,
+			"minLength": 6,
+			"maxLength": 6,
 			"pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
 		    },
 		    "deploy": {"type": "boolean"}
@@ -63,8 +64,8 @@
 				"repo": {"type": "string", "format": "uri"},
 				"tag": {
 				    "type": "string",
-				    "minlength": 6,
-				    "maxlength": 6,
+				    "minLength": 6,
+				    "maxLength": 6,
 				    "pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
 				},
 				"deploy": {"type": "boolean"}

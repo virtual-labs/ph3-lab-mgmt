@@ -1,4 +1,5 @@
 const Ajv = require('ajv');
+const addFormats = require("ajv-formats")
 const figures = require('figures');
 const chalk = require('chalk');
 const path = require('path');
@@ -26,8 +27,8 @@ function logError(dataPath, textMsg) {
 
 
 function validateLabDescriptor(lab_descriptor_path){
-  return true;
   const validator = new Ajv();
+  addFormats(validator);
   const validate = validator.compile(require('./labDescSchema.json'));
   const valid = validate(require(lab_descriptor_path));
 
@@ -37,7 +38,6 @@ function validateLabDescriptor(lab_descriptor_path){
     }
     return false;
   }
-  console.log("Descriptor is valid");
   return true;
 }
 

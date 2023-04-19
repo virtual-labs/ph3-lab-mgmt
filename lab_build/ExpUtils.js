@@ -45,7 +45,13 @@ function exp_build(e, ld, exp_dir) {
   ld.exp_name = e.name;
   ld.exp_short_name = e_short_name;
 
-  run(path.resolve(exp_dir, e_short_name), ld, { env: BuildEnvs.PRODUCTION });
+  const build_options = {
+    env: BuildEnvs.PRODUCTION,
+    isValidate: false,
+    plugins: false
+  }
+
+  run(path.resolve(exp_dir, e_short_name), ld, build_options);
 }
 
 function exp_stage(e, exp_dir, deployment_dest) {

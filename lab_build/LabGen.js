@@ -112,10 +112,13 @@ function buildLab(labpath, release_type) {
     
     const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
 
+    log.info("Validating lab descriptor");
     const isValid = validator.validateLabDescriptor(lab_descriptor_path);
     if (!isValid) {
+      log.error("Lab descriptor is invalid");
       return;
     }
+    log.info("Lab descriptor is valid");
     // 1 : Build all lab pages by rendering templates and loading components
     log.info("Generating lab pages");
     generateLab(labpath);
