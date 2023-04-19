@@ -17,12 +17,12 @@ const { run } = require("./expGen.js");
 const config = require("./config.json");
 const { BuildEnvs } = require("./Enums.js");
 
-// shell.config.silent = true;
+shell.config.silent = true;
 
 function stageLab(src, destPath) {
   shell.mkdir("-p",destPath);
   // shell.exec(`rsync -a ${src} '${destPath}'`);
-  shell.cp("-r", src, destPath);
+  shell.cp("-a", src, destPath);
 }
 
 function buildPage(template_file, component_files, content_file) {
@@ -300,7 +300,7 @@ function deploy(labpath) {
 // '${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
 // alternative
 shell.rm('-rf', path.resolve(deployment_path, 'exp', e["short-name"], "**", ".git/"));
-shell.cp('-rf', `${deployment_path}/stage/exp/${e["short-name"]}/*`, `${deployment_path}/exp/${e["short-name"]}`)
+shell.cp('-av', `${deployment_path}/stage/exp/${e["short-name"]}/*`, `${deployment_path}/exp/${e["short-name"]}`)
   });
 
   console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
@@ -329,9 +329,11 @@ function labgen() {
   if (!fs.existsSync(labpath)) {
     console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
   } else {
-    const isValid = validator.validateLabDescriptor(
-      path.resolve(labpath, labDescriptorFn)
-    );
+
+    const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
+    const lab_descriptor = require(lab_descriptor_path);
+
+    const isValid = validator.validateLabDescriptor(lab_descriptor);
     if (!isValid) {
       return;
     }
