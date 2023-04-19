@@ -6,3 +6,4 @@ exprepos
 plugins/
 dist/
 .npmrc
+*.log
