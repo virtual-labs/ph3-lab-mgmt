@@ -37,13 +37,13 @@
   "description": "* Introduction",
   "main": "main.js",
   "scripts": {
-    "labgen": "node labGen.js",
     "validate-lab-descriptor": "node validateDescriptor.js",
     "build-exp": "node main.js build --validateEslint --validateExpdesc --src=../",
     "clean-build-exp": "node main.js build --clean --validateEslint --validateExpdesc --src=../",
     "build-exp-deploy": "node main.js build --validateEslint --validateExpdesc --deploy --src=../",
     "build-exp-noplugin": "node main.js build --validateEslint --validateExpdesc --disablePlugin --src=../",
     "build-exp-novalidate": "node main.js build  --src=../",
+    "build-lab": "node main.js buildLab --release=patch --src=../",
     "clean": "node main.js clean --src=../",
     "validate": "node main.js validate --eslint --expdesc --src=../",
     "deploy": "node main.js deploy --src=../"
