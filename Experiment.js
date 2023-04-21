@@ -24,7 +24,7 @@ function getAssessmentPath(src, units) {
       let paths = getAssessmentPath(nextSrc, unit.units);
       assessmentPath.push(...paths);
     }
-    if (unit["content-type"] === "assesment" || unit["content-type"] === "assessment") {
+    if (unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT) {
       const quiz = path.resolve(src, unit.source);
       assessmentPath.push(quiz);
     }

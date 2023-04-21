@@ -5,7 +5,7 @@ var PROJECT_ROOT = __dirname
 const { format } = winston;
 const { combine, timestamp, printf, colorize } = format;
 
-const myFormat = printf(({ level, message, timestamp }) => {
+const vlabsDefaultFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} ${level}: ${message}`;
 });
 
@@ -13,7 +13,7 @@ const log = new winston.createLogger({
     level: "debug",
     format: combine(
         timestamp(),
-        myFormat
+        vlabsDefaultFormat
     ),
     transports: [
         new winston.transports.File({ filename: path.resolve(PROJECT_ROOT,"build-error.log"), level: "error", handleExceptions: true }),
@@ -31,11 +31,11 @@ log.stream = {
 // code and still possible to replace winston in the future.
 
 module.exports.addDebug = function () {
-  log.add(new winston.transports.Console({level: "debug",format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true}))
+  log.add(new winston.transports.Console({level: "debug",format: combine(colorize({all: true}),timestamp(),vlabsDefaultFormat), handleExceptions: true}))
 }
 
 module.exports.addInfo = function () {
-  log.add(new winston.transports.Console({level: "info",format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true}))
+  log.add(new winston.transports.Console({level: "info",format: combine(colorize({all: true}),timestamp(),vlabsDefaultFormat), handleExceptions: true}))
 }
 
 module.exports.debug = module.exports.log = function () {
