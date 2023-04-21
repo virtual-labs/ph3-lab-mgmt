@@ -4,7 +4,7 @@ const fs = require("fs");
 const glob = require("glob");
 const { nextVersion } = require("./Tags");
 const { loadExperiments, expList } = require("./ExpUtils");
-const validator = require("../validateDescriptor.js");
+const {validateLabDescriptor} = require("../validation/validateDescriptor.js")
 const config = require("./labConfig.json");
 const log = require("../Logger.js");
 const {
@@ -113,7 +113,7 @@ function buildLab(labpath, release_type) {
     const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
 
     log.info("Validating lab descriptor");
-    const isValid = validator.validateLabDescriptor(lab_descriptor_path);
+    const isValid = validateLabDescriptor(lab_descriptor_path);
     if (!isValid) {
       log.error("Lab descriptor is invalid");
       return;

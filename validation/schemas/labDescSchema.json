@@ -1,0 +1,104 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "required": ["lab", "lab_display_name", "broadArea", "phase", "collegeName",
+		 "baseUrl", "introduction", "objective",
+		 "targetAudience", "courseAlignment"],
+    "properties": {
+	"lab": {"type": "string"},
+	"lab_display_name": {"type": "string"},
+	"broadArea": {
+	    "type": "object",
+	    "properties": {
+		"name": {"type": "string"},
+		"link": {"type": "string", "format": "uri"}
+	    }
+	},
+	"phase": {"type": "number"},
+	"collegeName": {"type": "string"},
+	"baseUrl": {
+	    "type": "string",
+	    "format": "hostname"
+	},
+	"introduction": {"type": "string"},
+	"objective": {"type": "string"},
+	"experiments": {
+	    "type": "array",
+	    "minItems": 1,
+	    "items": {
+		"type": "object",
+		"required": ["name", "short-name",
+			     "repo", "tag", "deploy"],
+		"properties": {
+		    "name": {"type": "string"},
+		    "short-name": {"type": "string"},
+		    "repo": {"type": "string", "format": "uri"},
+		    "tag": {
+			"type": "string",
+			"minLength": 6,
+			"maxLength": 6,
+			"pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
+		    },
+		    "deploy": {"type": "boolean"}
+		},
+		"additionalProperties": false
+	    }
+	},
+	"experiment-sections": {
+	    "type": "array",
+	    "items": {
+		"type": "object",
+		"required": ["sect-name", "experiments"],
+		"properties": {
+		    "sect-name": {"type": "string"},
+		    "experiments": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+			    "type": "object",
+			    "required": ["name", "short-name",
+					 "repo", "tag", "deploy"],
+			    "properties": {
+				"name": {"type": "string"},
+				"short-name": {"type": "string"},
+				"repo": {"type": "string", "format": "uri"},
+				"tag": {
+				    "type": "string",
+				    "minLength": 6,
+				    "maxLength": 6,
+				    "pattern": "^v([0-9]{1,2}\\.){2}[0-9]$"
+				},
+				"deploy": {"type": "boolean"}
+			    },
+			    "additionalProperties": false
+			}
+		    }
+		}
+	    }
+	},
+	"targetAudience": {
+	    "type": "object",
+	    "properties": {
+		"UG": {
+		    "type": "array",
+		    "items": {"type": "string"}
+		},
+		"PG": {
+		    "type": "array",
+		    "items": {"type": "string"}
+		}
+	    }	    
+	},
+	"courseAlignment": {
+	    "type": "object",
+	    "properties": {
+		"description": {"type": "string"},
+		"universities": {
+		    "type": "array",
+		    "minItems": 1,
+		    "items": {"type": "string"}
+		}
+	    }
+	}
+    }
+}

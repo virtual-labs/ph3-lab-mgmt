@@ -16,6 +16,8 @@ class Aim extends Task {
       basedir,
       "aim.md",
       "index.html",
+      [],
+      [],
       lu_label
     );
   }

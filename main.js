@@ -7,7 +7,7 @@ const minimist = require("minimist");
 const Config = require("./Config.js");
 const path = require("path");
 const log = require("./Logger");
-const {buildLab} = require("./lab_build/LabGen.js");
+const {buildLab} = require("./lab_build/lab-gen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
@@ -162,7 +162,10 @@ function deployLocal(src) {
     // Deploy
     try {
       log.debug("Deploying locally");
-      shell.exec(`npx http-server -p 0 ${bp} -o /index.html`);
+      const child = shell.exec(`npx http-server -p 0 ${bp} -o /index.html`, {async:true});
+      child.stdout.on('data', function(data) {
+        console.log(data);
+      });
     } catch (e) {
       log.error("Error deploying locally", e);
     }
@@ -252,7 +255,6 @@ function main() {
     case "deploy":
       log.info("Calling deploy");
       deployLocal(src);
-      log.info("Deploy Complete");
       break;
 
     case "buildLab":

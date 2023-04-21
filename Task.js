@@ -121,10 +121,6 @@ class Task extends Unit {
   }
 
   finalPath(modules){
-    if (typeof modules === "string") {
-      // modules = [modules];
-      return [];
-    }
     let final_paths = [];
     for (let module of modules) {
       if(this.isURL(module)){
