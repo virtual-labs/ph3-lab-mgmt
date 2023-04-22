@@ -56,6 +56,7 @@ const argv = require("yargs")(process.argv.slice(2))
     "schema-map": "s",
     all: "a",
     debug: "d",
+    contentTypes: "c",
   }).argv;
 
 let validateSchema = (input = "1", schema = "1") => {
@@ -82,6 +83,7 @@ let validateSchema = (input = "1", schema = "1") => {
 module.exports.validateSchema = validateSchema;
 
 const validateArguments = () => {
+  let contentType = argv.c;
   for (let i in argv.files) {
     try {
       let filename = path.basename(argv.files[i]);
@@ -90,7 +92,14 @@ const validateArguments = () => {
         console.log(filepath);
         throw new Error("File does not exist");
       }
-      let schema = schemaMap[filename];
+      // check if filename is in schema map
+      let schema
+      if (!schemaMap[filename]) {
+        schema = schemaMap[contentType];
+      }
+      else {
+        schema = schemaMap[filename];
+      }
       if (argv.s) {
         schema = path.resolve(argv.s);
       }

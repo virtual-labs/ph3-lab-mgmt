@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const {renderMarkdown} = require("./renderMarkdown");
+const { renderMarkdown } = require("./renderer.js");
 const process = require("process");
 const shell = require("shelljs");
 
@@ -14,6 +14,23 @@ const {
   PluginScope,
 } = require("./Enums.js");
 const { Plugin } = require("./plugin");
+const log = require("./Logger");
+
+function getAssessmentPath(src, units) {
+  let assessmentPath = [];
+  units.forEach((unit) => {
+    if (unit["unit-type"] === "lu") {
+      const nextSrc = path.resolve(src, unit.basedir);
+      let paths = getAssessmentPath(nextSrc, unit.units);
+      assessmentPath.push(...paths);
+    }
+    if (unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT) {
+      const quiz = path.resolve(src, unit.source);
+      assessmentPath.push(quiz);
+    }
+  });
+  return assessmentPath;
+}
 
 class Experiment {
   constructor(src) {
@@ -21,25 +38,22 @@ class Experiment {
     this.descriptor = require(Experiment.descriptorPath(src));
   }
 
-  static ui_template_path = path.resolve(Config.Experiment.ui_template_name);
+  static ui_template_path = path.resolve(
+    __dirname,
+    Config.Experiment.ui_template_name
+  );
 
   static static_content_path = path.resolve(
+    __dirname,
     Config.Experiment.static_content_dir
   );
 
   static descriptorPath(src) {
-    return path.resolve(src, `${Config.Experiment.descriptor_name}.json`);
+    return path.resolve(src, Config.Experiment.descriptor_name);
   }
 
   static contributorsPath(src) {
-    return path.resolve(`${src}/experiment`, 'contributors.md');
-  }
-
-  clean() {
-    const bp = path.resolve(this.src, Config.Experiment.build_dir);
-    if (shell.test("-d", bp)) {
-      shell.rm("-rf", bp);
-    }
+    return path.resolve(`${src}/experiment`, "contributors.md");
   }
 
   static registerPartials(hb) {
@@ -57,48 +71,89 @@ class Experiment {
 
   init(hb) {
     try {
+      log.debug("Initializing experiment");
       const bp = Config.build_path(this.src);
       shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
       shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
 
-      // Copy the Katex CSS and fonts to the build directory in katex_assets
-      shell.mkdir(path.resolve(bp, "katex_assets"));
+      // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
+      log.debug("Moving Katex assets");
+      shell.mkdir(path.resolve(bp, "assets", "katex_assets"));
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "katex.min.css"),
-        path.resolve(bp, "katex_assets")
+        path.resolve(bp, "assets", "katex_assets")
       );
       shell.cp(
         "-R",
         path.resolve("node_modules", "katex", "dist", "fonts"),
-        path.resolve(bp, "katex_assets")
+        path.resolve(bp, "assets", "katex_assets")
       );
 
-      
+      log.debug("Moving feedback file");
       shell.cp(
         "-R",
         path.resolve(Experiment.static_content_path, "feedback.md"),
         bp
       );
+
+      log.debug("Linking with Handlebars");
       Experiment.registerPartials(hb);
     } catch (e) {
-      console.error(e);
+      log.error("Error initializing experiment", e);
+      log.error("Exiting Build Process");
       process.exit();
     }
   }
 
+  validate(build_options) {
+    log.debug("Validating experiment");
+    const buildPath = Config.build_path(this.src);
+    const expPath = path.resolve(this.src, Config.Experiment.exp_dir);
+    if (build_options.isESLINT) {
+      try {
+        log.debug("Validating with eslint");
+        shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${expPath} > ${buildPath}/eslint.log`);
+      } catch (e) {
+        log.error("Error validating with eslint", e);
+      }
+    }
+    if (build_options.isExpDesc) {
+      const descriptorPath = Experiment.descriptorPath(this.src);
+      const descriptor = require(descriptorPath);
+      try {
+      log.debug("Validating experiment descriptor");
+      shell.exec(`node ${__dirname}/validation/validate.js -f ${descriptorPath} >> ${buildPath}/validate.log`);
+      } catch (e) {
+        log.error("Error validating experiment descriptor", e);
+      }
+      // loop through the units and validate the content
+      try {
+      log.debug("Validating Assessment files");
+      const assessmentPath = getAssessmentPath(expPath, descriptor.units);
+      assessmentPath.forEach((file) => {
+        if (fs.existsSync(file)) {
+          // trim ep from file
+          const fileName = file.replace(expPath, "");
+          shell.exec(`echo =${fileName} >> ${buildPath}/assesment.log`);
+          shell.exec(
+            `node ${__dirname}/validation/validate.js -f ${file} -c assessment >> ${buildPath}/assesment.log`
+          );
+        } else {
+          log.error(`Assessment file ${path} does not exist`);
+        }
+      });
+      } catch (e) {
+        log.error("Error validating Assessment files", e);
+      }
+    }
+  }
   name() {
     const name_file = fs.readFileSync(
       path.resolve(Config.build_path(this.src), "experiment-name.md")
     );
-     return renderMarkdown(name_file.toString());
-  }
-
-  prebuild() {
-    const bp = Config.build_path(this.src);
-    shell.exec(`npx eslint -c ./.eslintrc.js ../experiment > ${bp}/eslint.log`);
-    shell.exec(`node ./validation/validate.js -f ../experiment-descriptor.json > ${bp}/validate.log`);
+    return renderMarkdown(name_file.toString());
   }
 
   build(hb, lab_data, options) {
@@ -106,24 +161,28 @@ class Experiment {
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
     */
-    const explu = LearningUnit.fromRecord(this.descriptor, this.src);
-    const exp_info = {
-      name: this.name(),
-      menu: explu.units,
-      src: this.src,
-      bp : Config.build_path(this.src) + "/",
+   log.debug(`Building experiment`);
+   const explu = LearningUnit.fromRecord(this.descriptor, this.src);
+   const exp_info = {
+     name: this.name(),
+     menu: explu.units,
+     src: this.src,
+     bp: Config.build_path(this.src) + "/",
     };
 
-    exp_info.plugins = Plugin.processExpScopePlugins(
-      exp_info,
-      hb,
-      lab_data,
-      options
-    );
-
+    if (options.plugins) {
+      exp_info.plugins = Plugin.processExpScopePlugins(
+        exp_info,
+        hb,
+        lab_data,
+        options
+      );
+    }
     explu.build(exp_info, lab_data, options);
     // post build
-    Plugin.processPostBuildPlugins(exp_info, options);
+    if (options.plugins) {
+      Plugin.processPostBuildPlugins(exp_info, options);
+    }
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should

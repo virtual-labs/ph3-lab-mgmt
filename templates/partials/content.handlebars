@@ -26,7 +26,7 @@
       </iframe>
     </div>
   {{/if}}
-  {{#if isAssesment}}
+  {{#if isAssessment}}
     {{#if isJsVersion }}
       <div id="quiz"></div>
     {{/if}}
@@ -104,7 +104,7 @@
       <div id="results"></div>
   {{/if}}
 </div>
-{{#if isAssesment}}
+{{#if isAssessment}}
   {{#if isJsVersion }}
     <script src="{{quiz_src}}"></script>
   {{/if}}
@@ -114,9 +114,9 @@
     const myQuestions = {{{questions_str}}};
   </script>
   {{#if isJsonVersion2 }}
-    <script src="{{assets_path}}/assets/js/assesment_v2.js"></script>  
+    <script src="{{assets_path}}/assets/js/assessment_v2.js"></script>  
   {{else}}
-    <script src="{{assets_path}}/assets/js/assesment.js"></script>  
+    <script src="{{assets_path}}/assets/js/assessment.js"></script>  
   {{/if}}
   {{/if}}
 {{/if}}

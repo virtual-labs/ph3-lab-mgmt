@@ -9,6 +9,7 @@ const ContentTypes = {
   VIDEO: "video",
   SIMULATION: "simulation",
   ASSESMENT: "assesment",
+  ASSESSMENT: "assessment",
 };
 
 const BuildEnvs = {

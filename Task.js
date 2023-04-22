@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const {renderMarkdown} = require("./renderMarkdown");
+const { renderJSON, renderMarkdown } = require("./renderer.js");
 const process = require("process");
 const Handlebars = require("handlebars");
 const shell = require("shelljs");
@@ -21,6 +21,8 @@ const {
 const { NONAME } = require("dns");
 const { Plugin } = require("./plugin");
 
+const log = require("./Logger");
+
 class Task extends Unit {
   constructor(
     unit_type,
@@ -30,6 +32,8 @@ class Task extends Unit {
     basedir,
     source,
     target,
+    js_modules,
+    css_modules,
     lu
   ) {
     super(unit_type, label, exp_path, basedir);
@@ -37,6 +41,8 @@ class Task extends Unit {
     this.content_type = validContentType(content_type);
     this.source = source;
     this.target = target;
+    this.js_modules = js_modules || [];
+    this.css_modules = css_modules || [];
   }
 
   static unit_type = UnitTypes.TASK;
@@ -50,6 +56,8 @@ class Task extends Unit {
       t["basedir"],
       t["source"],
       t["target"],
+      t["js_modules"],
+      t["css_modules"],
       lu
     );
   }
@@ -102,6 +110,42 @@ class Task extends Unit {
     );
   }
 
+  isURL(source) {
+    try {
+      new URL(source);
+      return true;
+    } catch (e) {
+      log.debug(`${source} is not a valid URL`);
+      return false;
+    }
+  }
+
+  finalPath(modules){
+    let final_paths = [];
+    for (let module of modules) {
+      if(this.isURL(module)){
+        log.debug(`${module} is a valid URL`);
+        final_paths.push(module);
+        continue;
+      }
+
+      const absolute_path = path.resolve(
+        path.join(Config.build_path(this.exp_path), this.basedir, module)
+      );
+      // check if the file exists
+      if(fs.existsSync(absolute_path)){
+        log.debug(`${absolute_path} is found successfully`)
+        final_paths.push(
+          path.relative(path.dirname(this.targetPath()), absolute_path)
+        );
+      }
+      else{
+        log.error(`${absolute_path} does not exist`)
+      }
+    }
+    return final_paths;
+  }
+  
   buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(
       path.dirname(this.targetPath()),
@@ -132,8 +176,10 @@ class Task extends Unit {
       isText: false,
       isVideo: false,
       isSimulation: false,
-      isAssesment: false,
+      isAssessment: false,
       assets_path: assets_path,
+      js_modules: this.finalPath(this.js_modules),
+      css_modules: this.finalPath(this.css_modules),
       lab_data: lab_data,
       exp_info: exp_info,
       lab: lab_data.lab,
@@ -196,22 +242,25 @@ class Task extends Unit {
         fs.writeFileSync(path.resolve(this.sourcePath()), content);
         break;
 
+      case ContentTypes.ASSESSMENT:
       case ContentTypes.ASSESMENT:
-        page_data.isAssesment = true;
+        page_data.isAssessment = true;
 
         if (shell.test("-f", this.sourcePath())) {
-          page_data.questions = require(this.sourcePath());
-          if (page_data.questions.version) {
+          let JSONdata = require(this.sourcePath());
+          let version = JSONdata.version;
+          JSONdata = renderJSON(JSON.stringify(JSONdata));
+          if (version) {
             /**
              * The below condition will only work if the version in the json is either 2 or 2.0, for any update in version
              * it needs to be changed here accordingly
              */
-            if (page_data.questions.version == 2) {
-              page_data.isJsonVersion2 = page_data.questions.version;
+            if (version == 2) {
+              page_data.isJsonVersion2 = true;
             }
-            page_data.questions = page_data.questions.questions;
+            page_data.questions = JSON.parse(JSONdata).questions;
           }
-          page_data.questions_str = JSON.stringify(page_data.questions);
+          page_data.questions_str = JSON.stringify(JSON.parse(JSONdata).questions);
           page_data.isJsonVersion = true;
         } else {
           const jsonpath = this.sourcePath();
@@ -224,7 +273,7 @@ class Task extends Unit {
             page_data.quiz_src = path.basename(jspath);
             page_data.isJsVersion = true;
           } else {
-            console.log(`${jspath} is missing`);
+            log.error(`${jsonpath} is missing`);
             process.exit(-1);
           }
         }
@@ -233,6 +282,7 @@ class Task extends Unit {
 
     const page_template = fs.readFileSync(
       path.resolve(
+        __dirname,
         Config.Experiment.ui_template_name,
         "pages",
         "content.handlebars"
@@ -245,13 +295,15 @@ class Task extends Unit {
         Handlebars.compile(page_template.toString())(page_data)
       );
     } catch (e) {
-      console.error(e.message);
+      log.error(e);
     }
   }
 
   build(exp_info, lab_data, options) {
+    log.debug(`Building TASK ${this.label}...`);
     this.buildPage(exp_info, lab_data, options);
     Plugin.processPageScopePlugins(this, options);
+    log.debug(`Finished building TASK ${this.label}`);
   }
 }
 

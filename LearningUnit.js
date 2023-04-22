@@ -10,6 +10,7 @@ const {Task} = require("./Task.js");
 const {Aim} = require("./Aim.js");
 
 const {UnitTypes, ContentTypes, validType, validContentType} = require("./Enums.js");
+const log = require("./Logger");
 
 class LearningUnit extends Unit {
   constructor(
@@ -71,11 +72,13 @@ class LearningUnit extends Unit {
 
 
   build(exp_info, lab_data, options) {
+    log.debug(`Building LU ${this.label}`);
     if (this.units.length > 0) {
       this.units.forEach(u => {
 	u.build(exp_info, lab_data, options);
       });
     }
+    log.debug(`Finished building LU ${this.label}`);
   }
 }
 

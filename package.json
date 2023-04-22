@@ -1,19 +1,28 @@
 {
-  "name": "labgen",
-  "version": "1.0.0",
+  "name": "@virtual-labs/buildexp",
+  "version": "1.0.2",
+  "bin": {
+    "buildexp": "main.js"
+  },
   "dependencies": {
+    "@babel/cli": "^7.12.16",
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@types/shelljs": "^0.8.8",
     "ajv": "^8.6.0",
     "ajv-formats": "^2.1.1",
     "ajv-errors": "^3.0.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
+    "eslint": "^8.18.0",
+    "eslint-plugin-only-warn": "^1.0.3",
     "figures": "^3.2.0",
     "fs-extra": "^9.0.0",
     "glob": "7.1.6",
     "googleapis": "^67.0.0",
     "handlebars": "^4.7.6",
     "html-to-text": "^8.0.0",
+    "http-server": "^14.1.1",
     "jsdom": "^16.4.0",
     "katex": "^0.16.3",
     "marked": "^2.0.0",
@@ -23,27 +32,35 @@
     "rsync": "^0.6.1",
     "shelljs": "^0.8.4",
     "simple-git": "^2.31.0",
+    "winston": "^3.8.2",
     "yargs": "^17.0.1"
   },
-  "description": "",
+  "description": "* Introduction",
   "main": "main.js",
   "scripts": {
-    "labgen": "node main.js",
+    "labgen": "node labGen.js",
     "validate-lab-descriptor": "node validateDescriptor.js",
-    "validate-schema": "node validation/validate.js",
-    "build-ds-exp": "node exp.js --env=testing ../",
-    "build-exp": "node exp.js --env=testing ../",
-    "clean": "rm -rf plugins",
-    "lint": "npx eslint -c ./.eslintrc.js ../experiment"
+    "build-exp": "node main.js build --validateEslint --validateExpdesc --src=../",
+    "clean-build-exp": "node main.js build --clean --validateEslint --validateExpdesc --src=../",
+    "build-exp-deploy": "node main.js build --validateEslint --validateExpdesc --deploy --src=../",
+    "build-exp-noplugin": "node main.js build --validateEslint --validateExpdesc --disablePlugin --src=../",
+    "build-exp-novalidate": "node main.js build  --src=../",
+    "clean": "node main.js clean --src=../",
+    "validate": "node main.js validate --eslint --expdesc --src=../",
+    "deploy": "node main.js deploy --src=../"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.12.16",
-    "@babel/core": "^7.12.16",
-    "@babel/plugin-proposal-class-properties": "^7.12.13",
-    "eslint": "^8.18.0",
-    "eslint-plugin-only-warn": "^1.0.3"
-  }
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtual-labs/ph3-lab-mgmt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/virtual-labs/ph3-lab-mgmt/issues"
+  },
+  "homepage": "https://github.com/virtual-labs/ph3-lab-mgmt#readme"
 }

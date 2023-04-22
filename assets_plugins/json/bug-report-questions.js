@@ -8,6 +8,11 @@ const issues = {
     "Incorrect Answer",
     "Incorrect Question",
   ],
+  [ContentTypes.ASSESSMENT]: [
+    "Incorrect Options",
+    "Incorrect Answer",
+    "Incorrect Question",
+  ],
   [ContentTypes.SIMULATION]: [
     "Simulation Not Working",
     "Incorrect Results/Observations",
