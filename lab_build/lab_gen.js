@@ -4,7 +4,7 @@ const fs = require("fs");
 const glob = require("glob");
 const { nextVersion } = require("./tags.js");
 const { loadExperiments, expList } = require("./exp_utils");
-const {validateLabDescriptor} = require("../validation/validate_descriptor.js")
+const { validateLabDescriptor } = require("../validation/validate_descriptor.js")
 const config = require("./lab_config.json");
 const log = require("../logger.js");
 const {
@@ -54,8 +54,8 @@ function generateLab(labpath) {
   buildLabPages(config.pages, labpath, template_file, component_files);
 }
 
-function deployLab(labpath) {
-  const config = require("./labConfig.json");
+function moveToDeployDir(labpath) {
+  const config = require("./lab_config.json");
   const deployment_dest = config["deployment_dest"];
   const lab_descriptor = require(path.resolve(labpath, "lab-descriptor.json"));
   const lab_dir_name = toDirName(lab_descriptor.lab);
@@ -96,44 +96,35 @@ function deployLab(labpath) {
   );
 }
 
-function buildLab(labpath, release_type) {
-  // convert to absolute path
-  labpath = path.resolve(labpath);
-  // console.log(chalk`{bold Lab Path} ${labpath}`);
-  log.info(`Building lab at ${labpath}`);
-  log.info(`Release: ${release_type}`);
+function validation(labpath){
+  const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
 
-  // Generate lab
-  // Check if labpath is valid
+  log.info("Validating lab descriptor");
+  const isValid = validateLabDescriptor(lab_descriptor_path);
+  if (!isValid) {
+    log.error("Lab descriptor is invalid");
+    return false;
+  }
+  log.info("Lab descriptor is valid");
+  return true;
+}
+
+function deployLab(labpath, release_type) {
+  log.info(`Release: ${release_type}`);
   if (!fs.existsSync(labpath)) {
     // console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
     log.error(`Invalid Lab Path '${labpath}'`);
   } else {
-    
-    const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
-
-    log.info("Validating lab descriptor");
-    const isValid = validateLabDescriptor(lab_descriptor_path);
-    if (!isValid) {
-      log.error("Lab descriptor is invalid");
-      return;
-    }
-    log.info("Lab descriptor is valid");
-    // 1 : Build all lab pages by rendering templates and loading components
-    log.info("Generating lab pages");
-    generateLab(labpath);
-    // 2 : Load all experiments in the lab (Clone, build, and stage)
-    log.info("Loading all experiments");
-    loadExperiments(labpath);
     // 3 : Stage the lab
+    const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
     log.info("Staging lab");
     stageLab(
       `${labpath}/build/*`,
       path.resolve("/var/www/html/stage", getLabName(lab_descriptor_path))
     );
     // 4 : Move all staged experiments to the deployment directory (/var/www/html/)
-    log.info("Deploying lab");
-    deployLab(labpath);
+    log.info("Moving lab to deployment directory");
+    moveToDeployDir(labpath);
     // 5 : Update lab version in lab-descriptor.json
     // Get next version number
     const newVersion = nextVersion(labpath, release_type);
@@ -146,10 +137,31 @@ function buildLab(labpath, release_type) {
     log.info(`Releasing Version ${newVersion}`);
     releaseLab(labpath, newVersion);
 
+    log.info("Lab Deploy complete");
+  }
+}
+
+function buildLab(labpath) {
+  log.info(`Building lab at ${labpath}`);
+
+  // Generate lab
+  // Check if labpath is valid
+  if (!fs.existsSync(labpath)) {
+    // console.error(chalk`{red Invalid Lab Path} '${labpath}'`);
+    log.error(`Invalid Lab Path '${labpath}'`);
+  } else {
+    // 1 : Build all lab pages by rendering templates and loading components
+    log.info("Generating lab pages");
+    generateLab(labpath);
+    // 2 : Load all experiments in the lab (Clone, build, and stage)
+    log.info("Loading all experiments");
+    loadExperiments(labpath);
     log.info("Lab build complete");
   }
 }
 
 module.exports = {
   buildLab,
+  deployLab,
+  validation
 };

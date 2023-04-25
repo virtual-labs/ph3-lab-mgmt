@@ -7,7 +7,7 @@ const minimist = require("minimist");
 const Config = require("./config.js");
 const path = require("path");
 const log = require("./logger");
-const {buildLab} = require("./lab_build/lab_gen.js");
+const {buildLab, deployLab,validation} = require("./lab_build/lab_gen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
@@ -212,6 +212,9 @@ function main() {
     return;
   }
 
+  let release = args.release || "minor";
+  let labpath = "";
+
   switch (option) {
     case "build":
       let isClean = args.clean || false;
@@ -258,11 +261,29 @@ function main() {
       break;
 
     case "buildLab":
-      let release = args.release || "minor";
       log.info("Calling buildLab");
-      buildLab(src, release);
-      log.info("BuildLab Complete");
+      labpath = path.resolve(src);
+      if(validation(labpath)){
+        buildLab(labpath);
+        log.info("BuildLab Complete");
+        if(args.deploy)
+        {
+          log.info("Calling deploy Lab");
+
+          deployLab(labpath, release);
+          log.info("Deploy Lab Complete");
+        }
+      }
       break;
+    
+    case "deployLab":
+      log.info("Calling deploy Lab");
+      labpath = path.resolve(src);
+      if(validation){
+        deployLab(src, release);
+        log.info("Deploy Lab Complete");
+        break;
+      }
 
     default:
       log.error("Invalid Arguments");

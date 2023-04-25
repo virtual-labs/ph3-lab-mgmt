@@ -74,7 +74,7 @@ function loadExperiments(labpath) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
   const lab_descriptor = require(ldpath);
 
-  const config = require("./labConfig.json");
+  const config = require("./lab_config.json");
   const exp_dir = config["exp_dir"];
   const deployment_dest = config["deployment_dest"];
   const lab_dir_name = toDirName(lab_descriptor.lab);
