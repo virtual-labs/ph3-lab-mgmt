@@ -1,0 +1,21 @@
+{{#if production  }}
+  
+  <div class="row py-4 px-4 breadcrumbs">
+    <a href="{{broadArea.link}}">
+      {{broadArea.name}}               
+    </a>
+    <span class="mx-2">
+      <i aria-hidden="true" class="fa fa-angle-right"></i>
+    </span>
+    <a href="https://{{baseUrl}}"> 
+    {{lab_display_name}}
+    </a>
+    <span class="mx-2">
+      <i aria-hidden="true" class="fa fa-angle-right"></i>
+    </span>
+    <a href="https://{{baseUrl}}/List of experiments.html">
+    Experiments
+    </a>
+  </div>
+  
+{{/if }}

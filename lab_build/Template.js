@@ -3,7 +3,7 @@ const Handlebars = require("handlebars");
 const { JSDOM } = require("jsdom");
 const fs = require("fs");
 const path = require("path");
-const log = require("../Logger.js");
+const log = require("../logger.js");
 
 function loadComponents(component_files) {
   const components = component_files.map((fn) =>

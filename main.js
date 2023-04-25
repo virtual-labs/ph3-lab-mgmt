@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const shell = require("shelljs");
-const { BuildEnvs, validBuildEnv } = require("./Enums.js");
-const { run } = require("./expGen.js");
+const { BuildEnvs, validBuildEnv } = require("./enums.js");
+const { run } = require("./exp_build/exp_gen.js");
 const minimist = require("minimist");
-const Config = require("./Config.js");
+const Config = require("./config.js");
 const path = require("path");
-const log = require("./Logger");
-const {buildLab} = require("./lab_build/lab-gen.js");
+const log = require("./logger");
+const {buildLab} = require("./lab_build/lab_gen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 

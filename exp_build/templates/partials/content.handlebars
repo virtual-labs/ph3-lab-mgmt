@@ -1,0 +1,122 @@
+{{#if isSimulation}}
+<div class="vlabs-page-content pb-4 flex-grow-1 markdown-body">
+  <div class="text-center px-5 fix-spacing">
+    {{{experiment_name}}}
+  </div>
+{{else}}
+<div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
+  <div class="text-center fix-spacing">
+    {{{experiment_name}}}
+  </div>
+{{/if}}
+  {{#if isText}}
+    {{{content}}}
+  {{/if}}
+  {{#if isVideo}}
+    {{{content}}}
+  {{/if}}
+  {{#if isSimulation}}
+    <div class="simulation-container">
+      <button type="button" id="toggle-menu-float-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popupMenu">
+        <div class="toggle-menu-icon"></div>
+      </button>
+      {{> simulation_header }}
+      <iframe class="responsive-iframe" id="fraDisabled" src="{{sim_src}}"
+	      frameborder="0" onMyLoad="disableContextMenu();">
+      </iframe>
+    </div>
+  {{/if}}
+  {{#if isAssessment}}
+    {{#if isJsVersion }}
+      <div id="quiz"></div>
+    {{/if}}
+    {{#if isJsonVersion }}
+      {{#if isJsonVersion2 }}
+        <div id="difficulty-container" style="border-bottom: 1px solid #eaecef; padding-bottom: .3em; margin: 0" class="row">
+          <div id="difficulty-label" class="col-12 col-md-3" style="display:none"><strong>Choose difficulty: </strong></div>
+          <div class="form-check col-12 col-md-3" style="display:none">
+            <input id="beginner"  type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Beginner</strong>
+            </label>
+          </div>
+          <div class="form-check col-12 col-md-3"  style="display:none">
+            <input id="intermediate" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Intermediate</strong>
+            </label>
+          </div>
+          <div class="form-check col-12 col-md-3" style="display:none">
+            <input id="advanced" type="checkbox" value=""  id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              <strong>Advanced</strong>
+            </label>
+          </div>
+        </div>
+        
+        <div id="quiz" class="version{{isJsonVersion2}}" style="margin-top: 1rem">
+      
+      {{#each questions}}
+      
+        <div class="question {{this.difficulty}}">
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+          <div id="answer{{@../index}}{{@key}}">
+            <label>
+              <input type="radio" name="question{{@../index}}" value="{{@key}}">
+              {{@key}}: {{{this}}}
+            </label>
+            <a href="#" id="explanation{{@../index}}{{@key}}" class="accordion" onclick="return false;">Explanation</a>
+          </div>
+          <p class="panel">Explanation</p>
+          {{/each}}
+      </div>
+      {{/each}}
+     </div>
+    {{else}}
+    <div id="quiz">
+      
+      {{#each questions}}
+      
+        <div class="question">
+          {{{this.question}}}
+        </div>
+        
+        <div class="answers">
+          {{#each this.answers}}
+    <label>
+      <input type="radio" name="question{{@../index}}" value="{{@key}}">
+            {{@key}}: {{{this}}}
+          </label>
+            
+    {{/each}}
+        </div>
+        
+      {{/each}}
+      
+      </div>  
+    {{/if}}
+    {{/if}}
+      <button id="submit" class="btn btn-primary">Submit Quiz</button>
+      <div id="results"></div>
+  {{/if}}
+</div>
+{{#if isAssessment}}
+  {{#if isJsVersion }}
+    <script src="{{quiz_src}}"></script>
+  {{/if}}
+  
+  {{#if isJsonVersion }}
+  <script>
+    const myQuestions = {{{questions_str}}};
+  </script>
+  {{#if isJsonVersion2 }}
+    <script src="{{assets_path}}/assets/js/assessment_v2.js"></script>  
+  {{else}}
+    <script src="{{assets_path}}/assets/js/assessment.js"></script>  
+  {{/if}}
+  {{/if}}
+{{/if}}
