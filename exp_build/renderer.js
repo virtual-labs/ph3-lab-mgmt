@@ -7,18 +7,17 @@ const args = require("minimist")(process.argv.slice(2));
 const log = require("../logger.js");
 
 
-let src = "../";
-
-let LaTeXinMD = false;
-let expressions = [];
-
-if (args._.length === 1) {
-  src = path.resolve(args._[0]);
+let src = ".";
+if(args.src)
+{
+  src = args.src;
 }
 
+let LaTeXinMD = true;
+let expressions = [];
 let descriptorPath = path.resolve(
   src,
-  `${Config.Experiment.descriptor_name}.json`
+  `${Config.Experiment.descriptor_name}`
 );
 
 if (!shell.test("-f", descriptorPath)) {
