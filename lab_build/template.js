@@ -7,7 +7,7 @@ const log = require("../logger.js");
 
 function loadComponents(component_files) {
   const components = component_files.map((fn) =>
-    fs.readFileSync(`${__dirname}/page-components/${fn}`, "utf-8")
+    fs.readFileSync(path.resolve(__dirname,"page-components",fn), "utf-8")
   );
   return components;
 }
@@ -54,7 +54,8 @@ function populateTemplate(template, components, content) {
 function buildPage(template_file, component_files, content_file) {
   const main_template = fs.readFileSync(template_file, "utf-8");
   const components = loadComponents(component_files);
-  const content = fs.readFileSync(`${__dirname}/page-components/${content_file}`, "utf-8");
+  const contentPath = path.resolve(__dirname, "page-components", content_file);
+  const content = fs.readFileSync(contentPath, "utf-8");
   const res_html = populateTemplate(main_template, components, content);
   return res_html;
 }
@@ -65,7 +66,8 @@ function renderTemplate(fn, data) {
   const base = path.parse(fn).name;
 
   html = Handlebars.compile(template)(data);
-  fs.writeFileSync(`${__dirname}/page-components/${base}.html`, html, "utf-8");
+  const basePath = path.resolve(__dirname, "page-components", `${base}.html`);
+  fs.writeFileSync(basePath, html, "utf-8");
 }
 
 module.exports = {
