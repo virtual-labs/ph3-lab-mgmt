@@ -72,6 +72,11 @@ function build_path(src) {
   return path.resolve(src, Experiment.build_dir, path.basename(path.resolve(src)));
 }
 
+function assets_path() {
+  return path.resolve(__dirname, "assets");
+}
+
 module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
+module.exports.assets_path = assets_path;

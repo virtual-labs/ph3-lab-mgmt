@@ -75,7 +75,7 @@ class Experiment {
       const bp = Config.build_path(this.src);
       shell.mkdir(path.resolve(this.src, Config.Experiment.build_dir));
       shell.cp("-R", path.resolve(this.src, Config.Experiment.exp_dir), bp);
-      shell.cp("-R", path.resolve(Experiment.ui_template_path, "assets"), bp);
+      shell.cp("-R", Config.assets_path(), bp);
 
       // Copy the Katex CSS and fonts to the build directory in assets/katex_assets
       log.debug("Moving Katex assets");

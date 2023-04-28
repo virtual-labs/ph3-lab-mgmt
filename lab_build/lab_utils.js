@@ -6,6 +6,7 @@ const prettier = require("prettier");
 const { buildPage } = require("./template.js");
 const moment = require("moment");
 const log = require("../logger.js");
+const Config = require("../config.js");
 
 shell.config.silent = true;
 
@@ -73,7 +74,7 @@ function prepareStructure(labpath) {
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
-    path.resolve("../templates/assets/*"),
+    path.resolve(Config.assets_path(),"*"),
     path.resolve(labpath, "build")
   );
 }
