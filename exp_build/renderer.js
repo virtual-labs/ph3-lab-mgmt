@@ -11,6 +11,7 @@ let src = ".";
 if(args.src)
 {
   src = args.src;
+  src = path.resolve(Config.PROJECT_ROOT, src);
 }
 
 let LaTeXinMD = true;

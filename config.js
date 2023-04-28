@@ -61,6 +61,8 @@ const Experiment = {
   ]
 };
 
+const PROJECT_ROOT = path.resolve(__dirname);
+
 
 /*
 Experiment build path
@@ -80,3 +82,4 @@ module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
 module.exports.assets_path = assets_path;
+module.exports.PROJECT_ROOT = PROJECT_ROOT;
