@@ -71,7 +71,7 @@ function build(
     default_lab_data.lab_display_name = "Virtual Lab Display Name";
     default_lab_data.broadArea = { name: "Test" };
   } else {
-    console.log("No match found");
+    log.error("No match found");
   }
 
   if (isPlugin) {
@@ -82,7 +82,7 @@ function build(
   run(src, default_lab_data, build_options);
 
   if (isDeploy) {
-    console.log("Deploying locally");
+    log.debug("Deploying after building locally");
     deployLocal();
   }
 }
@@ -96,17 +96,16 @@ function validate(isESLINT, isExpDesc, src) {
   if (isESLINT) {
     try{
       log.debug("Validating with eslint");
-      shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`);
+      shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`, {silent:false});
     } catch (e) {
       log.error("Error validating with eslint", e);
     }
   }
   if (isExpDesc) {
-    console.log("Running Experiment Descriptor Validation");
     try{
       log.debug("Validating experiment descriptor");
       shell.exec(
-        `node ${__dirname}/validation/validate.js -f ${descriptorPath}`
+        `node ${__dirname}/validation/validate.js -f ${descriptorPath}`, {silent:false}
       );
     } catch (e) {
       log.error("Error validating experiment descriptor", e);
@@ -122,13 +121,13 @@ function validate(isESLINT, isExpDesc, src) {
           // trim ep from file
           const fileName = file.replace(ep,"");
           shell.exec(
-            `echo =${fileName}`
+            `echo =${fileName}`, {silent:false}
           );
           shell.exec(
-            `node ${__dirname}/validation/validate.js -f ${file} -c assessment`
+            `node ${__dirname}/validation/validate.js -f ${file} -c assessment`, {silent:false}
           );
         }else{
-          console.error(`Assessment file ${path} does not exist`);
+          log.error(`Assessment file ${path} does not exist`);
         }
       });
     } catch (e) {
