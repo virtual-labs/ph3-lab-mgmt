@@ -23,7 +23,7 @@
     "handlebars": "^4.7.6",
     "html-to-text": "^8.0.0",
     "http-server": "^14.1.1",
-    "jsdom": "^16.4.0",
+    "jsdom": "^16.7.0",
     "katex": "^0.16.3",
     "marked": "^2.0.0",
     "minimist": "^1.2.5",
