@@ -1,0 +1,49 @@
+{
+    "commonComponents" : [ 
+		"head.html",
+		"lab-name.html",    	    	
+		"broad-area.html",
+		"sidebar.html"		
+    ],
+    "pages" : [
+	{
+	    "src": "introduction-ctnt.html",
+	    "target": "Introduction.html",
+	    "label": "Introduction"
+	    
+	},
+	{
+	    "src": "objective-ctnt.html",
+	    "target": "Objective.html",
+	    "label": "Objective"
+	},
+	{
+	    "src": "list-of-experiments-ctnt.html",
+	    "target": "List of experiments.html",
+	    "label": "List of experiments"
+	},
+	{
+	    "src": "nested-list-of-experiments-ctnt.html",
+	    "target": "List of experiments.html",
+	    "label": "List of experiments"
+	},
+	{
+	    "src": "target-audience-ctnt.html",
+	    "target": "Target Audience.html",
+	    "label": "Target Audience"
+	},
+	{
+	    "src": "course-alignment-ctnt.html",
+	    "target": "Course Alignment.html",
+	    "label": "Course Alignment"
+	},
+	{
+	    "src": "feedback-ctnt.html",
+	    "target": "Feedback.html",
+	    "label": "Feedback"
+	}
+    ],
+    "exp_dir" : "exprepos",
+    "common_repo_name" : "content-html",
+    "deployment_dest" : "/var/www/html"
+}

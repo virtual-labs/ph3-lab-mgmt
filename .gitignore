@@ -5,3 +5,5 @@ exprepos
 .vscode/*
 plugins/
 dist/
+*.log
+.npmrc

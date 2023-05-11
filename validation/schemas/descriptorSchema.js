@@ -50,7 +50,7 @@ module.exports = {
       properties: {
         "content-type": {
           type: "string",
-          enum: ["text", "assesment", "simulation", "video"],
+          enum: ["text", "assesment", "simulation", "video", "assessment"],
         },
         label: {
           type: "string",

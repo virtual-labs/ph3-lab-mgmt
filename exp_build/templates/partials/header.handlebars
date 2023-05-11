@@ -1,0 +1,30 @@
+<header class="vlabs-header sticky-top bg-white">
+  <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
+    
+    <button class="navbar-toggler px-4"
+    	    type="button" onclick="toggle()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="d-flex justify-content-center">        
+      <a href="https://vlab.co.in" class="navbar-brand">
+        <img src="{{assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+      </a>
+    </div>
+    
+    <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex align-items-center justify-content-end">
+      {{#if testing}}
+        <bug-report 
+            id="bug-report"
+            title="[BUG REPORT] {{ exp_name }}"
+            page-type="{{ content_type }}"
+            context-info="{{ bugreport_context_info }}"
+            checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
+            button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em;padding: 0.6em 1.2em; margin: 0 10px"
+            position="override"
+            custom_button_class="v-button"
+        ></bug-report>
+      {{/if}}
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,36 @@
+<header class="vlabs-header bg-white simulation-header p-0 navbar navbar-light d-flex align-items-center justify-content-start">
+    <div class="align-self-stretch d-flex expand-1 align-items-center">
+      <div class="dropdown align-self-stretch">
+        <button class="navbar-toggler px-4 h-100"
+              type="button" onclick="simulationHeaderToggle()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="backdrop vlabs-hidden">
+          <div class="nav-menu ">
+            {{> nav_menu_items }}
+          </div>
+        </div>
+      </div>
+      <a href="https://vlab.co.in" class="navbar-brand">
+        <img src="{{assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+      </a>
+    </div>
+
+    {{{experiment_name}}}
+
+    <div class="expand-1" style="display: flex; justify-content: flex-end;">
+      {{!-- For plugin buttons --}}
+      {{#if testing}}
+        <bug-report 
+            id="bug-report"
+            title="[BUG REPORT] Virtual Labs {{ exp_name }}"
+            page-type="{{ content_type }}"
+            context-info="{{ bugreport_context_info }}"
+            checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
+            button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em; padding: 0.6em 1.2em; margin: 0 10px"
+            position="override"
+            custom_button_class="v-button"
+        ></bug-report>
+      {{/if}}
+    </div>
+</header>

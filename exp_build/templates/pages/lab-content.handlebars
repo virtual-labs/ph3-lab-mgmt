@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> analytics_head }}
+    {{> meta }}
+    {{> commons }}
+    <style>
+      h1 {
+      font-size: 1.8rem;
+      }
+      h2 {
+      font-size: 1.4rem;
+      }
+      h3 {
+      font-size: 1.2rem;
+      }
+
+      h2, h3 {
+      font-weight: 800;
+      }
+    </style>
+  </head>
+  <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+    {{> analytics_body }}
+    
+    {{#if isSimulation}}
+      <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
+          {{> popup_menu }}
+          {{> content }}
+          {{> bug_report_mobile }}
+        </div>
+      </div>
+    {{else}}
+      {{> header }}
+      <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        {{> breadcrumbs }}
+        <div class="row flex-grow-1 px-4 d-flex flex-nowrap flex-column flex-lg-row">
+          {{> popup_menu }}
+          {{> side_menu }}
+          {{> content }}
+          {{> bug_report_mobile }}
+        </div>
+      </div>
+      {{> footer }}
+    {{/if}}
+  </body>
+</html>
