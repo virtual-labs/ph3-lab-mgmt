@@ -26,7 +26,7 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (e)=>{
           icon: 'success',
           iconColor: "white",
           background:"#a5dc86",
-          title: 'Bug Reported Succesfully',
+          title: 'Bug Reported Successfully',
         })
     }else{
         Toast.fire({
