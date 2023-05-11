@@ -2,7 +2,7 @@
   "name": "@virtual-labs/buildexp",
   "version": "1.0.2",
   "bin": {
-    "buildexp": "main.js"
+    "buildexp": "npm-wrapper.js"
   },
   "dependencies": {
     "@babel/cli": "^7.12.16",

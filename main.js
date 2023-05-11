@@ -83,7 +83,7 @@ function build(
 
   if (isDeploy) {
     log.debug("Deploying after building locally");
-    deployLocal();
+    deployLocal(src);
   }
 }
 
@@ -96,7 +96,7 @@ function validate(isESLINT, isExpDesc, src) {
   if (isESLINT) {
     try{
       log.debug("Validating with eslint");
-      shell.exec(`npx eslint -c ${__dirname}/.eslintrc.js ${ep}`, {silent:false});
+      shell.exec(`npx eslint -c ${__dirname}/exp_build/.eslintrc.js ${ep}`, {silent:false});
     } catch (e) {
       log.error("Error validating with eslint", e);
     }
@@ -278,7 +278,7 @@ function main() {
     case "deployLab":
       log.info("Calling deploy Lab");
       labpath = path.resolve(src);
-      if(validation){
+      if(validation(labpath)){
         deployLab(src, release);
         log.info("Deploy Lab Complete");
         break;
@@ -290,7 +290,17 @@ function main() {
   }
 }
 
-main();
+module.exports = {
+  build,
+  validate,
+  clean,
+  deployLocal
+}
+
+// call main function if this file is run directly
+if (require.main === module) {
+  main();
+}
 
 // Build - validate
 // node main.js build --validateEslint --validateExpdesc ../
