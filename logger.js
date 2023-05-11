@@ -38,10 +38,6 @@ module.exports.addInfo = function () {
   log.add(new winston.transports.Console({level: "info",format: combine(colorize({all: true}),timestamp(),vlabsDefaultFormat), handleExceptions: true}))
 }
 
-module.exports.addInfo = function () {
-  log.add(new winston.transports.Console({level: "info",format: combine(colorize({all: true}),timestamp(),myFormat), handleExceptions: true}))
-}
-
 module.exports.debug = module.exports.log = function () {
   log.debug.apply(log, formatLogArguments(arguments))
 }

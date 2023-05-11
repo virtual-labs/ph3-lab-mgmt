@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const shell = require("shelljs");
-const { BuildEnvs, validBuildEnv } = require("./enums.js");
+const { BuildEnvs, validBuildEnv, ContentTypes } = require("./enums.js");
 const { run } = require("./exp_build/exp_gen.js");
 const minimist = require("minimist");
 const Config = require("./config.js");
@@ -290,12 +290,6 @@ function main() {
   }
 }
 
-module.exports = {
-  build,
-  validate,
-  clean,
-  deployLocal
-}
 
 // call main function if this file is run directly
 if (require.main === module) {
@@ -318,3 +312,10 @@ if (require.main === module) {
 // node main.js clean ../
 // Deploy
 // node main.js deploy ../
+
+module.exports = {
+  build,
+  validate,
+  clean,
+  deployLocal
+}
