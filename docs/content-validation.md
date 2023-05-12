@@ -1,11 +1,11 @@
 ---
 title: "Content Validation"
-summary: "This document describes the how to use the tool for code and content validation."
+summary: "Tools for code and content validation"
+audience: "Experiment Developer"
 date: 2023-05-11T13:49:21.348Z
 tags: []
 phase: "Ext Phase 3"
-author: "Shreyash Jain and Aditya Malhotra" 
-audience: "Experiment Developer"
+author: ["Shreyash Jain","Aditya Malhotra"] 
 ---
 
 ## Introduction
