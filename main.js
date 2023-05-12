@@ -11,6 +11,59 @@ const {buildLab, deployLab,validation} = require("./lab_build/lab_gen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
+function helper() {
+  console.log("Usage: node main.js [mode] [options]");
+  console.log("Modes:");
+  console.log("  build                Build the experiment");
+  console.log("  validate             Validate the code and content");
+  console.log("  clean                Clean the build and plugins");
+  console.log("  deploy               Deploy the experiment locally");
+  console.log("  buildLab             Build the lab");
+  console.log("  deployLab            Deploy the lab locally");
+  console.log("\n");
+  console.log("Common Options:");
+  console.log("  --src       path to the experiment, default is parent directory");
+  console.log("  --debug     enable debug mode");
+  console.log("  --help      display help for command");
+  console.log("\n");
+  console.log("Mode: build");
+  console.log("Usage: build [options]");
+  console.log("Options:");
+  console.log("  --clean              clean build folder");
+  console.log("  --validateEslint     validate the code using eslint");
+  console.log("  --validateExpDesc    validate the experiment description and assessment files");
+  console.log("  --disablePlugin      disable the plugins");
+  console.log("  --deploy             deploy the experiment locally");
+  console.log("  --env                environment to build the experiment");
+  console.log("\n");
+  console.log("Mode: Validate");
+  console.log("Usage: validate [options]");
+  console.log("Options:");
+  console.log("  --validateEslint     validate the code using eslint");
+  console.log("  --validateExpDesc    validate the experiment description and assessment files");
+  console.log("\n");
+  console.log("Mode: clean");
+  console.log("Usage: clean"); 
+  console.log("\n");
+  console.log("Mode: deploy");
+  console.log("Usage: deploy");
+  console.log("\n");
+  console.log("Mode: buildLab");
+  console.log("Usage: buildLab [options]");
+  console.log("Options:");
+  console.log("  --src       path to the lab, default is parent directory");
+  console.log("  --deploy    deploy the lab locally");
+  console.log("  --release   release type of the lab, default is minor");
+  console.log("\n");
+  console.log("Mode: deployLab");
+  console.log("Usage: deployLab [options]");
+  console.log("Options:");
+  console.log("  --src       path to the lab, default is parent directory");
+  console.log("  --release   release type of the lab, default is minor");
+  console.log("\n");
+}
+
+
 function getAssessmentPath(src,units){
   let assessmentPath = [];
   units.forEach((unit) => {
@@ -177,6 +230,12 @@ function deployLocal(src) {
 function main() {
   const args = minimist(process.argv.slice(2));
 
+  // check for help flag
+  if (args.help) {
+    helper();
+    return;
+  }
+
   // for backwards compatibility if the env is not given assume it to
   // be testing.
   const build_options = {};
@@ -208,6 +267,8 @@ function main() {
     option = args._[0];
   } else {
     log.error("Invalid Arguments");
+    console.log("Invalid Arguments");
+    helper();
     return;
   }
 
@@ -286,6 +347,8 @@ function main() {
 
     default:
       log.error("Invalid Arguments");
+      console.log("Invalid Arguments");
+      helper();
       break;
   }
 }

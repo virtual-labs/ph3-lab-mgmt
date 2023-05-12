@@ -6,6 +6,23 @@ const { BuildEnvs, validBuildEnv } = require("./enums.js");
 const log = require("./logger");
 const path = require("path");
 
+function help(){
+    console.log("Usage: npx @virtual-labs/buildexp [command]");
+    console.log("Options:");
+    console.log("Commands:");
+    console.log("  build-exp            Build the experiment");
+    console.log("  build-exp-deploy     Build the experiment and deploy locally");
+    console.log("  build-exp-noplugin   Build the experiment without using any plugins");
+    console.log("  clean-build-exp      Clean and build the experiment");
+    console.log("  validate             Validate the code and content");
+    console.log("  clean                Clean the build and plugins");
+    console.log("  deploy               Deploy the experiment locally");
+    console.log("  build-lab            Build the lab");
+    console.log("  deploy-lab           Deploy the lab locally");
+    console.log("  build-and-deploy-lab Build and deploy the lab locally");
+    console.log("  help                 Display help for command");
+}
+
 function main() {
     // console.log("Vlabs Build Exp");
     const args = minimist(process.argv.slice(2));
@@ -39,6 +56,8 @@ function main() {
         option = args._[0];
     } else {
         log.error("Invalid Arguments");
+        console.log("Invalid Arguments");
+        help();
         return;
     }
 
@@ -221,8 +240,13 @@ function main() {
                 }
             }
             break;
+            
+        case "help":
+            help();
+            break;
         default:
             log.error("Invalid Arguments");
+            help();
             break;
     }
 }
