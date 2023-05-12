@@ -1,6 +1,6 @@
 {
   "name": "@virtual-labs/buildexp",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "bin": {
     "buildexp": "npm-wrapper.js"
   },
