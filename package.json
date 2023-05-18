@@ -33,7 +33,7 @@
     "shelljs": "^0.8.4",
     "simple-git": "^2.31.0",
     "winston": "^3.8.2",
-    "yargs": "^17.0.1"
+    "yargs": "^17.7.2"
   },
   "description": "* Introduction",
   "main": "main.js",
