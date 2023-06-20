@@ -83,14 +83,14 @@ class Task extends Unit {
       } else {
         u.isCurrentLU = u.units
           ? u.units.some((t) => {
-              return t.target === this.target;
-            })
+            return t.target === this.target;
+          })
           : false;
         u.units = u.units
           ? u.units.map((t) => {
-              t.isCurrentItem = this.target === t.target;
-              return t;
-            })
+            t.isCurrentItem = this.target === t.target;
+            return t;
+          })
           : [];
       }
       return u;
@@ -120,10 +120,10 @@ class Task extends Unit {
     }
   }
 
-  finalPath(modules){
+  finalPath(modules) {
     let final_paths = [];
     for (let module of modules) {
-      if(this.isURL(module)){
+      if (this.isURL(module)) {
         log.debug(`${module} is a valid URL`);
         final_paths.push(module);
         continue;
@@ -133,19 +133,19 @@ class Task extends Unit {
         path.join(Config.build_path(this.exp_path), this.basedir, module)
       );
       // check if the file exists
-      if(fs.existsSync(absolute_path)){
-        log.debug(`${absolute_path} is found successfully`)
+      if (fs.existsSync(absolute_path)) {
+        log.debug(`${absolute_path} is found successfully`);
         final_paths.push(
           path.relative(path.dirname(this.targetPath()), absolute_path)
         );
       }
-      else{
-        log.error(`${absolute_path} does not exist`)
+      else {
+        log.error(`${absolute_path} does not exist`);
       }
     }
     return final_paths;
   }
-  
+
   buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(
       path.dirname(this.targetPath()),
@@ -260,7 +260,11 @@ class Task extends Unit {
             }
             page_data.questions = JSON.parse(JSONdata).questions;
           }
-          page_data.questions_str = JSON.stringify(JSON.parse(JSONdata).questions);
+          else { // Assuming it is version 1 of json format
+            page_data.questions = JSON.parse(JSONdata);
+          }
+          // page_data.questions_str = JSON.stringify(JSON.parse(JSONdata).questions);
+          page_data.questions_str = JSON.stringify(page_data.questions);
           page_data.isJsonVersion = true;
         } else {
           const jsonpath = this.sourcePath();
