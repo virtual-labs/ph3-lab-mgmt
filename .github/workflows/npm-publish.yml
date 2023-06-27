@@ -1,0 +1,53 @@
+name: Node.js Package
+
+# The workflow will trigger when a new tag is pushed
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    # The workflow will run on a virtual host machine with the latest version of Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # This action checks out your repository and downloads it to the runner, allowing you to run actions against it.
+      - uses: actions/checkout@v2
+      
+      # This action sets up a Node.js environment for use in actions.
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Install dependencies using npm ci for a clean, reproducible environment, and npm install to install and update packages.
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install
+
+      # The build step, this is optional and depends on your project requirements.
+      - name: Build
+        run: npm run build 
+
+      # Run tests, this is optional and depends on whether you have tests setup for your project.
+      - name: Test
+        run: npm test
+
+      # Check if the tag ends with -release. If it does, set an output variable 'release' to true.
+      - name: Check Tag
+        id: checktag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          if [[ $TAG_NAME == *"-release" ]]; then
+            echo ::set-output name=release::true
+          else
+            echo ::set-output name=release::false
+          fi
+
+      # If the 'release' variable is true, the workflow will publish your package to the npm registry.
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: steps.checktag.outputs.release == 'true'
