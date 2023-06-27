@@ -26,14 +26,6 @@ jobs:
           npm ci
           npm install
 
-      # The build step, this is optional and depends on your project requirements.
-      - name: Build
-        run: npm run build 
-
-      # Run tests, this is optional and depends on whether you have tests setup for your project.
-      - name: Test
-        run: npm test
-
       # Check if the tag ends with -release. If it does, set an output variable 'release' to true.
       - name: Check Tag
         id: checktag
