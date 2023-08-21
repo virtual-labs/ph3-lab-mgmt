@@ -1,13 +1,12 @@
-{{#if testing}}
-    <div class="bug-report-mobile">
-        <bug-report 
-            id="bug-report"
-            title="[BUG REPORT] {{ exp_name }}"
-            page-type="{{ content_type }}"
-            context-info="{{ bugreport_context_info }}"
-            checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}"
-            position="override"
-            button_style="
+<div class="bug-report-mobile">
+    <bug-report 
+        id="bug-report" 
+        title="[BUG REPORT] {{ exp_name }}" 
+        page-type="{{ content_type }}"
+        context-info="{{ bugreport_context_info }}"
+        checkbox-json="{{ page_plugins.plugin-bug-report.attributes.issues }}" 
+        position="override" 
+        button_style="
                 position: fixed; 
                 bottom: 20px;
                 right: 20px;
@@ -21,8 +20,6 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: 30px;
-                filter: invert(1);
-            "
-        ></bug-report>
-    </div>
-{{/if}}
+                filter: invert(1);">
+    </bug-report>
+</div>
