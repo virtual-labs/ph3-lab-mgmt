@@ -21,6 +21,8 @@ const Lab = {
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
+    ["svc_rating_display", "svc-rating-display"],
+    ["svc_rating_submit", "svc-rating-submit"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
@@ -52,6 +54,8 @@ const Experiment = {
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
+    ["svc_rating_display", "svc-rating-display"],
+    ["svc_rating_submit", "svc-rating-submit"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   optional_pages: [
