@@ -6,7 +6,10 @@
 		 "targetAudience", "courseAlignment"],
     "properties": {
 	"lab": {"type": "string"},
-	"lab_display_name": {"type": "string"},
+	"lab_display_name": {
+        "type": "string",
+        "default": "Default Lab Display Name"
+    },
 	"broadArea": {
 	    "type": "object",
 	    "properties": {
