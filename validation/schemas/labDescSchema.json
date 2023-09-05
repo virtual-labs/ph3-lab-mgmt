@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
-    "required": ["lab", "lab_display_name", "broadArea", "phase", "collegeName",
+    "required": ["lab", "broadArea", "phase", "collegeName",
 		 "baseUrl", "introduction", "objective",
 		 "targetAudience", "courseAlignment"],
     "properties": {
