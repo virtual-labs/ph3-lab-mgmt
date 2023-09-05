@@ -64,6 +64,7 @@ function moveToDeployDir(labpath) {
   const elist = expList(require(path.resolve(labpath, "lab-descriptor.json")));
 
   elist.forEach((e) => {
+    if (e.deploy) {
     log.debug(`Deploying experiment ${e["short-name"]} to ${path.resolve(deployment_path, "exp", e["short-name"])}`);
     shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
     //     shell.exec(`rsync -arv --exclude .git \
@@ -78,6 +79,7 @@ function moveToDeployDir(labpath) {
       `${deployment_path}/stage/exp/${e["short-name"]}/*`,
       `${deployment_path}/exp/${e["short-name"]}`
     );
+    }
   });
 
   // console.log(chalk`{bold DEPLOY LAB} to ${deployment_dest}/${lab_dir_name}`);
