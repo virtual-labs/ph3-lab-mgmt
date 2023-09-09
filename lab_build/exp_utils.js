@@ -25,10 +25,11 @@ function exp_clone(e, exp_dir) {
   shell.mkdir("-p", path.resolve(exp_dir));
   shell.rm("-rf", path.resolve(exp_dir, e_short_name));
   shell.exec(
-    `git clone -b ${e.tag} --depth 1 ${e.repo} ${path.resolve(
+    `git clone -b ${e.tag} --depth 1 ${e.repo} "${path.resolve(
       exp_dir,
       e_short_name
-    )}`
+    )}"`,
+    {silent: false}
   );
 }
 
