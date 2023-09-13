@@ -56,7 +56,7 @@ const config = [
       columnName: "Experiment Short Name",
       columnValue: "physics",
       title: "Rate this experiment",
-      imagesDirectory: "plugins/svc-rating/images",
+      imagesDirectory: "./plugins/svc-rating/images/",
     },
   },
 ];
