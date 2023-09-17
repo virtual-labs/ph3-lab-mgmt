@@ -1,5 +1,6 @@
 const { PluginScope } = require("../enums.js");
 const issues = require("../assets_plugins/json/bug-report-questions.js");
+const { stringify } = require("ajv");
 
 const config = [
   {
@@ -40,7 +41,7 @@ const config = [
     id: "svc-rating",
     scope: PluginScope.PAGE,
     repo: "https://github.com/virtual-labs/svc-rating",
-    tag: "v1.0.0.beta",
+    tag: "v1.0.1.beta",
     label: "Validation Tool",
     js_modules: [
       "./index.js",
@@ -51,10 +52,10 @@ const config = [
       "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css",
     ],
     attributes: {
-      spreadsheetID: "1azCik_ei7pR8cePq8l6ELEPt-iOyrl9QChTx8zdulEc",
-      sheetName: "Rating-Experiments",
+      spreadsheetID: "1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU",
+      sheetName: "Experiment-Database",
       columnName: "Experiment Short Name",
-      columnValue: "physics",
+      columnValue: "",
       title: "Rate this experiment",
       imagesDirectory: "./plugins/svc-rating/images/",
     },

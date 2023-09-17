@@ -186,7 +186,7 @@ class Plugin {
   }
 
 
-  static processPageScopePlugins(page, options) {
+  static processPageScopePlugins(page, options, lab_data) {
     log.debug(`Processing page scope plugins`);
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
     const pluginConfig = require(pluginConfigFile);
@@ -201,6 +201,9 @@ class Plugin {
 
     pageScopePlugins.forEach((plugin) => {
       // Render the Plugin UI component inside the parent
+      if(plugin.id === "svc-rating") {
+        plugin.attributes.columnValue = lab_data.exp_short_name;
+      }
       const pluginParent = document.getElementById(plugin.id);
       log.debug(`Processing plugin ${plugin.id}`);
       if (pluginParent) {
