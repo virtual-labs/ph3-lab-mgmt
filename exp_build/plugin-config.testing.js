@@ -1,6 +1,5 @@
 const { PluginScope } = require("../enums.js");
 const issues = require("../assets_plugins/json/bug-report-questions.js");
-const { stringify } = require("ajv");
 
 const config = [
   {
@@ -55,7 +54,7 @@ const config = [
       spreadsheetID: "1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU",
       sheetName: "Experiment-Database",
       columnName: "Experiment Short Name",
-      columnValue: "",
+      columnValue: "expName",
       title: "Rate this experiment",
       imagesDirectory: "./plugins/svc-rating/images/",
     },

@@ -306,7 +306,7 @@ class Task extends Unit {
   build(exp_info, lab_data, options) {
     log.debug(`Building TASK ${this.label}...`);
     this.buildPage(exp_info, lab_data, options);
-    Plugin.processPageScopePlugins(this, options, lab_data);
+    Plugin.processPageScopePlugins(this, options);
     log.debug(`Finished building TASK ${this.label}`);
   }
 }
