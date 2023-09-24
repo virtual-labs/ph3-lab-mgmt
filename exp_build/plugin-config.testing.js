@@ -40,7 +40,7 @@ const config = [
     id: "svc-rating",
     scope: PluginScope.PAGE,
     repo: "https://github.com/virtual-labs/svc-rating",
-    tag: "v1.0.1.beta",
+    tag: "v1.0.2.beta",
     label: "Validation Tool",
     js_modules: [
       "./index.js",
