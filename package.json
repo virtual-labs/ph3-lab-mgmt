@@ -5,8 +5,8 @@
     "buildexp": "npm-wrapper.js"
   },
   "dependencies": {
-    "@babel/cli": "^7.12.16",
-    "@babel/core": "^7.12.16",
+    "@babel/cli": "^7.22.15",
+    "@babel/core": "^7.22.15",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@types/shelljs": "^0.8.8",
     "ajv": "^8.6.0",
