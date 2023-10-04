@@ -1,6 +1,29 @@
 html {
   overflow-y: auto;
 }
+.vl-rating-display{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0px 10px;
+}
+.list-of-experiments-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+ }
+.list-of-experiments-container > div{
+  margin: 10px;
+  flex: 50%;
+}
+.list-of-experiments-display-rating {
+  position: relative;
+  top: -10px;
+}
 
 .vlabs-page {
   height: 100vh;

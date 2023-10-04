@@ -3,7 +3,8 @@
 		"head.html",
 		"lab-name.html",    	    	
 		"broad-area.html",
-		"sidebar.html"		
+		"sidebar.html",
+		"navbar.html"	
     ],
     "pages" : [
 	{
