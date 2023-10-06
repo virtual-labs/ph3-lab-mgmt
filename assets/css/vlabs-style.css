@@ -12,29 +12,29 @@ html {
 
 .vl-rating-display {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   padding: 0px 10px;
-  margin-top: -12px; /* Adjust this value as needed */
+  margin-top: -15px; /* Adjust this value as needed */
 }
 .list-of-experiments-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   overflow: hidden;
   flex: 0 0 1%; /*Adjust this value to decrease the width*/
 }
 
 .list-of-experiments-container > div{
-  margin: 2px;
+  margin: 1px;
 }
 .list-of-experiments-display-rating {
   position: relative;
   top: -10px;
-  flex: 1%;
+  left: 20px;
 }
 
 .vlabs-page {
