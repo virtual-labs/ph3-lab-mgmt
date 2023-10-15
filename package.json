@@ -39,7 +39,7 @@
   "description": "* Introduction",
   "main": "main.js",
   "scripts": {
-    "validate-lab-descriptor": "node validateDescriptor.js",
+    "validate-lab-descriptor": "node validation/validate_descriptor.js",
     "build-exp": "node main.js build --validateEslint --validateExpdesc --src=../",
     "clean-build-exp": "node main.js build --clean --validateEslint --validateExpdesc --src=../",
     "build-exp-deploy": "node main.js build --validateEslint --validateExpdesc --deploy --src=../",

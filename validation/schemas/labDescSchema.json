@@ -1,5 +1,8 @@
 {
     "$schema": "http://json-schema.org/schema#",
+  	"$id": "https://schema.vlabs.ac.in/lab-descriptor.schema.json",
+	"title": "Lab Descriptor",
+  	"description": "Schema for a Lab Descriptor defining the properties of a Virtual Lab",
     "type": "object",
     "required": ["lab", "broadArea", "phase", "collegeName",
 		 "baseUrl", "introduction", "objective",
@@ -14,11 +17,14 @@
 	    "type": "object",
 	    "properties": {
 		"name": {"type": "string"},
-		"link": {"type": "string", "format": "uri"}
-	    }
+		"link": {"type": "string", "format": "uri"},
+		"code": {"enum": ["BIO", "CHEMENG", "CHEMSCI", "CIVIL", "CSE",
+							"DESIGN", "ECE", "EE", "MECH", "PHYSCI"]}
+	    },
+		"required": ["code"]
 	},
-	"phase": {"type": "number"},
-	"collegeName": {"type": "string"},
+	"phase": {"enum": [2, 3, "3-ext"]},
+	"collegeName": {"enum": ["AMRT", "COEP", "DLBG", "IIITH", "IITB", "IITD", "IITG", "IITK", "IITKGP", "IITR", "NITK"]},
 	"baseUrl": {
 	    "type": "string",
 	    "format": "hostname"
