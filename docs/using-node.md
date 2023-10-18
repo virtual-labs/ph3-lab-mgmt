@@ -1,3 +1,5 @@
+# Using Node run the build script 
+
 1. To run the build script using nodejs, you have to clone this repository in your experiment project folder. 
 2. Then, you have to install the dependencies using the following command:
 ```bash
