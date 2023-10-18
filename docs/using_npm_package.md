@@ -1,4 +1,5 @@
 # Run Build Script using npm package
+
 1. To run the build script using the npm package you need to make sure that the experiment has package.json file in the root directory. If you don't have one, you can create it by running the following command in the root directory of your experiment:
 ```bash
 npm init -y
