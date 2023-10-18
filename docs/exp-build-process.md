@@ -1,4 +1,4 @@
-#+TITLE: Experiment Build Process
+# Experiment Build Process
 
 * Introduction
 This document describes the Experiment UI build process.
