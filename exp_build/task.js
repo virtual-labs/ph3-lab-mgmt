@@ -191,6 +191,7 @@ class Task extends Unit {
       baseUrl: lab_data.baseUrl,
       exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
+      isAim: this.unit_type === UnitTypes.AIM,
     };
     // Context Info for Bug report
     page_data.bugreport_context_info = JSON.stringify({
