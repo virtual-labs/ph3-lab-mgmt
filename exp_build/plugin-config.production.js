@@ -15,10 +15,16 @@ const config = [
   {
     id: "svc-rating",
     scope: PluginScope.PAGE,
-    js_modules:[
-      "https://virtual-labs.github.io/svc-rating/rating-display.js",
-      "https://virtual-labs.github.io/svc-rating/rating.js",
-      "https://virtual-labs.github.io/svc-rating/rating-submit.js",
+    repo: "https://github.com/virtual-labs/svc-rating",
+    tag: "v1.0.4",
+    label: "Validation Tool",
+    js_modules: [
+      "./index.js",
+      "./config.js",
+      "https://apis.google.com/js/api.js",
+    ],
+    css_modules: [
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css",
     ],
     attributes: {
       spreadsheetID: "1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU",
@@ -26,7 +32,7 @@ const config = [
       columnName: "Experiment Short Name",
       columnValue: "expName",
       title: "Rate this experiment",
-      imagesDirectory: "https://virtual-labs.github.io/svc-rating/"
+      imagesDirectory: "./plugins/svc-rating/images/",
     },
 
   },

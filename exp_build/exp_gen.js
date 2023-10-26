@@ -5,8 +5,7 @@ const shell = require("shelljs");
 const { Experiment } = require("./experiment.js");
 const Config = require("../config.js");
 const { Plugin } = require("./plugin.js");
-const { PluginConfig, PluginScope } = require("../enums.js");
-const { BuildEnvs, validBuildEnv } = require("../enums.js");
+const { PluginScope } = require("../enums.js");
 const log = require("../logger.js");
 
 function run(src, lab_data, build_options) {
