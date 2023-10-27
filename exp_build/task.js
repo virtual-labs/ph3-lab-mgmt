@@ -34,7 +34,7 @@ class Task extends Unit {
     target,
     js_modules,
     css_modules,
-    lu
+    lu 
   ) {
     super(unit_type, label, exp_path, basedir);
     this.lu = lu;
@@ -110,20 +110,10 @@ class Task extends Unit {
     );
   }
 
-  isURL(source) {
-    try {
-      new URL(source);
-      return true;
-    } catch (e) {
-      log.debug(`${source} is not a valid URL`);
-      return false;
-    }
-  }
-
   finalPath(modules) {
     let final_paths = [];
     for (let module of modules) {
-      if (this.isURL(module)) {
+      if(Config.isURL(module)) {
         log.debug(`${module} is a valid URL`);
         final_paths.push(module);
         continue;

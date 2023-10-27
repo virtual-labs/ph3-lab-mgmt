@@ -32,21 +32,21 @@ function setCurr(component, targetPath, subTaskFlag = false) {
 }
 
 
-function isURL(source) {
-  try {
-    new URL(source);
-    return true;
-  } catch (e) {
-    log.debug(`${source} is not a valid URL`);
-    return false;
-  }
-}
+// function isURL(source) {
+//   try {
+//     new URL(source);
+//     return true;
+//   } catch (e) {
+//     log.debug(`${source} is not a valid URL`);
+//     return false;
+//   }
+// }
 
 function finalPath(target_path ,pluginId, modules) {
   const pluginPath = path.resolve("plugins", pluginId);
   let final_paths = [];
   for (let module of modules) {
-    if (isURL(module)) {
+    if(Config.isURL(module)) {
       log.debug(`${module} is a valid URL`);
       final_paths.push(module);
       continue;

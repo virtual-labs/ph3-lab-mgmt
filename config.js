@@ -1,4 +1,5 @@
 const path = require("path");
+const log = require("./logger.js");
 
 const Lab = {
   descriptor_name: "lab-descriptor",
@@ -82,8 +83,19 @@ function assets_path() {
   return path.resolve(__dirname, "assets");
 }
 
+function isURL(source) {
+  try {
+    new URL(source);
+    return true;
+  } catch (e) {
+    log.debug(`${source} is not a valid URL`);
+    return false;
+  }
+}
+
 module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
 module.exports.assets_path = assets_path;
+module.exports.isURL = isURL;
 module.exports.PROJECT_ROOT = PROJECT_ROOT;
