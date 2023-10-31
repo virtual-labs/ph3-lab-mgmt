@@ -30,6 +30,9 @@ module.exports = {
       label: {
         type: "string",
       },
+      "service-worker": {
+        type: "string",
+      },
     },
     additionalProperties: false,
     errorMessage: {

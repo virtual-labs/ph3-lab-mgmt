@@ -160,19 +160,22 @@ class Experiment {
   }
 
   generateServiceWorker(buildPath) {
-    const configTemplate = require("./service_worker/configTemplate.js");
-    const templatePath = path.resolve(__dirname, "./service_worker/template.js");
-    const pathToServiceWorkerConfig = path.resolve(__dirname, "./service_worker/config.js");
-    const config = configTemplate(buildPath, templatePath);
-
-    const outputConfig = `module.exports = ${JSON.stringify(config, null, 2)};\n`;
-    fs.writeFileSync(pathToServiceWorkerConfig, outputConfig);
-
-    // run the command npx workbox injectManifest ./service_worker/config.js
-    shell.exec(`npx workbox injectManifest ${pathToServiceWorkerConfig}`);
-
-    // delete the config file
-    fs.unlinkSync(pathToServiceWorkerConfig);
+    const { generateSW } = require("@virtual-labs/service_worker");
+    const expPath = path.resolve(this.src, Config.Experiment.exp_dir);
+    let inputPath = "";
+    // check if the user has provided a service worker file path and if so, check if it exists
+    if (this.descriptor['service-worker']) {
+      const swPath = path.resolve(expPath, this.descriptor['service-worker']);
+      if (fs.existsSync(swPath)) {
+        inputPath = swPath;
+      } else {
+        log.error(`Service worker file ${swPath} does not exist`);
+      }
+    } else {
+      log.warn("No service worker file provided");
+    }
+    const swDest = path.resolve(buildPath, "sw.js");
+    generateSW(inputPath, buildPath, swDest);
   }
 
   build(hb, lab_data, options) {

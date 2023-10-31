@@ -9,6 +9,7 @@
     "@babel/core": "^7.12.16",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@types/shelljs": "^0.8.8",
+    "@virtual-labs/service_worker": "^1.0.0",
     "ajv": "^8.6.0",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
