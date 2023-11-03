@@ -62,14 +62,12 @@
     <script src="{{this}}"></script>
     {{/each}}
 
-    {{#if isAim}}
-      <script>
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-              navigator.serviceWorker.register('./sw.js');
-          });
-        }
-      </script>
-    {{/if}}
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("{{service_worker_path}}");
+        });
+      }
+    </script>
   </body>
 </html>

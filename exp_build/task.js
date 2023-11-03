@@ -146,6 +146,15 @@ class Task extends Unit {
     return final_paths;
   }
 
+  serviceWorkerPath() {
+    let exp_service_worker = path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, "sw.js")
+    );
+    let task_folder = path.dirname(this.targetPath());
+    let final_service_worker = path.relative(task_folder, exp_service_worker);
+    return final_service_worker;
+  }
+
   buildPage(exp_info, lab_data, options) {
     let assets_path = path.relative(
       path.dirname(this.targetPath()),
@@ -191,7 +200,7 @@ class Task extends Unit {
       baseUrl: lab_data.baseUrl,
       exp_name: lab_data.exp_name || exp_info_name_text,
       exp_short_name: lab_data.exp_short_name,
-      isAim: this.unit_type === UnitTypes.AIM,
+      service_worker_path: this.serviceWorkerPath(),
     };
     // Context Info for Bug report
     page_data.bugreport_context_info = JSON.stringify({
