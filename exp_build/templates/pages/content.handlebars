@@ -61,5 +61,13 @@
     {{#each js_modules}}
     <script src="{{this}}"></script>
     {{/each}}
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("{{service_worker_path}}");
+        });
+      }
+    </script>
   </body>
 </html>

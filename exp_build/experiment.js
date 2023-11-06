@@ -24,7 +24,7 @@ function getAssessmentPath(src, units) {
       let paths = getAssessmentPath(nextSrc, unit.units);
       assessmentPath.push(...paths);
     }
-    if(unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT){
+    if (unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT) {
       const quiz = path.resolve(src, unit.source);
       assessmentPath.push(quiz);
     }
@@ -126,27 +126,27 @@ class Experiment {
       const descriptor = require(descriptorPath);
       const pathToValidator = path.resolve(__dirname, "../validation/validate.js");
       try {
-      log.debug("Validating experiment descriptor");
-      shell.exec(`node ${pathToValidator} -f ${descriptorPath} >> ${buildPath}/validate.log`);
+        log.debug("Validating experiment descriptor");
+        shell.exec(`node ${pathToValidator} -f ${descriptorPath} >> ${buildPath}/validate.log`);
       } catch (e) {
         log.error("Error validating experiment descriptor", e);
       }
       // loop through the units and validate the content
       try {
-      log.debug("Validating Assessment files");
-      const assessmentPath = getAssessmentPath(expPath, descriptor.units);
-      assessmentPath.forEach((file) => {
-        if (fs.existsSync(file)) {
-          // trim ep from file
-          const fileName = file.replace(expPath, "");
-          shell.exec(`echo =${fileName} >> ${buildPath}/assesment.log`);
-          shell.exec(
-            `node ${pathToValidator} -f ${file} -c assessment >> ${buildPath}/assesment.log`
-          );
-        } else {
-          log.error(`Assessment file ${path} does not exist`);
-        }
-      });
+        log.debug("Validating Assessment files");
+        const assessmentPath = getAssessmentPath(expPath, descriptor.units);
+        assessmentPath.forEach((file) => {
+          if (fs.existsSync(file)) {
+            // trim ep from file
+            const fileName = file.replace(expPath, "");
+            shell.exec(`echo =${fileName} >> ${buildPath}/assesment.log`);
+            shell.exec(
+              `node ${pathToValidator} -f ${file} -c assessment >> ${buildPath}/assesment.log`
+            );
+          } else {
+            log.error(`Assessment file ${path} does not exist`);
+          }
+        });
       } catch (e) {
         log.error("Error validating Assessment files", e);
       }
@@ -159,18 +159,37 @@ class Experiment {
     return renderMarkdown(name_file.toString());
   }
 
+  generateServiceWorker(buildPath) {
+    const { generateSW } = require("@virtual-labs/service_worker");
+    const expPath = path.resolve(this.src, Config.Experiment.exp_dir);
+    let inputPath = "";
+    // check if the user has provided a service worker file path and if so, check if it exists
+    if (this.descriptor['service-worker']) {
+      const swPath = path.resolve(expPath, this.descriptor['service-worker']);
+      if (fs.existsSync(swPath)) {
+        inputPath = swPath;
+      } else {
+        log.error(`Service worker file ${swPath} does not exist`);
+      }
+    } else {
+      log.warn("No service worker file provided");
+    }
+    const swDest = path.resolve(buildPath, "sw.js");
+    generateSW(inputPath, buildPath, swDest);
+  }
+
   build(hb, lab_data, options) {
     /*
     here we are assuming that the descriptor contains a simgle object
     that represents the learning unit corresponding to the experiment.
     */
-   log.debug(`Building experiment`);
-   const explu = LearningUnit.fromRecord(this.descriptor, this.src);
-   const exp_info = {
-     name: this.name(),
-     menu: explu.units,
-     src: this.src,
-     bp: Config.build_path(this.src) + "/",
+    log.debug(`Building experiment`);
+    const explu = LearningUnit.fromRecord(this.descriptor, this.src);
+    const exp_info = {
+      name: this.name(),
+      menu: explu.units,
+      src: this.src,
+      bp: Config.build_path(this.src) + "/",
     };
 
     if (options.plugins) {
@@ -186,6 +205,9 @@ class Experiment {
     if (options.plugins) {
       Plugin.processPostBuildPlugins(exp_info, options);
     }
+
+    // generate service worker
+    this.generateServiceWorker(exp_info.bp);
     /*
       This "tmp" directory is needed because when you have a sub-directory
       with the same name, it can cause issue.  So, we assume that there should
