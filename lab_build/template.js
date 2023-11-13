@@ -42,13 +42,13 @@ function addContent(dom, ctnt) {
 
 function populateTemplate(template, components, content) {
   log.debug("Loading Components");
-  let dom = new JSDOM(`${template}`);
-  let res = addAnalytics(dom, components[0]);
-  res = addLabName(res, components[1]);
-  res = addBroadAreaName(res, components[2]);
-  res = addSideBar(res, components[3]);
-  res = addContent(res, content);
-  return res.serialize();
+  let dom = new JSDOM(template);
+  dom = addAnalytics(dom, components[0]);
+  dom = addLabName(dom, components[1]);
+  dom = addBroadAreaName(dom, components[2]);
+  dom = addSideBar(dom, components[3]);
+  dom = addContent(dom, content);
+  return dom.serialize();
 }
 
 function buildPage(template_file, component_files, content_file) {
