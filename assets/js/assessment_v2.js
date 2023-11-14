@@ -176,7 +176,7 @@ function showResults() {
     }
   });
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${toatNum}`;
+  resultsContainer.innerHTML = `Score: ${numCorrect} out of ${toatNum}`;
 }
 
 populateQuestions();
