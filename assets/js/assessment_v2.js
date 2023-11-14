@@ -125,6 +125,18 @@ function showResults() {
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
     // Add to total
     toatNum++;
+
+    // Hide all explanations initially
+    if (currentQuestion.explanations) {
+      for (let answer in currentQuestion.answers) {
+        let explanationButton = document.getElementById(
+          "explanation" + questionNumber.toString() + answer
+        );
+
+        explanationButton.style.display = "none";
+      }
+    }
+
     // if answer is correct
     if (userAnswer === currentQuestion.correctAnswer) {
       // Reset if previously red colored answers
@@ -138,7 +150,7 @@ function showResults() {
       numCorrect++;
 
       // color the answers green
-      //answerContainers[questionNumber].style.color = "lightgreen";
+      // answerContainers[questionNumber].style.color = "lightgreen";
       // Show all explanations
       if (currentQuestion.explanations) {
         for (let answer in currentQuestion.answers) {
