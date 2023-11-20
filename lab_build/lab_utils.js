@@ -74,7 +74,7 @@ function prepareStructure(labpath) {
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
-    path.resolve(Config.assets_path(),"*"),
+    path.resolve(Config.assets_path(), "*"),
     path.resolve(labpath, "build")
   );
 }
@@ -88,7 +88,8 @@ function buildLabPages(pages, labpath, template_file, component_files) {
   prepareStructure(labpath);
   pages.forEach((p) => {
     const res_html = buildPage(template_file, component_files, p.src);
-    fs.writeFileSync(`${labpath}/build/${p.target}`, res_html, "utf-8");
+    const res_html_pretty = prettier.format(res_html, { parser: "html" });
+    fs.writeFileSync(`${labpath}/build/${p.target}`, res_html_pretty, "utf-8");
   });
 }
 
