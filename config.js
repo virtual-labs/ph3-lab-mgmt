@@ -3,7 +3,8 @@ const path = require("path");
 const Lab = {
   descriptor_name: "lab-descriptor",
   build_dir: "build",
-  exp_dir: "exp",
+  exp_build_dir: "exprepos",
+  exp_deploy_dir: "exp",
   deployment_dest: "/var/www/html",
   stage_dir: "stage",
   ui_template_name: "templates",
@@ -28,7 +29,7 @@ const Lab = {
 
     }
   ]
-}
+};
 
 const Experiment = {
   descriptor_name: "experiment-descriptor.json",
