@@ -4,7 +4,8 @@ const shell = require("shelljs");
 
 const { Experiment } = require("./experiment.js");
 const Config = require("../config.js");
-const { BuildEnvs, validBuildEnv } = require("../enums.js");
+const { Plugin } = require("./plugin.js");
+const { PluginScope } = require("../enums.js");
 const log = require("../logger.js");
 
 function run(src, lab_data, build_options) {
@@ -18,6 +19,18 @@ function run(src, lab_data, build_options) {
   }
 
   const exp = new Experiment(src);
+  const pluginConfigFile = Plugin.getConfigFileName(build_options.env);
+  const pluginConfig = require(pluginConfigFile);
+
+  const pageScopePlugins = pluginConfig.filter(
+    (p) => p.scope === PluginScope.PAGE
+  );
+
+  pageScopePlugins.forEach((plugin) => {
+    if(plugin.id === "svc-rating") {
+      plugin.attributes.columnValue = lab_data.exp_short_name;
+    }
+  });
   exp.init(Handlebars);
   // Validation
   if (build_options.isValidate)

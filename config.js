@@ -1,4 +1,5 @@
 const path = require("path");
+const log = require("./logger.js");
 
 const Lab = {
   descriptor_name: "lab-descriptor",
@@ -21,6 +22,8 @@ const Lab = {
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
+    ["svc_rating_display", "svc-rating-display"],
+    ["svc_rating_submit", "svc-rating-submit"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   pages: [
@@ -52,6 +55,8 @@ const Experiment = {
     ["popup_menu", "popupmenu"],
     ["simulation_header", "simulation-header"],
     ["bug_report_mobile", "bug-report-mobile"],
+    ["svc_rating_display", "svc-rating-display"],
+    ["svc_rating_submit", "svc-rating-submit"],
     ["nav_menu_items", "nav-menu-items"],
   ],
   optional_pages: [
@@ -78,8 +83,19 @@ function assets_path() {
   return path.resolve(__dirname, "assets");
 }
 
+function isURL(source) {
+  try {
+    new URL(source);
+    return true;
+  } catch (e) {
+    log.debug(`${source} is not a valid URL`);
+    return false;
+  }
+}
+
 module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
 module.exports.assets_path = assets_path;
+module.exports.isURL = isURL;
 module.exports.PROJECT_ROOT = PROJECT_ROOT;
