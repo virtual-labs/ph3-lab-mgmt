@@ -282,6 +282,15 @@ class Task extends Unit {
           }
         }
         break;
+      
+      case ContentTypes.COMPONENT:
+        page_data.isComponent = true;
+        const css_module = [`plugins/${exp_info.codeditor_id}/css/codeditor.css`];
+        const js_module = [`plugins/${exp_info.codeditor_id}/js/codeditor.js`];
+        page_data.js_modules = this.finalPath(js_module);
+        page_data.css_modules = this.finalPath(css_module);
+        page_data.codeditor_div_id = exp_info.codeditor_div_id;
+        break;
     }
 
     const page_template = fs.readFileSync(

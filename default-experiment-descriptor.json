@@ -3,6 +3,7 @@
   "label": "",
   "basedir": ".",
   "LaTeXinMD": false,
+  "includeCodeEditor": true,
   "service-worker": "/path/to/service-worker.js",
   "units": [
     {

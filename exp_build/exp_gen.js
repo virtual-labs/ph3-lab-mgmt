@@ -31,12 +31,31 @@ function run(src, lab_data, build_options) {
       plugin.attributes.columnValue = lab_data.exp_short_name;
     }
   });
+
+  // Include Codeditor.json if the code editor is included
+  if(exp.descriptor.includeCodeEditor)
+  {
+    if (!shell.test("-f", Experiment.codeditorPath(src))) {
+      shell.cp(
+        path.resolve(Config.Experiment.default_codeditor),
+        path.resolve(this.src, Experiment.codeditorPath(src))
+      );
+    }
+    log.info("Code Editor included")
+    build_options.codeditor = true;
+    exp.includeCodeEditor();
+  }
+  else{
+    build_options.codeditor = false;
+    log.info("Code Editor Not included")
+  }
+  
   exp.init(Handlebars);
   // Validation
   if (build_options.isValidate)
   {
     exp.validate(build_options);
-  } 
+  }
 
   // if the experiment repo contains contributors.md file we will add its lu to the descriptor.
   if (shell.test("-f", Experiment.contributorsPath(src))) {

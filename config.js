@@ -36,6 +36,7 @@ const Lab = {
 const Experiment = {
   descriptor_name: "experiment-descriptor.json",
   default_descriptor: "default-experiment-descriptor.json",
+  default_codeditor: "default-codeditor.json",
   build_dir: "build",
   exp_dir: "experiment",
   ui_template_name: "templates",

@@ -52,6 +52,10 @@ class Experiment {
     return path.resolve(src, Config.Experiment.descriptor_name);
   }
 
+  static codeditorPath(src) {
+    return path.resolve(`${src}/experiment`, "codeditor.json");
+  }
+
   static contributorsPath(src) {
     return path.resolve(`${src}/experiment`, "contributors.md");
   }
@@ -192,6 +196,12 @@ class Experiment {
       bp: Config.build_path(this.src) + "/",
     };
 
+    if(options.codeditor) {
+      const [codeditor_id, div_id] = Plugin.loadCodeEditor(options);
+      exp_info.codeditor_id = codeditor_id;
+      exp_info.codeditor_div_id = div_id;
+    }
+
     if (options.plugins) {
       Plugin.loadAllPlugins(options);
       exp_info.plugins = Plugin.processExpScopePlugins(
@@ -245,6 +255,17 @@ class Experiment {
       target: "contributors.html",
     };
     this.descriptor.units.push(contributors);
+  }
+
+  includeCodeEditor() {
+    const codeditor = {
+      "target": "codeditor.html",
+      "label": "CodeEditor",
+      "source": "codeditor.json",
+      "unit-type": "task",
+      "content-type": "component",
+    };
+    this.descriptor.units.push(codeditor);
   }
 }
 
