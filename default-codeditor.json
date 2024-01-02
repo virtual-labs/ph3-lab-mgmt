@@ -1,5 +1,7 @@
 {
-    "name": "",
-    "inputs": [],
-    "expectedOutputs": ""
+    "name": "Experiment Name",
+    "inputs": [
+        [1,2,3]
+    ],
+    "expected": "1,2,3"
 }
