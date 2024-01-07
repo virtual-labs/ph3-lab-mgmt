@@ -32,8 +32,10 @@ function run(src, lab_data, build_options) {
     }
   });
 
+  const code_assessment = exp.descriptor["code-assessment-options"];
+
   // Include Codeditor.json if the code editor is included
-  if(exp.descriptor.includeCodeEditor)
+  if(code_assessment.includeCodeAssessment)
   {
     if (!shell.test("-f", Experiment.codeditorPath(src))) {
       shell.cp(
@@ -43,7 +45,8 @@ function run(src, lab_data, build_options) {
     }
     log.info("Code Editor included")
     build_options.codeditor = true;
-    exp.includeCodeEditor();
+    build_options.code_assessment = code_assessment;
+    exp.includeCodeEditor(code_assessment.position);
   }
   else{
     build_options.codeditor = false;

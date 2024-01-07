@@ -197,9 +197,12 @@ class Experiment {
     };
 
     if(options.codeditor) {
-      const [codeditor_id, div_id] = Plugin.loadCodeEditor(options);
+      const [codeditor_id, div_id, js_modules, css_modules] = Plugin.loadCodeEditor(options);
       exp_info.codeditor_id = codeditor_id;
       exp_info.codeditor_div_id = div_id;
+      exp_info.codeassessment_js_modules = js_modules;
+      exp_info.codeassessment_css_modules = css_modules;
+      exp_info.codeassessment_languages = options.code_assessment.languages;
     }
 
     if (options.plugins) {
@@ -257,15 +260,15 @@ class Experiment {
     this.descriptor.units.push(contributors);
   }
 
-  includeCodeEditor() {
+  includeCodeEditor(position = 6) {
     const codeditor = {
-      "target": "codeditor.html",
-      "label": "CodeEditor",
+      "target": "code-assessment.html",
+      "label": "Code Assessment",
       "source": "codeditor.json",
       "unit-type": "task",
       "content-type": "component",
     };
-    this.descriptor.units.push(codeditor);
+    this.descriptor.units.splice(position,0,codeditor);
   }
 }
 

@@ -285,8 +285,16 @@ class Task extends Unit {
       
       case ContentTypes.COMPONENT:
         page_data.isComponent = true;
-        const css_module = [`plugins/${exp_info.codeditor_id}/css/codeditor.css`];
-        const js_module = [`plugins/${exp_info.codeditor_id}/js/codeditor.js`];
+        let css_module = [];
+        let js_module = [];
+        exp_info.codeassessment_js_modules.forEach(jsmodule => {
+          js_module.push(path.join(`plugins/${exp_info.codeditor_id}`,`${jsmodule}`))
+        })
+        exp_info.codeassessment_css_modules.forEach(cssmodule => {
+          css_module.push(path.join(`plugins/${exp_info.codeditor_id}`,`${cssmodule}`))
+        })
+        // const css_modules = [path.join(`plugins/${exp_info.codeditor_id}`,`${js_module}`)];
+        // const js_modules = [`plugins/${exp_info.codeditor_id}/js/codeditor.js`];
         page_data.js_modules = this.finalPath(js_module);
         page_data.css_modules = this.finalPath(css_module);
         page_data.codeditor_div_id = exp_info.codeditor_div_id;
