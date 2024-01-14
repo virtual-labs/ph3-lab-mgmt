@@ -7,6 +7,7 @@ const { buildPage } = require("./template.js");
 const moment = require("moment");
 const log = require("../logger.js");
 const Config = require("../config.js");
+const { BuildEnvs } = require("vlabs-buildexp/enums.js");
 
 shell.config.silent = true;
 
@@ -14,8 +15,11 @@ function toDirName(n) {
   return n.toLowerCase().trim().replace(/–/g, "").replace(/ +/g, "-");
 }
 
-function generateLink(baseUrl, expName, index_fn = "") {
-  const expUrl = new URL(`https://${baseUrl}/exp/${expName}/${index_fn}`);
+function generateLink(baseUrl, expName, env, index_fn = "") {
+  const expUrl = (env === BuildEnvs.LOCAL) ?
+    `./exp/${expName}/${index_fn}`
+    : `https://${baseUrl}/exp/${expName}/${index_fn}`;
+  // : new URL(`https://${baseUrl}/exp/${expName}/${index_fn}`);
   return expUrl;
 }
 
@@ -74,7 +78,7 @@ function prepareStructure(labpath) {
   shell.mkdir("-p", path.resolve(labpath, "build"));
   shell.cp(
     "-r",
-    path.resolve(Config.assets_path(),"*"),
+    path.resolve(Config.assets_path(), "*"),
     path.resolve(labpath, "build")
   );
 }
@@ -92,14 +96,14 @@ function buildLabPages(pages, labpath, template_file, component_files) {
   });
 }
 
-function processLabDescriptor(descriptor_path) {
+function processLabDescriptor(descriptor_path, build_options) {
   log.debug(`Processing lab descriptor`);
   const lab_descriptor = JSON.parse(fs.readFileSync(descriptor_path));
 
   if (lab_descriptor.experiments) {
     lab_descriptor.experiments = lab_descriptor.experiments.map((e) => {
-      const exp_url = generateLink(lab_descriptor.baseUrl, e["short-name"]);
-      return { name: e.name, link: exp_url.toString() };
+      const exp_url = generateLink(lab_descriptor.baseUrl, e["short-name"], build_options.env);
+      return { name: e.name, link: exp_url };
     });
     return lab_descriptor;
   } else {
@@ -113,9 +117,10 @@ function processLabDescriptor(descriptor_path) {
             const exp_url = generateLink(
               lab_descriptor.baseUrl,
               e["short-name"],
+              build_options.env,
               (index_fn = "index.html")
             );
-            return { name: e.name, link: exp_url.toString() };
+            return { name: e.name, link: exp_url };
           }),
         };
       });

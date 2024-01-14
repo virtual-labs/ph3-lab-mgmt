@@ -1,4 +1,6 @@
+{{#if options.addAnalytics}}
 <!--Google Tag Manager-->
+{{#if options.production}}
 
     var dataLayer = [{
         {{#if escapeCharOnFlag }}
@@ -16,4 +18,24 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-W59SWTR');
+
+{{else if options.testing}}
+    var dataLayer = [{
+        {{#if escapeCharOnFlag }}
+        'labName': '{{lab}}',
+        {{else}}
+        'labName': '{{{lab}}}',
+        {{/if}}
+        'discipline': '{{broadArea.name}}',
+        'college': '{{collegeName}}',
+        'phase': '{{phase}}',
+    }];
+
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5NMQ9NQ');
+{{/if}}
 <!--End Google Tag Manager-->
+{{/if}}

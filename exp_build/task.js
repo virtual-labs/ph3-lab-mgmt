@@ -174,6 +174,7 @@ class Task extends Unit {
       plugins: exp_info.plugins,
       page_plugins: page_plugins,
       local: options.local,
+      addAnalytics: options.addAnalytics,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
       meta: {

@@ -34,7 +34,7 @@ function exp_clone(e, exp_dir) {
   );
 }
 
-function exp_build(e, ld, exp_dir) {
+function exp_build(e, ld, exp_dir, build_options) {
   const e_short_name = e["short-name"];
   log.debug(`Building experiment ${e_short_name} at ${path.resolve(exp_dir, e_short_name)}`);
   /*
@@ -47,11 +47,11 @@ function exp_build(e, ld, exp_dir) {
   ld.exp_name = e.name;
   ld.exp_short_name = e_short_name;
 
-  const build_options = {
-    env: BuildEnvs.PRODUCTION,
-    isValidate: false,
-    plugins: false
-  };
+  // const build_options = {
+  //   env: BuildEnvs.PRODUCTION,
+  //   isValidate: false,
+  //   plugins: false
+  // };
 
   run(path.resolve(exp_dir, e_short_name), ld, build_options);
 }
@@ -72,7 +72,7 @@ function exp_stage(e, exp_dir, deployment_dest) {
   );
 }
 
-function loadExperiments(labpath) {
+function loadExperiments(labpath, build_options) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
   const lab_descriptor = require(ldpath);
 
@@ -92,7 +92,7 @@ function loadExperiments(labpath) {
   experiments.forEach((e) => {
     log.info(`Loading experiment ${e["short-name"]} (${exp_count}/${num_experiments})`);
     exp_clone(e, exp_dir);
-    exp_build(e, lab_descriptor, exp_dir);
+    exp_build(e, lab_descriptor, exp_dir, build_options);
     // exp_stage(e, exp_dir, deployment_path);
     exp_stage(e, exp_dir, exp_deploy_path);
   });
