@@ -45,6 +45,11 @@ function addContent(dom, ctnt) {
   return dom;
 }
 
+function addNavbar(dom, navbar) {
+  dom.window.document.querySelector("#headerNavbar").innerHTML = navbar;
+  return dom;
+}
+
 function populateTemplate(template, components, content) {
   log.debug("Loading Components");
   let dom = new JSDOM(`${template}`);
@@ -52,7 +57,8 @@ function populateTemplate(template, components, content) {
   res = addLabName(res, components[1]);
   res = addBroadAreaName(res, components[2]);
   res = addSideBar(res, components[3]);
-  res = addAnalyticsBody(res, components[4]);
+  res = addNavbar(res, components[4]);
+  res = addAnalyticsBody(res, components[5]);
   res = addContent(res, content);
   return res.serialize();
 }
@@ -61,7 +67,11 @@ function buildPage(template_file, component_files, content_file) {
   const main_template = fs.readFileSync(template_file, "utf-8");
   const components = loadComponents(component_files);
   const contentPath = path.resolve(__dirname, "page-components", content_file);
-  const content = fs.readFileSync(contentPath, "utf-8");
+  let content = fs.readFileSync(contentPath, "utf-8");
+  let dom = new JSDOM(`${content}`);
+  dom.window.document.head.innerHTML += `<script type="module" src="https://virtual-labs.github.io/svc-rating/rating-display.js"></script>`;
+  fs.writeFileSync(contentPath, dom.serialize(), "utf-8");
+  content = fs.readFileSync(contentPath, "utf-8");
   const res_html = populateTemplate(main_template, components, content);
   return res_html;
 }

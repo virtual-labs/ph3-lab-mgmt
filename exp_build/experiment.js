@@ -193,6 +193,7 @@ class Experiment {
     };
 
     if (options.plugins) {
+      Plugin.loadAllPlugins(options);
       exp_info.plugins = Plugin.processExpScopePlugins(
         exp_info,
         hb,

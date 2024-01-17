@@ -31,20 +31,55 @@ function setCurr(component, targetPath, subTaskFlag = false) {
   return { ...obj, isCurrentItem: isCurrentItem };
 }
 
+
+// function isURL(source) {
+//   try {
+//     new URL(source);
+//     return true;
+//   } catch (e) {
+//     log.debug(`${source} is not a valid URL`);
+//     return false;
+//   }
+// }
+
+function finalPath(target_path ,pluginId, modules) {
+  const pluginPath = path.resolve("plugins", pluginId);
+  let final_paths = [];
+  for (let module of modules) {
+    if(Config.isURL(module)) {
+      log.debug(`${module} is a valid URL`);
+      final_paths.push(module);
+      continue;
+    }
+    const absolute_path = path.resolve(
+      path.join(pluginPath, module)
+    );
+    // check if the file exists
+    if (fs.existsSync(absolute_path)) {
+      log.debug(`${absolute_path} is found successfully`);
+      final_paths.push(
+        path.join("plugins", pluginId, module)
+      );
+    }
+    else {
+      log.error(`${absolute_path} does not exist`);
+    }
+  }
+  return final_paths;
+}
+
 function prepareRepo(repoInfo) {
   log.debug(`Preparing repo ${repoInfo.id}`);
   if (!fs.existsSync(repoInfo.id)) {
-    if (repoInfo.tag)
-    {
-      shell.exec(`git clone --depth=1  ${repoInfo.repo} --branch ${repoInfo.tag}`,{ silent: true });
+    if (repoInfo.tag) {
+      shell.exec(`git clone --depth=1  ${repoInfo.repo} --branch ${repoInfo.tag}`, { silent: true });
     }
-    else 
-    {
-      shell.exec(`git clone --depth=1 ${repoInfo.repo}`,{ silent: true });
+    else {
+      shell.exec(`git clone --depth=1 ${repoInfo.repo}`, { silent: true });
     }
   } else {
     shell.cd(`${repoInfo.id}`);
-    shell.exec(`git pull`,{ silent: true });
+    shell.exec(`git pull`, { silent: true });
     shell.cd("..");
   }
 }
@@ -56,12 +91,25 @@ class Plugin {
     return pluginConfigFile;
   }
 
+  static loadAllPlugins(options) {
+    const pluginConfigFile = Plugin.getConfigFileName(options.env);
+    const pluginConfig = require(pluginConfigFile);
+    
+    if (!fs.existsSync("plugins")) {
+      shell.exec("mkdir plugins");
+    }
+    pluginConfig.map((plugin) => {
+      shell.cd("plugins");
+      prepareRepo(plugin);
+      shell.cd("..");
+    });
+  }
+
   static processExpScopePlugins(exp_info, hb, lab_data, options) {
     log.debug("Processing experiment scope plugins");
     let pluginConfig = require(Plugin.getConfigFileName(options.env));
 
-    if(!options.isValidate)
-    {
+    if (!options.isValidate) {
       pluginConfig = pluginConfig.filter((p) => p.id !== "tool-validation");
     }
 
@@ -70,15 +118,8 @@ class Plugin {
     );
 
     let plugins = [];
-    if (!fs.existsSync("plugins")) {
-      shell.exec("mkdir plugins");
-    }
-
     expScopePlugins.forEach((plugin) => {
       try {
-        shell.cd("plugins");
-        prepareRepo(plugin);
-        shell.cd("..");
         const pluginPath = path.resolve("plugins", plugin.id);
         const page_template = fs.readFileSync(
           path.resolve(pluginPath, plugin.template)
@@ -134,16 +175,17 @@ class Plugin {
   static preProcessPageScopePlugins(options) {
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
     const pluginConfig = require(pluginConfigFile);
-    const plugins = {};
+    const pageScopePlugins = {};
     pluginConfig
       .filter((p) => p.scope === PluginScope.PAGE)
       .forEach((element) => {
-        plugins[element.id] = element;
+        pageScopePlugins[element.id] = element;
       });
-
     // console.log(plugins["plugin-bug-report"].attributes.bug_options);
-    return plugins;
+    return pageScopePlugins;
   }
+
+
   static processPageScopePlugins(page, options) {
     log.debug(`Processing page scope plugins`);
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
@@ -166,24 +208,27 @@ class Plugin {
       }
 
       // add the css-modules in the head
-      plugin.css_modules &&
-        plugin.css_modules.forEach((css) => {
+      if (plugin.css_modules) {
+        const css_modules = finalPath(page.targetPath(), plugin.id, plugin.css_modules);
+        css_modules.forEach((css) => {
           const cssNode = document.createElement("link");
           cssNode.rel = "stylesheet";
           cssNode.href = css;
 
           document.head.appendChild(cssNode);
         });
-
+      }
       // add the js-modules at the bottom of the body
-      plugin.js_modules &&
-        plugin.js_modules.forEach((mjs) => {
+      if (plugin.js_modules) {
+        const js_modules = finalPath(page.targetPath(), plugin.id, plugin.js_modules);
+        js_modules.forEach((mjs) => {
           const scriptNode = document.createElement("script");
           scriptNode.type = "module";
           scriptNode.src = mjs;
 
           document.body.appendChild(scriptNode);
         });
+      }
       log.debug(`Plugin ${plugin.id} processed`);
     });
     fs.writeFileSync(page.targetPath(), dom.serialize());
@@ -193,8 +238,7 @@ class Plugin {
     log.debug("Processing post build plugins");
     let pluginConfig = require(Plugin.getConfigFileName(options.env));
 
-    if(!options.isValidate)
-    {
+    if (!options.isValidate) {
       pluginConfig = pluginConfig.filter((p) => p.id !== "tool-validation");
     }
 
@@ -209,11 +253,10 @@ class Plugin {
       try {
         log.debug(`Processing plugin ${plugin.id}`);
         shell.cd("plugins");
-        prepareRepo(plugin);
         shell.cd(`${plugin.id}`);
-        try{
-          shell.exec(`${plugin.command} ${exp_info.bp}`,{ silent: true });
-        } catch(e) {
+        try {
+          shell.exec(`${plugin.command} ${exp_info.bp}`, { silent: true });
+        } catch (e) {
           log.error(`Error while executing command ${plugin.command}`);
           log.error(e);
         }
