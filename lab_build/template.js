@@ -7,13 +7,18 @@ const log = require("../logger.js");
 
 function loadComponents(component_files) {
   const components = component_files.map((fn) =>
-    fs.readFileSync(path.resolve(__dirname,"page-components",fn), "utf-8")
+    fs.readFileSync(path.resolve(__dirname, "page-components", fn), "utf-8")
   );
   return components;
 }
 
 function addAnalytics(dom, analyticsSnippet) {
   dom.window.document.head.querySelector("script").innerHTML = analyticsSnippet;
+  return dom;
+}
+
+function addAnalyticsBody(dom, analyticsSnippet) {
+  dom.window.document.body.querySelector("noscript").innerHTML = analyticsSnippet;
   return dom;
 }
 
@@ -53,6 +58,7 @@ function populateTemplate(template, components, content) {
   res = addBroadAreaName(res, components[2]);
   res = addSideBar(res, components[3]);
   res = addNavbar(res, components[4]);
+  res = addAnalyticsBody(res, components[5]);
   res = addContent(res, content);
   return res.serialize();
 }

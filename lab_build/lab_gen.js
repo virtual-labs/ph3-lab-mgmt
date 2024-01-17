@@ -4,7 +4,7 @@ const fs = require("fs");
 const glob = require("glob");
 const { nextVersion } = require("./tags.js");
 const { loadExperiments, expList } = require("./exp_utils");
-const { validateLabDescriptor } = require("../validation/validate_descriptor.js")
+const { validateLabDescriptor } = require("../validation/validate_descriptor.js");
 const config = require("./lab_config.json");
 const log = require("../logger.js");
 const {
@@ -18,11 +18,16 @@ const {
   processLabDescriptor,
 } = require("./lab_utils");
 const { renderTemplate } = require("./template.js");
+const { BuildEnvs } = require("../enums.js");
 
 shell.config.silent = true;
 
-function generateLab(labpath) {
-  const data = processLabDescriptor(path.join(labpath, "lab-descriptor.json"));
+function generateLab(labpath, build_options) {
+  const data = processLabDescriptor(path.join(labpath, "lab-descriptor.json"), build_options);
+  data.options = { ...build_options };
+  data.options.production = (build_options.env === BuildEnvs.PRODUCTION);
+  data.options.testing = (build_options.env === BuildEnvs.TESTING);
+  data.options.local = (build_options.env === BuildEnvs.LOCAL);
   const template_file = "skeleton.html";
   const component_files = config.commonComponents;
 
@@ -65,20 +70,20 @@ function moveToDeployDir(labpath) {
 
   elist.forEach((e) => {
     if (e.deploy) {
-    log.debug(`Deploying experiment ${e["short-name"]} to ${path.resolve(deployment_path, "exp", e["short-name"])}`);
-    shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
-    //     shell.exec(`rsync -arv --exclude .git \
-    // '${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
-    // alternative
-    shell.rm(
-      "-rf",
-      path.resolve(deployment_path, "exp", e["short-name"], "**", ".git/")
-    );
-    shell.cp(
-      "-r",
-      `${deployment_path}/stage/exp/${e["short-name"]}/*`,
-      `${deployment_path}/exp/${e["short-name"]}`
-    );
+      log.debug(`Deploying experiment ${e["short-name"]} to ${path.resolve(deployment_path, "exp", e["short-name"])}`);
+      shell.mkdir("-p", path.resolve(deployment_path, "exp", e["short-name"]));
+      //     shell.exec(`rsync -arv --exclude .git \
+      // '${deployment_path}/stage/exp/${e["short-name"]}/'* '${deployment_path}/exp/${e["short-name"]}'`);
+      // alternative
+      shell.rm(
+        "-rf",
+        path.resolve(deployment_path, "exp", e["short-name"], "**", ".git/")
+      );
+      shell.cp(
+        "-r",
+        `${deployment_path}/stage/exp/${e["short-name"]}/*`,
+        `${deployment_path}/exp/${e["short-name"]}`
+      );
     }
   });
 
@@ -98,7 +103,7 @@ function moveToDeployDir(labpath) {
   );
 }
 
-function validation(labpath){
+function validation(labpath) {
   const lab_descriptor_path = path.resolve(labpath, "lab-descriptor.json");
 
   log.info("Validating lab descriptor");
@@ -143,7 +148,7 @@ function deployLab(labpath, release_type) {
   }
 }
 
-function buildLab(labpath) {
+function buildLab(labpath, build_options) {
   log.info(`Building lab at ${labpath}`);
 
   // Generate lab
@@ -154,10 +159,10 @@ function buildLab(labpath) {
   } else {
     // 1 : Build all lab pages by rendering templates and loading components
     log.info("Generating lab pages");
-    generateLab(labpath);
+    generateLab(labpath, build_options);
     // 2 : Load all experiments in the lab (Clone, build, and stage)
     log.info("Loading all experiments");
-    loadExperiments(labpath);
+    loadExperiments(labpath, build_options);
     log.info("Lab build complete");
   }
 }

@@ -4,7 +4,8 @@
 		"lab-name.html",    	    	
 		"broad-area.html",
 		"sidebar.html",
-		"navbar.html"	
+		"navbar.html",
+		"analytics-body.html"
     ],
     "pages" : [
 	{

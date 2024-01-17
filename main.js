@@ -7,7 +7,7 @@ const minimist = require("minimist");
 const Config = require("./config.js");
 const path = require("path");
 const log = require("./logger");
-const {buildLab, deployLab,validation} = require("./lab_build/lab_gen.js");
+const { buildLab, deployLab, validation } = require("./lab_build/lab_gen.js");
 // Build/run
 // Flags = clean build, with plugin, without plugin, validation on off, also deploy locally
 
@@ -33,6 +33,7 @@ function helper() {
   console.log("  --validateEslint     validate the code using eslint");
   console.log("  --validateExpDesc    validate the experiment description and assessment files");
   console.log("  --disablePlugin      disable the plugins");
+  console.log("  --disableAnalytics   disable the analytics configuration");
   console.log("  --deploy             deploy the experiment locally");
   console.log("  --env                environment to build the experiment");
   console.log("\n");
@@ -43,7 +44,7 @@ function helper() {
   console.log("  --validateExpDesc    validate the experiment description and assessment files");
   console.log("\n");
   console.log("Mode: clean");
-  console.log("Usage: clean"); 
+  console.log("Usage: clean");
   console.log("\n");
   console.log("Mode: deploy");
   console.log("Usage: deploy");
@@ -64,15 +65,15 @@ function helper() {
 }
 
 
-function getAssessmentPath(src,units){
+function getAssessmentPath(src, units) {
   let assessmentPath = [];
   units.forEach((unit) => {
-    if(unit["unit-type"] === "lu"){
+    if (unit["unit-type"] === "lu") {
       const nextSrc = path.resolve(src, unit.basedir);
-      let paths = getAssessmentPath(nextSrc,unit.units);
+      let paths = getAssessmentPath(nextSrc, unit.units);
       assessmentPath.push(...paths);
     }
-    if(unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT){
+    if (unit["content-type"] === ContentTypes.ASSESMENT || unit["content-type"] === ContentTypes.ASSESSMENT) {
       const quiz = path.resolve(src, unit.source);
       assessmentPath.push(quiz);
     }
@@ -147,39 +148,39 @@ function validate(isESLINT, isExpDesc, src) {
   const ep = path.resolve(src, Config.Experiment.exp_dir);
   const descriptorPath = path.resolve(src, Config.Experiment.descriptor_name);
   if (isESLINT) {
-    try{
+    try {
       log.debug("Validating with eslint");
-      shell.exec(`npx eslint -c ${__dirname}/exp_build/.eslintrc.js ${ep}`, {silent:false});
+      shell.exec(`npx eslint -c ${__dirname}/exp_build/.eslintrc.js ${ep}`, { silent: false });
     } catch (e) {
       log.error("Error validating with eslint", e);
     }
   }
   if (isExpDesc) {
-    try{
+    try {
       log.debug("Validating experiment descriptor");
       shell.exec(
-        `node ${__dirname}/validation/validate.js -f ${descriptorPath}`, {silent:false}
+        `node ${__dirname}/validation/validate.js -f ${descriptorPath}`, { silent: false }
       );
     } catch (e) {
       log.error("Error validating experiment descriptor", e);
     }
     // read from descriptorPath
     // loop through the units and validate the content
-    try{
+    try {
       log.debug("Validating Assessment files");
       const descriptor = require(descriptorPath);
-      const assessmentPath = getAssessmentPath(ep,descriptor.units);
+      const assessmentPath = getAssessmentPath(ep, descriptor.units);
       assessmentPath.forEach((file) => {
-        if (fs.existsSync(file)){
+        if (fs.existsSync(file)) {
           // trim ep from file
-          const fileName = file.replace(ep,"");
+          const fileName = file.replace(ep, "");
           shell.exec(
-            `echo =${fileName}`, {silent:false}
+            `echo =${fileName}`, { silent: false }
           );
           shell.exec(
-            `node ${__dirname}/validation/validate.js -f ${file} -c assessment`, {silent:false}
+            `node ${__dirname}/validation/validate.js -f ${file} -c assessment`, { silent: false }
           );
-        }else{
+        } else {
           log.error(`Assessment file ${path} does not exist`);
         }
       });
@@ -192,15 +193,15 @@ function validate(isESLINT, isExpDesc, src) {
 // Clean
 function clean(src) {
   // Check if build exists
-  try{
-  const bp = path.resolve(src, Config.Experiment.build_dir);
-  if (fs.existsSync(bp)) {
-    fs.rmSync(bp, { recursive: true });
-  }
-  if (fs.existsSync("./plugins")) {
-    fs.rmSync("./plugins", { recursive: true });
-  }
-  log.debug("Cleaned build folder");
+  try {
+    const bp = path.resolve(src, Config.Experiment.build_dir);
+    if (fs.existsSync(bp)) {
+      fs.rmSync(bp, { recursive: true });
+    }
+    if (fs.existsSync("./plugins")) {
+      fs.rmSync("./plugins", { recursive: true });
+    }
+    log.debug("Cleaned build folder");
   } catch (e) {
     log.error("Error cleaning build folder", e);
   }
@@ -214,7 +215,7 @@ function deployLocal(src) {
     // Deploy
     try {
       log.debug("Deploying locally");
-      const child = shell.exec(`npx http-server -p 0 ${bp} -o /index.html`, {async:true});
+      const child = shell.exec(`npx http-server -p 0 ${bp} -o /index.html`, { async: true });
       child.stdout.on('data', function(data) {
         console.log(data);
       });
@@ -236,6 +237,16 @@ function main() {
     return;
   }
 
+
+  let isClean = args.clean || false;
+  let isESLINT = args.validateEslint || false;
+  let isExpDesc = args.validateExpdesc || false;
+  let isDeploy = args.deploy || false;
+  let isPlugin = args.disablePlugin ? false : true;
+  let isESLINTValidate = args.eslint || false;
+  let isExpDescValidate = args.expdesc || false;
+  let isDebug = args.debug || false;
+  let addAnalytics = args.disableAnalytics ? false : true;
   // for backwards compatibility if the env is not given assume it to
   // be testing.
   const build_options = {};
@@ -246,22 +257,31 @@ function main() {
     build_options.env = BuildEnvs.TESTING;
   }
 
+  build_options.isValidate = isESLINT || isExpDesc;
+  build_options.isESLINT = isESLINT;
+  build_options.isExpDesc = isExpDesc;
+  build_options.addAnalytics = addAnalytics;
+
+  if (isPlugin) {
+    build_options.plugins = true;
+  } else {
+    build_options.plugins = false;
+  }
+
   // if the path is not provided assume "../" for backward
   // compatability.
   let src = ".";
-  if(args.src)
-  {
+  if (args.src) {
     src = args.src;
   }
-  
-  let isDebug = args.debug || false;
-  if(isDebug){
+
+  if (isDebug) {
     log.addDebug();
     log.info("Debug mode enabled");
   } else {
     log.addInfo();
   }
-  
+
   let option = "";
   if (args._.length === 1) {
     option = args._[0];
@@ -277,11 +297,11 @@ function main() {
 
   switch (option) {
     case "build":
-      let isClean = args.clean || false;
-      let isESLINT = args.validateEslint || false;
-      let isExpDesc = args.validateExpdesc || false;
-      let isDeploy = args.deploy || false;
-      let isPlugin = args.disablePlugin ? false : true;
+      // let isClean = args.clean || false;
+      // let isESLINT = args.validateEslint || false;
+      // let isExpDesc = args.validateExpdesc || false;
+      // let isDeploy = args.deploy || false;
+      // let isPlugin = args.disablePlugin ? false : true;
       log.info("Calling build with options: ");
       log.info(`isClean: ${isClean}`);
       log.info(`isESLINT: ${isESLINT}`);
@@ -301,8 +321,8 @@ function main() {
       break;
 
     case "validate":
-      let isESLINTValidate = args.eslint || false;
-      let isExpDescValidate = args.expdesc || false;
+      // let isESLINTValidate = args.eslint || false;
+      // let isExpDescValidate = args.expdesc || false;
       log.info("Calling validate with options: ");
       log.info(`isESLINT: ${isESLINTValidate}`);
       log.info(`isExpDesc: ${isExpDescValidate}`);
@@ -323,11 +343,10 @@ function main() {
     case "buildLab":
       log.info("Calling buildLab");
       labpath = path.resolve(src);
-      if(validation(labpath)){
-        buildLab(labpath);
+      if (validation(labpath)) {
+        buildLab(labpath, build_options);
         log.info("BuildLab Complete");
-        if(args.deploy)
-        {
+        if (args.deploy) {
           log.info("Calling deploy Lab");
 
           deployLab(labpath, release);
@@ -335,11 +354,11 @@ function main() {
         }
       }
       break;
-    
+
     case "deployLab":
       log.info("Calling deploy Lab");
       labpath = path.resolve(src);
-      if(validation(labpath)){
+      if (validation(labpath)) {
         deployLab(src, release);
         log.info("Deploy Lab Complete");
         break;
@@ -381,4 +400,4 @@ module.exports = {
   validate,
   clean,
   deployLocal
-}
+};

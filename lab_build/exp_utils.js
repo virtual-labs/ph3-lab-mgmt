@@ -1,6 +1,6 @@
 const path = require("path");
-const {toDirName} = require("./lab_utils.js");
-const {run} = require("../exp_build/exp_gen.js");
+const { toDirName } = require("./lab_utils.js");
+const { run } = require("../exp_build/exp_gen.js");
 const chalk = require("chalk");
 const shell = require("shelljs");
 const log = require("../logger.js");
@@ -23,17 +23,18 @@ function exp_clone(e, exp_dir) {
   log.debug(`Cloning ${e.repo} to ${exp_dir}`);
   const e_short_name = e["short-name"];
   shell.mkdir("-p", path.resolve(exp_dir));
+  shell.mkdir("-p", path.resolve(exp_dir, e_short_name));
   shell.rm("-rf", path.resolve(exp_dir, e_short_name));
   shell.exec(
     `git clone -b ${e.tag} --depth 1 ${e.repo} "${path.resolve(
       exp_dir,
       e_short_name
     )}"`,
-    {silent: false}
+    { silent: false }
   );
 }
 
-function exp_build(e, ld, exp_dir) {
+function exp_build(e, ld, exp_dir, build_options) {
   const e_short_name = e["short-name"];
   log.debug(`Building experiment ${e_short_name} at ${path.resolve(exp_dir, e_short_name)}`);
   /*
@@ -46,40 +47,44 @@ function exp_build(e, ld, exp_dir) {
   ld.exp_name = e.name;
   ld.exp_short_name = e_short_name;
 
-  const build_options = {
-    env: BuildEnvs.PRODUCTION,
-    isValidate: false,
-    plugins: false
-  }
+  // const build_options = {
+  //   env: BuildEnvs.PRODUCTION,
+  //   isValidate: false,
+  //   plugins: false
+  // };
 
   run(path.resolve(exp_dir, e_short_name), ld, build_options);
 }
 
 function exp_stage(e, exp_dir, deployment_dest) {
   const e_short_name = toDirName(e["short-name"]);
-  log.debug(`Staging experiment ${e_short_name} to ${path.resolve(deployment_dest, "stage", "exp", e_short_name)}`);
+  log.debug(`Staging experiment ${e_short_name} to ${path.resolve(deployment_dest, e_short_name)}`);
 
-  shell.rm("-rf", `${deployment_dest}/stage/exp/${e_short_name}/`);
+  shell.rm("-rf", `${deployment_dest}/${e_short_name}/`);
   shell.mkdir(
     "-p",
-    path.resolve(deployment_dest, "stage", "exp", e_short_name)
+    path.resolve(deployment_dest, e_short_name)
   );
   shell.cp(
     "-rf",
     `${exp_dir}/${e_short_name}/build/*`,
-    `${deployment_dest}/stage/exp/${e_short_name}/`
+    `${deployment_dest}/${e_short_name}/`
   );
 }
 
-function loadExperiments(labpath) {
+function loadExperiments(labpath, build_options) {
   const ldpath = path.resolve(labpath, "lab-descriptor.json");
   const lab_descriptor = require(ldpath);
 
-  const config = require("./lab_config.json");
-  const exp_dir = config["exp_dir"];
-  const deployment_dest = config["deployment_dest"];
+  //const config = require("./lab_config.json");
+  const config = require("../config.js");
+  const exp_dir = config.Lab.exp_build_dir;
+  const deployment_dest = config.Lab.deployment_dest;
   const lab_dir_name = toDirName(lab_descriptor.lab);
   const deployment_path = path.join(deployment_dest, lab_dir_name);
+  const lab_build_dir = config.Lab.build_dir;
+  const exp_deploy_dir = config.Lab.exp_deploy_dir;
+  const exp_deploy_path = path.join(labpath, lab_build_dir, exp_deploy_dir);
   const experiments = expList(lab_descriptor);
 
   const num_experiments = experiments.length;
@@ -87,12 +92,13 @@ function loadExperiments(labpath) {
   experiments.forEach((e) => {
     log.info(`Loading experiment ${e["short-name"]} (${exp_count}/${num_experiments})`);
     exp_clone(e, exp_dir);
-    exp_build(e, lab_descriptor, exp_dir);
-    exp_stage(e, exp_dir, deployment_path);
+    exp_build(e, lab_descriptor, exp_dir, build_options);
+    // exp_stage(e, exp_dir, deployment_path);
+    exp_stage(e, exp_dir, exp_deploy_path);
   });
 }
 
 module.exports = {
-    loadExperiments,
-    expList
+  loadExperiments,
+  expList
 };

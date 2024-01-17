@@ -1,17 +1,10 @@
-{{#if addAnalytics}}
-{{#if production}}
-  <!--Google Tag Manager (noscript)-->
-  <noscript class="gtm">
+{{#if options.addAnalytics}}
+<!--Google Tag Manager-->
+{{#if options.production}}
     <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-W59SWTR" style="display:none;visibility:hidden" width="0">
     </iframe>
-  </noscript>
-  <!--End Google Tag Manager (noscript)-->
-{{else if testing}}
-  <!--Google Tag Manager (noscript)-->
-  <noscript class="gtm">
+{{else if options.testing}}
     <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-5NMQ9NQ" style="display:none;visibility:hidden" width="0">
     </iframe>
-  </noscript>
-  <!--End Google Tag Manager (noscript)-->
 {{/if}}
 {{/if}}
