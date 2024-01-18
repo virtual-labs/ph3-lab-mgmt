@@ -26,7 +26,7 @@ The side menu provies links to all the pages in the experiment. The default page
 8. References/Further Reading - references.md
 9. Feedback - It is populated by the script and does not need any inputs from the developer
 
-This menu can be customized by making changes to the experiment-descriptor.json as detailed [[https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/docs/exp-build-process.org#experiment-descriptor][here]]. 
+This menu can be customized by making changes to the experiment-descriptor.json as detailed [[https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/docs/exp-build-process.md#experiment-descriptor][here]]. 
 
 ** Highlights the link to the current page
 To facilitate tracking the current page, the side menu highlights the
