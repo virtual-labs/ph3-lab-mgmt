@@ -1,15 +1,16 @@
 # Experiment Build Process
 
-* Introduction
+## Introduction
 This document describes the Experiment UI build process.
 
-* Conceptual Model of an Experiment
+## Conceptual Model of an Experiment
 An experiment is divided into several /learning units/ and /tasks/.
 Learning Units and Tasks are logical units of an experiment that we
 discuss in the next few sections.
 
-** Learning Unit
-*** Concept of a Learning Unit
+## Learning Unit
+
+### Concept of a Learning Unit
 A Learning Unit is a pedagogical term used to denote a set of learning
 material including lessons, exercises and evaluations aimed at
 teaching a particular subset of topics to be covered in a course.
@@ -18,7 +19,7 @@ The students have to perform a set of activities of various kind in
 order to achieve the learning objectives of the learning unit.  We
 refer to these activities as /Tasks/.
 
-*** Structure and Properties of a Learning Unit
+### Structure and Properties of a Learning Unit
 Learning Units have the following properties:
 
 - AIM :: A learning unit always has an aim/learning objective.  This
@@ -35,14 +36,14 @@ Learning Units have the following properties:
            to perform.
 
 
-** Task
-*** Concept of a Task
+## Task
+### Concept of a Task
 A Learning Unit can be divided into several smaller Learning Units and
 Tasks.  Currently, Tasks are the lowest logical units in any
 experiment and cannot be further divided.  A task corresponds to a
 single activity that the students need to perform.
 
-*** Structure and Properties of a Task
+### Structure and Properties of a Task
 
 - Content Type :: Each Task has one of the following content types:
   + Text
@@ -68,7 +69,7 @@ webpages are built using content provided by the subject matter
 experts and it can be in several formats.  The resulting page and it's
 build process depends on the nature of the content.
 
-** Relation between Learning Units, Tasks and Pages
+### Relation between Learning Units, Tasks and Pages
 
 - Learning Unit :: A learning unit itself does not have a page
                    associated with it.  A learning unit has a set of
@@ -78,7 +79,7 @@ build process depends on the nature of the content.
           of page that is generated for a task depends on the content
           type of the task.
 
-** Contents supported for Task Pages
+### Contents supported for Task Pages
 Each task has a corresponding webpage associated with it.  This page
 is generated as a result of the build process.  The build process of a
 page depends on the content type of the task.
@@ -86,12 +87,12 @@ page depends on the content type of the task.
 In the following sections we discuss the different content types and
 build process details.
 
-*** Text
+## Text
 A Task with the "text" content type contains reading meterial for the
 learner.  It contains mostly textual information and may include
 images and hyperlinks.
 
-*NOTE* : *text content may not contain videos.*
+**NOTE** : **text content may not contain videos.**
 
 - Source :: A page of text type requires a markdown document
             containing the source of text.  This markdown document is
@@ -103,14 +104,15 @@ images and hyperlinks.
             template.
 
 
-*** Video
+## Video
+
 A Task with "video" content type contains at least one video in the
 task page.  It can also have additional information in the form of
 text, images and hyperlinks.
 
 All the processing for video content type is similar to "text" type.
 
-**** What is the difference between text and video content types?
+### What is the difference between text and video content types?
 
 - For Authors ::
   + Text content cannot have embedded video.
@@ -124,12 +126,14 @@ All the processing for video content type is similar to "text" type.
   + If there is no embedded video in a "video" source document, the
     processing should fail with appropriate error message.
 
-**** Implementation Status
+## Implementation Status
+
 Video and text content types are processed the same way.  The
 analytics injection in embedded video pages is to be implemented.
 
 
-*** Simulation
+## Simulation
+
 A Simulation type page contains interactive simulations that
 demonstrate the concepts learned in the reading material/ videos.  A
 simulation is an html document along with all it's assets (css, js,
@@ -144,7 +148,7 @@ embedded in the corresponding task page using iframes.
 One task page can only contain a single simulation.
 
 
-*** Assesment
+### Assesment
 Assesment type page contains multiple-choice questions related to the
 material in the learning unit.
 
@@ -156,7 +160,7 @@ material in the learning unit.
             included as a script in the task page.
 
 
-** URL Scheme for a page
+## URL Scheme for a page
 - github pages :: https://virtual-labs.github.io/<file-path>
 - vlab website :: https://<lab-code>.vlabs.ac.in/<lab-name>/exp/<file-path>
 
@@ -168,10 +172,10 @@ Each learning unit has a different directory for all its content.  So,
 the filepath for any page is <base-dir-name>/<filename>.
 
 
-** The Feedback Page
+## The Feedback Page
 
 
-* Experiment Descriptor
+# Experiment Descriptor
 
 The experiment descriptor is a json document that provides information
 about all the learning units and tasks in an experiment, that is
@@ -181,12 +185,12 @@ The =experiment-descriptor.json= needs to be provided by the
 experiment authors in the root of the experiment repository.  If it is
 not present then a [[default-experiment-descriptor.json][default descriptor]] is used.
 
-** Elements of a descriptor
+## Elements of a descriptor
 
-*** Task Object
+### Task Object
 A Task Object describes a task.  For example:
 
-#+BEGIN_SRC js
+~~~
 {
   "unit-type": "task",
   "label": "Overview",
@@ -195,7 +199,8 @@ A Task Object describes a task.  For example:
   "source": "overview.md",
   "target": "overview.html"
 }
-#+END_SRC
+~~~
+
 
 The above json object represents a task.  It is identified as a task
 by the field =unit-type=.
@@ -210,10 +215,10 @@ The =source= field gives a relative link to the source document
 required to build the page to be generated for the task.  The path of
 the page to be generated is given in the =target= field.
 
-*** Learning Unit Object
+### Learning Unit Object
 A Learning Unit object describes a learning unit.  For example: 
 
-#+BEGIN_SRC js
+~~~
 {
   "unit-type": "lu",
   "label": "Bubble Sort",
@@ -221,7 +226,7 @@ A Learning Unit object describes a learning unit.  For example:
   "units": [...]
 
 }
-#+END_SRC
+~~~
 
 The above object describes a learning unit.  Observe that a learning
 unit does not have source and target fields.  This is because no page
@@ -240,7 +245,7 @@ Some additional fields:
 - units :: This is a list of units (Tasks and LUs) that are contained
            within this learning unit.
 
-*** Aim Object
+### Aim Object
 
 Each Learning Unit needs to have an Aim.  This aim describes the
 learning objectives of a unit.  This Aim Object denotes the fact that
@@ -252,16 +257,16 @@ practice.)
 
 The aim object looks as follows:
 
-#+BEGIN_SRC js
+~~~
 {
   "unit-type": "aim"
 }
-#+END_SRC
+~~~
 
 An aim object is a special case of task, and is similar to the
 following task:
 
-#+BEGIN_SRC js
+~~~
 {
   "unit-type": "task",
   "label": "Aim",
@@ -269,10 +274,10 @@ following task:
   "source": "aim.md",
   "target": "index.html"
 }
-#+END_SRC
+~~~
 
 
-** Default Descriptor
+## Default Descriptor
 
 - assumptions
 
@@ -313,14 +318,14 @@ following task:
        and follow the prescribed experiment template.  In this case
        the default experiment descriptor is used.
 
-** Structure of an experiment descriptor
+## Structure of an experiment descriptor
 
 The experiment descriptor contains a single Learning Unit object that
 acts as the root unit for the experiment.
 
 See [[https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json][this]] descriptor for an example
 
-*** Problems and Limitations of the experiment descriptor
+### Problems and Limitations of the experiment descriptor
 The experiment descriptor is intended to provided a mechanism to make
 the experiment structure more flexible.  The authors get the freedom
 to define their own directory structure and file names and divide
@@ -329,7 +334,7 @@ implementation supports this under certain limits.  In this section we
 didcuss the limitations of the functionalities supported by the
 experiment descriptor.
 
-**** No support for Nested Learning Units
+#### No support for Nested Learning Units
 The experiment descriptor is designed with flexibility in mind.  It
 allows for a recursive structure where each learning unit can contain
 several nested units.  But, the current implementation does not
@@ -356,7 +361,7 @@ represents its level in the heirarchy and when you go deeper in the
 nested structure it might be difficult to accomodate the spacing.
 
 
-**** The Label field in the top level unit object
+#### The Label field in the top level unit object
 The top level object is a learning unit that represents the entire
 experiment.  A learning unit object has a *label* field which is used
 as a label for the side menu drawer for that unit.  Because the side
@@ -368,7 +373,7 @@ field is used for the name of the experiment whereas the experiment
 name comes from the "experiment-name.md" document.
 
 
-** Unit Types
+## Unit Types
 
 - lu :: Learning Unit
 - task :: Task
