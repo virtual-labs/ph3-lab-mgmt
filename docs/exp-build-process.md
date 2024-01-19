@@ -161,9 +161,10 @@ material in the learning unit.
 
 
 ## URL Scheme for a page
-- github pages :: https://virtual-labs.github.io/<file-path>
-- vlab website :: https://<lab-code>.vlabs.ac.in/<lab-name>/exp/<file-path>
-
+~~~
+- github pages: https://virtual-labs.github.io/<file-path>
+- vlab website: https://<lab-code>.vlabs.ac.in/<lab-name>/exp/<file-path>
+~~~
 /lab-code/ refers to the 2-3 letter code used for the sub-domain of
 the lab.  For example: /de-iitr/ for IITR Digital Electronics Labs,
 /ds1/ and /ds2/ for IIITH data structures labs.
@@ -183,10 +184,9 @@ required to build an experiment.
 
 The =experiment-descriptor.json= needs to be provided by the
 experiment authors in the root of the experiment repository.  If it is
-not present then a [[default-experiment-descriptor.json][default descriptor]] is used.
+not present then a default-experiment-descriptor.json is used.
 
 ## Elements of a descriptor
-
 ### Task Object
 A Task Object describes a task.  For example:
 
@@ -286,7 +286,7 @@ following task:
   - The directory structure is preserved.
   - The file names remain the same and are used for the intended
     purpose.
-  - Refer to the [[file:~/iiith/vlead/Phase-3-Lab-Template/default-experiment-descriptor.json][default descriptor]] for details.
+  - Refer to the [default descriptor](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/default-experiment-descriptor.json) for details.
 
 - failure scenarios 
   - The main reason for why the experiment build process fails is
@@ -323,7 +323,7 @@ following task:
 The experiment descriptor contains a single Learning Unit object that
 acts as the root unit for the experiment.
 
-See [[https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json][this]] descriptor for an example
+See [this](https://github.com/virtual-labs/exp-bubble-sort-iiith/blob/main/experiment-descriptor.json) descriptor for an example
 
 ### Problems and Limitations of the experiment descriptor
 The experiment descriptor is intended to provided a mechanism to make
@@ -350,7 +350,7 @@ The main challenge in supporting nested learning units is the
 structure and functioning of the side menu.  The side menu is a list
 of links to all the units in the experiment that is presented at the
 left side of each page in the experiment.  The details of the side
-menu are discussed [[file:exp-side-menu.org][here]].  The side menu contains a drawer for each
+menu are discussed [here](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/docs/exp-side-menu.org).  The side menu contains a drawer for each
 learning unit that contains links to all the units contained in that
 unit.
 
