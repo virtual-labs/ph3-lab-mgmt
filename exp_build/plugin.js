@@ -108,7 +108,7 @@ class Plugin {
     });
   }
 
-  static loadCodeEditor(options) {
+  static loadCodeAssessment(options) {
     const pluginConfigFile = Plugin.getConfigFileName(options.env);
     const codeditor = require(pluginConfigFile).find(plugin => plugin.label == "Code Assessment")
 

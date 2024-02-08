@@ -32,15 +32,15 @@ function run(src, lab_data, build_options) {
     }
   });
 
-  const code_assessment = exp.descriptor["code-assessment-options"];
+  const code_assessment = exp.descriptor["code-assessment"];
 
-  // Include Codeditor.json if the code editor is included
-  if(code_assessment.includeCodeAssessment)
+  // Include code-assessment.json if the code editor is included
+  if(code_assessment.include)
   {
-    if (!shell.test("-f", Experiment.codeditorPath(src))) {
+    if (!shell.test("-f", Experiment.codeAssessmentPath(src))) {
       shell.cp(
-        path.resolve(Config.Experiment.default_codeditor),
-        path.resolve(this.src, Experiment.codeditorPath(src))
+        path.resolve(Config.Experiment.default_code_assessment),
+        path.resolve(this.src, Experiment.codeAssessmentPath(src))
       );
     }
     log.info("Code Editor included")
