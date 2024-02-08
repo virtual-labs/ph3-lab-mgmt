@@ -146,7 +146,7 @@ experiment repository location.
 |--------------------------+---------------------------------------------------------------------------|
 | [[file:docs/lab-build-process.org][Lab Build Process]]        | This document describes the lab build process.                            |
 | [[file:docs/lab-descriptor.org][Lab Descriptor]]           | This document describes the structure and functions of the lab-descriptor |
-| [[file:docs/exp-build-process.org][Experiment Build Process]] | Document describing the experiment build process.                         |
+| [[file:docs/exp-build-process.md][Experiment Build Process]] | Document describing the experiment build process.                         |
 | [[file:docs/analytics.org][Analytics]]                | Lab and Experiment Analytics details.                                     |
 | [[docs/units.org][Units]]                    | Defines all types of  units in an experiment                              |
 | [[docs/plugins.org][Proposed Plugins]]         | Proposal for moving towards a plugin based architecture.                  |
