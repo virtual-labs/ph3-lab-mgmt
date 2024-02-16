@@ -4,7 +4,7 @@
   "basedir": ".",
   "LaTeXinMD": false,
   "code-assessment": {
-    "include": true,
+    "include": false,
     "languages": ["javascript"],
     "position": 5
   },
