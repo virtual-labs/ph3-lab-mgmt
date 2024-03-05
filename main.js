@@ -215,7 +215,7 @@ function deployLocal(src) {
     // Deploy
     try {
       log.debug("Deploying locally");
-      const child = shell.exec(`npx http-server -p 0 ${bp} -o /index.html`, { async: true });
+      const child = shell.exec(`npx http-server -p 0 -c-1 --no-dotfiles ${bp} -o /index.html`, { async: true });
       child.stdout.on('data', function(data) {
         console.log(data);
       });
