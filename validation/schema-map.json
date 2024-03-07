@@ -3,5 +3,5 @@
   "pretest.json": "./schemas/quizSchema.js",
   "experiment-descriptor.json": "./schemas/descriptorSchema.js",
   "assessment": "./schemas/quizSchema.js",
-  "code-assessment.json": "./schemas/codeAssessment.js"
+  "code-assessment.json": "./schemas/code-assessment.js"
 }

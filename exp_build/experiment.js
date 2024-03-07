@@ -270,11 +270,11 @@ class Experiment {
     this.descriptor.units.push(contributors);
   }
 
-  includeCodeEditor(position = 6) {
+  includeCodeEditor(position = 5) {
     const codeditor = {
       "target": "code-assessment.html",
       "label": "Code Assessment",
-      "source": "codeditor.json",
+      "source": "code-assessment.json",
       "unit-type": "task",
       "content-type": "component",
     };

@@ -37,12 +37,6 @@ function run(src, lab_data, build_options) {
   // Include code-assessment.json if the code editor is included
   if(code_assessment.include)
   {
-    if (!shell.test("-f", Experiment.codeAssessmentPath(src))) {
-      shell.cp(
-        path.resolve(Config.Experiment.default_code_assessment),
-        path.resolve(this.src, Experiment.codeAssessmentPath(src))
-      );
-    }
     log.info("Code Editor included")
     build_options.codeditor = true;
     build_options.code_assessment = code_assessment;
