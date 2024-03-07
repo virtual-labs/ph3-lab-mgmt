@@ -52,6 +52,10 @@ class Experiment {
     return path.resolve(src, Config.Experiment.descriptor_name);
   }
 
+  static codeAssessmentPath(src) {
+    return path.resolve(`${src}/experiment`, "code-assessment.json");
+  }
+
   static contributorsPath(src) {
     return path.resolve(`${src}/experiment`, "contributors.md");
   }
@@ -151,6 +155,16 @@ class Experiment {
         log.error("Error validating Assessment files", e);
       }
     }
+    if (build_options.codeditor) {
+      try {
+        log.debug("Validating with Code Assessment");
+        const codeAssessmentPath = path.resolve(expPath, './code-assessment.json');
+        const pathToValidator = path.resolve(__dirname, "../validation/validate.js");
+        shell.exec(`node ${pathToValidator} -f ${codeAssessmentPath} >> ${buildPath}/code-assessment.log`);
+      } catch (e) {
+        log.error("Error validating with eslint", e);
+      }
+    }
   }
   name() {
     const name_file = fs.readFileSync(
@@ -191,6 +205,15 @@ class Experiment {
       src: this.src,
       bp: Config.build_path(this.src) + "/",
     };
+
+    if(options.codeditor) {
+      const [codeditor_id, div_id, js_modules, css_modules] = Plugin.loadCodeAssessment(options);
+      exp_info.codeditor_id = codeditor_id;
+      exp_info.codeditor_div_id = div_id;
+      exp_info.codeassessment_js_modules = js_modules;
+      exp_info.codeassessment_css_modules = css_modules;
+      exp_info.codeassessment_languages = options.code_assessment.languages;
+    }
 
     if (options.plugins) {
       Plugin.loadAllPlugins(options);
@@ -245,6 +268,17 @@ class Experiment {
       target: "contributors.html",
     };
     this.descriptor.units.push(contributors);
+  }
+
+  includeCodeEditor(position = 5) {
+    const codeditor = {
+      "target": "code-assessment.html",
+      "label": "Code Assessment",
+      "source": "code-assessment.json",
+      "unit-type": "task",
+      "content-type": "component",
+    };
+    this.descriptor.units.splice(position,0,codeditor);
   }
 }
 

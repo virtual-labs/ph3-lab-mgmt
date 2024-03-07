@@ -10,6 +10,7 @@ const ContentTypes = {
   SIMULATION: "simulation",
   ASSESMENT: "assesment",
   ASSESSMENT: "assessment",
+  COMPONENT: "component",
 };
 
 const BuildEnvs = {

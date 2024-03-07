@@ -3,6 +3,11 @@
   "label": "",
   "basedir": ".",
   "LaTeXinMD": false,
+  "code-assessment": {
+    "include": false,
+    "languages": ["javascript"],
+    "position": 5
+  },
   "service-worker": "/path/to/service-worker.js",
   "units": [
     {

@@ -12,6 +12,9 @@
   {{#if isText}}
     {{{content}}}
   {{/if}}
+  {{#if isComponent}}
+    <div id = "{{codeditor_div_id}}"></div>
+  {{/if}}
   {{#if isVideo}}
     {{{content}}}
   {{/if}}
