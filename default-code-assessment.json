@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "experiment name": "Experiment Name",
+    "problems": [
+        {
+            "problem name": "Basic Bubble Sort",
+            "description": "Implement basic Bubble Sort algorithm for the given input array",
+            "inputs": [
+                [64,66,20,49,11,79]
+            ],
+            "expected": ["11,20,49,64,66,79"]
+        },
+        {
+            "problem name": "Optimized Bubble Sort",
+            "description": "Implement Optimized Bubble Sort algorithm for the given input array",
+            "inputs": [
+                [64,66,20,49,11,79]
+            ],
+            "expected": ["11,20,49,64,66,79"]
+        }
+    ]
+}

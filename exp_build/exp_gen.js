@@ -31,12 +31,28 @@ function run(src, lab_data, build_options) {
       plugin.attributes.columnValue = lab_data.exp_short_name;
     }
   });
+
+  const code_assessment = exp.descriptor["code-assessment"];
+
+  // Include code-assessment.json if the code editor is included
+  if(code_assessment.include)
+  {
+    log.info("Code Editor included")
+    build_options.codeditor = true;
+    build_options.code_assessment = code_assessment;
+    exp.includeCodeEditor(code_assessment.position);
+  }
+  else{
+    build_options.codeditor = false;
+    log.info("Code Editor Not included")
+  }
+  
   exp.init(Handlebars);
   // Validation
   if (build_options.isValidate)
   {
     exp.validate(build_options);
-  } 
+  }
 
   // if the experiment repo contains contributors.md file we will add its lu to the descriptor.
   if (shell.test("-f", Experiment.contributorsPath(src))) {

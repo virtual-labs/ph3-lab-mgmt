@@ -99,10 +99,26 @@ class Plugin {
       shell.exec("mkdir plugins");
     }
     pluginConfig.map((plugin) => {
+      if(plugin.label == 'Code Assessment') {
+        return;
+      }
       shell.cd("plugins");
       prepareRepo(plugin);
       shell.cd("..");
     });
+  }
+
+  static loadCodeAssessment(options) {
+    const pluginConfigFile = Plugin.getConfigFileName(options.env);
+    const codeditor = require(pluginConfigFile).find(plugin => plugin.label == "Code Assessment")
+
+    if (!fs.existsSync("plugins")) {
+      shell.exec("mkdir plugins");
+    }
+    shell.cd("plugins");
+    prepareRepo(codeditor);
+    shell.cd("..");
+    return [codeditor.id, codeditor.div_id, codeditor.js_modules, codeditor.css_modules]
   }
 
   static processExpScopePlugins(exp_info, hb, lab_data, options) {
