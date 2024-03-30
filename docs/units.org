@@ -44,6 +44,7 @@ pages.
 | VIDEO      | "video"               |
 | SIMULATION | "simulation"          |
 | ASSESMENT  | "assesment"           |
+| COMPONENT  | "component"           |
 |------------+-----------------------|
 
 ** BuildEnvs
