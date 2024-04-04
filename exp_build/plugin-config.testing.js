@@ -62,12 +62,11 @@ const config = [
   {
     id: "VLABS-code-editor",
     div_id: "code-editor", 
-    repo: "https://github.com/RhythmAgg/VLABS-code-editor",
     js_modules: [
-      "./js/codeditor.js"
+      "https://virtual-labs.github.io/comp-code-editor/js/codeditor.js"
     ],
     css_modules: [
-      "./css/codeditor.css"
+      "https://virtual-labs.github.io/comp-code-editor/css/codeditor.css"
     ],
     label: "Code Assessment",
   },

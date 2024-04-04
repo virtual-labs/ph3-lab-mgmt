@@ -47,6 +47,7 @@ following features can be separated as plugins.
 - Feedback
 - Discussion Forum
 - Ratings
+- Component Units like code assessment
 
 *** Analytics
 Analytics feature tracks the usage of lab and experiment webpages.

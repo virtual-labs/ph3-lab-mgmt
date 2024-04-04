@@ -180,7 +180,8 @@ the filepath for any page is <base-dir-name>/<filename>.
 
 The experiment descriptor is a json document that provides information
 about all the learning units and tasks in an experiment, that is
-required to build an experiment.
+required to build an experiment as well as configurations for components like
+code assessment.
 
 The =experiment-descriptor.json= needs to be provided by the
 experiment authors in the root of the experiment repository.  If it is
@@ -223,6 +224,11 @@ A Learning Unit object describes a learning unit.  For example:
   "unit-type": "lu",
   "label": "Bubble Sort",
   "basedir": "bubble-sort",
+  "code-assessment": {
+    "include": false,
+    "languages": ["javascript"],
+    "position": 5
+  },
   "units": [...]
 
 }
@@ -240,7 +246,9 @@ Some additional fields:
              All the tasks and units use this directory as root and
              relative paths are computed accordingly.
              
-- LaTeXinMD :: This feild gives LaTeX support into the markdown using KaTeX integration. The feature is controlled by a flag which needs to put on the experiment descriptor. 
+- LaTeXinMD :: This feild gives LaTeX support into the markdown using KaTeX integration. The feature is controlled by a flag which needs to put on the experiment descriptor.
+
+- code-assessment :: Configuration for the code-assessment component. It includes options like languages to choose from, position/index in the List of all Units.
 
 - units :: This is a list of units (Tasks and LUs) that are contained
            within this learning unit.

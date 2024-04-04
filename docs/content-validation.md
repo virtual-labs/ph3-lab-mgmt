@@ -15,9 +15,12 @@ There is a need for a tool that can validate the code and content of the experim
 This will ensure consistency in the code, will point out bugs and will raise warnings when the coding standards are not followed.
 2. Validate Experiment Descriptor
 The experiment descriptor is the primary file that contains information on how the build directory is going to be created, thus validating it is of high importance.
-3. Validating Assessment Files
+3. Validate code-assessment.json
+The `code-assessment.json` file contains the Code assessment problems along with their inputs and
+expected outputs. The component needs the json to be in prescribed format for the data to be parsed. Thus validating it becomes significant.
+4. Validating Assessment Files
 In an experiment, a developer wants to create quizzes. Virtual labs have a standard template for rendering quizzes, thus a developer needs to write a JSON file which will be converted to a quiz. These JSON files are validated via this tool
-4. Checking for HTTP links
+5. Checking for HTTP links
 These tools check whether the build directory contains any HTTP links or not.
 The HTTP links bring security concerns and hosting issues.
 
