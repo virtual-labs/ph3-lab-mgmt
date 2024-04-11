@@ -47,6 +47,7 @@ function handleRatingSubmit(e) {
   dataLayer.push({
     event: "vl-rating-submit",
     "rating": e.detail.rating,
+    "rating-value": e.detail.rating,
     "learning-unit": learningUnit ? learningUnit : "",
     "task-name": task ? task : ""
   });
@@ -63,3 +64,4 @@ if (ratingSubmitElement) {
   // Wait for the 'vl-rating-submit' event before adding the event listener
   ratingSubmitElement.addEventListener('vl-rating-submit', handleRatingSubmit);
 }
+
