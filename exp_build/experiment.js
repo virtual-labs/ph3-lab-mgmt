@@ -183,7 +183,7 @@ class Experiment {
       if (fs.existsSync(swPath)) {
         inputPath = swPath;
       } else {
-        log.error(`Service worker file ${swPath} does not exist`);
+        log.warn(`Service worker file ${swPath} does not exist`);
       }
     } else {
       log.warn("No service worker file provided");
