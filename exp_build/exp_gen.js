@@ -49,7 +49,7 @@ function run(src, lab_data, build_options) {
   const code_assessment = exp.descriptor["code-assessment"];
 
   // Include code-assessment.json if the code editor is included
-  if (code_assessment?.include) {
+  if (code_assessment && code_assessment.include) {
     log.info("Code Editor included");
     build_options.codeditor = true;
     build_options.code_assessment = code_assessment;
