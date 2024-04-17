@@ -36,6 +36,17 @@ const config = [
     },
 
   },
+  {
+    id: "VLABS-code-editor",
+    div_id: "code-editor", 
+    js_modules: [
+      "https://virtual-labs.github.io/comp-code-editor/js/codeditor.js"
+    ],
+    css_modules: [
+      "https://virtual-labs.github.io/comp-code-editor/css/codeditor.css"
+    ],
+    label: "Code Assessment",
+  },
 ];
 
 module.exports = config;
