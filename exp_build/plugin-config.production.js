@@ -19,8 +19,8 @@ const config = [
     tag: "v1.1.0.beta",
     label: "Validation Tool",
     js_modules: [
-      "./index.js",
-      "./config.js",
+      "https://virtual-labs.github.io/svc-rating/index.js",
+      "https://virtual-labs.github.io/svc-rating/config.js",
       "https://apis.google.com/js/api.js",
     ],
     css_modules: [
