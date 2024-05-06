@@ -8,8 +8,7 @@ const log = require("../logger.js");
 
 
 let src = ".";
-if(args.src)
-{
+if (args.src) {
   src = args.src;
   src = path.resolve(Config.PROJECT_ROOT, src);
 }
@@ -196,10 +195,13 @@ function mathsExpression(expr) {
 }
 
 function replaceCodeBlocks(html) {
-  html = html.replace(/{{LATEX-EXPRESSSION-\d+}}/g, function (match) {
-    const index = parseInt(match.match(/\d+/)[0]);
-    return expressions[index];
-  });
+
+  if (typeof html === "string") {
+    html = html.replace(/{{LATEX-EXPRESSSION-\d+}}/g, function(match) {
+      const index = parseInt(match.match(/\d+/)[0]);
+      return expressions[index];
+    });
+  }
   return html;
 }
 
