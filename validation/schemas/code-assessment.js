@@ -47,15 +47,29 @@ module.exports = {
                             errorMessage: {
                                 type: "The expected should be an array",
                             },
-                        }
+                        },
+                        "difficulty": {
+                            type: "string",
+                            enum: ["beginner", "intermediate", "advanced"],
+                            errorMessage: {
+                                enum: "Difficulty can only be: beginner, intermediate or advanced"
+                            }
+                        },
+                        "hint": {
+                            type: "string",
+                            errorMessage: {
+                                type: "The hint should be a string",
+                            },
+                        },
                     },
-                    required: ["problem name", "description", "inputs", "expected"],
+                    required: ["problem name", "description", "inputs", "expected", "difficulty"],
                     errorMessage: {
                         required: {
                             "problem name": "The name of the problem field is required",
                             "description": "The description is required",
                             "inputs": "The inputs field is required",
-                            "expected": "The expected field is required"
+                            "expected": "The expected field is required",
+                            "difficulty": "The difficulty field is required"
                         }
                     },
                 },
