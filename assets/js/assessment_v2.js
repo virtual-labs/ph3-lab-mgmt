@@ -8,10 +8,6 @@ const difficultyLevels = ["beginner", "intermediate", "advanced"];
 let difficulty = [];
 let questions = { all: myQuestions };
 
-// Store the correct answers and user selections
-let correctAnswers = {}; // { questionId: correctAnswer }
-let userSelections = {}; // { questionId: selectedAnswer }
-
 const addEventListener_explanations = () => {
   let accordions = document.getElementsByClassName("accordion");
   Array.from(accordions).forEach((accordion) => {
@@ -22,7 +18,11 @@ const addEventListener_explanations = () => {
 
       /* Toggle between hiding and showing the active panel */
       let panel = accordion.parentElement.nextElementSibling;
-      panel.style.display = panel.style.display === "block" ? "none" : "block";
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
     });
   });
 };
@@ -39,24 +39,6 @@ const addEventListener_checkbox = () => {
       updateQuestions();
     });
   });
-};
-
-// Function to initialize the quiz
-const initializeQuiz = () => {
-  questions.all.forEach((question, index) => {
-    correctAnswers[question.id] = question.correctAnswer;
-    userSelections[question.id] = null;
-
-    const answers = document.querySelectorAll(`#question-${question.id} .answer`);
-    answers.forEach((answer) => {
-      answer.addEventListener("click", () => handleAnswerSelection(question.id, answer));
-    });
-  });
-};
-
-// Function to handle answer selection
-const handleAnswerSelection = (questionId, selectedAnswer) => {
-  userSelections[questionId] = selectedAnswer.textContent;
 };
 
 const populateQuestions = () => {
@@ -123,39 +105,81 @@ function updateQuestions() {
   }
 }
 
-const showResults = () => {
+function showResults() {
+  // gather answer containers from our quiz
+  const answerContainers = quizContainer.querySelectorAll(".answers");
+  // keep track of user's answers
   let numCorrect = 0;
-  const totalNum = questions.all.length;
+  let toatNum = 0;
+  // for each question...
+  myQuestions.forEach((currentQuestion) => {
+    // find selected answer
+    if (
+      difficulty.indexOf(currentQuestion.difficulty) === -1 &&
+      difficulty.length !== Object.keys(questions).length - 1
+    )
+      return;
+    let questionNumber = currentQuestion.num;
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+    // Add to total
+    toatNum++;
+    // if answer is correct
+    if (userAnswer === currentQuestion.correctAnswer) {
+      // Reset if previously red colored answers
+      answerContainers[questionNumber].childNodes.forEach((e) => {
+        if (e != undefined) {
+          if (e.style) e.style.color = "black";
+        }
+      });
 
-  questions.all.forEach((question) => {
-    const correctAnswer = correctAnswers[question.id];
-    const userAnswer = userSelections[question.id];
-    const answers = document.querySelectorAll(`#question-${question.id} .answer`);
-
-    answers.forEach((answer) => {
-      if (answer.textContent === correctAnswer) {
-        answer.style.color = "green";
-      } else if (answer.textContent === userAnswer) {
-        answer.style.color = "red";
-      } else {
-        answer.style.color = "black";
-      }
-    });
-
-    if (userAnswer === correctAnswer) {
+      // add to the number of correct answers
       numCorrect++;
+
+      // color the answers green
+      //answerContainers[questionNumber].style.color = "lightgreen";
+      // Show all explanations
+      if (currentQuestion.explanations) {
+        for (let answer in currentQuestion.answers) {
+          let explanation = currentQuestion.explanations[answer];
+          let explanationButton = document.getElementById(
+            "explanation" + questionNumber.toString() + answer
+          );
+          if (explanation) {
+            explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+            explanationButton.style.display = "inline-block";
+          } else {
+            explanationButton.style.display = "none";
+          }
+        }
+      }
+    } else if (userAnswer) {
+      // if answer is wrong or blank
+      // color the answers red
+      document.getElementById(
+        "answer" + questionNumber.toString() + userAnswer
+      ).style.color = "red";
+      // Show only explanation for wrong answer
+      if (currentQuestion.explanations && userAnswer) {
+        let explanation = currentQuestion.explanations[userAnswer];
+        let explanationButton = document.getElementById(
+          "explanation" + questionNumber.toString() + userAnswer
+        );
+        if (explanation) {
+          explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+          explanationButton.style.display = "inline-block";
+        } else {
+          explanationButton.style.display = "none";
+        }
+      }
     }
   });
+  // show number of correct answers out of total
+  resultsContainer.innerHTML = `Score: ${numCorrect} out of ${toatNum}`;
+}
 
-  // Show number of correct answers out of total
-  resultsContainer.innerHTML = `Score: ${numCorrect} out of ${totalNum}`;
-};
-
-// Call initializeQuiz to set up the quiz after the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-  initializeQuiz();
-  populateQuestions();
-  addEventListener_explanations();
-  addEventListener_checkbox();
-  submitButton.addEventListener("click", showResults);
-});
+populateQuestions();
+addEventListener_explanations();
+addEventListener_checkbox();
+submitButton.addEventListener("click", showResults);
