@@ -106,51 +106,78 @@ function updateQuestions() {
 }
 
 function showResults() {
+  // gather answer containers from our quiz
+   const answerContainers = quizContainer.querySelectorAll(".answers");   
+  // keep track of user's answers
   let numCorrect = 0;
-  const totalNum = questions.all.length;
+  let totalNum = 0;
+    
+  // for each question...
+  myQuestions.forEach((currentQuestion) => {
+    // find selected answer
+    if (
+      difficulty.indexOf(currentQuestion.difficulty) === -1 &&
+      difficulty.length !== Object.keys(questions).length - 1
+    )
+      return;
+    let questionNumber = currentQuestion.num;
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+    // Add to total
+    totalNum++;
 
-  questions.all.forEach((currentQuestion, questionNumber) => {
-    const userAnswer = document.querySelector(`input[name=question${questionNumber}]:checked`)?.value;
-
+    // if answer is correct
     if (userAnswer === currentQuestion.correctAnswer) {
-      // if answer is correct
-      numCorrect++;
-      document.getElementById(
+      // Color the correct answer lightgreen
+      const correctAnswerElement = document.getElementById(
         "answer" + questionNumber.toString() + userAnswer
-      ).style.color = "lightgreen";
-      //console.log(`Question ${questionNumber}: Correct answer selected. Color changed to lightgreen.`);
+      );
+      correctAnswerElement.style.color = "lightgreen";
+
+      // add to the number of correct answers
+      numCorrect++;
+
+      // Show all explanations
+      if (currentQuestion.explanations) {
+        for (let answer in currentQuestion.answers) {
+          let explanation = currentQuestion.explanations[answer];
+          let explanationButton = document.getElementById(
+            "explanation" + questionNumber.toString() + answer
+          );
+          if (explanation) {
+            explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+            explanationButton.style.display = "inline-block";
+          } else {
+            explanationButton.style.display = "none";
+          }
+        }
+      }
     } else if (userAnswer) {
       // if answer is wrong
       document.getElementById(
         "answer" + questionNumber.toString() + userAnswer
       ).style.color = "red";
-      //console.log(`Question ${questionNumber}: Incorrect answer selected. Color changed to red.`);
-    }
-
-    // Show explanation for the selected answer
-    if (currentQuestion.explanations && userAnswer) {
-      let explanation = currentQuestion.explanations[userAnswer];
-      let explanationButton = document.getElementById(
-        "explanation" + questionNumber.toString() + userAnswer
-      );
-      if (explanation) {
-        explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
-        explanationButton.style.display = "inline-block";
-      } else {
-        explanationButton.style.display = "none";
+      
+      // Show explanation for the selected answer
+      if (currentQuestion.explanations && userAnswer) {
+        let explanation = currentQuestion.explanations[userAnswer];
+        let explanationButton = document.getElementById(
+          "explanation" + questionNumber.toString() + userAnswer
+        );
+        if (explanation) {
+          explanationButton.parentElement.nextElementSibling.innerHTML = explanation;
+          explanationButton.style.display = "inline-block";
+        } else {
+          explanationButton.style.display = "none";
+        }
       }
     }
   });
 
   // show number of correct answers out of total
   resultsContainer.innerHTML = `Score: ${numCorrect} out of ${totalNum}`;
-  //console.log(`Results displayed: ${numCorrect} out of ${totalNum}`);
 }
-
-populateQuestions();
-addEventListener_explanations();
-addEventListener_checkbox();
-submitButton.addEventListener("click", showResults);
 
 populateQuestions();
 addEventListener_explanations();
