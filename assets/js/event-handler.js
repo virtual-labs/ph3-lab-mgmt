@@ -1,5 +1,8 @@
 "use-strict";
 
+// Ensure dataLayer is defined Globally before using it
+window.dataLayer = window.dataLayer || [];
+
 const Toast = Swal.mixin({
   toast: true,
   position: 'bottom-end',
