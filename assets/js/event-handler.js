@@ -5,7 +5,7 @@ window.dataLayer = window.dataLayer || [];
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'bottom-end',
+  position: 'center',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
