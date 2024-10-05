@@ -12,14 +12,15 @@ const Toast = Swal.mixin({
   }
 })
 
-document.getElementById('bug-report').addEventListener('vl-bug-report', (e) => {
-  if (e.detail.status === 200 || e.detail.status === 201) {
+document.getElementById('bug-report').addEventListener('vl-bug-report', (event) => {
+  //console.log('Received vl-bug-report event:', event);
+  if (event.detail.status === 200 || event.detail.status === 201) {
     const learningUnit = document.head.querySelector('meta[name="learning-unit"]').content;
     const task = document.head.querySelector('meta[name="task-name"]').content;
     if (window.dataLayer) {
       window.dataLayer.push({
         event: "vl-bug-report",
-        "bug-type": e.detail.issues,
+        "bug-type": event.detail.issues,
         "learning-unit": learningUnit ? learningUnit : "",
         "task-name": task ? task : ""
       })
@@ -30,7 +31,8 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (e) => {
       background: "#a5dc86",
       title: 'Bug Reported Successfully',
     })
-  } else {
+  } else {    
+    const error = event.detail.error;    
     Toast.fire({
       icon: 'error',
       iconColor: "white",
@@ -38,9 +40,10 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (e) => {
       background: "#f27474",
       timer: 5000,
       title: 'Bug Report Failed, Please Try Again',
-    })
+      text: error ? error.message : 'An error occurred while reporting the bug'
+    });
   }
-})
+}); 
 
 // Function to handle the rating submit logic
 function handleRatingSubmit(e) {
