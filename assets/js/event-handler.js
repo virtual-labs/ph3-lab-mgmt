@@ -32,15 +32,17 @@ document.getElementById('bug-report').addEventListener('vl-bug-report', (event) 
       title: 'Bug Reported Successfully',
     })
   } else {    
-    const error = event.detail.error;    
+    const error = event.detail.error;
+    console.log('Error details:', error);
     Toast.fire({
       icon: 'error',
       iconColor: "white",
       color: "white",
       background: "#f27474",
       timer: 5000,
-      title: 'Bug Report Failed, Please Try Again',
-      text: error ? error.message : 'An error occurred while reporting the bug'
+      title: 'Bug Report Failed',
+      text: 'Please try again later',  
+      //text: 'Please try again later. Error: ' + error,  
     });
   }
 }); 
