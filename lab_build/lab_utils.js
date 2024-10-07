@@ -103,7 +103,7 @@ function processLabDescriptor(descriptor_path, build_options) {
   if (lab_descriptor.experiments) {
     lab_descriptor.experiments = lab_descriptor.experiments.map((e) => {
       const exp_url = generateLink(lab_descriptor.baseUrl, e["short-name"], build_options.env);
-      return { name: e.name, link: exp_url };
+      return { name: e.name, shortName: e["short-name"], link: exp_url };
     });
     return lab_descriptor;
   } else {
@@ -120,7 +120,7 @@ function processLabDescriptor(descriptor_path, build_options) {
               build_options.env,
               (index_fn = "index.html")
             );
-            return { name: e.name, link: exp_url };
+            return { name: e.name, shortName: e["short-name"], link: exp_url };
           }),
         };
       });
