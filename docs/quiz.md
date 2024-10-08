@@ -2,9 +2,9 @@
 ### 1. Introduction
 The quiz section is designed as part of the experiment to assess students' learning and understanding. It allows for the creation of multiple-choice, single-answer quizzes. The quiz can be used for different purposes:
 
-Pretest: To assess prerequisite knowledge before starting.
-Posttest: To test understanding after completing the module.
-Learning Unit Quizzes: To evaluate the knowledge gained from specific sections of the content.
+* Pretest: To assess prerequisite knowledge before starting.
+* Posttest: To test understanding after completing the module.
+* Learning Unit Quizzes: To evaluate the knowledge gained from specific sections of the content.
 
 The quiz implementation format is explained below.
 
@@ -16,9 +16,9 @@ The quiz is structured in a JSON file format. The quiz questions must be represe
 
 ### 3.1 Array of Questions
 Each question in the quiz is defined with the following attributes:
-**question:** This represents the question to be asked.
-**answers:** This contains the possible answer choices, each labeled (for example, as a, b, c, and d).
-**correctAnswer:** The correct option for the question, specified by the corresponding letter.
+* **question:** This represents the question to be asked.
+* **answers:** This contains the possible answer choices, each labeled (for example, as a, b, c, and d).
+* **correctAnswer:** The correct option for the question, specified by the corresponding letter.
 
 Example:
 
@@ -44,10 +44,10 @@ Example:
 * "correctAnswer": The correct answer's label (e.g., a, b, c, or d).
 
 ### 3.3 Best Practices for Writing Questions:
-1. Design the questions clear and unambiguous.
-2. Ensure that only one answer is correct.
-3. Provide distinct and not confusing answer choices.
-4. The correct answer key should always correspond to the correct option in the answers field.
+* Design the questions clear and unambiguous.
+* Ensure that only one answer is correct.
+* Provide distinct and not confusing answer choices.
+* The correct answer key should always correspond to the correct option in the answers field.
 
 ### 4. Quiz V2.0 (Enhancements done)
 The new format of quiz has multiple new additions. The details for which have been described below.  
