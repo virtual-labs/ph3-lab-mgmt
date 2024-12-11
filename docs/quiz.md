@@ -75,16 +75,16 @@ The explanations section shows up after a question is answered. It is optional a
 1. All answers have explanations
 ```
 "explanations": {
-    "a" : "Explanation 1,
-    "b" : "Explanation 2"
-    "c" : "Explanation 3"
+    "a" : "Explanation 1",
+    "b" : "Explanation 2",
+    "c" : "Explanation 3",
     "d" : "Explanation 4"
 },
 ```  
 2. Some answers have explanations
 ```
 "explanations": {
-    "a" : "Explanation 1,
+    "a" : "Explanation 1",
     "d" : "Explanation 4"
 },
 ```
