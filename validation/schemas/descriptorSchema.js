@@ -17,10 +17,20 @@ module.exports = {
       "unit-type": "The unit-type is required",
     },
   },
-  if: { properties: { "unit-type": { const: "lu" } } },
+  if: {
+    properties: { "unit-type": { const: "lu" } },
+    required: ["unit-type"],
+  },
   then: {
     required: ["basedir", "units", "label"],
     properties: {
+      "unit-type": {
+        type: "string",
+        enum: ["aim", "task", "lu"],
+        errorMessage: {
+          enum: "The unit-type should be one of the following: aim, task, lu",
+        },
+      },
       basedir: {
         type: "string",
       },
@@ -33,6 +43,13 @@ module.exports = {
       "service-worker": {
         type: "string",
       },
+      services: {
+        type: "array",
+        items: {
+          type: "string",
+          enum: ["VLAB_SVC_COMPILER", "VLAB_SVC_OCTAVE_ANN"],
+        }
+      },
     },
     additionalProperties: false,
     errorMessage: {
@@ -40,7 +57,7 @@ module.exports = {
         basedir: "The basedir is required",
         units: "The units are required",
       },
-      additionalProperties: "There are additional properties",
+      additionalProperties: "There are additional experiment properties",
     },
   },
   else: {
@@ -73,7 +90,7 @@ module.exports = {
           source: "The source is required",
           target: "The target is required",
         },
-        additionalProperties: "There are additional properties",
+        additionalProperties: "There are additional task properties",
       },
     },
   },

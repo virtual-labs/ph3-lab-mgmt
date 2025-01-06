@@ -60,6 +60,12 @@ function run(src, lab_data, build_options) {
     log.info("Code Editor Not included");
   }
 
+  const services = exp.descriptor["services"];
+
+  if (services && services.length > 0) {
+    build_options.services = services;
+  }
+
   exp.init(Handlebars);
   // Validation
   if (build_options.isValidate) {

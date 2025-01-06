@@ -34,7 +34,7 @@ class Task extends Unit {
     target,
     js_modules,
     css_modules,
-    lu 
+    lu
   ) {
     super(unit_type, label, exp_path, basedir);
     this.lu = lu;
@@ -113,7 +113,7 @@ class Task extends Unit {
   finalPath(modules) {
     let final_paths = [];
     for (let module of modules) {
-      if(Config.isURL(module)) {
+      if (Config.isURL(module)) {
         log.debug(`${module} is a valid URL`);
         final_paths.push(module);
         continue;
@@ -236,9 +236,20 @@ class Task extends Unit {
           "assets/js/iframeResize.js"
         );
 
+        const expConfig = `<script id="vlabs-exp-config" type="application/json">
+          {
+            "buildEnv": "${options.env}",
+            "optedServices": ${JSON.stringify(options.services)}
+          }
+        </script>
+        <script type="module" src=${options.vlabsInfraConfig.url}></script>
+        <script nomodule src=${options.vlabsInfraConfig.urlAlt}></script>`;
+
         content = content.replace(
           "</body>",
-          `<script src="${rp}"></script></body>`
+          `<script src="${rp}"></script>
+          ${options.services ? expConfig : ''}
+          </body>`
         );
         fs.writeFileSync(path.resolve(this.sourcePath()), content);
         break;
@@ -283,17 +294,17 @@ class Task extends Unit {
           }
         }
         break;
-      
+
       case ContentTypes.COMPONENT:
         page_data.isComponent = true;
         let css_module = [];
         let js_module = [];
         exp_info.codeassessment_js_modules.forEach(jsmodule => {
-          js_module.push(jsmodule)
-        })
+          js_module.push(jsmodule);
+        });
         exp_info.codeassessment_css_modules.forEach(cssmodule => {
-          css_module.push(cssmodule)
-        })
+          css_module.push(cssmodule);
+        });
         page_data.js_modules = this.finalPath(js_module);
         page_data.css_modules = this.finalPath(css_module);
         page_data.codeditor_div_id = exp_info.codeditor_div_id;

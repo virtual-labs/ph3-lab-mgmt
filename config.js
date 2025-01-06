@@ -94,9 +94,21 @@ function isURL(source) {
   }
 }
 
+const VLAB_INFRA_CONFIG = {
+  "production": {
+    "url": "https://cdn.vlabs.ac.in/config/vlabs-config.js",
+    "urlAlt": "https://cdn.vlabs.ac.in/config/vlabs-config.umd.cjs"
+  },
+  "testing": {
+    "url": "https://cdn.vlabs.ac.in/config/vlabs-config.js",
+    "urlAlt": "https://cdn.vlabs.ac.in/config/vlabs-config.umd.cjs"
+  }
+};
+
 module.exports.Experiment = Experiment;
 module.exports.Lab = Lab;
 module.exports.build_path = build_path;
 module.exports.assets_path = assets_path;
 module.exports.isURL = isURL;
 module.exports.PROJECT_ROOT = PROJECT_ROOT;
+module.exports.VLAB_INFRA_CONFIG = VLAB_INFRA_CONFIG; 

@@ -243,8 +243,8 @@ function main() {
   let isExpDesc = args.validateExpdesc || false;
   let isDeploy = args.deploy || false;
   let isPlugin = args.disablePlugin ? false : true;
-  let isESLINTValidate = args.eslint || false;
-  let isExpDescValidate = args.expdesc || false;
+  let isESLINTValidate = args.validateEslint || false;
+  let isExpDescValidate = args.validateExpdesc || false;
   let isDebug = args.debug || false;
   let addAnalytics = args.disableAnalytics ? false : true;
   // for backwards compatibility if the env is not given assume it to
@@ -256,6 +256,8 @@ function main() {
   } else {
     build_options.env = BuildEnvs.TESTING;
   }
+
+  build_options.vlabsInfraConfig = Config.VLAB_INFRA_CONFIG[build_options.env];
 
   build_options.isValidate = isESLINT || isExpDesc;
   build_options.isESLINT = isESLINT;

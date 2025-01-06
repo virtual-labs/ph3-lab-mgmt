@@ -4,7 +4,11 @@ const AjvErrors = require("ajv-errors");
 const path = require("path");
 const fs = require("fs");
 const schemaMap = require("./schema-map.json");
-const schemaPaths = ["./schemas/qv1.json", "./schemas/qv2.json", "./schemas/learningUnit.json"]
+const schemaPaths = [
+  "./schemas/labDescSchema.json",
+  "./schemas/descriptorSchema.js", "./schemas/learningUnit.json",
+  "./schemas/code-assessment.js",
+  "./schemas/quizSchema.js", "./schemas/qv1.json", "./schemas/qv2.json"];
 let schemas = [];
 schemaPaths.forEach((path) => {
   schemas[schemas.length] = require(path);
@@ -93,7 +97,7 @@ const validateArguments = () => {
         throw new Error("File does not exist");
       }
       // check if filename is in schema map
-      let schema
+      let schema;
       if (!schemaMap[filename]) {
         schema = schemaMap[contentType];
       }
