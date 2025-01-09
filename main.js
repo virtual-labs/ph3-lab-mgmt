@@ -120,6 +120,12 @@ function build(
   if (match && match.groups) {
     default_lab_data.exp_short_name = match.groups.expName;
     default_lab_data.collegeName = match.groups.devInstituteName.toUpperCase();
+    // The following change is needed as the Dayalbagh repo are created with a 
+    // suffix dei whereas the institute code is DLBG. This was causing incorrect
+    // labelling of bugs reported in the testing builds
+    if (default_lab_data.collegeName === 'DEI') {
+      default_lab_data.collegeName = 'DLBG';
+    }
     default_lab_data.phase = "Testing";
     default_lab_data.lab = "Virtual Lab";
     default_lab_data.lab_display_name = "Virtual Lab Display Name";
