@@ -81,6 +81,12 @@ function prepareStructure(labpath) {
     path.resolve(Config.assets_path(), "*"),
     path.resolve(labpath, "build")
   );
+
+  shell.cp(
+    "-r",
+    path.resolve(labpath, "assets", "*"),
+    path.resolve(labpath, "build")
+  );
 }
 
 function buildLabPages(pages, labpath, template_file, component_files) {
