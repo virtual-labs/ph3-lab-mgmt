@@ -6,7 +6,7 @@ const config = [
     id: "plugin-bug-report",
     scope: PluginScope.PAGE,
     js_modules: [
-      "https://virtual-labs.github.io/svc-bug-report/client/src/bug-report.js",
+      "https://cdn.vlabs.ac.in/bug-report/vlabs-bug-report.js"
     ],
     attributes: {
       issues: JSON.stringify(issues),

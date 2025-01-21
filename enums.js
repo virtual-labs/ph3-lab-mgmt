@@ -26,11 +26,13 @@ const PluginScope = {
 };
 
 const PluginConfig = {
-	Default: {
-		JS_MODULE: 'js/main.js',
-		CSS_MODULE: 'css/main.css',
-	},
+  Default: {
+    JS_MODULE: 'js/main.js',
+    CSS_MODULE: 'css/main.css',
+  },
 };
+
+const DeveloperInstitutes = ["AMRT", "COEP", "DLBG", "IIITH", "IITB", "IITD", "IITG", "IITK", "IITKGP", "IITR", "NITK"];
 
 function validType(t, v) {
   return Object.values(t).includes(v);
@@ -60,4 +62,15 @@ function validBuildEnv(e) {
   }
 }
 
-module.exports = {UnitTypes, ContentTypes, BuildEnvs, PluginScope, PluginConfig, validType, validContentType, validUnitType, validBuildEnv};
+module.exports = {
+  UnitTypes,
+  ContentTypes,
+  BuildEnvs,
+  PluginScope,
+  PluginConfig,
+  DeveloperInstitutes,
+  validType,
+  validContentType,
+  validUnitType,
+  validBuildEnv
+};
