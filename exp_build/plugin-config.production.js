@@ -17,7 +17,7 @@ const config = [
     scope: PluginScope.PAGE,
     repo: "https://github.com/virtual-labs/svc-rating",
     tag: "v1.1.0.beta",
-    label: "Validation Tool",
+    label: "Experiment Rating",
     js_modules: [
       "https://virtual-labs.github.io/svc-rating/index.js",
       "https://virtual-labs.github.io/svc-rating/config.js",
@@ -32,7 +32,7 @@ const config = [
       columnName: "Experiment Short Name",
       columnValue: "expName",
       title: "Rate this experiment",
-      imagesDirectory: "./plugins/svc-rating/images/",
+      imagesDirectory: "/plugins/svc-rating/images/",
     },
 
   },
