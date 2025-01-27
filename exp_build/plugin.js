@@ -58,7 +58,7 @@ function finalPath(target_path ,pluginId, modules) {
     if (fs.existsSync(absolute_path)) {
       log.debug(`${absolute_path} is found successfully`);
       final_paths.push(
-        path.join("/plugins", pluginId, module)
+        path.posix.join("/", "plugins", pluginId, module)
       );
     }
     else {
