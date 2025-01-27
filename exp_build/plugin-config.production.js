@@ -32,7 +32,7 @@ const config = [
       columnName: "Experiment Short Name",
       columnValue: "expName",
       title: "Rate this experiment",
-      imagesDirectory: "/plugins/svc-rating/images/",
+      imagesDirectory: "https://virtual-labs.github.io/svc-rating/",
     },
 
   },
