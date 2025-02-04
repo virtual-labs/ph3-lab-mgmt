@@ -34,6 +34,7 @@ class Task extends Unit {
     target,
     js_modules,
     css_modules,
+    additional_sources,
     lu
   ) {
     super(unit_type, label, exp_path, basedir);
@@ -43,6 +44,7 @@ class Task extends Unit {
     this.target = target;
     this.js_modules = js_modules || [];
     this.css_modules = css_modules || [];
+    this.additional_sources = additional_sources || [];
   }
 
   static unit_type = UnitTypes.TASK;
@@ -58,6 +60,7 @@ class Task extends Unit {
       t["target"],
       t["js_modules"],
       t["css_modules"],
+      t["additional-sources"],
       lu
     );
   }
@@ -108,6 +111,39 @@ class Task extends Unit {
     return path.resolve(
       path.join(Config.build_path(this.exp_path), this.basedir, this.source)
     );
+  }
+
+  additionalSourcesPaths() {
+    return this.additional_sources.map( source => path.resolve(
+      path.join(Config.build_path(this.exp_path), this.basedir, source))
+    );
+  }
+
+  insertDynamicConfig(content, options) {
+    const rp = path.join(
+      path.relative(
+        path.dirname(this.sourcePath()),
+        Config.build_path(this.exp_path)
+      ),
+      "assets/js/iframeResize.js"
+    );
+
+    const expConfig = `<script id="vlabs-exp-config" type="application/json">
+        {
+          "buildEnv": "${options.env}",
+          "optedServices": ${JSON.stringify(options.services)}
+        }
+      </script>
+      <script type="module" src=${options.vlabsInfraConfig.url}></script>
+      <script nomodule src=${options.vlabsInfraConfig.urlAlt}></script>`;
+
+    content = content.replace(
+      "</body>",
+      `<script src="${rp}"></script>
+        ${options.services ? expConfig : ''}
+        </body>`
+    );
+    return content;
   }
 
   finalPath(modules) {
@@ -223,35 +259,24 @@ class Task extends Unit {
         page_data.isSimulation = true;
         page_data.sim_src = this.source;
 
-        // Inject IframeResizer
+        // Inject IframeResizer and vlabs dynamic config
         let content = fs
           .readFileSync(path.resolve(this.sourcePath()))
           .toString();
 
-        const rp = path.join(
-          path.relative(
-            path.dirname(this.sourcePath()),
-            Config.build_path(this.exp_path)
-          ),
-          "assets/js/iframeResize.js"
-        );
-
-        const expConfig = `<script id="vlabs-exp-config" type="application/json">
-          {
-            "buildEnv": "${options.env}",
-            "optedServices": ${JSON.stringify(options.services)}
-          }
-        </script>
-        <script type="module" src=${options.vlabsInfraConfig.url}></script>
-        <script nomodule src=${options.vlabsInfraConfig.urlAlt}></script>`;
-
-        content = content.replace(
-          "</body>",
-          `<script src="${rp}"></script>
-          ${options.services ? expConfig : ''}
-          </body>`
-        );
+        content = this.insertDynamicConfig(content, options);
         fs.writeFileSync(path.resolve(this.sourcePath()), content);
+
+        // Inject dynamic config in additional sources
+        for (const sourcePath of this.additionalSourcesPaths()) {
+          let content = fs
+          .readFileSync(path.resolve(sourcePath))
+          .toString();
+
+          content = this.insertDynamicConfig(content, options);
+          fs.writeFileSync(path.resolve(sourcePath), content);
+        }
+
         break;
 
       case ContentTypes.ASSESSMENT:

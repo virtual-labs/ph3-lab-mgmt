@@ -90,6 +90,12 @@
           "target": {
             "type": "string"
           },
+          "additional-sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "css_modules": {
             "type": "array",
             "items": {

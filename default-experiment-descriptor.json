@@ -8,6 +8,7 @@
     "languages": ["javascript"],
     "position": 5
   },
+  "services": [],
   "service-worker": "/path/to/service-worker.js",
   "units": [
     {
@@ -39,7 +40,8 @@
       "source": "simulation/index.html",
       "label": "Simulation",
       "unit-type": "task",
-      "content-type": "simulation"
+      "content-type": "simulation",
+      "additional-sources": []
     },
     {
       "target": "posttest.html",

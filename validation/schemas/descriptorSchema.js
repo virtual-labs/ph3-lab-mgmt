@@ -81,6 +81,24 @@ module.exports = {
         target: {
           type: "string",
         },
+        "additional-sources": {
+          type: "array",
+          items: {
+            type: "string",
+          }
+        },
+        "css_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "js_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       additionalProperties: false,
       errorMessage: {

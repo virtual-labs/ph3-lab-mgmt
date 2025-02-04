@@ -42,7 +42,7 @@ function setCurr(component, targetPath, subTaskFlag = false) {
 //   }
 // }
 
-function finalPath(target_path ,pluginId, modules) {
+function finalPath(target_path ,pluginId, modules, options) {
   const pluginPath = path.resolve("plugins", pluginId);
   let final_paths = [];
   for (let module of modules) {
@@ -58,7 +58,7 @@ function finalPath(target_path ,pluginId, modules) {
     if (fs.existsSync(absolute_path)) {
       log.debug(`${absolute_path} is found successfully`);
       final_paths.push(
-        path.posix.join("/", "plugins", pluginId, module)
+        path.posix.join(options.expDeployBaseDir || '/', "plugins", pluginId, module)
       );
     }
     else {
@@ -219,7 +219,7 @@ class Plugin {
 
       // add the css-modules in the head
       if (plugin.css_modules) {
-        const css_modules = finalPath(page.targetPath(), plugin.id, plugin.css_modules);
+        const css_modules = finalPath(page.targetPath(), plugin.id, plugin.css_modules, options);
         css_modules.forEach((css) => {
           const cssNode = document.createElement("link");
           cssNode.rel = "stylesheet";
@@ -230,7 +230,7 @@ class Plugin {
       }
       // add the js-modules at the bottom of the body
       if (plugin.js_modules) {
-        const js_modules = finalPath(page.targetPath(), plugin.id, plugin.js_modules);
+        const js_modules = finalPath(page.targetPath(), plugin.id, plugin.js_modules, options);
         js_modules.forEach((mjs) => {
           const scriptNode = document.createElement("script");
           scriptNode.type = "module";

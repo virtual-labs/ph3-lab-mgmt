@@ -139,6 +139,14 @@ function build(
     log.error("No match found");
   }
 
+  if (!build_options.vlabsEnv.expDeployBaseDir) {
+    if (build_options.env == BuildEnvs.TESTING) {
+      build_options.expDeployBaseDir = '/' + base;
+    } else {
+      build_options.expDeployBaseDir = '/';
+    }
+  }
+
   if (isPlugin) {
     build_options.plugins = true;
   } else {
@@ -239,6 +247,15 @@ function deployLocal(src) {
   }
 }
 
+function readEnvVars() {
+  const vlabsEnv = {};
+
+  vlabsEnv.expDeployBaseDir = process.env.VLAB_EXP_DEPLOY_BASE;
+  vlabsEnv.labDeployBaseDir = process.env.VLAB_LAB_DEPLOY_BASE;
+
+  return vlabsEnv;
+}
+
 function main() {
   const args = minimist(process.argv.slice(2));
 
@@ -261,6 +278,8 @@ function main() {
   // for backwards compatibility if the env is not given assume it to
   // be testing.
   const build_options = {};
+
+  build_options.vlabsEnv = readEnvVars();
 
   if (args.env) {
     build_options.env = validBuildEnv(args.env);
