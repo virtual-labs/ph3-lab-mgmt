@@ -203,6 +203,7 @@ class Task extends Unit {
       addAnalytics: options.addAnalytics,
       units: this.setCurrent(this.getMenu(exp_info.menu)),
       experiment_name: exp_info.name,
+      LaTeXinMD: exp_info.LaTeXinMD,
       meta: {
         "experiment-short-name": lab_data.exp_short_name,
         "developer-institute": lab_data.collegeName,
@@ -243,14 +244,14 @@ class Task extends Unit {
     switch (this.content_type) {
       case ContentTypes.TEXT:
         const mdContent = fs.readFileSync(this.sourcePath()).toString();
-        const htmlContent = renderMarkdown(mdContent);
+        const htmlContent = renderMarkdown(mdContent, page_data);
         page_data.content = htmlContent;
         page_data.isText = true;
         break;
 
       case ContentTypes.VIDEO:
         const vidContent = fs.readFileSync(this.sourcePath()).toString();
-        const htmlvidContent = renderMarkdown(vidContent);
+        const htmlvidContent = renderMarkdown(vidContent, page_data);
         page_data.content = htmlvidContent;
         page_data.isVideo = true;
         break;

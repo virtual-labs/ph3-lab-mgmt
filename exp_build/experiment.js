@@ -204,6 +204,7 @@ class Experiment {
       menu: explu.units,
       src: this.src,
       bp: Config.build_path(this.src) + "/",
+      LaTeXinMD: (this.descriptor && this.descriptor.LaTeXinMD) || false,
     };
 
     if(options.codeditor) {

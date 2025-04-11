@@ -13,19 +13,19 @@ if (args.src) {
   src = path.resolve(Config.PROJECT_ROOT, src);
 }
 
-let LaTeXinMD = true;
+// let LaTeXinMD = true;
 let expressions = [];
-let descriptorPath = path.resolve(
-  src,
-  `${Config.Experiment.descriptor_name}`
-);
+// let descriptorPath = path.resolve(
+//   src,
+//   `${Config.Experiment.descriptor_name}`
+// );
 
-if (!shell.test("-f", descriptorPath)) {
-  LaTeXinMD = false;
-} else {
-  descriptor = require(descriptorPath);
-  LaTeXinMD = descriptor.LaTeXinMD || false;
-}
+// if (!shell.test("-f", descriptorPath)) {
+//   LaTeXinMD = false;
+// } else {
+//   descriptor = require(descriptorPath);
+//   LaTeXinMD = descriptor.LaTeXinMD || false;
+// }
 
 const tokenizeDoubleDollar = (md) => {
   // Find all $$ by for loop
@@ -205,9 +205,9 @@ function replaceCodeBlocks(html) {
   return html;
 }
 
-function renderMarkdown(md) {
-  log.debug("Rendering Markdown" + (LaTeXinMD ? " with LaTeX" : ""));
-  if (LaTeXinMD) {
+function renderMarkdown(md, page_data) {
+  log.debug("Rendering Markdown" + (page_data && page_data.LaTeXinMD ? " with LaTeX" : ""));
+  if (page_data && page_data.LaTeXinMD) {
     expressions = [];
     const preProcessedMd = preProcessData(md);
     let html = marked(preProcessedMd);
