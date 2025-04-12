@@ -183,9 +183,7 @@ about all the learning units and tasks in an experiment, that is
 required to build an experiment as well as configurations for components like
 code assessment.
 
-The =experiment-descriptor.json= needs to be provided by the
-experiment authors in the root of the experiment repository.  If it is
-not present then a default-experiment-descriptor.json is used.
+The **experiment-descriptor.json** needs to be provided by the experiment authors in the root of the experiment repository.  If the file is not present, then a [default-experiment-descriptor.json](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/default-experiment-descriptor.json) should be copied into the experiment's root directory and renamed as `experiment-descriptor.json` for further changes. 
 
 ## Elements of a descriptor
 ### Task Object
@@ -195,7 +193,7 @@ A Task Object describes a task.  For example:
 {
   "unit-type": "task",
   "label": "Overview",
-  "LaTeXinMD": "boolean",
+  "LaTeXinMD": "true",
   "content-type": "video",
   "source": "overview.md",
   "target": "overview.html"
@@ -204,17 +202,15 @@ A Task Object describes a task.  For example:
 
 
 The above json object represents a task.  It is identified as a task
-by the field =unit-type=.
+by the field **unit-type**.
 
-The =label= field is used as a label for the unit's link in the
-sidemenu.
+The **label** field is used as a label for the unit's link in the sidemenu.
 
-The =content-type= field describes the type of content in the target
-html page generated for this unit.
+The **LaTeXinMD** field is used for rendering math following the commonly used KaTeX syntax in the page content.
 
-The =source= field gives a relative link to the source document
-required to build the page to be generated for the task.  The path of
-the page to be generated is given in the =target= field.
+The **content-type** field describes the type of content in the target html page generated for this unit.
+
+The **source** field gives a relative link to the source document required to build the page to be generated for the task.  The path of the page to be generated is given in the **target** field.
 
 ### Learning Unit Object
 A Learning Unit object describes a learning unit.  For example: 
@@ -246,7 +242,7 @@ Some additional fields:
              All the tasks and units use this directory as root and
              relative paths are computed accordingly.
              
-- LaTeXinMD :: This feild gives LaTeX support into the markdown using KaTeX integration. The feature is controlled by a flag which needs to put on the experiment descriptor.
+- LaTeXinMD :: This field gives LaTeX support into the markdown using KaTeX integration. The feature is controlled by a flag which needs to put on the experiment descriptor.
 
 - code-assessment :: Configuration for the code-assessment component. It includes options like languages to choose from, position/index in the List of all Units.
 

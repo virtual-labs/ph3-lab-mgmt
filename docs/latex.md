@@ -39,5 +39,7 @@ You can view the rendered equation in the deployed experiment.
 "LaTeXinMD": true
 ```
 3. LaTeX is enabled by default in Assessment(JSON) files.
-
-
+4. If experiment descriptor file is not present in your repository, please proceed with the following:
+    - Copy [default-experiment-descriptor.json](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/default-experiment-descriptor.json) into your experiment's root directory.
+    - Rename the file as experiment-descriptor.json
+    - Proceed with the changes mentioned in Point 2 above.
