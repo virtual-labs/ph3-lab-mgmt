@@ -15,7 +15,7 @@ You can write KaTeX syntax in both Markdown as well as Assessment(JSON) files. W
 ## How to use
 To enable LaTeX rendering in your experiment, you need to add the following line in your experiment descriptor file:
 ```json
-"LaTeXinMD": true
+"LaTeXinMD": "true",
 ```
 
 ## How to verify
