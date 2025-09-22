@@ -2,12 +2,12 @@ html {
   overflow-y: auto;
 }
 
-.svc-rating-display{
-  display:flex;
+.svc-rating-display {
+  display: flex;
   flex-direction: column;
-  margin-right: 40px ;
+  margin-right: 40px;
   margin-bottom: 17px;
-  align-items: center ;
+  align-items: center;
 }
 
 .vl-rating-display {
@@ -28,7 +28,7 @@ html {
   flex: 0 0 1%; /*Adjust this value to decrease the width*/
 }
 
-.list-of-experiments-container > div{
+.list-of-experiments-container > div {
   margin: 1px;
 }
 .list-of-experiments-display-rating {
@@ -38,8 +38,10 @@ html {
 }
 
 .vlabs-page {
-  height: 100vh;
+  /* height: 100vh; */
+  min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .vlabs-header {
