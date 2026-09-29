@@ -19,7 +19,7 @@
 		"name": {"type": "string"},
 		"link": {"type": "string", "format": "uri"},
 		"code": {"enum": ["BIO", "CHEMENG", "CHEMSCI", "CIVIL", "CSE",
-							"DESIGN", "ECE", "EE", "MECH", "PHYSCI"]}
+							"DESIGN", "ECE", "EE","MATH", "MECH", "PHYSCI"]}
 	    },
 		"required": ["code"]
 	},
